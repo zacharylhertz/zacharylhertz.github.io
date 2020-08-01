@@ -7,9 +7,9 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Zachary L. Hertz"
+title                    : "Zachary Lorico Hertz"
 title_separator          : "-"
-name                     : &name "Zachary L. Hertz"
+name                     : &name "Zachary Lorico Hertz"
 description              : &description "personal description"
 url                      : https://zacharylhertz.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
