@@ -63,19 +63,19 @@ body {
 <!-- The four columns -->
 <div class="row">
   <div class="column">
-   <img src="/images/plots/Warren/Warren.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
+   <img src="/images/plots/Warren/Warren.png" alt="MA_elections" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <img src="/images/plots/Wisconsin/Individual II Senate version.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
+    <img src="/images/plots/Wisconsin/Individual II Senate version.png" alt="WI_density" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <img src="/images/plots/Wisconsin/Distance plot.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
+    <img src="/images/plots/Wisconsin/Distance plot.png" alt="WI_density_avg" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <img src="/images/plots/NOMINATE/2D NOMINATE.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
+    <img src="/images/plots/NOMINATE/2D NOMINATE.png" alt="full-nominate" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <img src="/images/plots/NOMINATE/NOMINATE D1.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
+    <img src="/images/plots/NOMINATE/NOMINATE D1.png" alt="nominate_d1" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
     <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
@@ -90,10 +90,11 @@ body {
 <script>
 function myFunction(imgs) {
   var expandImg = document.getElementById("expandedImg");
+  var imgText = document.getElementById("imgtext");
   expandImg.src = imgs.src;
-  expandImg.href = imgs.alt;
   expandImg.parentElement.style.display = "block";
 }
+
 </script>
 
 </body>
