@@ -71,21 +71,27 @@ body {
 <!-- The four columns -->
 <div class="row">
   <div class="column">
-    <img src="/images/plots/Warren/Warren.png" alt="MA_elections" style="width:100%" onclick="myFunction(this);">
+   <a href="https://twitter.com/zacharylhertz/status/1265659587652464640">
+   <img src="/images/plots/Warren/Warren.png" alt="MA_elections" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
+    <a href="https://twitter.com/zacharylhertz/status/1285660606184468480">
     <img src="/images/plots/Wisconsin/Individual II Senate version.png" alt="WI_density" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
+    <a href="https://twitter.com/zacharylhertz/status/1285662472809127936">
     <img src="/images/plots/Wisconsin/Distance plot.png" alt="WI_density_avg" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
+    <a href= "https://twitter.com/zacharylhertz/status/1288496822340616192">
     <img src="/images/plots/NOMINATE/2D NOMINATE.png" alt="full-nominate" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
+    <a href= "https://twitter.com/zacharylhertz/status/1288497139979636744">
     <img src="/images/plots/NOMINATE/NOMINATE D1.png" alt="nominate_d1" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
+    <a href= "https://twitter.com/zacharylhertz/status/1288497353465442304">
     <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="nominate_d2" style="width:100%" onclick="myFunction(this);">
   </div>
 </div>
