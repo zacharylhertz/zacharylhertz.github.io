@@ -78,9 +78,7 @@ body {
     <img src="/images/plots/NOMINATE/NOMINATE D1.png" alt="nominate_d1" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <a href="https://twitter.com/zacharylhertz/status/1288497353465442304/">
-    <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="nominate_d2" style="width:100%" onclick="myFunction(this);">
-    </a>
+    <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304/" style="width:100%" onclick="myFunction(this);">
   </div>
 </div>
 
@@ -93,6 +91,7 @@ body {
 function myFunction(imgs) {
   var expandImg = document.getElementById("expandedImg");
   expandImg.src = imgs.src;
+  expandImg.href = imgs.alt;
   expandImg.parentElement.style.display = "block";
 }
 </script>
