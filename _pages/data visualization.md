@@ -78,7 +78,7 @@ body {
     <img src="/images/plots/NOMINATE/NOMINATE D1.png" alt="nominate_d1" style="width:100%" onclick="myFunction(this);">
   </div>
   <div class="column">
-    <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="google.com" style="width:100%" onclick="myFunction(this);">
+    <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="https://www.google.com" style="width:100%" onclick="myFunction(this);">
   </div>
 </div>
 
