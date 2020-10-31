@@ -85,7 +85,7 @@ body {
   </div>
   <div class="column">
     <img src="/images/plots/PS 119/edubar_labelled.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
-  </div>
+</div class="row">
   <div class="column">
     <img src="/images/plots/PS 119/race.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
   </div>
