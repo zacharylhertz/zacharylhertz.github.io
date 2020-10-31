@@ -23,8 +23,8 @@ body {
 /* The grid: Four equal columns that floats next to each other */
 .column {
   float: left;
-  width: 25%;
-  padding: 10px;
+  width: 20%;
+  padding: 20px;
 }
 
 /* Style the images inside the grid */
