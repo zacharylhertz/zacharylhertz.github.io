@@ -13,7 +13,7 @@ author_profile: true
 
 <div class="perfundo">
   <a class="perfundo__link" href="#perfundo-img1">
-    <img src="img/img1_s.jpg" alt="Demo image">
+    <img src="/images/plots/Warren/Warren.png" alt="Demo image">
   </a>
   <div id="perfundo-img1" class="perfundo__overlay fadeIn">
     <figure class="perfundo__content perfundo__figure">
@@ -27,7 +27,7 @@ author_profile: true
 
 <div class="perfundo">
   <a class="perfundo__link" href="#perfundo-img2">
-    <img src="img/img2_s.jpg" alt="Demo image">
+    <img src="/images/plots/Wisconsin/Individual II Senate version.png" alt="Demo image">
   </a>
   <div id="perfundo-img2" class="perfundo__overlay fadeIn">
     <figure class="perfundo__content perfundo__figure">
@@ -42,7 +42,7 @@ author_profile: true
 
 <div class="perfundo">
   <a class="perfundo__link" href="#perfundo-img3">
-    <img src="img/img3_s.jpg" alt="Demo image">
+    <img src="/images/plots/Wisconsin/Distance plot.png" alt="Demo image">
   </a>
   <div id="perfundo-img3" class="perfundo__overlay fadeIn">
     <figure class="perfundo__content perfundo__figure">
