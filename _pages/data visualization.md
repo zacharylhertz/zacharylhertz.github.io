@@ -80,6 +80,24 @@ body {
   <div class="column">
     <img src="/images/plots/NOMINATE/NOMINATE D2.png" alt="https://twitter.com/zacharylhertz/status/1288497353465442304" style="width:100%" onclick="myFunction(this);">
   </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/education_votepref.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/edubar_labelled.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/race.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/racebar_labelled.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/agebar.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
+  <div class="column">
+    <img src="/images/plots/PS 119/age_labelled.png" alt="https://twitter.com/zacharylhertz/status/1322282133696647168" style="width:100%" onclick="myFunction(this);">
+  </div>
 </div>
 
 <div class="container">
