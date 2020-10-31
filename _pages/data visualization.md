@@ -5,6 +5,11 @@ permalink: /data-viz/
 author_profile: true
 
 ---
+<html>
+<head>
+<link rel="stylesheet" href="perfundo.min.css">
+</head>
+<body>
 
 <div class="perfundo">
   <a class="perfundo__link" href="#perfundo-img1">
@@ -48,6 +53,11 @@ author_profile: true
     <a class="perfundo__prev perfundo__control" href="#perfundo-img2">Prev</a>
   </div>
 </div>
+
+<script src="perfundo.min.js"></script>
+<script>
+  perfundo('.perfundo');
+</script>
 
 </body>
 </html>

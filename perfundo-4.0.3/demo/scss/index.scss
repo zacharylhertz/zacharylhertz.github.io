@@ -1,0 +1,78 @@
+/**
+ * Settings
+ *
+ * - Globally-available settings.
+ * - Config switches.
+ * - Brand colors, etc.
+ */
+@import '~@avalanche/setting-breakpoints';
+@import '~@avalanche/setting-colors';
+@import '~@avalanche/setting-font-sizes';
+@import '~@avalanche/setting-spacings';
+@import 'settings/**/*';
+
+/**
+ * Generic
+ *
+ * - Ground zero styles.
+ * - Low-specificity, far-reaching.
+ * - Resets, Normalize.css, etc.
+ */
+@import '~@avalanche/generic-box-sizing-reset';
+@import 'generic/**/*';
+
+/**
+ * Objects
+ *
+ * - OOCSS.
+ * - Design patterns.
+ * - No cosmetics.
+ * - Agnostically named classes only (e.g. .o-uilist {}).
+ */
+@import '{
+  .o-container,
+  .o-container--s,
+} from ~@avalanche/object-container';
+@import '{ .o-grid } from ~@avalanche/object-grid';
+@import '{
+  .o-media,
+  .o-media__body,
+} from ~@avalanche/object-media';
+@import '{
+  .o-vertical-spacing,
+  .o-vertical-spacing--s,
+  .o-vertical-spacing--xl,
+  .o-vertical-spacing--xxl,
+} from ~@avalanche/object-vertical-spacing';
+// @import 'objects/**/*';
+
+/**
+ * Components
+ *
+ * - Designed pieces of UI.
+ * - Still only using classes.
+ * - More explicitly named (e.g. .c-products-list {}).
+ */
+@import '[
+  rules,
+  keyframes-bounce-in,
+  keyframes-fade-in,
+  keyframes-fade-in-left,
+] {
+  .bounceIn,
+  .fadeIn,
+  .fadeInLeft,
+  /(.*)\%|from|to/,
+} from ../vendor/animate.css/animate.css';
+@import '../vendor/highlight.js/styles/github';
+@import 'components/**/*';
+
+/**
+ * Utilities
+ *
+ * - Overrides, helpers, utilities.
+ * - Only affect one piece of the DOM at a time.
+ * - Usually carry !important.
+ */
+@import '{ .u-text-align-center } from ~@avalanche/utility-text-align';
+// @import 'utilities/**/*';

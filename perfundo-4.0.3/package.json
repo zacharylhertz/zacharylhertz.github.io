@@ -1,0 +1,106 @@
+{
+  "name": "perfundo",
+  "version": "4.0.3",
+  "description": "a pure CSS lightbox",
+  "keywords": [
+    "lightbox",
+    "css",
+    "sass"
+  ],
+  "author": "Markus Oberlehner",
+  "homepage": "https://perfundo.oberlehner.net",
+  "license": "MIT",
+  "scripts": {
+    "styles:sass": "node scripts/sass.js",
+    "styles:postcss": "postcss --use autoprefixer --replace dist/**/*.css && postcss --use autoprefixer --replace demo/dist/**/*.css",
+    "styles:minify": "cleancss --output dist/perfundo.min.css dist/perfundo.css && cleancss --output dist/perfundo.with-icons.min.css dist/perfundo.with-icons.css && cleancss --output demo/dist/index.min.css demo/dist/index.css",
+    "styles": "npm run styles:sass && npm run styles:postcss && npm run styles:minify",
+    "scripts:bundle": "rollup --config --output.format umd --name perfundo --output.file dist/perfundo.js js/index.js",
+    "scripts:minify": "uglifyjs --compress --mangle --comments --output dist/perfundo.min.js dist/perfundo.js",
+    "scripts": "npm run scripts:bundle && npm run scripts:minify",
+    "build": "npm run styles && npm run scripts",
+    "watch:styles": "onchange scss/**/*.scss demo/scss/**/*.scss -- npm run styles",
+    "watch:scripts": "onchange js/**/*.js -- npm run scripts",
+    "watch": "parallelshell 'npm run watch:styles' 'npm run watch:scripts'",
+    "lint:styles": "stylelint demo/scss/**/*.scss scss/**/*.scss --syntax scss",
+    "lint:scripts": "eslint js/**/*.js rollup.config.js",
+    "lint": "npm run lint:styles && npm run lint:scripts",
+    "demo": "mkdir -p demo/vendor && cp -R node_modules/animate.css demo/vendor && cp -R node_modules/highlight.js demo/vendor && npm run build && cp -R dist/ demo/vendor/perfundo",
+    "serve-demo": "http-server demo/",
+    "website": "npm run demo && cp -R demo/ website && node scripts/website.js",
+    "serve-website": "http-server website/",
+    "coverage": "jest --coverage --maxWorkers=4",
+    "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls",
+    "test:unit": "jest",
+    "test:acceptance": "npm run demo && ./test/acceptance/testcafe.sh",
+    "test:acceptance-local": "npm run demo && testcafe chrome test/acceptance/ --app 'http-server demo/ -p 1337 -s'",
+    "test": "npm run test:unit && npm run test:acceptance",
+    "deploy": "npm run website && rsync -avz --delete --exclude=/.* --exclude=/error --exclude=/stats --exclude=/google15e4ae9ecda47ac0.html -e ssh website/ vs0.oberlehner.net:/var/www/perfundo.oberlehner.net/web",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "vanilla-touchwipe": "^1.0.0"
+  },
+  "devDependencies": {
+    "@avalanche/eslint-config": "^1.0.2",
+    "@avalanche/generic-box-sizing-reset": "^4.0.0-alpha.4",
+    "@avalanche/object-container": "^4.0.0-alpha.7",
+    "@avalanche/object-grid": "^4.0.0-alpha.14",
+    "@avalanche/object-media": "^4.0.0-alpha.5",
+    "@avalanche/object-vertical-spacing": "^4.0.0-alpha.4",
+    "@avalanche/setting-breakpoints": "^4.0.0-alpha.4",
+    "@avalanche/setting-colors": "^4.0.0-alpha.4",
+    "@avalanche/setting-font-sizes": "^4.0.0-alpha.4",
+    "@avalanche/setting-spacings": "^4.0.0-alpha.5",
+    "@avalanche/stylelint-config": "^0.1.2",
+    "@avalanche/utility-text-align": "^4.0.0-alpha.4",
+    "animate.css": "^3.5.2",
+    "autoprefixer": "^7.2.1",
+    "babel-preset-env": "^1.6.1",
+    "clean-css-cli": "^4.1.10",
+    "coveralls": "^3.0.0",
+    "declassify": "^2.1.0",
+    "eslint": "^4.12.1",
+    "eslint-plugin-compat": "^2.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "highlight.js": "^9.12.0",
+    "html-minifier": "^3.5.7",
+    "http-server": "^0.10.0",
+    "jest": "^21.2.1",
+    "node-sass": "^4.7.2",
+    "node-sass-magic-importer": "^5.0.0",
+    "onchange": "^3.3.0",
+    "parallelshell": "^3.0.2",
+    "postcss-cli": "^4.1.1",
+    "rollup": "^0.52.1",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "stylelint": "^8.3.1",
+    "testcafe": "^0.18.5",
+    "testcafe-browser-provider-browserstack": "^1.1.1",
+    "uglify-js": "^3.2.1",
+    "uncss": "^0.16.1"
+  },
+  "main": "dist/perfundo.js",
+  "module": "js/index.js",
+  "css": "dist/perfundo.css",
+  "sass": "scss/index.scss",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maoberlehner/perfundo"
+  },
+  "bugs": {
+    "url": "https://github.com/maoberlehner/perfundo/issues"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "mapCoverage": true
+  }
+}
