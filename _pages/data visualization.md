@@ -6,11 +6,6 @@ author_profile: true
 
 ---
 
-
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <div class="perfundo">
   <a class="perfundo__link" href="#perfundo-img1">
     <img src="/images/plots/Warren/Warren.png" alt="Demo image">
