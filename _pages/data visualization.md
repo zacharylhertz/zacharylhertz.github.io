@@ -8,7 +8,7 @@ support: [jquery, gallery]
 
 ---
 
-Below, see a selection of my work in data visualization, created using [R Studio][r] and the [ggplot2][gg] package.
+Below, see a selection of my work in data visualization, created using [R Studio][r] and the [ggplot2][gg] package. Click on any image to expand it and open in an easily scrollable gallery view.
 
 
 {% include gallery-layout.html gallery=site.data.galleries.plots %}
