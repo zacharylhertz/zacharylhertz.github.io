@@ -1,17 +1,17 @@
 ---
-layout: gallery
+layout: archive
 title:
 permalink: /data-viz/
 author_profile: true
+no_menu_item: true
 support: [jquery, gallery]
 
 ---
 
-At the end of our wonderful three week road trip at the West Coast of the US, we spent about four days in the wonderful city of San Francisco. The city's well known for the Golden Gate Bridge and its fog, but has so much more up its sleeve!
+Below, see a selection of my work in data visualization, created using [R Studio][r] and the [ggplot2][gg] package.
 
-This is an example gallery. All images licensed under [CC-BY-NC-SA license][license]. Check the [Git Repo][repo] for a copy of this license.
 
-{% include gallery-layout.html gallery=site.data.galleries.san-francisco %}
+{% include gallery-layout.html gallery=site.data.galleries.plots %}
 
-[license]: http://creativecommons.org/licenses/by-nc-sa/4.0/
-[repo]: https://github.com/opieters/jekyll-gallery-example
+[r]: https://rstudio.com/
+[gg]: https://ggplot2.tidyverse.org/

@@ -1,7 +1,7 @@
 ---
 layout: archive
 title:
-permalink: /data-viz/
+permalink: 
 author_profile: true
 
 ---
