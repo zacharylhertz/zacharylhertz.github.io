@@ -9,7 +9,11 @@ redirect_from:
 
 ## See some of my other published work below.
 
-Please see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
+I have some work published with [Data For Progress](https://www.dataforprogress.org/):
+
+* [Memo: In What Demographics Have Opinions on Climate Change Moved the Most?](https://www.dataforprogress.org/memos/in-what-demographics-have-opinions-on-climate-change-moved-the-most) 
+
+Please also see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
 
 * [Pelosi, Clark, Pressley, Trahan talk early education, child care at ‘Speaker in the House’ series](https://tuftsdaily.com/news/2019/05/19/pelosi-clark-pressley-trahan-early-education-child-care/) 
     

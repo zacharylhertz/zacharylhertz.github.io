@@ -6,8 +6,8 @@ main:
   - title: "Other Work"
     url: /otherwork/
 
-  #- title: "Teaching"
-    #url: /teaching/
+  - title: "Teaching"
+    url: /teaching/
     
   - title: "Data Visualization"
     url: /data-viz/
