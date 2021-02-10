@@ -12,6 +12,7 @@ redirect_from:
 I have some work published with [Data For Progress](https://www.dataforprogress.org/):
 
 * [Memo: In What Demographics Have Opinions on Climate Change Moved the Most?](https://www.dataforprogress.org/memos/in-what-demographics-have-opinions-on-climate-change-moved-the-most) 
+* [Bipartisan Endorsements Fail to Move Public Support for COVID Relief Packages](https://www.dataforprogress.org/blog/2021/2/10/do-bipartisan-endorsements-move-voters-on-covid-relief) (with [Aadhya Shivakumar](https://twitter.com/aadhyashiv) and [Emma Winey](https://twitter.com/ewiney8))
 
 Please also see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
 
