@@ -15,7 +15,11 @@ I have written pieces with [Data For Progress](https://www.dataforprogress.org/)
 * [Bipartisan Endorsements Fail To Move Public Support for COVID Relief Packages](https://www.dataforprogress.org/blog/2021/2/10/do-bipartisan-endorsements-move-voters-on-covid-relief) (with [Aadhya Shivakumar](https://twitter.com/aadhyashiv) and [Emma Winey](https://twitter.com/ewiney8))
 * [A Significant Number of Vaccine Skeptics Could Be Swayed to Take the Shot](https://www.dataforprogress.org/blog/covid-vaccine-likelihood) (with [Yonatan Margalit](https://twitter.com/tunadahuman) and [Emma Winey](https://twitter.com/ewiney8))
 
-Please also see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
+I have also contributed to the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/):
+
+* [Bipartisan support from senators and voters barely moves opinion on stimulus checks](https://tufts-pol.medium.com/bipartisan-support-from-senators-and-voters-barely-moves-opinion-on-stimulus-checks-8edabea0c5b1) (with [Aadhya Shivakumar](https://twitter.com/aadhyashiv) and [Emma Winey](https://twitter.com/ewiney8))
+
+Additionally, please see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
 
 * [Pelosi, Clark, Pressley, Trahan talk early education, child care at ‘Speaker in the House’ series](https://tuftsdaily.com/news/2019/05/19/pelosi-clark-pressley-trahan-early-education-child-care/) 
     
