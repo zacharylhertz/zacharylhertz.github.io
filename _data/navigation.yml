@@ -1,22 +1,30 @@
 # main links links
 main:
-  - title: "Academic Work"
-    url: /publications/
+  #- title: "Writing"
+    #href: "/writing/"
+    #subcategories:
+      #- subtitle: "Academic Work"
+        #subhref: "/writing/publications/"
+      #- subtitle: "Other Work"
+        #subhref: "/writing/otherwork/"
+    
+  #- title: "Data"
+    #href: "/data/"
+    #subcategories:
+      #- subtitle: "Data Visualization"
+        #subhref: "/data/data-viz/"
 
-  - title: "Other Work"
-    url: /otherwork/
+  - title: "Writing"
+    url: /writing/
+
+  - title: "Data"
+    url: /data/
 
   - title: "Teaching"
     url: /teaching/
-    
-  - title: "Data Visualization"
-    url: /data-viz/
-    
-  - title: "Data"
-    url: /data/
         
-  #- title: "Blog"
-    #url: /posts/
+  - title: "Blog"
+    url: /posts/
     
   - title: "CV"
     url: /cv/
