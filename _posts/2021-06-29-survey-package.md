@@ -110,7 +110,8 @@ likely.evan <- svytable(~vax_likely, design=svy.evan) %>%
   multiply_by(100) %>%
   round(digits=1) %>%
   as.data.frame()
-
+  
+# Vax likelihood among all American adults
 likely 
 ```
 
@@ -121,8 +122,7 @@ likely
     ## 4          4 28.2
 
 ``` r
-# Vax likelihood among all American adults
-
+# Vax likelihood among White Evangelical adults
 likely.evan 
 ```
 
@@ -131,10 +131,6 @@ likely.evan
     ## 2          2 25.2
     ## 3          3 14.6
     ## 4          4 30.5
-
-``` r
-# Vax likelihood among White Evangelical adults
-```
 
 # Plotting weighted results with `{survey}` and `{ggplot2}`
 
