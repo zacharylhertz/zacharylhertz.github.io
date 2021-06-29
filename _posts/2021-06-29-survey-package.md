@@ -23,7 +23,7 @@ Survey research commonly relies on weights to reduce bias and produce a represen
 
 Correctly implementing weights can seem an intimidating challenge to early R users; luckily several packages exist to simplify working with weighted data in R. The package I currently use is `{survey}`, which I [have used](https://www.dataforprogress.org/memos/in-what-demographics-have-opinions-on-climate-change-moved-the-most) to produce [several pieces](https://www.dataforprogress.org/blog/2021/6/9/demographics-predict-vaccine-holdouts) in my work for [Data for Progress](https://www.dataforprogress.org/) and the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/).
 
-To that end, I have written a quick guide to using the `{survey}` package in R to create weighted proportion tables and plot results using `{ggplot2}`. This primer uses data from Wave 23 of the Data for Progress Covid-19 tracking poll and assumes an elementary knowledge of coding in R. This guide was originally written for one of my Tufts Public Opinion Lab colleagues as well as my Political Science Research Methods students, but I hope others benefit from it!
+To that end, I have written a quick guide to using the `{survey}` package in R to create weighted proportion tables and plot results using `{ggplot2}`. This primer uses the Data for Progress [Covid-19 tracking poll data](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XJLZIN) and assumes an elementary knowledge of coding in R. This guide was originally written for one of my Tufts Public Opinion Lab colleagues as well as my Political Science Research Methods students, but I hope others benefit from it!
 
 # Setup
 
