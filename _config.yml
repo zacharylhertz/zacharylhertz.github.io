@@ -81,12 +81,12 @@ analytics:
 author:
   name             : "Zachary Hertz"
   avatar           : "profile.png"
-  bio              : "Aspiring graduate student in political science."
+  bio              : "Graduate student in political science."
   location         : "Somerville, MA"
   employer         :
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   googlescholar    : # "http://yourfullgooglescholarurl.com"
-  email            : "zach.l.hertz@gmail.com"
+  email            : "zlhertz@uchicago.edu"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
