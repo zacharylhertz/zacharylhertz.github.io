@@ -1,0 +1,174 @@
+---
+title: "Creating Survey Weights in R Using Census Data"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-06-29
+permalink: /posts/2021/07/weighting-surveys
+toc: true
+tags:
+  - survey
+  - tidyverse
+  - survey data
+  - ACS
+  - Census
+---
+
+The composition of a sample may differ notably from the population being modeled when looking at important characteristics (e.g. race, age, education, party identification). These sampling errors often reflect systematic bias which, especially if correlated with your variables of interest, pose a threat to accuracy and the ability to make inferences with the data.
+
+In response, researchers often construct post-stratification weights to correct for sampling error and match the sample to the population on key characteristics. 
+
+To that end, I have written a quick guide to using the `{survey}` package in R to create weighted proportion tables and plot results using `{ggplot2}`. This primer uses data from Wave 23 of the Data for Progress Covid-19 tracking poll and assumes an elementary knowledge of coding in R. This guide was originally written for one of my Tufts Public Opinion Lab colleagues as well as my Political Science Research Methods students, but I hope others benefit from it!
+
+Setup
+======
+
+To start, you'll need to read in the necessary packages and then the data. Beyond `{survey}` for weighted analysis and `{tidyverse}` to use ggplot2 to visualize results, I use a few additional packages: `{haven}`, `{magrittr}`, and `{plyr}`. Since my data is from a .dta file, I use `{haven}` to read the data into R. I also use the function `multiply_by()` and the pipe operator, `%>%`, from the `{magrittr}` package. Finally, when manipulating my plot data I rely on the `ddply()` function from `{plyr}`.
+
+```{r read in packages, message=FALSE}
+library(haven)
+library(survey)
+library(tidyverse)
+library(magrittr)
+library(plyr)
+dat <- read_dta("dfp_covid_tracking_poll.dta")
+```
+
+Weights are generally stored in a column within your dataframe, and may differ depending on which population you are attempting to represent with your data. You should be able to identify the weights and their appropriate variable name using the codebook. Here, we weight to the American adult populations using the variable `nationalweight`.
+
+To use the weights, you first create a survey design object using the `svydesign()` function from `{survey}`, and specify the appropriate dataframe and weights. 
+
+```{r create first survey design object}
+# First, create a survey design object for the dataset.
+# Here, my data is 'dat' and weights are 'nationalweight'.
+svy.dat <- svydesign(ids=~1, data=dat,
+                     weights=dat$nationalweight)
+```
+
+You can also create a survey design object using subsets, which can be particularly useful to analyze specific parts of your data. To do so, simply specify the subset instead of your full data in the 'data' argument of `svydesign()`. 
+
+To illustrate, I will compare vaccination likelihood between White Evangelicals and the sample as a whole. Race is represented by the `ethnicity` variable, where White respondents have a value of 1, and evangelicalism is represented by the `pew_bornagain` variable, where Evangelicals have a value of 1.
+
+```{r create subset design objects}
+# Create your white evangelical subset...
+wtevan <- subset(dat, dat$ethnicity==1&dat$pew_bornagain==1)
+
+# ...And create a survey design object for White Evangelicals.
+svy.evan <- svydesign(ids = ~1, data = wtevan,
+                      weights = wtevan$nationalweight)
+```
+
+Note that above you use the same weight variable from your full data, in this case `nationalweight`, but in the `weights =` argument of `svydesign()` you have to pull the weight variable from the same dataframe you use in the `data =` argument. 
+
+Using `{survey}` to create weighted proportion tables
+======
+
+Now that we have survey design objects, we use them in combination with the `svytable()` function to apply the weights. The syntax is very intuitive, essentially:
+
+`svytable(~Var1 + Var2 + ..., design=your.surveydesignobject)`
+
+Simply include which variables you would like to table, separating variables with '+', and specify the appropriate survey design object. I then use `prop.table()` to convert counts to a proportion, multiply by 100 to create total percentages, round to one digit, and convert the result to an easily-viewable dataframe.
+
+As a quick example using multiple variables, I create a table of vaccine likelihood (`vax_likely`), education (`educ`), and party identification (`pid7`) with the following code:
+
+```{r}
+vax.educ.race <- svytable(~vax_likely + educ + pid7, 
+                     design=svy.dat) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+# Note that multiply_by() comes from magrittr!
+  round(digits=1) %>%
+  as.data.frame()
+
+head(vax.educ.race)
+```
+
+Applying this to our investigation of vaccine likelihood for White Evangelicals compared to national adults, we can create two tables. The first uses the survey design object created with the entire dataset (`svy.dat`), the other uses the survey design object created for just White Evangelicals (`svy.evan`).
+
+```{r}
+# Vaccination likelihood among all American adults
+likely <- svytable(~vax_likely, design=svy.dat) %>%
+  prop.table() %>%
+  multiply_by(100) %>%
+  round(digits=1) %>%
+  as.data.frame()
+
+# Vaccination likelihood among White Evangelicals  
+likely.evan <- svytable(~vax_likely, design=svy.evan) %>%
+  prop.table() %>%
+  multiply_by(100) %>%
+  round(digits=1) %>%
+  as.data.frame()
+
+# Vax likelihood among all American adults
+likely 
+
+
+# Vax likelihood among White Evangelical adults
+likely.evan 
+
+```
+
+Plotting weighted results with `{survey}` and `{ggplot2}`
+======
+
+To visualize my results, I create a variable labelling each group, then combine the two tables into a single dataframe. I also use `ddply()` to calculate the halfway point of each proportion and use that position to specify where labels should go on the final plot.
+
+```{r}
+# Add variable identifying each group
+likely$group <- "All respondents"
+likely.evan$group <- "White Evangelicals"
+
+# Combine into a single dataframe for plotting
+plot <- rbind(likely, likely.evan)
+
+# Create a variable, label_ypos, equal to the halfway point
+# in each bar for specifying labels.
+plot <- ddply(plot, "group",
+                   transform, 
+                   label_ypos=cumsum(Freq) - 0.5*Freq)
+```
+
+Having created a single dataframe, I use `ggplot2` as usual to plot my results.
+
+```{r}
+p <- ggplot(plot, 
+            aes(x = group, y = Freq, fill = vax_likely)) + 
+  geom_bar(stat="identity", 
+           position = position_stack(reverse = TRUE)) + 
+  coord_flip() + theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size = 16), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=8),
+        axis.title.x = element_text(size=10), 
+        axis.title.y = element_blank(),
+        axis.text.y = element_text(size=10, 
+                                   color = "black")) + 
+  ylab("Percent") + 
+  labs(fill="Likeliness to get Covid-19 
+  vaccine when available", 
+       caption = "Zachary L. Hertz | Data: Data For Progress") +
+  ggtitle("White Evangelicals remain skeptical of Covid-19 vaccine") +
+  scale_fill_manual(labels = c("Very likely", 
+                               "Somewhat likely", 
+                             "Somewhat unlikely", 
+                             "Very unlikely"), 
+                    values=c("#7aa457", 
+                             "#b6caa2", 
+                             "#e4ac9e", 
+                             "#cb6751")) +
+  geom_text(aes(y=label_ypos, label=Freq), 
+            color="white", size=3.5)
+p
+```
+
+Conclusion
+======
+
+The `{survey}` package is a flexible and powerful tool to use weights in survey analysis and visualization. Using the `svydesign()` and `svytable()` functions is an easy way to create weighted proportion tables and examine representative data. As I often rely upon public tutorials when learning new skills in R, I hope this guide proves useful to any future researchers hoping to grow their survey analysis skills using R! 
