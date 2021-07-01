@@ -7,4 +7,4 @@ In the spring of 2021, I served as a teaching assistant for the undergraduate co
 
 ## Tufts University
 - PS 103: Political Science Research Methods (Spring 2021)
-    - Syllabus forthcoming.
+    - [Syllabus](/files/PS103_Syllabus_s21.pdf).
