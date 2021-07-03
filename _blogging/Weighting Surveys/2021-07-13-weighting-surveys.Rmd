@@ -1,0 +1,59 @@
+---
+title: "Creating Survey Weights in R Using Census Data"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-07-13
+permalink: /posts/2021/07/weighting-surveys
+toc: true
+tags:
+  - survey
+  - tidyverse
+  - survey data
+  - ACS
+  - Census
+---
+
+The composition of a sample may differ notably from the population being modeled when looking at important characteristics (e.g. race, age, education, party identification). These sampling errors often reflect systematic bias which, especially if correlated with your variables of interest, pose a threat to accuracy and the ability to make inferences with the data.
+
+In response, researchers often construct post-stratification weights to correct for sampling error and match the sample to the population on key characteristics. Crucially, **post-stratification weights can only be created to match _known_ population benchmarks**. Thus, [the American Commmunity Survey (ACS)](https://www.census.gov/programs-surveys/acs), a premier data source with detailed population information, is an incredible resource to construct population targets for survey weighting.
+
+Most recently, I created survey weights for a project fielded with the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/), but the task proved to be fairly involved. First, accessing ACS data requires navigating the Census Bureau's fairly labyrinthine website. In addition, the size of the national ACS files -- totaling over 10 gigabytes -- is far beyond what my computer's memory could possibly handle and crashed R Studio the first time I tried to read them in.
+
+I wrote this blog post for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R. To follow along, you will need a basic working knowledge of R. You'll also use the `{survey}`, `{magrittr}`, and `{anesrake}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven't installed them already.
+
+Accessing and downloading ACS data
+======
+
+Reading ACS data into R using `{fread}`
+======
+
+Creating population benchmarks with `{survey}`
+======
+
+Setup
+======
+
+To start, you'll need to read in the necessary packages and then the data. Beyond `{survey}` for weighted analysis and `{tidyverse}` to use ggplot2 to visualize results, I use a few additional packages: `{haven}`, `{magrittr}`, and `{plyr}`. Since my data is from a .dta file, I use `{haven}` to read the data into R. I also use the function `multiply_by()` and the pipe operator, `%>%`, from the `{magrittr}` package. Finally, when manipulating my plot data I rely on the `ddply()` function from `{plyr}`.
+
+```{r read in packages, message=FALSE}
+library(haven)
+library(survey)
+library(tidyverse)
+library(magrittr)
+library(plyr)
+dat <- read_dta("dfp_covid_tracking_poll.dta")
+```
+
+Weights are generally stored in a column within your dataframe, and may differ depending on which population you are attempting to represent with your data. You should be able to identify the weights and their appropriate variable name using the codebook. Here, we weight to the American adult populations using the variable `nationalweight`.
+
+
+Conclusion
+======
+
+https://iecam.illinois.edu/blog/whats-the-difference-between-1-year-and-5-year-american-community-survey-acs-data/

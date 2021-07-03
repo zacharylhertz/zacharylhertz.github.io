@@ -1,0 +1,569 @@
+---
+title: "Using the CES to Examine Young Voters"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-07-06
+permalink: /posts/2021/07/young-voters
+toc: true
+tags:
+  - CIRCLE
+  - CES
+  - youth voting
+---
+
+```{r read in data, include=FALSE}
+library(haven)
+ces10 <- read_dta("../../../CCES/data/2010 data/cces_2010_common_validated.dta")
+ces12 <- read_dta("../../../CCES/data/2012 data/CCES12_Common_VV.dta")
+ces14 <- read_dta("../../../CCES/data/2014 data/CCES14_Common_Content_Validated.dta")
+ces16 <- read_dta("../../../CCES/data/2016 data/CCES16_Common_OUTPUT_Feb2018_VV.dta")
+ces18 <- read_dta("../../../CCES/data/2018 data/cces18_common_vv.dta")
+ces20 <- read.csv("../../../CCES/data/2020 data/CCES20_Common_OUTPUT.csv")
+```
+
+```{r recoding, include=FALSE}
+# recode age from birth year
+ces10$age <- 2010-ces10$V207
+ces12$age <- 2012-ces12$birthyr
+ces14$age <- 2014-ces14$birthyr
+ces16$age <- 2016-ces16$birthyr
+ces18$age <- 2018-ces18$birthyr
+ces20$age <- 2020-ces20$birthyr
+
+# binary youth variable
+ces10$youth[ces10$age<30] <- 1
+ces10$youth[ces10$age>29] <- 0
+ces12$youth[ces12$age<30] <- 1
+ces12$youth[ces12$age>29] <- 0
+ces14$youth[ces14$age<30] <- 1
+ces14$youth[ces14$age>29] <- 0
+ces16$youth[ces16$age<30] <- 1
+ces16$youth[ces16$age>29] <- 0
+ces18$youth[ces18$age<30] <- 1
+ces18$youth[ces18$age>29] <- 0
+ces20$youth[ces20$age<30] <- 1
+ces20$youth[ces20$age>29] <- 0
+
+# binary kiddo variable
+ces10$kiddo[ces10$age<20] <- 1
+ces10$kiddo[ces10$age>19] <- 0
+ces12$kiddo[ces12$age<20] <- 1
+ces12$kiddo[ces12$age>19] <- 0
+ces14$kiddo[ces14$age<20] <- 1
+ces14$kiddo[ces14$age>19] <- 0
+ces16$kiddo[ces16$age<20] <- 1
+ces16$kiddo[ces16$age>19] <- 0
+ces18$kiddo[ces18$age<20] <- 1
+ces18$kiddo[ces18$age>19] <- 0
+ces20$kiddo[ces20$age<20] <- 1
+ces20$kiddo[ces20$age>19] <- 0
+
+# 26th amendment age variable
+ces10$yvtr[ces10$age<21] <- 1
+ces10$yvtr[ces10$age>20] <- 0
+ces12$yvtr[ces12$age<21] <- 1
+ces12$yvtr[ces12$age>20] <- 0
+ces14$yvtr[ces14$age<21] <- 1
+ces14$yvtr[ces14$age>20] <- 0
+ces16$yvtr[ces16$age<21] <- 1
+ces16$yvtr[ces16$age>20] <- 0
+ces18$yvtr[ces18$age<21] <- 1
+ces18$yvtr[ces18$age>20] <- 0
+ces20$yvtr[ces20$age<21] <- 1
+ces20$yvtr[ces20$age>20] <- 0
+
+# Validated Turnout ####
+ces10$voted <- 0
+ces10$voted[ces10$vote_gen10==1] <- 1
+ces12$voted <- 0
+ces12$voted[ces12$e2012g!="MatchedNoVote" & ces12$e2012g != ""] <- 1
+ces14$voted <- 0
+ces14$voted[ces14$e2014gvm!=""] <- 1
+ces16$voted <- 0
+ces16$voted[ces16$CL_E2016GVM!=""] <- 1
+ces18$voted <- 0
+ces18$voted[is.na(ces18$CL_2018gvm)==FALSE] <- 1
+# ces20$voted <- 0
+# ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
+
+# Self reported voter reg
+ces10$votereg <- ces10$V203
+ces10$votereg_post <- ces10$V203_post
+ces10$saidreg <- 0
+ces10$saidreg[ces10$votereg_post==1] <- 1
+ces12$saidreg <- 0
+ces12$saidreg[ces12$votereg_post==1] <- 1
+ces14$saidreg <- 0
+ces14$saidreg[ces14$votereg_post==1] <- 1
+ces16$saidreg <- 0
+ces16$saidreg[ces16$votereg_post==1] <- 1
+ces18$saidreg <- 0
+ces18$saidreg[ces18$votereg_post==1] <- 1
+ces20$saidreg <- 0
+ces20$saidreg[ces20$votereg_post==1] <- 1
+
+
+# Self reported voting
+ces10$saidvote <- 0
+ces10$saidvote[ces10$CC401==5] <- 1
+ces12$saidvote <- 0
+ces12$saidvote[ces12$CC401==5] <- 1
+ces14$saidvote <- 0
+ces14$saidvote[ces14$CC401==5] <- 1
+ces16$saidvote <- 0
+ces16$saidvote[ces16$CC16_401==5] <- 1
+ces18$saidvote <- 0
+ces18$saidvote[ces18$CC18_401==5] <- 1
+ces20$saidvote <- 0
+ces20$saidvote[ces20$CC20_401==5] <- 1
+```
+
+```{r design objects, include=FALSE}
+library(survey)
+ces10.wt <- svydesign(ids=~1, data=ces10,
+                     weights=ces10$V101)
+ces12.wt <- svydesign(ids=~1, data=ces12,
+                     weights=ces12$V103)
+ces14.wt <- svydesign(ids=~1, data=ces14,
+                     weights=ces14$weight)
+ces16.wt <- svydesign(ids=~1, data=ces16,
+                     weights=ces16$commonweight_post)
+ces18 <- subset(ces18, is.na(ces18$commonpostweight)==FALSE)
+ces18.wt <- svydesign(ids=~1, data=ces18,
+                     weights=ces18$commonpostweight)
+ces20 <- subset(ces20, is.na(ces20$commonpostweight)==FALSE)
+ces20.wt <- svydesign(ids=~1, data=ces20,
+                     weights=ces20$commonpostweight)
+```
+
+
+```{r 2010, include=FALSE}
+library(magrittr)
+# 2010 voters
+voted.10 <- svytable(~saidvote, 
+                     design=ces10.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.10$year <- 2010
+voted.10$group <- "All adults"
+
+yv.10 <- subset(ces10.wt, yvtr==1)
+
+y.voted.10 <- svytable(~saidvote, 
+                     design=yv.10) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.10$year <- 2010
+y.voted.10$group <- "Adults ages 18-20"
+
+
+# 2010 registration
+registered.10 <- svytable(~saidreg, 
+                     design=ces10.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.10$year <- 2010
+registered.10$group <- "All adults"
+
+y.registered.10 <- svytable(~saidreg, 
+                     design=yv.10) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.10$year <- 2010
+y.registered.10$group <- "Adults ages 18-20"
+
+```
+
+
+```{r 2012, include=FALSE}
+# 2012 voters
+voted.12 <- svytable(~saidvote, 
+                     design=ces12.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.12$year <- 2012
+voted.12$group <- "All adults"
+
+yv.12 <- subset(ces12.wt, yvtr==1)
+
+y.voted.12 <- svytable(~saidvote, 
+                     design=yv.12) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.12$year <- 2012
+y.voted.12$group <- "Adults ages 18-20"
+
+
+# 2012 registration
+registered.12 <- svytable(~saidreg, 
+                     design=ces12.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.12$year <- 2012
+registered.12$group <- "All adults"
+
+y.registered.12 <- svytable(~saidreg, 
+                     design=yv.12) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.12$year <- 2012
+y.registered.12$group <- "Adults ages 18-20"
+```
+
+```{r 2014, include=FALSE}
+# 2014 voters
+voted.14 <- svytable(~saidvote, 
+                     design=ces14.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.14$year <- 2014
+voted.14$group <- "All adults"
+
+yv.14 <- subset(ces14.wt, yvtr==1)
+
+y.voted.14 <- svytable(~saidvote, 
+                     design=yv.14) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.14$year <- 2014
+y.voted.14$group <- "Adults ages 18-20"
+
+
+# 2014 registration
+registered.14 <- svytable(~saidreg, 
+                     design=ces14.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.14$year <- 2014
+registered.14$group <- "All adults"
+
+y.registered.14 <- svytable(~saidreg, 
+                     design=yv.14) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.14$year <- 2014
+y.registered.14$group <- "Adults ages 18-20"
+```
+
+```{r 2016, include=FALSE}
+# 2016 voters
+voted.16 <- svytable(~saidvote, 
+                     design=ces16.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.16$year <- 2016
+voted.16$group <- "All adults"
+
+yv.16 <- subset(ces16.wt, yvtr==1)
+
+y.voted.16 <- svytable(~saidvote, 
+                     design=yv.16) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.16$year <- 2016
+y.voted.16$group <- "Adults ages 18-20"
+
+
+# 2016 registration
+registered.16 <- svytable(~saidreg, 
+                     design=ces16.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.16$year <- 2016
+registered.16$group <- "All adults"
+
+y.registered.16 <- svytable(~saidreg, 
+                     design=yv.16) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.16$year <- 2016
+y.registered.16$group <- "Adults ages 18-20"
+```
+
+
+```{r 2018, include=FALSE}
+# 2018 voters
+voted.18 <- svytable(~saidvote, 
+                     design=ces18.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.18$year <- 2018
+voted.18$group <- "All adults"
+
+yv.18 <- subset(ces18.wt, yvtr==1)
+
+y.voted.18 <- svytable(~saidvote, 
+                     design=yv.18) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.18$year <- 2018
+y.voted.18$group <- "Adults ages 18-20"
+
+
+# 2018 registration
+registered.18 <- svytable(~saidreg, 
+                     design=ces18.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.18$year <- 2018
+registered.18$group <- "All adults"
+
+y.registered.18 <- svytable(~saidreg, 
+                     design=yv.18) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.18$year <- 2018
+y.registered.18$group <- "Adults ages 18-20"
+```
+
+```{r 2020, include=FALSE}
+# 2020 voters
+voted.20 <- svytable(~saidvote, 
+                     design=ces20.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+voted.20$year <- 2020
+voted.20$group <- "All adults"
+
+yv.20 <- subset(ces20.wt, yvtr==1)
+
+y.voted.20 <- svytable(~saidvote, 
+                     design=yv.20) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.voted.20$year <- 2020
+y.voted.20$group <- "Adults ages 18-20"
+
+
+# 2020 registration
+registered.20 <- svytable(~saidreg, 
+                     design=ces20.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+registered.20$year <- 2020
+registered.20$group <- "All adults"
+
+y.registered.20 <- svytable(~saidreg, 
+                     design=yv.20) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.registered.20$year <- 2020
+y.registered.20$group <- "Adults ages 18-20"
+```
+
+
+```{r combine data, include=FALSE}
+vote.data <- rbind(voted.10, y.voted.10, 
+                   voted.12, y.voted.12,
+                   voted.14, y.voted.14,
+                   voted.16, y.voted.16,
+                   voted.18, y.voted.18,
+                   voted.20, y.voted.20)
+
+reg.data <- rbind(registered.10, y.registered.10, 
+                  registered.12, y.registered.12,
+                  registered.14, y.registered.14,
+                  registered.16, y.registered.16,
+                  registered.18, y.registered.18,
+                  registered.20, y.registered.20)
+
+reg.data$year <- as.factor(reg.data$year)
+vote.data$year <- as.factor(vote.data$year)
+
+vote.data.youth <- subset(vote.data, group=="Adults ages 18-20")
+reg.data.youth <- subset(reg.data, group=="Adults ages 18-20")
+
+```
+
+```{r ns for interpretation, include=FALSE}
+year <- c(2010, 2012, 2014, 2016, 2018, 2020)
+totalyouth <- c(700, 1409, 1471, 2126, 867, 777)
+n.dat <- as.data.frame(cbind(year, totalyouth))
+n.dat$year <- as.factor(n.dat$year)
+```
+
+
+```{r plots, include=FALSE}
+library(tidyverse)
+
+p.n <- ggplot(data=n.dat, aes(x=year, y=totalyouth, group=1)) + 
+  geom_line(size=1.5, color="#52528C") +
+  theme_minimal() +
+  ylim(300,2500) +
+  theme(plot.title = element_text(hjust = 0.20, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=12),
+        axis.title.x = element_text(size=16),
+        axis.title.y = element_text(size=15),
+        axis.text.x = element_text(size=13, 
+                                   color = "black"),
+        axis.text.y = element_text(size=13, 
+                                   color = "black")) + 
+  ylab("Number of Respondents \nAge 18-20") +
+  xlab("Year") +
+  labs(caption = "Zachary L. Hertz | Data: CES") +
+  ggtitle("Total number of respondents ages 18-20 \nhave dropped in recent CES releases")
+
+p.reg <- ggplot(data=subset(reg.data, saidreg!=0), 
+                aes(x=year, y=Freq, group=group, color=group)) + 
+  geom_line(size=1.5) + theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.20, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=12),
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.text=element_text(size=13),
+        axis.title.x = element_text(size=16),
+        axis.title.y = element_text(size=15),
+        axis.text.x = element_text(size=13, 
+                                   color = "black"),
+        axis.text.y = element_text(size=13, 
+                                   color = "black")) + 
+  ylab("Percent Registered to Vote \n(Self-Reported)") +
+  xlab("Year") +
+  labs(caption = "Zachary L. Hertz | Data: CES") +
+  scale_color_manual(values=c("#66A182", "#031927")) +
+  ggtitle("The voter registration gap between all adults and \nthose 18-20 decreased in 2016 but has persisted")
+
+p.vote <- ggplot(data=subset(vote.data, saidvote!=0), 
+                 aes(x=year, y=Freq, group=group, color=group)) + 
+  geom_line(size=1.5) + theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=12),
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.text=element_text(size=13),
+        axis.title.x = element_text(size=16),
+        axis.title.y = element_text(size=15),
+        axis.text.x = element_text(size=13, 
+                                   color = "black"),
+        axis.text.y = element_text(size=13, 
+                                   color = "black")) + 
+  ylab("Percent Voted \n(Self-Reported)") +
+  xlab("Year") +
+  labs(caption = "Zachary L. Hertz | Data: CES") +
+  scale_color_manual(values=c("#66A182", "#031927")) +
+  ggtitle("Self-reported vote among adults \nage 18-20 has broadly increased")
+
+# ggsave("name.png", width = 7, height = 5, units = c("in"), dpi=700)
+
+```
+
+July 1 marked 50 years since the ratification of [the 26th Amendment]() to the United States Constitution, which legally extended the right to vote to those over the age of 18. Young voters have played a vital -- at times, [even decisive](https://www.theatlantic.com/politics/archive/2012/11/youth-vote-essential-to-obama-win-pew-study-shows/429561/) -- role in elections since. But decades after the franchise was extended to 18-, 19-, and 20- year-olds, how does their voting rates compare to American adults overall?
+
+Youth have [historically voted at lower rates](https://circle.tufts.edu/our-research/broadening-youth-voting) than older voters and while some evidence suggests these turnout disparities have declined in recent elections they still remain, in part due to [inadequate voter registration](https://circle.tufts.edu/latest-research/five-weeks-away-youth-voter-registration-2016-lagging-youngest-eligible-voters) efforts targeted at the youngest voters and [particularly high barriers to voting](https://fivethirtyeight.com/features/why-younger-americans-dont-vote-more-often-no-its-not-apathy/). As voting [may be habit-forming](https://isps.yale.edu/research/publications/isps03-004), understanding to what extent these inequities persist among young voters is critical to rectifying them, working towards an evenly engaged electorate, and building lifelong voters.
+
+The [Center for Information & Research on Civic Learning and Engagement (CIRCLE)](https://circle.tufts.edu/) at Tufts University is one of the leading sources of research on young voters. Their research generally defines youth as those under 30, however, a broader group than those 18-20 affected by the 26th Amendment, and their data sources are unfortunately not public. Instead, I turn to the [Cooperative Election Study (CES)](https://cces.gov.harvard.edu/), as the premier large-scale academic survey project aimed at studying the American Electorate. The CES has over 50,000 respondents each year in its representative sample; each wave since 2010 has included over 700 respondents between ages 18 and 20, though this number has dropped in the two most recent waves.
+
+![](/images/posts/young-voters/total-ns.png)<!-- -->
+
+While the CES includes voting data matched to the [Catalist LLC](https://catalist.us/) voter file, the 2020 validated vote data has not been released. Until then, I use the self-reported voting data from the CES to investigate, and will replicate my analysis when validated voting data from all CES waves are made publicly available. As a result, my findings come with the important caveat that self-reported measures [consistently overestimate turnout](https://www.cambridge.org/core/journals/political-analysis/article/abs/why-does-the-american-national-election-study-overestimate-voter-turnout/78AAF29C00F368C735507F0D5160AE20).
+
+The voter registration gap between youth and older voters remains
+======
+
+When comparing voter registration and voter turnout, it is important to note that presidential and midterm elections should not be directly compared, as voter engagement is [higher in presidential elections than midterm elections](https://www.pewresearch.org/fact-tank/2014/07/24/voter-turnout-always-drops-off-for-midterm-elections-but-why/).
+
+CES data from the past three midterm elections (2010, 2014, and 2018) shows that the gap in voter registration numbers between the 18-20 year-old cohort and all adults has been persistent. In 2010, 81.5 percent of adults said that they were registered to vote where just 57.1 percent of 18-20 year-olds did, a difference of 24.4 percentage points. While the overall percent of adults registered to vote rose slightly to 82.2 percent in 2014, the number of youth who said they were registered to vote dropped to 51.2 percent, widening the voter registration gap to 31 percent. But in 2018 overall voter registration rose to 83.3 percent and youth voter registration rose with it to 58.8 percent, returning the voter registration gap to 24.5 percent.
+
+![](/images/posts/young-voters/registration.png)<!-- -->
+
+The past three presidential elections (2012, 2016, and 2020) followed a similar yet opposite trend. 76 percent of all adults were registered to vote in 2012 while 57.3 percent of 18-20 year-olds were, a difference of 18.7 percentage points. In 2016 these numbers jumped noticeably: 81.6 percent of adults and 69.3 percent of 18-20 year-olds were registered to vote, closing the gap to just 12.3 percent. But in 2020, youth voter registration dropped slightly to 65.4 percent while overall voter registration rose to 84.3 percent, bringing the voter registration gap back to 18.9 percent, near its 2012 levels.
+
+
+The turnout gap in midterm elections has decreased, but remains in presidential elections
+======
+
+CES self-reported vote data shows that the voter turnout gap between 18-20 year-olds and all adults is highest in midterm elections, but has consistently decreased since 2010. 58.9 percent of all adults but just 16 percent of youth reported voting in 2010, a difference of almost 43 percentage points. Self-reported voting increased ten percentage points to 68.8 percent among all adults in 2014 while more than doubling among youth to 35 percent, decreasing the gap to 33.8 percent. By 2018, which saw 72.8 percent of adults report voting, 45 percent of youth ages 18-20 reported voting, bringing the difference in midterm elections to its lowest gap of 27.8 percentage points.
+
+![](/images/posts/young-voters/voting.png)<!-- -->
+
+In presidential elections, the gap in self-reported voting between 18-20 year-olds and all adults is smaller, but has not followed a consistent pattern between 2012 and 2020. In 2012, 72.6 percent of adults but just 54 percent of 18-20 year-olds reported voting, a difference of 18.6 percentage points. Self-reported voting jumped in 2016: 77.4 percent of all adults and 60.3 percent of youth said they voted, decreasing the gap to just 17.1 percent. While self-reported voting increased to 78.6 percent among all adults in 2020, however, only 55.4 percent of 18-20 year-olds reported voting, deepening the turnout gap to 23.2 percentage points.
+
+
+Conclusion
+======
+
+On the 50th anniversary of extending the franchise to Americans between the ages of 18 and 20, CES data suggests that turnout gaps between the youngest Americans and all adults remain but may be decreasing. As survey data often overestimates turnout, I hope to replicate this analysis with the CES validated vote data once the 2020 wave is released.
