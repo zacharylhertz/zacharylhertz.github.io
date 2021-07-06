@@ -2,7 +2,7 @@
 title: "Creating Survey Weights in R Using Census Data"
 output:
   md_document:
-    variant: gfm
+    variant: gfm+footnotes
     preserve_yaml: TRUE
     pandoc_args: 
       - "--wrap=preserve"
@@ -27,8 +27,44 @@ Most recently, I created survey weights for a project fielded with the [Tufts Pu
 
 I wrote this blog post for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R. To follow along, you will need a basic working knowledge of R. You'll also use the `{survey}`, `{magrittr}`, and `{anesrake}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven't installed them already.
 
+
 Accessing and downloading ACS data
 ======
+
+Personally, I find [the ACS website](https://www.census.gov/programs-surveys/acs) somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau's pretabulated data products, but for our purposes we need data that we can read in and reshape directly.
+
+For this, we use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau's File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. 
+
+A quick note on ACS time periods
+
+Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates *are not calculated as an average of 12 monthly values* (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates). 
+
+Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period.
+
+For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.
+
+The researcher faces a tradeoff when choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data is more reliable due to the larger sample size.
+
+If both estimates are available for your year in question, which one should you use? 
+
+https://iecam.illinois.edu/blog/whats-the-difference-between-1-year-and-5-year-american-community-survey-acs-data/
+
+
+Above all, **you must consistently use the same estimate** so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)[^1] and stick with them.
+
+
+
+
+PUMS files on the Census Bureau’s FTP site are stored as zip files. The system fornaming and displaying the PUMS files is based on three file features: the file
+format, the record type, and the state abbreviation.
+1. File formats are comma separated value files (csv), SAS data sets for
+older PC versions of SAS (pc),* or SAS datasets for UNIX and recent PC
+versions of SAS (unix).
+2. Record types are housing files (h) or person files (p).
+3. State (or state equivalent) abbreviations are two letter labels, such as
+“tx” for Texas and “dc” for District of Columbia. The abbreviation for the file
+containing all records in the United States is “us”.
+
 
 Reading ACS data into R using `{fread}`
 ======
@@ -57,3 +93,6 @@ Conclusion
 ======
 
 https://iecam.illinois.edu/blog/whats-the-difference-between-1-year-and-5-year-american-community-survey-acs-data/
+
+
+[^1]: While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.

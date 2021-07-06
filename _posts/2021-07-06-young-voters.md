@@ -19,7 +19,7 @@ tags:
 
 
 
-July 1 marked 50 years since the ratification of [the 26th Amendment]() to the United States Constitution, which legally extended the right to vote to those over the age of 18. Young voters have played a vital – at times, [even decisive](https://www.theatlantic.com/politics/archive/2012/11/youth-vote-essential-to-obama-win-pew-study-shows/429561/) – role in elections since. But decades after the franchise was extended to 18-, 19-, and 20- year-olds, how does their voting rate compare to American adults overall?
+July 1 marked 50 years since the ratification of [the 26th Amendment]() to the United States Constitution, which legally extended the right to vote to those over the age of 18. Young voters have played a vital – at times, [even decisive](https://www.theatlantic.com/politics/archive/2012/11/youth-vote-essential-to-obama-win-pew-study-shows/429561/) – role in elections since. But decades after the franchise was extended to 18-, 19-, and 20- year-olds, how does their voting rates compare to American adults overall?
 
 Youth have [historically voted at lower rates](https://circle.tufts.edu/our-research/broadening-youth-voting) than older voters and while some evidence suggests these turnout disparities have declined in recent elections they still remain, in part due to [inadequate voter registration](https://circle.tufts.edu/latest-research/five-weeks-away-youth-voter-registration-2016-lagging-youngest-eligible-voters) efforts targeted at the youngest voters and [particularly high barriers to voting](https://fivethirtyeight.com/features/why-younger-americans-dont-vote-more-often-no-its-not-apathy/). As voting [may be habit-forming](https://isps.yale.edu/research/publications/isps03-004), understanding to what extent these inequities persist among young voters is critical to rectifying them, working towards an evenly engaged electorate, and building lifelong voters.
 
@@ -49,4 +49,6 @@ In presidential elections, the gap in self-reported voting between 18-20 year-ol
 
 # Conclusion
 
-On the 50th anniversary of extending the franchise to Americans between the ages of 18 and 20, CES data suggests that turnout gaps between the youngest Americans and all adults remain but may be decreasing. As survey data often overestimates turnout, I hope to replicate this analysis with the CES validated vote data once the 2020 wave is released.
+On the 50th anniversary of extending the franchise to Americans between the ages of 18 and 20, CES data suggests that turnout gaps between the youngest Americans and all adults remain but may be decreasing. Gains in youth voter turnout have been especially pronounced in midterm elections, [which see lower voter turnout than presidential elections](https://www.census.gov/content/dam/Census/library/publications/2015/demo/p20-577.pdf), suggesting that while turnout disparities have not been completely eliminated, efforts to engage the youngest voters in the less-engaged midterm congressional elections may have been successful.
+
+These findings are subject to the normal limitations of using survey data to estimate voter turnout. As relying on self-response data often overestimates turnout, I hope to replicate this analysis using the CES validated vote data once the 2020 wave is released.
