@@ -35,15 +35,13 @@ Personally, I find [the ACS website](https://www.census.gov/programs-surveys/acs
 
 For this, we use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau's File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. 
 
-A quick note on ACS time periods
+## A quick note on ACS time periods
 
 Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates *are not calculated as an average of 12 monthly values* (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates). 
 
-Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period.
+Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period. For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.
 
-For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.
-
-The researcher faces a tradeoff when choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data is more reliable due to the larger sample size.
+This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size.
 
 If both estimates are available for your year in question, which one should you use? 
 
