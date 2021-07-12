@@ -1,0 +1,732 @@
+---
+title: "Tracking the Drop in News Interest"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-07-20
+permalink: /posts/2021/07/news-interest
+toc: true
+tags:
+  - news interest
+---
+
+```{r read in data, include=FALSE}
+library(haven)
+library(survey)
+library(tidyverse)
+library(magrittr)
+library(lubridate)
+dfp <- read_dta("../Survey package/dfp_covid_tracking_poll.dta")
+newwave <- read_dta("../../../DFP/Vaccines/Covid_tracker_w25_weighted.dta")
+newwave$wave <- 25
+dfp <- bind_rows(dfp, newwave)
+```
+
+```{r}
+dfp$pid3 <- NA
+dfp$pid3[dfp$pid7<4] <- 1 # Dem
+dfp$pid3[dfp$pid7>4 & dfp$pid7!=8] <- 2 # Rep
+dfp$pid3[dfp$pid7==4] <- 3 # Ind
+dfp$pid3[dfp$pid7==8] <- 4 # Not Sure
+
+dfp$date[dfp$wave==1] <- "2020-04-14"
+dfp$date[dfp$wave==2] <- "2020-04-21"
+dfp$date[dfp$wave==3] <- "2020-04-28"
+dfp$date[dfp$wave==4] <- "2020-05-05"
+dfp$date[dfp$wave==5] <- "2020-05-12"
+dfp$date[dfp$wave==6] <- "2020-05-19"
+dfp$date[dfp$wave==7] <- "2020-05-26"
+dfp$date[dfp$wave==8] <- "2020-06-09"
+dfp$date[dfp$wave==9] <- "2020-06-23"
+dfp$date[dfp$wave==10] <- "2020-07-07"
+dfp$date[dfp$wave==11] <- "2020-07-21"
+dfp$date[dfp$wave==12] <- "2020-07-28"
+dfp$date[dfp$wave==13] <- "2020-08-11"
+dfp$date[dfp$wave==14] <- "2020-09-01"
+dfp$date[dfp$wave==15] <- "2020-09-15"
+dfp$date[dfp$wave==16] <- "2020-09-22"
+dfp$date[dfp$wave==17] <- "2020-10-06"
+dfp$date[dfp$wave==18] <- "2020-10-20"
+dfp$date[dfp$wave==19] <- "2020-12-15"
+dfp$date[dfp$wave==20] <- "2021-01-12"
+dfp$date[dfp$wave==21] <- "2021-02-02"
+dfp$date[dfp$wave==22] <- "2021-02-09"
+dfp$date[dfp$wave==23] <- "2021-03-02"
+dfp$date[dfp$wave==24] <- "2021-04-06"
+dfp$date[dfp$wave==25] <- "2021-05-15"
+
+dfp$date <- as.Date(dfp$date)
+
+
+dfp$newsinterest[dfp$newsint==1] <- "Most of the time"
+dfp$newsinterest[dfp$newsint==2] <- "Some of the time"
+dfp$newsinterest[dfp$newsint==3] <- "Only now and then"
+dfp$newsinterest[dfp$newsint==4] <- "Hardly at all"
+
+dfp$fox <- 0
+dfp$fox[dfp$sources_2==1] <- 1
+dfp$cnn <- 0
+dfp$cnn[dfp$sources_1==1] <- 1
+dfp$msnbc <- 0
+dfp$msnbc[dfp$sources_3==1] <- 1
+dfp$facebook <- 0
+dfp$facebook[dfp$sources_12==1] <- 1
+dfp$localnews <- 0
+dfp$localnews[dfp$sources_5==1] <- 1
+
+dfp$concern <- NA
+dfp$concern[dfp$corona2<3]<-"High concern"
+dfp$concern[dfp$corona2>2]<-"Low concern"
+
+dfp$presvote <- NA
+dfp$presvote[dfp$pres_2020==8 & dfp$pres_2020lean==1] <- 1
+dfp$presvote[dfp$pres_2020==8 & dfp$pres_2020lean==2] <- 2
+dfp$presvote[dfp$pres_2020_voted==1 | dfp$pres_2020==1] <- 1
+dfp$presvote[dfp$pres_2020_voted==2 | dfp$pres_2020==2] <- 2
+dfp$presvote[dfp$pres_2020_voted==3 | dfp$pres_2020==3] <- 3
+dfp$presvote[dfp$pres_2020_voted==4 | dfp$pres_2020==4] <- 4
+
+dfp$strongpartisan <- NA
+dfp$strongpartisan <- 0
+dfp$strongpartisan[dfp$pid7==1 | dfp$pid7==7] <- 1
+
+
+
+
+dfp$newsinterest <- factor(dfp$newsinterest, levels = c("Most of the time", "Some of the time", "Only now and then", "Hardly at all"))
+
+svy.dat <- svydesign(ids=~1, data=dfp,
+                     weights=dfp$nationalweight)
+
+
+```
+
+```{r}
+totalnewsint <- svytable((~date+newsinterest),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+totalnewsint$date <- as.Date(totalnewsint$date)
+
+biden.dat <- svytable((~date+newsinterest),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+biden.dat$presvote <- "Biden voters"
+
+trump.dat <- svytable((~date+newsinterest),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+trump.dat$presvote <- "Trump voters"
+
+strongpartisan.dat <- svytable((~date+newsinterest),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+strongpartisan.dat$partisanship <- "Strong partisans"
+
+weakpartisan.dat <- svytable((~date+newsinterest),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+weakpartisan.dat$partisanship <- "Weak partisans"
+
+
+dems.dat <- svytable((~date+newsinterest),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.dat$partyid <- "Democrats"
+
+reps.dat <- svytable((~date+newsinterest),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.dat$partyid <- "Republicans"
+
+inds.dat <- svytable((~date+newsinterest),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.dat$partyid <- "Independents"
+
+plotdat <- rbind(dems.dat, reps.dat, inds.dat)
+plotdat2 <- rbind(biden.dat, trump.dat)
+plotdat3 <- rbind(strongpartisan.dat, weakpartisan.dat)
+
+plotdat$date <- as.Date(plotdat$date)
+plotdat2$date <- as.Date(plotdat2$date)
+plotdat3$date <- as.Date(plotdat3$date)
+
+
+p <- ggplot(data=totalnewsint, aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
+  theme_bw() + geom_line() +
+  ylim(0,50) +
+    theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
+                     name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
+  ggtitle("Share of Americans who closely follow political \nnews have declined 15 percent since January") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE)
+
+p.pid <- ggplot(data=subset(plotdat, partyid!="Independents"), aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
+  theme_bw() + geom_line() + ylim(0,55)+
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
+                     name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
+  facet_wrap(~partyid)
+
+p.partisans <- ggplot(data=plotdat3, aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
+                     name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
+  facet_wrap(~partisanship)
+
+p.presvote <- ggplot(data=plotdat2, aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
+  theme_bw() + geom_line() + ylim(0,55) +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
+                     name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
+  facet_wrap(~presvote)
+```
+
+```{r}
+fox <- svytable((~date+fox),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+fox$newssource[fox$fox==1] <- "Fox News"
+
+dems.fox <- svytable((~date+fox),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.fox$partyid <- "Democrats"
+dems.fox$newssource[dems.fox$fox==1] <- "Fox News"
+
+reps.fox <- svytable((~date+fox),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.fox$partyid <- "Republicans"
+reps.fox$newssource[reps.fox$fox==1] <- "Fox News"
+
+
+inds.fox <- svytable((~date+fox),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.fox$partyid <- "Independents"
+inds.fox$newssource[inds.fox$fox==1] <- "Fox News"
+
+biden.fox <- svytable((~date+fox),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+biden.fox$presvote <- "Biden voters"
+biden.fox$newssource[biden.fox$fox==1] <- "Fox News"
+
+trump.fox <- svytable((~date+fox),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+trump.fox$presvote <- "Trump voters"
+trump.fox$newssource[trump.fox$fox==1] <- "Fox News"
+
+strong.fox <- svytable((~date+fox),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+strong.fox$strongpartisan <- "Strong partisans"
+strong.fox$newssource[strong.fox$fox==1] <- "Fox News"
+
+weak.fox <- svytable((~date+fox),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+weak.fox$strongpartisan <- "Weak partisans"
+weak.fox$newssource[weak.fox$fox==1] <- "Fox News"
+
+
+cnn <- svytable((~date+cnn),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+cnn$newssource[cnn$cnn==1] <- "CNN"
+
+dems.cnn <- svytable((~date+cnn),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.cnn$partyid <- "Democrats"
+dems.cnn$newssource[dems.cnn$cnn==1] <- "CNN"
+
+
+reps.cnn <- svytable((~date+cnn),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.cnn$partyid <- "Republicans"
+reps.cnn$newssource[reps.cnn$cnn==1] <- "CNN"
+
+
+inds.cnn <- svytable((~date+cnn),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.cnn$partyid <- "Independents"
+inds.cnn$newssource[inds.cnn$cnn==1] <- "CNN"
+
+biden.cnn <- svytable((~date+cnn),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+biden.cnn$presvote <- "Biden voters"
+biden.cnn$newssource[biden.cnn$cnn==1] <- "CNN"
+
+trump.cnn <- svytable((~date+cnn),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+trump.cnn$presvote <- "Trump voters"
+trump.cnn$newssource[trump.cnn$cnn==1] <- "CNN"
+
+strong.cnn <- svytable((~date+cnn),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+strong.cnn$strongpartisan <- "Strong partisans"
+strong.cnn$newssource[strong.cnn$cnn==1] <- "CNN"
+
+weak.cnn <- svytable((~date+cnn),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+weak.cnn$strongpartisan <- "Weak partisans"
+weak.cnn$newssource[weak.cnn$cnn==1] <- "CNN"
+
+msnbc <- svytable((~date+msnbc),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+msnbc$newssource[msnbc$msnbc==1] <- "MSNBC"
+
+dems.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.msnbc$partyid <- "Democrats"
+dems.msnbc$newssource[dems.msnbc$msnbc==1] <- "MSNBC"
+
+reps.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.msnbc$partyid <- "Republicans"
+reps.msnbc$newssource[reps.msnbc$msnbc==1] <- "MSNBC"
+
+inds.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.msnbc$partyid <- "Independents"
+inds.msnbc$newssource[inds.msnbc$msnbc==1] <- "MSNBC"
+
+biden.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+biden.msnbc$presvote <- "Biden voters"
+biden.msnbc$newssource[biden.msnbc$msnbc==1] <- "MSNBC"
+
+trump.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+trump.msnbc$presvote <- "Trump voters"
+trump.msnbc$newssource[trump.msnbc$msnbc==1] <- "MSNBC"
+
+strong.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+strong.msnbc$strongpartisan <- "Strong partisans"
+strong.msnbc$newssource[strong.msnbc$msnbc==1] <- "MSNBC"
+
+weak.msnbc <- svytable((~date+msnbc),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+weak.msnbc$strongpartisan <- "Weak partisans"
+weak.msnbc$newssource[weak.msnbc$msnbc==1] <- "MSNBC"
+
+facebook <- svytable((~date+facebook),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+facebook$newssource[facebook$facebook==1] <- "Facebook"
+
+dems.facebook <- svytable((~date+facebook),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.facebook$partyid <- "Democrats"
+dems.facebook$newssource[dems.facebook$facebook==1] <- "Facebook"
+
+
+reps.facebook <- svytable((~date+facebook),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.facebook$partyid <- "Republicans"
+reps.facebook$newssource[reps.facebook$facebook==1] <- "Facebook"
+
+
+inds.facebook <- svytable((~date+facebook),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.facebook$partyid <- "Independents"
+inds.facebook$newssource[inds.facebook$facebook==1] <- "Facebook"
+
+biden.facebook <- svytable((~date+facebook),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+biden.facebook$presvote <- "Biden voters"
+biden.facebook$newssource[biden.facebook$facebook==1] <- "Facebook"
+
+trump.facebook <- svytable((~date+facebook),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+trump.facebook$presvote <- "Trump voters"
+trump.facebook$newssource[trump.facebook$facebook==1] <- "Facebook"
+
+strong.facebook <- svytable((~date+facebook),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+strong.facebook$strongpartisan <- "Strong partisans"
+strong.facebook$newssource[strong.facebook$facebook==1] <- "Facebook"
+
+weak.facebook <- svytable((~date+facebook),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+weak.facebook$strongpartisan <- "Weak partisans"
+weak.facebook$newssource[weak.facebook$facebook==1] <- "Facebook"
+
+localnews <- svytable((~date+localnews),design=svy.dat) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+localnews$newssource[localnews$localnews==1] <- "Local News"
+
+dems.localnews <- svytable((~date+localnews),design=subset(svy.dat,pid3==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+dems.localnews$partyid <- "Democrats"
+dems.localnews$newssource[dems.localnews$localnews==1] <- "Local News"
+
+
+reps.localnews <- svytable((~date+localnews),design=subset(svy.dat,pid3==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+reps.localnews$partyid <- "Republicans"
+reps.localnews$newssource[reps.localnews$localnews==1] <- "Local News"
+
+
+inds.localnews <- svytable((~date+localnews),design=subset(svy.dat,pid3==3)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+inds.localnews$partyid <- "Independents"
+inds.localnews$newssource[inds.localnews$localnews==1] <- "Local News"
+
+biden.localnews <- svytable((~date+localnews),design=subset(svy.dat,presvote==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+biden.localnews$presvote <- "Biden voters"
+biden.localnews$newssource[biden.localnews$localnews==1] <- "Local News"
+
+trump.localnews <- svytable((~date+localnews),design=subset(svy.dat,presvote==2)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+trump.localnews$presvote <- "Trump voters"
+trump.localnews$newssource[trump.localnews$localnews==1] <- "Local News"
+
+strong.localnews <- svytable((~date+localnews),design=subset(svy.dat,strongpartisan==1)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+strong.localnews$strongpartisan <- "Strong partisans"
+strong.localnews$newssource[strong.localnews$localnews==1] <- "Local News"
+
+weak.localnews <- svytable((~date+localnews),design=subset(svy.dat,strongpartisan==0)) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+  
+weak.localnews$strongpartisan <- "Weak partisans"
+weak.localnews$newssource[weak.localnews$localnews==1] <- "Local News"
+
+sources <- bind_rows(fox, cnn, msnbc, facebook, localnews)
+
+sourcedat <- bind_rows(dems.fox, reps.fox, inds.fox, dems.cnn, reps.cnn, inds.cnn, dems.msnbc, reps.msnbc, inds.msnbc, dems.facebook, reps.facebook, inds.facebook, dems.localnews, reps.localnews, inds.localnews)
+
+sourcedat2 <- bind_rows(biden.fox, trump.fox, biden.cnn, trump.cnn, biden.msnbc, trump.msnbc, biden.facebook, trump.facebook, biden.localnews, trump.localnews)
+
+sourcedat3 <- bind_rows(strong.fox, weak.fox, strong.cnn, weak.cnn, strong.msnbc, weak.msnbc, strong.facebook, weak.facebook, strong.localnews, weak.localnews)
+
+sources$date <- as.Date(sources$date)
+sourcedat$date <- as.Date(sourcedat$date)
+sourcedat2$date <- as.Date(sourcedat2$date)
+sourcedat3$date <- as.Date(sourcedat3$date)
+
+
+
+sources <- filter(sources, !is.na(newssource))
+sourcedat <- filter(sourcedat, !is.na(newssource))
+sourcedat2 <- filter(sourcedat2, !is.na(newssource))
+sourcedat3 <- filter(sourcedat3, !is.na(newssource))
+
+
+
+sources.pid <- ggplot(data=subset(sourcedat, partyid!="Independents"), aes(x=date, y=Freq, colour=newssource, group=newssource)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
+                     name="In the past week, did you \nget news from any of \nthe following sources?") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
+  facet_wrap(~partyid)
+
+sources.presvote <- ggplot(data=sourcedat2, aes(x=date, y=Freq, colour=newssource, group=newssource)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
+                     name="In the past week, did you \nget news from any of \nthe following sources?") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
+  facet_wrap(~presvote)
+
+sources.partisan <- ggplot(data=sourcedat3, aes(x=date, y=Freq, colour=newssource, group=newssource)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
+                     name="In the past week, did you \nget news from any of \nthe following sources?") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
+  facet_wrap(~strongpartisan)
+
+sourcesplot <- ggplot(data=sources, aes(x=date, y=Freq, colour=newssource, group=newssource)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
+                     name="In the past week, did you \nget news from any of \nthe following sources?") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE)
+
+```
+

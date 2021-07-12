@@ -25,7 +25,7 @@ In response, researchers often construct post-stratification weights to correct 
 
 Most recently, I created survey weights for a project fielded with the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/), but the task proved to be fairly involved. First, accessing ACS data requires navigating the Census Bureau's fairly labyrinthine website. In addition, the size of the national ACS files -- totaling over 10 gigabytes -- is far beyond what my computer's memory could possibly handle and crashed R Studio the first time I tried to read them in.
 
-I wrote this blog post for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R. To follow along, you will need a basic working knowledge of R. You'll also use the `{survey}`, `{magrittr}`, and `{anesrake}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven't installed them already.
+In this blog post, I will walk through the process of accessing ACS data and using it to construct survey weights to your data in R. I wrote this piece for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R. To follow along, you will need a basic working knowledge of R. You'll also use the `{survey}`, `{magrittr}`, and `{anesrake}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven't installed them already.
 
 
 Accessing and downloading ACS data
@@ -33,7 +33,7 @@ Accessing and downloading ACS data
 
 Personally, I find [the ACS website](https://www.census.gov/programs-surveys/acs) somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau's pretabulated data products, but for our purposes we need data that we can read in and reshape directly.
 
-For this, we use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau's File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. 
+For this, we use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau's File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. I turn to the most recent data (2019).
 
 ## A quick note on ACS time periods
 
@@ -41,56 +41,41 @@ Remember, the ACS provides estimates for a specific given time period: one year,
 
 Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period. For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.
 
-This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size.
+This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size. If both estimates are available for your year in question, which one should you use? 
 
-If both estimates are available for your year in question, which one should you use? 
+For rapidly changing geographic areas, 1-year data are best as the current data is more likely to show yearly fluctuations, but are only available for geographic areas with at least 65,000 people. If you are hoping to illustrate a smooth trend, however, 5-year data may be best since the 5-year periods overlap. Above all, **you must consistently use the same estimate** so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)[^1] and stick with them.
 
-https://iecam.illinois.edu/blog/whats-the-difference-between-1-year-and-5-year-american-community-survey-acs-data/
+For this post, I will be using the 5-year data. Regardless of which period you choose, you should be in a directory filled with .zip files, following the general path:
 
+`www2.census.gov/programs-surveys/acs/data/pums/{YEAR}/{1-Year/5-Year}`
 
-Above all, **you must consistently use the same estimate** so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)[^1] and stick with them.
+How do you interpret these zip files, to pick the appropriate data? Their names are a construction using three important features of the data:
 
+`{file format}_{record type}{state}.zip`
 
+File format should take on two values: 'unix', denoting SAS datasets, and 'csv', denoting comma separated value files. Record type is either 'h', denoting housing files, or 'p', denoting person files. Finally, the file name includes the [two-letter state abbreviation code](https://pe.usps.com/text/pub28/28apb.htm), with the abbreviation "us" denoting the nationwide data.
 
-
-PUMS files on the Census Bureau’s FTP site are stored as zip files. The system fornaming and displaying the PUMS files is based on three file features: the file
-format, the record type, and the state abbreviation.
-1. File formats are comma separated value files (csv), SAS data sets for
-older PC versions of SAS (pc),* or SAS datasets for UNIX and recent PC
-versions of SAS (unix).
-2. Record types are housing files (h) or person files (p).
-3. State (or state equivalent) abbreviations are two letter labels, such as
-“tx” for Texas and “dc” for District of Columbia. The abbreviation for the file
-containing all records in the United States is “us”.
+I prefer to work with the .csv files. Because I am constructing weighting targets for the population of all American adults, I need the person record type for the "us" geography. So, I find "csv_pus.zip" and download the file. Once you download the file, unzip it (on Mac, you can right click and open with Archive utility). You should be able to see a README .pdf file, and then your .csv data. Then move the folder to an appropriate working directory to start constructing weights in R.
 
 
 Reading ACS data into R using `{fread}`
 ======
+You'll 
+
 
 Creating population benchmarks with `{survey}`
 ======
 
-Setup
-======
 
-To start, you'll need to read in the necessary packages and then the data. Beyond `{survey}` for weighted analysis and `{tidyverse}` to use ggplot2 to visualize results, I use a few additional packages: `{haven}`, `{magrittr}`, and `{plyr}`. Since my data is from a .dta file, I use `{haven}` to read the data into R. I also use the function `multiply_by()` and the pipe operator, `%>%`, from the `{magrittr}` package. Finally, when manipulating my plot data I rely on the `ddply()` function from `{plyr}`.
 
-```{r read in packages, message=FALSE}
-library(haven)
-library(survey)
-library(tidyverse)
-library(magrittr)
-library(plyr)
-dat <- read_dta("dfp_covid_tracking_poll.dta")
-```
-
-Weights are generally stored in a column within your dataframe, and may differ depending on which population you are attempting to represent with your data. You should be able to identify the weights and their appropriate variable name using the codebook. Here, we weight to the American adult populations using the variable `nationalweight`.
 
 
 Conclusion
 ======
 
-https://iecam.illinois.edu/blog/whats-the-difference-between-1-year-and-5-year-american-community-survey-acs-data/
+
 
 
 [^1]: While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.
+
+[^2]: In Qualtrics, this can be done by clicking on the "Data & Analysis" tab, selecting the "Export & Import" dropdown tab, selecting "Export Data..." and picking your file choice.
