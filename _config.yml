@@ -81,9 +81,9 @@ analytics:
 author:
   name             : "Zachary Hertz"
   avatar           : "profile.png"
-  bio              : "Aspiring graduate student in political science."
-  location         : "Somerville, MA"
-  employer         : "Tufts University"
+  bio              : "Graduate student in political science."
+  location         : "Chicago, IL"
+  employer         : "University of Chicago"
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   googlescholar    : # "http://yourfullgooglescholarurl.com"
   email            : "zlhertz@uchicago.edu"

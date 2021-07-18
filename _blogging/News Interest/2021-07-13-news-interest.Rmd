@@ -8,7 +8,7 @@ output:
       - "--wrap=preserve"
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
-date: 2021-07-20
+date: 2021-07-13
 permalink: /posts/2021/07/news-interest
 toc: true
 tags:
@@ -27,7 +27,7 @@ newwave$wave <- 25
 dfp <- bind_rows(dfp, newwave)
 ```
 
-```{r}
+```{r recoding, include=FALSE}
 dfp$pid3 <- NA
 dfp$pid3[dfp$pid7<4] <- 1 # Dem
 dfp$pid3[dfp$pid7>4 & dfp$pid7!=8] <- 2 # Rep
@@ -91,6 +91,9 @@ dfp$presvote[dfp$pres_2020_voted==2 | dfp$pres_2020==2] <- 2
 dfp$presvote[dfp$pres_2020_voted==3 | dfp$pres_2020==3] <- 3
 dfp$presvote[dfp$pres_2020_voted==4 | dfp$pres_2020==4] <- 4
 
+dfp$voter <- 1
+dfp$voter[dfp$presvote==4] <- 0
+
 dfp$strongpartisan <- NA
 dfp$strongpartisan <- 0
 dfp$strongpartisan[dfp$pid7==1 | dfp$pid7==7] <- 1
@@ -106,7 +109,7 @@ svy.dat <- svydesign(ids=~1, data=dfp,
 
 ```
 
-```{r}
+```{r news interest, include=FALSE}
 totalnewsint <- svytable((~date+newsinterest),design=svy.dat) %>%
   prop.table(margin = 1) %>%
   multiply_by(100) %>%  
@@ -114,6 +117,24 @@ totalnewsint <- svytable((~date+newsinterest),design=svy.dat) %>%
   as.data.frame()
 
 totalnewsint$date <- as.Date(totalnewsint$date)
+
+lc.dat <- svytable((~date+newsinterest),
+                   design=subset(svy.dat, concern=="Low concern")) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+lc.dat$concern <- "Low concern"
+
+hc.dat <- svytable((~date+newsinterest),
+                   design=subset(svy.dat, concern=="High concern")) %>%
+  prop.table(margin = 1) %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+hc.dat$concern <- "High concern"
 
 biden.dat <- svytable((~date+newsinterest),design=subset(svy.dat,presvote==1)) %>%
   prop.table(margin = 1) %>%
@@ -175,10 +196,13 @@ inds.dat$partyid <- "Independents"
 plotdat <- rbind(dems.dat, reps.dat, inds.dat)
 plotdat2 <- rbind(biden.dat, trump.dat)
 plotdat3 <- rbind(strongpartisan.dat, weakpartisan.dat)
+plotdat4 <- rbind(lc.dat, hc.dat)
 
 plotdat$date <- as.Date(plotdat$date)
 plotdat2$date <- as.Date(plotdat2$date)
 plotdat3$date <- as.Date(plotdat3$date)
+plotdat4$date <- as.Date(plotdat4$date)
+
 
 
 p <- ggplot(data=totalnewsint, aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
@@ -196,7 +220,7 @@ p <- ggplot(data=totalnewsint, aes(x=date, y=Freq, colour=newsinterest, group=ne
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
                      name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
   ggtitle("Share of Americans who closely follow political \nnews have declined 15 percent since January") +
@@ -216,7 +240,7 @@ p.pid <- ggplot(data=subset(plotdat, partyid!="Independents"), aes(x=date, y=Fre
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
                      name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
@@ -236,7 +260,7 @@ p.partisans <- ggplot(data=plotdat3, aes(x=date, y=Freq, colour=newsinterest, gr
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
                      name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
@@ -256,14 +280,34 @@ p.presvote <- ggplot(data=plotdat2, aes(x=date, y=Freq, colour=newsinterest, gro
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
                      name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
   facet_wrap(~presvote)
+
+p.concern <- ggplot(data=plotdat4, aes(x=date, y=Freq, colour=newsinterest, group=newsinterest)) +
+  theme_bw() + geom_line() +
+  theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
+  scale_color_manual(values=c("#8FE388", "#1D7874", "#9381FF", "#1B1725"), 
+                     name="Would you say you follow \nwhat’s going on in government \nand public affairs...") +
+  geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) + 
+  facet_wrap(~concern)
 ```
 
-```{r}
+```{r sources, include=FALSE}
 fox <- svytable((~date+fox),design=svy.dat) %>%
   prop.table(margin = 1) %>%
   multiply_by(100) %>%  
@@ -663,7 +707,7 @@ sources.pid <- ggplot(data=subset(sourcedat, partyid!="Independents"), aes(x=dat
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
                      name="In the past week, did you \nget news from any of \nthe following sources?") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
@@ -683,7 +727,7 @@ sources.presvote <- ggplot(data=sourcedat2, aes(x=date, y=Freq, colour=newssourc
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
                      name="In the past week, did you \nget news from any of \nthe following sources?") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
@@ -703,7 +747,7 @@ sources.partisan <- ggplot(data=sourcedat3, aes(x=date, y=Freq, colour=newssourc
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
                      name="In the past week, did you \nget news from any of \nthe following sources?") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE) +
@@ -723,10 +767,66 @@ sourcesplot <- ggplot(data=sources, aes(x=date, y=Freq, colour=newssource, group
                                    color = "black"),
         axis.text.y = element_text(size=11, 
                                    color = "black")) +
-  labs(x="Date", y="Percent", caption = "Zachary L. Hertz \nData: Data For Progress") +
+  labs(x="Date", y="Percent", caption = "Dotted line at January 20, Inauguration Day.\nZachary L. Hertz \nData: Data For Progress") +
   scale_color_manual(values=c("#7180AC", "#DB9D47", "#FF784F", "#8FC0A9", "#2B4570"), 
                      name="In the past week, did you \nget news from any of \nthe following sources?") +
   geom_vline(xintercept = as.numeric(as.Date("2021-01-20")), linetype=4, show.legend = TRUE)
 
 ```
+
+As [cable news viewership dropped](https://www.usatoday.com/story/entertainment/tv/2021/06/30/fox-news-leads-ratings-after-falling-behind-cnn-post-election/7801577002/) over the first half of 2021, political commentators were [quick to attribute](https://twitter.com/mattyglesias/status/1412250082343280654) this drop in news interest to the Biden administration. But the first half of 2021 has also seen the Covid-19 pandemic -- one of the largest news stories in 2020 -- rapidly drop in salience since January thanks to falling infection rates and the largely successful vaccine rollout. As a result, it remains difficult to determine what role the Biden administration and the decreased need to closely follow the pandemic have played as potential drivers of the drop in news interest. I used [the Data for Progress Covid-19 Tracking Poll](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XJLZIN) to investigate. 
+
+
+Share of Americans who follow politics "most of the time" fell 15 percent consistently
+======
+
+The Data for Progress Covid-19 Tracking Poll, with 25 waves since April 2020, has included a number of questions tracking Americans' opinions on politics and the pandemic. As part of the survey, respondents answer a question tracking general news engagement:
+
+> Some people follow what’s going on in government and public affairs most of the time, whether there’s an election going on or not. Others aren’t as interested. Would you say you follow what’s going on in government and public affairs...
+>
+> - Most of the time 
+> - Some of the time
+> - Only now and then
+> - Hardly at all
+
+The share of American adults who say they follow politics "most of the time" dropped from 41.8 percent in January to 35.5 percent in May, marking a 15 percent decline in the highest level of news engagement. In the same time period, the share of those who follow politics "some of the time" and "hardly at all" both increased 3 percentage points, while the share of those who follow politics "only now and then" remained relatively stable.
+
+![](/images/posts/news-interest/generalnewsint.png)<!-- -->
+
+If this drop in the share of highly engaged Americans is driven mainly by the effects of the Biden administration, we might expect to see the trend in news interest differ among partisan lines. The data does not reflect a political difference in changing news interest, however. Breaking the sample down by party identification, presidential vote, and strength of partisan identification, we see a consistent 15 percent decline in the highest level of news engagement between January and May.
+
+![](/images/posts/news-interest/pid.png)<!-- -->
+
+Democrats and Republicans had similar trends in the levels of their news interest between October 2020 and January 2021. But while the share of Republicans who followed political news "most of the time" immediately started decreasing from 47.3 percent in January 2021 to 39.8 percent in May 2021, the share of Democrats who were highly-engaged followers hovered around 47 percent until March 2021, but declined to 38 percent by May.
+
+We might also expect that any observable effects of the Biden administration on news interest are conditional on having voted for or against his presidency. Unfortunately, the number of nonvoters in the sample is too small to draw reliable conclusions from, but we might imagine that news interest changed differently among Biden voters, who might become less engaged under an in-party administration, and Trump voters, who suddenly find themselves in the outparty. But while total levels of those most interested in following government affairs was higher among the voters than partisans as a whole, the share of respondents who follow government "most of the time" still dropped 15 percent among both Biden and Trump voters.
+
+![](/images/posts/news-interest/presvote.png)<!-- -->
+
+Notably, the share of those who say they follow government and public affairs "most of the time" rises through the late fall of 2020 among voters from both parties, a trend that is not visible when subsetting by party identification instead of presidential vote choice. But both Biden voters and Trump voters see significant declines of 15 percent in the share of respondents who follow the news most closely between January and May of 2021.
+
+Another approach to investigate whether the drop in news interest differs by political engagement 
+
+![](/images/posts/news-interest/partisans.png)<!-- -->
+
+
+
+
+
+
+Heading
+======
+
+![](/images/posts/news-interest/sources.png)<!-- -->
+
+![](/images/posts/news-interest/sourcespartisans.png)<!-- -->
+
+![](/images/posts/news-interest/sourcespid.png)<!-- -->
+
+![](/images/posts/news-interest/sourcespresvote.png)<!-- -->
+
+
+Conclusion
+======
+
 
