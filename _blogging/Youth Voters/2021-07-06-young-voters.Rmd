@@ -24,7 +24,7 @@ ces12 <- read_dta("../../../CCES/data/2012 data/CCES12_Common_VV.dta")
 ces14 <- read_dta("../../../CCES/data/2014 data/CCES14_Common_Content_Validated.dta")
 ces16 <- read_dta("../../../CCES/data/2016 data/CCES16_Common_OUTPUT_Feb2018_VV.dta")
 ces18 <- read_dta("../../../CCES/data/2018 data/cces18_common_vv.dta")
-ces20 <- read.csv("../../../CCES/data/2020 data/CCES20_Common_OUTPUT.csv")
+ces20 <- read.csv("../../../CCES/data/2020 data/CES20_Common_OUTPUT_vv.csv")
 ```
 
 ```{r recoding, include=FALSE}
@@ -89,8 +89,8 @@ ces16$voted <- 0
 ces16$voted[ces16$CL_E2016GVM!=""] <- 1
 ces18$voted <- 0
 ces18$voted[is.na(ces18$CL_2018gvm)==FALSE] <- 1
-# ces20$voted <- 0
-# ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
+ces20$voted <- 0
+ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
 
 # Self reported voter reg
 ces10$votereg <- ces10$V203
@@ -157,6 +157,7 @@ voted.10$year <- 2010
 voted.10$group <- "All adults"
 
 yv.10 <- subset(ces10.wt, yvtr==1)
+youth.10 <- subset(ces10.wt, youth==1)
 
 y.voted.10 <- svytable(~saidvote, 
                      design=yv.10) %>%
@@ -206,6 +207,7 @@ voted.12$year <- 2012
 voted.12$group <- "All adults"
 
 yv.12 <- subset(ces12.wt, yvtr==1)
+youth.12 <- subset(ces12.wt, youth==1)
 
 y.voted.12 <- svytable(~saidvote, 
                      design=yv.12) %>%
@@ -253,6 +255,7 @@ voted.14$year <- 2014
 voted.14$group <- "All adults"
 
 yv.14 <- subset(ces14.wt, yvtr==1)
+youth.14 <- subset(ces14.wt, youth==1)
 
 y.voted.14 <- svytable(~saidvote, 
                      design=yv.14) %>%
@@ -300,6 +303,7 @@ voted.16$year <- 2016
 voted.16$group <- "All adults"
 
 yv.16 <- subset(ces16.wt, yvtr==1)
+youth.16 <- subset(ces16.wt, youth==1)
 
 y.voted.16 <- svytable(~saidvote, 
                      design=yv.16) %>%
@@ -348,6 +352,7 @@ voted.18$year <- 2018
 voted.18$group <- "All adults"
 
 yv.18 <- subset(ces18.wt, yvtr==1)
+youth.18 <- subset(ces18.wt, youth==1)
 
 y.voted.18 <- svytable(~saidvote, 
                      design=yv.18) %>%
@@ -395,6 +400,7 @@ voted.20$year <- 2020
 voted.20$group <- "All adults"
 
 yv.20 <- subset(ces20.wt, yvtr==1)
+youth.20 <- subset(ces20.wt, youth==1)
 
 y.voted.20 <- svytable(~saidvote, 
                      design=yv.20) %>%
@@ -430,7 +436,211 @@ y.registered.20$group <- "Adults ages 18-20"
 ```
 
 
+```{r validated votes}
+# 2010 validated voters
+valvote.10 <- svytable(~voted, 
+                     design=ces10.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.10$year <- 2010
+valvote.10$group <- "All adults"
+
+y.valvote.10 <- svytable(~voted, 
+                     design=yv.10) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.10$year <- 2010
+y.valvote.10$group <- "Adults ages 18-20"
+
+youth.valvote.10 <- svytable(~voted, 
+                     design=youth.10) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.10$year <- 2010
+youth.valvote.10$group <- "Adults ages 18-29"
+
+# 2012 validated voters
+valvote.12 <- svytable(~voted, 
+                     design=ces12.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.12$year <- 2012
+valvote.12$group <- "All adults"
+
+y.valvote.12 <- svytable(~voted, 
+                     design=yv.12) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.12$year <- 2012
+y.valvote.12$group <- "Adults ages 18-20"
+
+youth.valvote.12 <- svytable(~voted, 
+                     design=youth.12) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.12$year <- 2012
+youth.valvote.12$group <- "Adults ages 18-29"
+
+# 2014 validated voters
+valvote.14 <- svytable(~voted, 
+                     design=ces14.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.14$year <- 2014
+valvote.14$group <- "All adults"
+
+y.valvote.14 <- svytable(~voted, 
+                     design=yv.14) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.14$year <- 2014
+y.valvote.14$group <- "Adults ages 18-20"
+
+youth.valvote.14 <- svytable(~voted, 
+                     design=youth.14) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.14$year <- 2014
+youth.valvote.14$group <- "Adults ages 18-29"
+
+# 2016 validated voters
+valvote.16 <- svytable(~voted, 
+                     design=ces16.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.16$year <- 2016
+valvote.16$group <- "All adults"
+
+y.valvote.16 <- svytable(~voted, 
+                     design=yv.16) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.16$year <- 2016
+y.valvote.16$group <- "Adults ages 18-20"
+
+youth.valvote.16 <- svytable(~voted, 
+                     design=youth.16) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.16$year <- 2016
+youth.valvote.16$group <- "Adults ages 18-29"
+
+# 2018 validated voters
+
+valvote.18 <- svytable(~voted, 
+                     design=ces18.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.18$year <- 2018
+valvote.18$group <- "All adults"
+
+y.valvote.18 <- svytable(~voted, 
+                     design=yv.18) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.18$year <- 2018
+y.valvote.18$group <- "Adults ages 18-20"
+
+youth.valvote.18 <- svytable(~voted, 
+                     design=youth.18) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.18$year <- 2018
+youth.valvote.18$group <- "Adults ages 18-29"
+
+# 2020 validated voters
+valvote.20 <- svytable(~voted, 
+                     design=ces20.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+valvote.20$year <- 2020
+valvote.20$group <- "All adults"
+
+y.valvote.20 <- svytable(~voted, 
+                     design=yv.20) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+y.valvote.20$year <- 2020
+y.valvote.20$group <- "Adults ages 18-20"
+
+youth.valvote.20 <- svytable(~voted, 
+                     design=youth.20) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+
+youth.valvote.20$year <- 2020
+youth.valvote.20$group <- "Adults ages 18-29"
+```
+
+
 ```{r combine data, include=FALSE}
+valvote.data <- rbind(valvote.10, y.valvote.10, 
+                   valvote.12, y.valvote.12,
+                   valvote.14, y.valvote.14,
+                   valvote.16, y.valvote.16,
+                   valvote.18, y.valvote.18,
+                   valvote.20, y.valvote.20)
+
+valvote.y.data <- rbind(valvote.10, youth.valvote.10, 
+                   valvote.12, youth.valvote.12,
+                   valvote.14, youth.valvote.14,
+                   valvote.16, youth.valvote.16,
+                   valvote.18, youth.valvote.18,
+                   valvote.20, youth.valvote.20)
+
 vote.data <- rbind(voted.10, y.voted.10, 
                    voted.12, y.voted.12,
                    voted.14, y.voted.14,
@@ -447,10 +657,16 @@ reg.data <- rbind(registered.10, y.registered.10,
 
 reg.data$year <- as.factor(reg.data$year)
 vote.data$year <- as.factor(vote.data$year)
+valvote.data$year <- as.factor(valvote.data$year)
+valvote.y.data$year <- as.factor(valvote.y.data$year)
+
 
 vote.data.youth <- subset(vote.data, group=="Adults ages 18-20")
 reg.data.youth <- subset(reg.data, group=="Adults ages 18-20")
 
+export <- subset(valvote.y.data, voted==1 & group=="Adults ages 18-29")
+
+write.csv(export, "youth-voting-data2.csv")
 ```
 
 ```{r ns for interpretation, include=FALSE}
@@ -526,6 +742,50 @@ p.vote <- ggplot(data=subset(vote.data, saidvote!=0),
   labs(caption = "Zachary L. Hertz | Data: CES") +
   scale_color_manual(values=c("#66A182", "#031927")) +
   ggtitle("Self-reported vote among adults \nage 18-20 has broadly increased")
+
+p.valvote <- ggplot(data=subset(valvote.data, voted!=0), 
+                 aes(x=year, y=Freq, group=group, color=group)) + 
+  geom_line(size=1.5) + theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=12),
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.text=element_text(size=13),
+        axis.title.x = element_text(size=16),
+        axis.title.y = element_text(size=15),
+        axis.text.x = element_text(size=13, 
+                                   color = "black"),
+        axis.text.y = element_text(size=13, 
+                                   color = "black")) + 
+  ylab("Percent Voted") +
+  xlab("Year") +
+  labs(caption = "Zachary L. Hertz | Data: CES") +
+  scale_color_manual(values=c("#66A182", "#031927")) +
+  ggtitle("")
+
+p.y.valvote <- ggplot(data=subset(valvote.y.data, voted!=0), 
+                 aes(x=year, y=Freq, group=group, color=group)) + 
+  geom_line(size=1.5) + theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=12),
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.text=element_text(size=13),
+        axis.title.x = element_text(size=16),
+        axis.title.y = element_text(size=15),
+        axis.text.x = element_text(size=13, 
+                                   color = "black"),
+        axis.text.y = element_text(size=13, 
+                                   color = "black")) + 
+  ylab("Percent Voted") +
+  xlab("Year") +
+  labs(caption = "Zachary L. Hertz | Data: CES") +
+  scale_color_manual(values=c("#D87CAC", "#031927")) +
+  ggtitle("")
 
 # ggsave("name.png", width = 7, height = 5, units = c("in"), dpi=700)
 

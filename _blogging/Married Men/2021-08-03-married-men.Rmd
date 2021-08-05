@@ -1,0 +1,92 @@
+---
+title: "Were Married Men Voters More Sexist in 2016?"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-08-03
+permalink: /posts/2021/07/married-men
+toc: true
+tags:
+  - sexism
+  - CES
+  - voting
+---
+
+
+```{r read in data, include=FALSE}
+library(haven)
+ces12 <- read_dta("../../../CCES/data/2012 data/CCES12_Common_VV.dta")
+ces16 <- read_dta("../../../CCES/data/2016 data/CCES16_Common_OUTPUT_Feb2018_VV.dta")
+ces20 <- read.csv("../../../CCES/data/2020 data/CCES20_Common_OUTPUT.csv")
+```
+
+
+```{r recoding, include=FALSE}
+# recode age from birth year
+ces12$age <- 2012-ces12$birthyr
+ces16$age <- 2016-ces16$birthyr
+ces20$age <- 2020-ces20$birthyr
+
+# Validated Turnout ####
+ces12$voted <- 0
+ces12$voted[ces12$e2012g!="MatchedNoVote" & ces12$e2012g != ""] <- 1
+ces16$voted <- 0
+ces16$voted[ces16$CL_E2016GVM!=""] <- 1
+# ces20$voted <- 0
+# ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
+
+# Self reported voting
+ces12$saidvote <- 0
+ces12$saidvote[ces12$CC401==5] <- 1
+ces16$saidvote <- 0
+ces16$saidvote[ces16$CC16_401==5] <- 1
+ces20$saidvote <- 0
+ces20$saidvote[ces20$CC20_401==5] <- 1
+
+# Vote choice
+ces12$presvote <- NA
+ces12$presvote[ces12$CC410a==1] <- "Democrat"
+ces12$presvote[ces12$CC410a==2] <- "Republican"
+ces12$presvote[ces12$CC410a==4] <- "Other"
+
+ces16$presvote <- NA
+ces16$presvote[ces16$CC16_410a==1] <- "Republican"
+ces16$presvote[ces16$CC16_410a==2] <- "Democrat"
+ces16$presvote[ces16$CC16_410a<6 &ces16$CC16_410a>2] <- "Other"
+
+ces20$presvote <- NA
+ces20$presvote[ces20$CC20_410==1] <- "Democrat"
+ces20$presvote[ces20$CC20_410==2] <- "Republican"
+ces20$presvote[ces20$CC20_410==4] <- "Other"
+
+
+# Hostile Sexism ####
+
+# Combine scores
+cces20$sexism <- cces20$CC20_440c+cces20$CC20_440d
+# Individual measures
+cces20$sexism_a <- cces20$CC20_440c
+cces20$sexism_b <- cces20$CC20_440d
+# Rescale
+cces20$sexism <- -1*(cces20$sexism - 6)
+cces20$sexism3[cces20$sexism > 0] <- 1
+cces20$sexism3[cces20$sexism == 0] <- 0
+cces20$sexism3[cces20$sexism < 0] <- -1
+```
+
+
+```{r design objects, include=FALSE}
+library(survey)
+ces12.wt <- svydesign(ids=~1, data=ces12,
+                     weights=ces12$V103)
+ces16.wt <- svydesign(ids=~1, data=ces16,
+                     weights=ces16$commonweight_post)
+ces20 <- subset(ces20, is.na(ces20$commonpostweight)==FALSE)
+ces20.wt <- svydesign(ids=~1, data=ces20,
+                     weights=ces20$commonpostweight)
+```

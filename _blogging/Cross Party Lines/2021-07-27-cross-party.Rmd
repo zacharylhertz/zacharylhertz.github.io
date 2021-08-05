@@ -1,0 +1,239 @@
+---
+title: "Estimating the Extent of Presidential Cross-Party Voting in 2016 and 2020"
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-07-27
+permalink: /posts/2021/07/cross-party
+toc: true
+tags:
+  - partisanship
+  - CES
+  - voting
+---
+
+```{r read in data, include=FALSE}
+library(haven)
+ces12 <- read_dta("../../../CCES/data/2012 data/CCES12_Common_VV.dta")
+ces16 <- read_dta("../../../CCES/data/2016 data/CCES16_Common_OUTPUT_Feb2018_VV.dta")
+ces20 <- read.csv("../../../CCES/data/2020 data/CCES20_Common_OUTPUT.csv")
+```
+
+```{r recoding, include=FALSE}
+# recode age from birth year
+ces12$age <- 2012-ces12$birthyr
+ces16$age <- 2016-ces16$birthyr
+ces20$age <- 2020-ces20$birthyr
+
+# Validated Turnout ####
+ces12$voted <- 0
+ces12$voted[ces12$e2012g!="MatchedNoVote" & ces12$e2012g != ""] <- 1
+ces16$voted <- 0
+ces16$voted[ces16$CL_E2016GVM!=""] <- 1
+# ces20$voted <- 0
+# ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
+
+# Self reported voter reg
+ces12$saidreg <- 0
+ces12$saidreg[ces12$votereg_post==1] <- 1
+ces16$saidreg <- 0
+ces16$saidreg[ces16$votereg_post==1] <- 1
+ces20$saidreg <- 0
+ces20$saidreg[ces20$votereg_post==1] <- 1
+
+
+# Self reported voting
+ces12$saidvote <- 0
+ces12$saidvote[ces12$CC401==5] <- 1
+ces16$saidvote <- 0
+ces16$saidvote[ces16$CC16_401==5] <- 1
+ces20$saidvote <- 0
+ces20$saidvote[ces20$CC20_401==5] <- 1
+
+# Vote choice
+ces12$presvote <- NA
+ces12$presvote[ces12$CC410a==1] <- "Democrat"
+ces12$presvote[ces12$CC410a==2] <- "Republican"
+ces12$presvote[ces12$CC410a==4] <- "Other"
+
+ces16$presvote <- NA
+ces16$presvote[ces16$CC16_410a==1] <- "Republican"
+ces16$presvote[ces16$CC16_410a==2] <- "Democrat"
+ces16$presvote[ces16$CC16_410a<6 &ces16$CC16_410a>2] <- "Other"
+
+ces20$presvote <- NA
+ces20$presvote[ces20$CC20_410==1] <- "Democrat"
+ces20$presvote[ces20$CC20_410==2] <- "Republican"
+ces20$presvote[ces20$CC20_410==4] <- "Other"
+```
+
+```{r design objects, include=FALSE}
+library(survey)
+ces12.wt <- svydesign(ids=~1, data=ces12,
+                     weights=ces12$V103)
+ces16.wt <- svydesign(ids=~1, data=ces16,
+                     weights=ces16$commonweight_post)
+ces20 <- subset(ces20, is.na(ces20$commonpostweight)==FALSE)
+ces20.wt <- svydesign(ids=~1, data=ces20,
+                     weights=ces20$commonpostweight)
+```
+
+
+```{r presvotes, include=FALSE}
+library(magrittr)
+presvote12 <- svytable(~presvote, 
+                     design=ces12.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+presvote12$year <- "2012"
+
+presvote16 <- svytable(~presvote, 
+                     design=ces16.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+presvote16$year <- "2016"
+
+presvote20 <- svytable(~presvote, 
+                     design=ces20.wt) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+presvote20$year <- "2020"
+
+presvote.data <- rbind(presvote12, presvote16, presvote20)
+presvote.data$year <- as.factor(presvote.data$year)
+
+```
+
+```{r 2012 presvote by pid, include=FALSE}
+dem.presvote12 <- svytable((~pid3+presvote), 
+                     design=subset(ces12.wt, pid3==1)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+dem.presvote12$year <- "2012"
+
+rep.presvote12 <- svytable((~pid3+presvote), 
+                     design=subset(ces12.wt, pid3==2)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+rep.presvote12$year <- "2012"
+
+ind.presvote12 <- svytable((~pid3+presvote), 
+                     design=subset(ces12.wt, pid3==3)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+ind.presvote12$year <- "2012"
+
+
+dem.presvote16 <- svytable((~pid3+presvote), 
+                     design=subset(ces16.wt, pid3==1)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+dem.presvote16$year <- "2016"
+
+rep.presvote16 <- svytable((~pid3+presvote), 
+                     design=subset(ces16.wt, pid3==2)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+rep.presvote16$year <- "2016"
+
+ind.presvote16 <- svytable((~pid3+presvote), 
+                     design=subset(ces16.wt, pid3==3)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+ind.presvote16$year <- "2016"
+
+
+dem.presvote20 <- svytable((~pid3+presvote), 
+                     design=subset(ces20.wt, pid3==1)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+dem.presvote20$year <- "2020"
+
+rep.presvote20 <- svytable((~pid3+presvote), 
+                     design=subset(ces20.wt, pid3==2)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+rep.presvote20$year <- "2020"
+
+ind.presvote20 <- svytable((~pid3+presvote), 
+                     design=subset(ces20.wt, pid3==3)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+ind.presvote20$year <- "2020"
+
+pid.presvotedata <- rbind(dem.presvote12, rep.presvote12, ind.presvote12,
+                          dem.presvote16, rep.presvote16, ind.presvote16,
+                          dem.presvote20, rep.presvote20, ind.presvote20)
+
+pid.presvotedata$year <- as.factor(pid.presvotedata$year)
+pid.presvotedata$newpid[pid.presvotedata$pid3==1] <- "Democrats"
+pid.presvotedata$newpid[pid.presvotedata$pid3==2] <- "Republicans"
+
+pidvoted16 <- svytable(~pid3, 
+                     design=subset(ces16.wt, voted==1)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
+```
+
+
+
+```{r plots, include=FALSE}
+library(ggplot2)
+
+p <- ggplot(subset(pid.presvotedata, is.na(pid.presvotedata$newpid)==FALSE), aes(x=year, y=Freq, group=presvote, color=presvote)) +
+  geom_line() +
+  theme_bw() +
+   theme(plot.title = element_text(hjust = 0.2, 
+                                  size = 19), 
+        plot.caption = element_text(hjust = 1,
+                                    face = "italic", size=10),
+        legend.text=element_text(size=9),
+        legend.title = element_text(size=10),
+        axis.title.x = element_text(size=14),
+        axis.title.y = element_text(size=14),
+        axis.text.x = element_text(size=11, 
+                                   color = "black"),
+        axis.text.y = element_text(size=11, 
+                                   color = "black")) +
+  labs(x="Election", y="Percent", caption = "Zachary L. Hertz\nData: CES") +
+  scale_color_manual(values=c("#113e88", "#93867F", "#bd0c12"), name="Presidential Vote") +
+  facet_wrap(~newpid) +
+  ggtitle("Presidential vote choice by party identification")
+
+p
+```
+
+
+
+Intro Paragraph.
