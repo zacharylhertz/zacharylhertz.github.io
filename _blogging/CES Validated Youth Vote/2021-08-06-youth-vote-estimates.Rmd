@@ -63,6 +63,17 @@ ces20$voted[is.na(ces20$CL_2020gvm)==FALSE] <- 1
 # totalyouth <- c(5245, 7851, 9991, 11294, 12071, 11864)
 # n.dat <- as.data.frame(cbind(year, totalyouth))
 # n.dat$year <- as.factor(n.dat$year)
+
+ces20 <- subset(ces20, is.na(ces20$commonpostweight)==FALSE)
+ces20.wt <- svydesign(ids=~1, data=ces20,
+                     weights=ces20$commonpostweight)
+library(magrittr)
+electorate.estimate <- svytable(~youth, 
+                     design=subset(ces20.wt, ces20$voted==1)) %>%
+  prop.table() %>%
+  multiply_by(100) %>%  
+  round(digits=1) %>%
+  as.data.frame()
 ```
 
 
