@@ -1,0 +1,74 @@
+---
+title: "Lucid Audit"
+author: "Zachary L. Hertz"
+date: "6/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(here)
+library(tidyverse)
+library(haven)
+```
+
+
+```{r}
+jan <- read_dta("Covid_tracker_w20_weighted.dta")
+feb <- read_dta("Covid_tracker_w22_weighted.dta")
+mar <- read_dta("Covid_tracker_w23_weighted.dta")
+may <- read_dta("Covid_tracker_w25_weighted.dta")
+
+jan$time <- jan$time*60
+feb$time <- feb$time*60
+mar$time <- mar$time*60
+may$time <- may$time*60
+
+
+jan$time[jan$time>1800] <- 1800
+feb$time[feb$time>1800] <- 1800
+mar$time[mar$time>1800] <- 1800
+may$time[may$time>1800] <- 1800
+
+jan$time.min <- jan$time/60
+feb$time.min <- feb$time/60
+mar$time.min <- mar$time/60
+may$time.min <- may$time/60
+
+
+```
+
+
+
+```{r data / recoding}
+oct <- read.csv("oct.csv")
+may2 <- read.csv("may.csv")
+oct$time <- oct$duration*60
+may2$time <- may2$Duration..in.seconds.
+may2$time[may2$time>1800] <- 1800
+oct$time[oct$time>1800] <- 1800
+```
+
+```{r}
+jan$month <- "January"
+may$month <- "May"
+p.dat <- bind_rows(jan, may)
+
+plot <- ggplot(p.dat, aes(x=time.min)) +
+  geom_histogram(binwidth = 1.2) +
+  xlim(0,31) +
+  facet_grid(cols = vars(month))
+
+jan.plot <- ggplot(jan, aes(x=time.min)) + 
+  geom_histogram(binwidth = 1.2) + 
+  xlim(0,31)
+
+may.plot <- ggplot(may, aes(x=time.min)) + 
+  geom_histogram(binwidth = 1.2) + 
+  xlim(0,31)
+```
+
+```{r, echo=TRUE}
+plot
+```
+

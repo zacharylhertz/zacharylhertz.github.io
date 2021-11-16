@@ -1,0 +1,224 @@
+---
+title: "Investigating Concerns about Lucid Theorem Data Quality"
+author: "Zachary L. Hertz"
+date: "6/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(here)
+library(tidyverse)
+library(lubridate)
+library(anytime)
+library(gganimate)
+library(gifski)
+library(plyr)
+```
+
+```{r}
+dat <- read.csv("dfp_raw_timing.csv")
+dat$date <- as.Date(dat$date, "%m-%d-%Y")
+dat$time <- dat$duration*60
+dat$month <- month(dat$date)
+dat$year <- year(dat$date)
+
+dat$monthyear[dat$month == 04 & dat$year == 2020] <- "April 2020"
+dat$monthyear[dat$month == 05 & dat$year == 2020] <- "May 2020"
+dat$monthyear[dat$month == 06 & dat$year == 2020] <- "June 2020"
+dat$monthyear[dat$month == 07 & dat$year == 2020] <- "July 2020"
+dat$monthyear[dat$month == 08 & dat$year == 2020] <- "August 2020"
+dat$monthyear[dat$month == 09 & dat$year == 2020] <- "September 2020"
+dat$monthyear[dat$month == 10 & dat$year == 2020] <- "October 2020"
+dat$monthyear[dat$month == 12 & dat$year == 2020] <- "December 2020"
+dat$monthyear[dat$month == 01 & dat$year == 2021] <- "January 2021"
+dat$monthyear[dat$month == 02 & dat$year == 2021] <- "February 2021"
+dat$monthyear[dat$month == 03 & dat$year == 2021] <- "March 2021"
+dat$monthyear[dat$month == 04 & dat$year == 2021] <- "April 2021"
+dat$monthyear[dat$month == 05 & dat$year == 2021] <- "May 2021"
+dat$monthyear[dat$month == 06 & dat$year == 2021] <- "June 2021"
+
+# dat$monthyear <- anydate(dat$monthyear)
+
+
+# apr20 <- subset(dat, month == 04 & year == 2020)
+# apr20$median <- median(apr20$duration)
+# may20 <- subset(dat, month == 05 & year == 2020)
+# may20$median <- median(may20$duration)
+# jun20 <- subset(dat, month == 06 & year == 2020)
+# jun20$median <- median(jun20$duration)
+# jul20 <- subset(dat, month == 07 & year == 2020)
+# jul20$median <- median(jul20$duration)
+# aug20 <- subset(dat, month == 08 & year == 2020)
+# aug20$median <- median(aug20$duration)
+# sept20 <- subset(dat, month == 09 & year == 2020)
+# sept20$median <- median(sept20$duration)
+# oct20 <- subset(dat, month == 10 & year == 2020)
+# oct20$median <- median(oct20$duration)
+# dec20 <- subset(dat, month == 12 & year == 2020)
+# dec20$median <- median(dec20$duration)
+# jan21 <- subset(dat, month == 01 & year == 2021)
+# jan21$median <- median(jan21$duration)
+# feb21 <- subset(dat, month == 02 & year == 2021)
+# feb21$median <- median(feb21$duration)
+# march21 <- subset(dat, month == 03 & year == 2021)
+# march21$median <- median(march21$duration)
+# apr21 <- subset(dat, month == 04 & year == 2021)
+# apr21$median <- median(apr21$duration)
+# may21 <- subset(dat, month == 05 & year == 2021)
+# may21$median <- median(may21$duration)
+
+dat$pid3 <- NA
+dat$pid3[dat$political_party<4 | dat$political_party==6] <- "Democrat"
+dat$pid3[dat$political_party==4 | dat$political_party==7] <- "Independent / Not Sure"
+dat$pid3[dat$political_party==5 | dat$political_party>7] <- "Republican"
+```
+
+
+```{r}
+dat$wave[dat$date=="2020-04-14"]<-1
+dat$wave[dat$date=="2020-04-21"]<-2
+dat$wave[dat$date=="2020-04-28"]<-3
+dat$wave[dat$date=="2020-05-05"]<-4
+dat$wave[dat$date=="2020-05-12"]<-5
+dat$wave[dat$date=="2020-05-19"]<-6
+dat$wave[dat$date=="2020-05-26"]<-7
+dat$wave[dat$date=="2020-06-09"]<-8
+dat$wave[dat$date=="2020-06-23"]<-9
+dat$wave[dat$date=="2020-07-07"]<-10
+dat$wave[dat$date=="2020-07-21"]<-11
+dat$wave[dat$date=="2020-07-28"]<-12
+dat$wave[dat$date=="2020-08-11"]<-13
+dat$wave[dat$date=="2020-09-01"]<-14
+dat$wave[dat$date=="2020-09-15"]<-15
+dat$wave[dat$date=="2020-09-22"]<-16
+dat$wave[dat$date=="2020-10-06"]<-17
+dat$wave[dat$date=="2020-10-20"]<-18
+dat$wave[dat$date=="2020-12-15"]<-19
+dat$wave[dat$date=="2021-01-12"]<-20
+dat$wave[dat$date=="2021-02-02"]<-21
+dat$wave[dat$date=="2021-02-09"]<-22
+dat$wave[dat$date=="2021-03-02"]<-23
+dat$wave[dat$date=="2021-04-06"]<-24
+dat$wave[dat$date=="2021-05-15"]<-25
+
+
+
+
+dat %>%
+  select(pid3, ideo5, duration, time, wave) %>%
+  na.omit()-> mydata
+
+med <- ddply(dat, .(date), summarise, 
+            Median = median(duration), Q1 = quantile(duration, 0.25), Q3 = quantile(duration, 0.75))
+med$IQR <- med$Q3-med$Q1
+med$min <- med$Q1 - 1.5*med$IQR
+med$max <- med$Q3 + 1.5*med$IQR
+
+Q1s <- subset(dat, wave == 1 & duration<=9.200000 | 
+                wave==2 & duration <= 9.916667 |
+                wave==3 & duration <= 10.450000 |
+                wave==4 & duration <= 9.795833 |
+                wave==5 & duration <= 10.179167 |
+                wave==6 & duration <= 9.983333 |
+                wave==7 & duration <= 10.187500 |
+                wave==8 & duration <= 10.333333 |
+                wave==9 & duration <= 10.087500 |
+                wave==10 & duration <= 9.850000 |
+                wave==11 & duration <= 9.166667 |
+                wave==12 & duration <= 9.475000 |
+                wave==13 & duration <= 9.720833 |
+                wave==14 & duration <= 10.233333 |
+                wave==15 & duration <= 9.666667 |
+                wave==16 & duration <= 9.275000 |
+                wave==17 & duration <= 9.275000 |
+                wave==18 & duration <= 9.062500 |
+                wave==19 & duration <= 8.437500 |
+                wave==20 & duration <= 9.341667 |
+                wave==21 & duration <= 8.675000 |
+                wave==22 & duration <= 9.075000 |
+                wave==23 & duration <= 9.879167 |
+                wave==24 & duration <= 9.933333 |
+                wave==25 & duration <= 9.083333)
+```
+
+```{r}
+plot.dat <- as.data.frame(round(prop.table(table(Q1s$pid3, Q1s$wave),2)*100,1))
+
+plot.dat2 <- as.data.frame(round(prop.table(table(dat$pid3, dat$wave),2)*100,1))
+
+
+plot.dat$date[plot.dat$Var2==1] <- "2020-04-14"
+plot.dat$date[plot.dat$Var2==2] <- "2020-04-21"
+plot.dat$date[plot.dat$Var2==3] <- "2020-04-28"
+plot.dat$date[plot.dat$Var2==4] <- "2020-05-05"
+plot.dat$date[plot.dat$Var2==5] <- "2020-05-12"
+plot.dat$date[plot.dat$Var2==6] <- "2020-05-19"
+plot.dat$date[plot.dat$Var2==7] <- "2020-05-26"
+plot.dat$date[plot.dat$Var2==8] <- "2020-06-09"
+plot.dat$date[plot.dat$Var2==9] <- "2020-06-23"
+plot.dat$date[plot.dat$Var2==10] <- "2020-07-07"
+plot.dat$date[plot.dat$Var2==11] <- "2020-07-21"
+plot.dat$date[plot.dat$Var2==12] <- "2020-07-28"
+plot.dat$date[plot.dat$Var2==13] <- "2020-08-11"
+plot.dat$date[plot.dat$Var2==14] <- "2020-09-01"
+plot.dat$date[plot.dat$Var2==15] <- "2020-09-15"
+plot.dat$date[plot.dat$Var2==16] <- "2020-09-22"
+plot.dat$date[plot.dat$Var2==17] <- "2020-10-06"
+plot.dat$date[plot.dat$Var2==18] <- "2020-10-20"
+plot.dat$date[plot.dat$Var2==19] <- "2020-12-15"
+plot.dat$date[plot.dat$Var2==20] <- "2021-01-12"
+plot.dat$date[plot.dat$Var2==21] <- "2021-02-02"
+plot.dat$date[plot.dat$Var2==22] <- "2021-02-09"
+plot.dat$date[plot.dat$Var2==23] <- "2021-03-02"
+plot.dat$date[plot.dat$Var2==24] <- "2021-04-06"
+plot.dat$date[plot.dat$Var2==25] <- "2021-05-15"
+
+plot.dat2$date[plot.dat2$Var2==1] <- "2020-04-14"
+plot.dat2$date[plot.dat2$Var2==2] <- "2020-04-21"
+plot.dat2$date[plot.dat2$Var2==3] <- "2020-04-28"
+plot.dat2$date[plot.dat2$Var2==4] <- "2020-05-05"
+plot.dat2$date[plot.dat2$Var2==5] <- "2020-05-12"
+plot.dat2$date[plot.dat2$Var2==6] <- "2020-05-19"
+plot.dat2$date[plot.dat2$Var2==7] <- "2020-05-26"
+plot.dat2$date[plot.dat2$Var2==8] <- "2020-06-09"
+plot.dat2$date[plot.dat2$Var2==9] <- "2020-06-23"
+plot.dat2$date[plot.dat2$Var2==10] <- "2020-07-07"
+plot.dat2$date[plot.dat2$Var2==11] <- "2020-07-21"
+plot.dat2$date[plot.dat2$Var2==12] <- "2020-07-28"
+plot.dat2$date[plot.dat2$Var2==13] <- "2020-08-11"
+plot.dat2$date[plot.dat2$Var2==14] <- "2020-09-01"
+plot.dat2$date[plot.dat2$Var2==15] <- "2020-09-15"
+plot.dat2$date[plot.dat2$Var2==16] <- "2020-09-22"
+plot.dat2$date[plot.dat2$Var2==17] <- "2020-10-06"
+plot.dat2$date[plot.dat2$Var2==18] <- "2020-10-20"
+plot.dat2$date[plot.dat2$Var2==19] <- "2020-12-15"
+plot.dat2$date[plot.dat2$Var2==20] <- "2021-01-12"
+plot.dat2$date[plot.dat2$Var2==21] <- "2021-02-02"
+plot.dat2$date[plot.dat2$Var2==22] <- "2021-02-09"
+plot.dat2$date[plot.dat2$Var2==23] <- "2021-03-02"
+plot.dat2$date[plot.dat2$Var2==24] <- "2021-04-06"
+plot.dat2$date[plot.dat2$Var2==25] <- "2021-05-15"
+
+plot.dat$date <- as.Date(plot.dat$date)
+plot.dat2$date <- as.Date(plot.dat2$date)
+
+
+p <- ggplot(plot.dat, aes(x=date, y=Freq, 
+                          group=Var1)) +
+  geom_line()+
+  geom_point()
+
+p
+
+p2 <- ggplot(plot.dat2, aes(x=date, y=Freq, 
+                          group=Var1)) +
+  geom_line()+
+  geom_point()
+
+p2
+```
+

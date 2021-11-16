@@ -1,0 +1,126 @@
+---
+title: "Investigating Concerns about Lucid Theorem Data Quality"
+author: "Zachary L. Hertz"
+date: "6/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(here)
+library(tidyverse)
+library(lubridate)
+library(anytime)
+library(gganimate)
+library(gifski)
+library(plyr)
+```
+
+```{r}
+dat <- read.csv("dfp_raw_timing.csv")
+dat$date <- as.Date(dat$date, "%m-%d-%Y")
+dat$time <- dat$duration*60
+dat$month <- month(dat$date)
+dat$year <- year(dat$date)
+
+dat$monthyear[dat$month == 04 & dat$year == 2020] <- "April 2020"
+dat$monthyear[dat$month == 05 & dat$year == 2020] <- "May 2020"
+dat$monthyear[dat$month == 06 & dat$year == 2020] <- "June 2020"
+dat$monthyear[dat$month == 07 & dat$year == 2020] <- "July 2020"
+dat$monthyear[dat$month == 08 & dat$year == 2020] <- "August 2020"
+dat$monthyear[dat$month == 09 & dat$year == 2020] <- "September 2020"
+dat$monthyear[dat$month == 10 & dat$year == 2020] <- "October 2020"
+dat$monthyear[dat$month == 12 & dat$year == 2020] <- "December 2020"
+dat$monthyear[dat$month == 01 & dat$year == 2021] <- "January 2021"
+dat$monthyear[dat$month == 02 & dat$year == 2021] <- "February 2021"
+dat$monthyear[dat$month == 03 & dat$year == 2021] <- "March 2021"
+dat$monthyear[dat$month == 04 & dat$year == 2021] <- "April 2021"
+dat$monthyear[dat$month == 05 & dat$year == 2021] <- "May 2021"
+dat$monthyear[dat$month == 06 & dat$year == 2021] <- "June 2021"
+
+dat$monthyear <- anydate(dat$monthyear)
+
+
+apr20 <- subset(dat, month == 04 & year == 2020)
+apr20$median <- median(apr20$duration)
+may20 <- subset(dat, month == 05 & year == 2020)
+may20$median <- median(may20$duration)
+jun20 <- subset(dat, month == 06 & year == 2020)
+jun20$median <- median(jun20$duration)
+jul20 <- subset(dat, month == 07 & year == 2020)
+jul20$median <- median(jul20$duration)
+aug20 <- subset(dat, month == 08 & year == 2020)
+aug20$median <- median(aug20$duration)
+sept20 <- subset(dat, month == 09 & year == 2020)
+sept20$median <- median(sept20$duration)
+oct20 <- subset(dat, month == 10 & year == 2020)
+oct20$median <- median(oct20$duration)
+dec20 <- subset(dat, month == 12 & year == 2020)
+dec20$median <- median(dec20$duration)
+jan21 <- subset(dat, month == 01 & year == 2021)
+jan21$median <- median(jan21$duration)
+feb21 <- subset(dat, month == 02 & year == 2021)
+feb21$median <- median(feb21$duration)
+march21 <- subset(dat, month == 03 & year == 2021)
+march21$median <- median(march21$duration)
+apr21 <- subset(dat, month == 04 & year == 2021)
+apr21$median <- median(apr21$duration)
+may21 <- subset(dat, month == 05 & year == 2021)
+may21$median <- median(may21$duration)
+```
+
+
+```{r}
+med <- ddply(dat, .(date), summarise, 
+            FUN = median(duration))
+med.month <- ddply(dat, .(monthyear), summarise, 
+            FUN = median(duration))
+
+
+response_time <- ggplot(dat, aes(x=duration,y=..density..)) +
+  geom_histogram(binwidth = 1.2) + theme_minimal() +
+  geom_vline(data=med, aes(xintercept=FUN),
+             linetype="solid") + xlim(0, 30) + 
+  transition_time(date) +
+  labs(x="Duration (in minutes)", subtitle = "Fielded on: {frame_time}")
+
+response_time.month <- ggplot(dat, aes(x=duration,y=..density..)) +
+  geom_histogram(binwidth = 1.2) + theme_minimal() +
+  geom_vline(data=med.month, aes(xintercept=FUN),
+             linetype="solid") + xlim(0, 30) + 
+  transition_time(monthyear) +
+  labs(x="Duration (in minutes)", subtitle = "Fielded on: {frame_time}")
+
+```
+
+# Introduction
+
+The blossoming use of survey research in political science heightens the need for rigorous investigation into data quality. To obtain samples, academics often rely on survey vendors such as SurveyMonkey, Amazon's Mechanical Turk (MTurk), and [Lucid Theorem](https://luc.id/theorem/). Use of data from Lucid has become increasingly prevalent, and the focus of [growing data quality concerns](https://osf.io/preprints/socarxiv/8sbe4/).
+
+More recently, Josh Kalla posted [a thread on Twitter](https://twitter.com/j_kalla/status/1401935385459007493) noting that when running a near-replication of a survey from March 2021 in June 2021, the median response time had dropped over five minutes. This result is particularly troubling, as a dramatic decrease in median response time could indicate extensive satisficing by respondents and [potentially induce bias into the results](https://www.cambridge.org/core/journals/political-analysis/article/misreporting-tradeoff-between-list-experiments-and-direct-questions-in-practice-partition-validation-evidence-from-two-countries/802E277B0845591C6450FF4BD2C845D9). 
+
+Still, while these findings certainly raise cause for concern, any response time issues between these particular two surveys may reflect nuanced differences in the question battery or result from pure chance. A survey with a static battery of questions fielded consistently and repeatedly via Lucid over a wide time period is the ideal way to clarify whether there have been recent and notable decreases in response time among Lucid's respondents. 
+
+Fortunately, I have access to such a survey: the [Data For Progress Covid-19 tracking poll](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XJLZIN), fielded via Lucid by [Brian Schaffner](https://twitter.com/b_schaffner). There have been 25 waves of the poll between April 2020 and May 2021, and besides small modifications has remained almost identical over that time period. I used data from the tracking poll to investigate whether our data from Lucid saw any changes in response time over the fourteen-month period, and check whether the Lucid-provided partisan measure correlated strongly with the ideology question included in the poll.
+
+# Response time remained largely static
+
+
+
+```{r}
+animate(response_time, fps = 1)
+```
+
+
+```{r}
+animate(response_time.month, fps = 1)
+```
+
+# Partisan correlation
+
+# Conclusion
+
+[speeders had a limited effect on data quality](https://academic.oup.com/poq/article-abstract/79/2/471/2277456)
