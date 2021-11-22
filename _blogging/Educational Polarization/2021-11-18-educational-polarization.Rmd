@@ -230,7 +230,7 @@ Among white Americans without a college degree, however, the differences were st
 Black Americans without a college degree increasingly identify as Independents
 ======
 
-The attrition in the share of self-identified Republicans among white, Hispanic and Asian Americans with a college degree seems to be driven somewhat by a switch to identfying as Independents; these groups all increasingly identified as Independents between 2008 and 2020. 
+The attrition in the share of self-identified Republicans among white, Hispanic and Asian Americans with a college degree seems to be driven somewhat by a switch to identifying as Independents; these groups all increasingly identified as Independents between 2008 and 2020. 
 
 Among those without a college education, the trends were less uniform. The rate of self-identifying as an Independent appears generally stable among white and Hispanic Americans. The estimate for the share of Asian Americans without a college degree who identified as Independents seems to have increased in 2020 from 2008, but due to large standard errors these differences should not be seen as statistically significant.
 

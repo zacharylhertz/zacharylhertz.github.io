@@ -29,9 +29,9 @@ Research has noted [an increasing divide](https://www.pewresearch.org/politics/2
 
 The percent of those without a college degree identifying as Democrats sharply declined between 2012 and 2020, even as the share of Americans with a college degree identifying as Democrats remained somewhat constant between 2008 and 2020. While educational polarization in vote choice was mostly limited to nonhispanic white Americans, these trends in party identification played out in remarkably similar ways among Americans of all races.
 
-Among both Black Americans[1] and Hispanic Americans, there seemed to be no educational differences in the share of self-identified Democrats in 2008 and 2012; by 2020, however, as Democratic self-identification declined among those without a college education, relatively narrow — yet statistically significant — gaps of about eight percentage points emerged.
+Among both Black Americans[^1] and Hispanic Americans, there seemed to be no educational differences in the share of self-identified Democrats in 2008 and 2012; by 2020, however, as Democratic self-identification declined among those without a college education, relatively narrow — yet statistically significant — gaps of about eight percentage points emerged.
 
-In 2008 and 2012, there were more clear differences along educational lines in the share of Asian and white Americans identifying as Democrats.[2] These divides only widened in 2016 and by 2020, college-educated white and Asian Americans identified as Democrats at a rate almost 20 percentage points higher than their non-college educated peers.
+In 2008 and 2012, there were more clear differences along educational lines in the share of Asian and white Americans identifying as Democrats.[^2] These divides only widened in 2016 and by 2020, college-educated white and Asian Americans identified as Democrats at a rate almost 20 percentage points higher than their non-college educated peers.
 
 # Only white Americans without a college degree were sharply more likely to identify as Republicans
 
@@ -47,7 +47,7 @@ Among white Americans without a college degree, however, the differences were st
 
 # Black Americans without a college degree increasingly identify as Independents
 
-The attrition in the share of self-identified Republicans among white, Hispanic and Asian Americans with a college degree seems to be driven somewhat by a switch to identfying as Independents; these groups all increasingly identified as Independents between 2008 and 2020.
+The attrition in the share of self-identified Republicans among white, Hispanic and Asian Americans with a college degree seems to be driven somewhat by a switch to identifying as Independents; these groups all increasingly identified as Independents between 2008 and 2020.
 
 Among those without a college education, the trends were less uniform. The rate of self-identifying as an Independent appears generally stable among white and Hispanic Americans. The estimate for the share of Asian Americans without a college degree who identified as Independents seems to have increased in 2020 from 2008, but due to large standard errors these differences should not be seen as statistically significant.
 
@@ -79,6 +79,6 @@ The absolute magnitude of these trends are somewhat small, and asymmetric: even 
 
 An excellent [working paper](https://www.dropbox.com/s/3nsueuaoquxzki1/realignments_draft.pdf?dl=0) by [Michael Barber](http://michaeljaybarber.com/) and [Jeremy C. Pope](http://jeremypope.byu.edu/) — published while I was drafting this blog post — presents a more thorough discussion of the dynamics and implications of these political shifts. As they note, further research on realignments must account for the potential interaction and confounding effects of race.
 
-[1] It is worth noting that Black Americans with a college degree were the only college-educated racial group to identify as Democrats at a statistically significant lower rate in 2020 than in 2016 and 2012; this decline, however, was less pronounced than the attrition among those without a college degree so still led to a statistically significant educational gap.
+[^1]: It is worth noting that Black Americans with a college degree were the only college-educated racial group to identify as Democrats at a statistically significant lower rate in 2020 than in 2016 and 2012; this decline, however, was less pronounced than the attrition among those without a college degree so still led to a statistically significant educational gap.
 
-[2] Like before, the relatively smaller sample size of Asian Americans in the CES leads to large errors for the point estimates, so it is an important caveat to note that the educational differences in 2008 and 2012 are not statistically significant. Still, following the overall trends these differences grow and by 2016 and 2020 the difference in the point estimates are statistically significant.
+[^2]: Like before, the relatively smaller sample size of Asian Americans in the CES leads to large errors for the point estimates, so it is an important caveat to note that the educational differences in 2008 and 2012 are not statistically significant. Still, following the overall trends these differences grow and by 2016 and 2020 the difference in the point estimates are statistically significant.
