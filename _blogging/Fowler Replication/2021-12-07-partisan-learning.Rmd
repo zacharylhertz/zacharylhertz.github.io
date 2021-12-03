@@ -1,0 +1,274 @@
+---
+title: "How Sensitive are Partisans to Out-Party Cues?"
+output:
+  md_document:
+    variant: gfm+footnotes
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2021-12-07
+permalink: /posts/2021/12/partisan-learning
+toc: true
+tags:
+  - 
+  - 
+  - 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+```{r, include=FALSE}
+# Bring in data ####
+library(stargazer)
+library(tidyverse)
+library(htmlwidgets)
+
+dat <- read.csv("../../../Opinion Lab/classpoll_weighted.csv")
+
+dat$minimumwage[dat$minimumwage>50]<- NA
+dat$natsec[dat$natsec>2000] <- NA
+
+# Code pid, with leaners
+dat$pid2[dat$political_party < 4 | dat$political_party ==6] <- 1
+dat$pid2[dat$political_party > 7 | dat$political_party ==5] <- 2
+
+dat$strongpartisan <- 0
+dat$strongpartisan[dat$political_party==1 | 
+                     dat$political_party ==10] <- 1
+dat$ftparty <- NA
+
+# use fts to measure affective polarization via parties
+dat <- dat %>%
+  mutate(ftparty = case_when(
+    pid2==1 ~ ((dat$ft_dem_1-dat$ft_rep_1)/100),
+    pid2==2 ~((dat$ft_rep_1-dat$ft_dem_1)/100)
+  ))
+
+# use fts to measure affective polarization via candidates
+dat <- dat %>%
+  mutate(ftcand = case_when(
+    pid2==1 ~ ((dat$ft_biden_1-dat$ft_trump_1)/100),
+    pid2==2 ~((dat$ft_trump_1-dat$ft_biden_1)/100)
+  ))
+
+# Minimum wage ####
+# If Dem, in party-position is:
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 1] <- 10
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 2] <- 12.50
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 3] <- 15
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 4] <- 10
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 5] <- 12.50
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 6] <- 15
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 7] <- 10
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 8] <- 15
+dat$ipp_mw[dat$pid2==1 & dat$randz1 == 9] <- 15
+
+# If republican, then the same is their out party position
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 1] <- 10
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 2] <- 12.50
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 3] <- 15
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 4] <- 10
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 5] <- 12.50
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 6] <- 15
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 7] <- 10
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 8] <- 15
+dat$opp_mw[dat$pid2==2 & dat$randz1 == 9] <- 15
+
+# If republican, in party position is
+dat$ipp_mw[dat$pid2==2 & dat$randz1 < 4] <- 7.25
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 4] <- 10
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 5] <- 10
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 6] <- 10
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 7] <- 12.50
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 8] <- 15
+dat$ipp_mw[dat$pid2==2 & dat$randz1 == 9] <- 12.50
+
+# if dem, then same is the out party
+dat$opp_mw[dat$pid2==1 & dat$randz1 < 4] <- 7.25
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 4] <- 10
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 5] <- 10
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 6] <- 10
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 7] <- 12.50
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 8] <- 15
+dat$opp_mw[dat$pid2==1 & dat$randz1 == 9] <- 12.50
+
+# Run this when tweaking pid2
+dat$party<- NA
+dat$party[dat$pid2==1] <- "Democrat"
+dat$party[dat$pid2==2] <- "Republican"
+```
+
+```{r minimum wage lm}
+modelmw <- lm(minimumwage ~ ipp_mw + opp_mw + as.factor(party), data=dat)
+# rename variables ####
+names(modelmw$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+
+modelmw1 <- lm(minimumwage ~ ipp_mw + opp_mw + 
+                 strongpartisan + ipp_mw:strongpartisan + 
+                 opp_mw:strongpartisan + as.factor(party), data=dat)
+modelmw2 <- lm(minimumwage ~ ipp_mw + opp_mw + 
+                 ftparty + ipp_mw:ftparty + 
+                 opp_mw:ftparty + as.factor(party), data=dat)
+modelmw3 <- lm(minimumwage ~ ipp_mw + opp_mw + 
+                 ftcand + ipp_mw:ftcand + 
+                 opp_mw:ftcand + as.factor(party), data=dat)
+```
+
+```{r infrastructure}
+# If Dem, in party-position is:
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 1] <- 1.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 2] <- 2
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 3] <- 2.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 4] <- 1.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 5] <- 2
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 6] <- 2.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 7] <- 1.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 8] <- 2.5
+dat$ipp_inf[dat$pid2==1 & dat$randz3 == 9] <- 2.5
+
+# If republican, then the same is their out party position
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 1] <- 1.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 2] <- 2
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 3] <- 2.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 4] <- 1.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 5] <- 2
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 6] <- 2.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 7] <- 1.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 8] <- 2.5
+dat$opp_inf[dat$pid2==2 & dat$randz3 == 9] <- 2.5
+
+# If republican, in party position is
+dat$ipp_inf[dat$pid2==2 & dat$randz3 < 4] <- 1
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 4] <- 1.5
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 5] <- 1.5
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 6] <- 1.5
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 7] <- 2
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 8] <- 2
+dat$ipp_inf[dat$pid2==2 & dat$randz3 == 9] <- 2
+
+# if dem, then same is the out party
+dat$opp_inf[dat$pid2==1 & dat$randz3 < 4] <- 1
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 4] <- 1.5
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 5] <- 1.5
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 6] <- 1.5
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 7] <- 2
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 8] <- 2
+dat$opp_inf[dat$pid2==1 & dat$randz3 == 9] <- 2
+```
+
+```{r infrastructure lm}
+modelinf <- lm(infrastructure ~ ipp_inf + opp_inf + as.factor(party), data=dat)
+names(modelinf$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+modelinf1 <- lm(infrastructure ~ ipp_inf + opp_inf + 
+                 strongpartisan + ipp_inf:strongpartisan + 
+                 opp_inf:strongpartisan + as.factor(party), data=dat)
+modelinf2 <- lm(infrastructure ~ ipp_inf + opp_inf + 
+                 ftparty + ipp_inf:ftparty + 
+                 opp_inf:ftparty + as.factor(party), data=dat)
+modelinf3 <- lm(infrastructure ~ ipp_inf + opp_inf + 
+                 ftcand + ipp_inf:ftcand + 
+                 opp_inf:ftcand + as.factor(party), data=dat)
+```
+
+```{r natsec}
+# If Dem, in party-position is:
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 1] <- 700
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 2] <- 750
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 3] <- 800
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 4] <- 700
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 5] <- 750
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 6] <- 800
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 7] <- 700
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 8] <- 750
+dat$ipp_ns[dat$pid2==1 & dat$randz4 == 9] <- 800
+
+# If republican, then the same is their out party position
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 1] <- 700
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 2] <- 750
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 3] <- 800
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 4] <- 700
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 5] <- 750
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 6] <- 800
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 7] <- 700
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 8] <- 750
+dat$opp_ns[dat$pid2==2 & dat$randz4 == 9] <- 800
+
+# If republican, in party position is
+dat$ipp_ns[dat$pid2==2 & dat$randz4 < 4] <- 750
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 4] <- 800
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 5] <- 800
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 6] <- 800
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 7] <- 850
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 8] <- 850
+dat$ipp_ns[dat$pid2==2 & dat$randz4 == 9] <- 850
+
+# if dem, then same is the out party
+dat$opp_ns[dat$pid2==1 & dat$randz4 < 4] <- 750
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 4] <- 800
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 5] <- 800
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 6] <- 800
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 7] <- 850
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 8] <- 850
+dat$opp_ns[dat$pid2==1 & dat$randz4 == 9] <- 850
+```
+
+```{r natsec lm}
+modelnatsec <- lm(natsec ~ ipp_ns + opp_ns + as.factor(party), data=dat)
+names(modelnatsec$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+modelns1 <- lm(natsec ~ ipp_ns + opp_ns + 
+                 strongpartisan + ipp_ns:strongpartisan + 
+                 opp_ns:strongpartisan + as.factor(party), data=dat)
+modelns2 <- lm(natsec ~ ipp_ns + opp_ns + 
+                 ftparty + ipp_ns:ftparty + 
+                 opp_ns:ftparty + as.factor(party), data=dat)
+modelns3 <- lm(natsec ~ ipp_ns + opp_ns + 
+                 ftcand + ipp_ns:ftcand + 
+                 opp_ns:ftcand + as.factor(party), data=dat)
+```
+
+```{r}
+
+
+# ggsave("pid-ind-race.png", width = 6, height = 6, units = c("in"), dpi=700)
+```
+
+
+A [recent working paper](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view) by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings [seem somewhat incongrous](https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343) with [previous research](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x) and the oft-cited[^1] expression that "partisanship is a hell of a drug".[^2] Given the paper's novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?
+
+I follow the methods outlined by Fowler and Howell to design four survey experiments. The first two are replications of the authors' experiments on the federal minimum wage and foreign aid to South Sudan, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.
+
+Research Design
+======
+
+In each policy area, I presented respondents with the current policy.[^3] There were nine treatment arms for each policy area, in which Nancy Pelosi was said to have one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians' positions within a treatment were randomized. Respondents were then asked for their preferred policy position.
+
+
+
+
+```{r}
+stargazer(modelmw, modelmw1, modelmw2, modelmw3, 
+          omit.stat = c("rsq", "f", "n", "adj.rsq", "ser"),
+          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/mw.html")
+
+```
+
+```{r}
+stargazer(modelmw, modelnatsec, modelinf, 
+          omit.stat = c("rsq", "f", "n", "adj.rsq", "ser"),
+          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/all-initial.html")
+
+```
+
+<iframe src="/files/html/posts/mw.html" height="700px" width="100%" style="border:none;"></iframe>
+
+<iframe src="/files/html/posts/all-initial.html" height="700px" width="100%" style="border:none;"></iframe>
+
+[^1]: See, for example, [its frequent use](https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&src=typed_query) by political scientists on Twitter.
+
+[^2]: One [which seems](https://twitter.com/BrendanNyhan/status/857963843607298049) to have been created and popularized by Brendan Nyhan and Stephen Miller.
+
+[^3]: The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: "Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure."

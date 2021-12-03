@@ -2,7 +2,7 @@
 title: "Educational Polarization in the CES"
 output:
   md_document:
-    variant: gfm
+    variant: gfm+footnotes
     preserve_yaml: TRUE
     pandoc_args: 
       - "--wrap=preserve"
