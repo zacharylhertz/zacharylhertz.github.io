@@ -8,7 +8,7 @@ output:
       - "--wrap=preserve"
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
-date: 2021-12-07
+date: 2021-12-16
 permalink: /posts/2021/12/partisan-learning
 toc: true
 tags:
@@ -26,6 +26,7 @@ knitr::opts_chunk$set(include = FALSE)
 library(stargazer)
 library(tidyverse)
 library(htmlwidgets)
+library(StatMeasures)
 
 dat <- read.csv("../../../Opinion Lab/classpoll_weighted.csv")
 
@@ -35,6 +36,9 @@ dat$natsec[dat$natsec>2000] <- NA
 # Code pid, with leaners
 dat$pid2[dat$political_party < 4 | dat$political_party ==6] <- 1
 dat$pid2[dat$political_party > 7 | dat$political_party ==5] <- 2
+
+dat$pid_nolean[dat$political_party<3] <- 1
+dat$pid_nolean[dat$political_party>8] <- 2
 
 dat$strongpartisan <- 0
 dat$strongpartisan[dat$political_party==1 | 
@@ -100,22 +104,40 @@ dat$opp_mw[dat$pid2==1 & dat$randz1 == 9] <- 12.50
 dat$party<- NA
 dat$party[dat$pid2==1] <- "Democrat"
 dat$party[dat$pid2==2] <- "Republican"
+
+dat$party2<- NA
+dat$party2[dat$pid_nolean==1] <- "Democrat"
+dat$party2[dat$pid_nolean==2] <- "Republican"
+
+dat <- subset(dat, is.na(dat$pid2)==FALSE)
 ```
 
 ```{r minimum wage lm}
 modelmw <- lm(minimumwage ~ ipp_mw + opp_mw + as.factor(party), data=dat)
 # rename variables ####
-names(modelmw$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+names(modelmw$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+modelmwdems <- lm(minimumwage ~ ipp_mw + opp_mw, data=subset(dat, party=="Democrat"))
+names(modelmwdems$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
+
+modelmwreps <- lm(minimumwage ~ ipp_mw + opp_mw, data=subset(dat, party=="Republican"))
+names(modelmwreps$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
 
 modelmw1 <- lm(minimumwage ~ ipp_mw + opp_mw + 
                  strongpartisan + ipp_mw:strongpartisan + 
                  opp_mw:strongpartisan + as.factor(party), data=dat)
+names(modelmw1$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Strong Partisan', 'Republican', 'In-Party Position * Strong Partisan','Out-Party Position * Strong Partisan')
+
 modelmw2 <- lm(minimumwage ~ ipp_mw + opp_mw + 
                  ftparty + ipp_mw:ftparty + 
                  opp_mw:ftparty + as.factor(party), data=dat)
+names(modelmw2$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Affective Polarization (Party)', 'Republican', 'In-Party Position * Affective Polarization (Party)','Out-Party Position * Affective Polarization (Party)')
+
 modelmw3 <- lm(minimumwage ~ ipp_mw + opp_mw + 
                  ftcand + ipp_mw:ftcand + 
                  opp_mw:ftcand + as.factor(party), data=dat)
+names(modelmw3$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Affective Polarization (Candidate)', 'Republican', 'In-Party Position * Affective Polarization (Candidate)','Out-Party Position * Affective Polarization (Candidate)')
+
 ```
 
 ```{r infrastructure}
@@ -162,7 +184,14 @@ dat$opp_inf[dat$pid2==1 & dat$randz3 == 9] <- 2
 
 ```{r infrastructure lm}
 modelinf <- lm(infrastructure ~ ipp_inf + opp_inf + as.factor(party), data=dat)
-names(modelinf$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+names(modelinf$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+modelinfdems <- lm(infrastructure ~ ipp_inf + opp_inf, data=subset(dat, party=="Democrat"))
+names(modelinfdems$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
+
+modelinfreps <- lm(infrastructure ~ ipp_inf + opp_inf, data=subset(dat, party=="Republican"))
+names(modelinfreps$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
+
 modelinf1 <- lm(infrastructure ~ ipp_inf + opp_inf + 
                  strongpartisan + ipp_inf:strongpartisan + 
                  opp_inf:strongpartisan + as.factor(party), data=dat)
@@ -218,7 +247,14 @@ dat$opp_ns[dat$pid2==1 & dat$randz4 == 9] <- 850
 
 ```{r natsec lm}
 modelnatsec <- lm(natsec ~ ipp_ns + opp_ns + as.factor(party), data=dat)
-names(modelnatsec$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Party')
+names(modelnatsec$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+modelnatsecdems <- lm(natsec ~ ipp_ns + opp_ns, data=subset(dat, party=="Democrat"))
+names(modelnatsecdems$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
+
+modelnatsecreps <- lm(natsec ~ ipp_ns + opp_ns, data=subset(dat, party=="Republican"))
+names(modelnatsecreps$coefficients) <- c('Intercept','In-Party Position','Out-Party Position')
+
 modelns1 <- lm(natsec ~ ipp_ns + opp_ns + 
                  strongpartisan + ipp_ns:strongpartisan + 
                  opp_ns:strongpartisan + as.factor(party), data=dat)
@@ -230,6 +266,7 @@ modelns3 <- lm(natsec ~ ipp_ns + opp_ns +
                  opp_ns:ftcand + as.factor(party), data=dat)
 ```
 
+
 ```{r}
 
 
@@ -237,38 +274,199 @@ modelns3 <- lm(natsec ~ ipp_ns + opp_ns +
 ```
 
 
-A [recent working paper](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view) by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings [seem somewhat incongrous](https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343) with [previous research](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x) and the oft-cited[^1] expression that "partisanship is a hell of a drug".[^2] Given the paper's novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?
+A [recent working paper](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view) by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings are well-supported [yet somewhat incongrous](https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343) with both [previous research](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x) and the oft-cited[^1] expression that "partisanship is a hell of a drug".[^2] Given the paper's novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?
 
-I follow the methods outlined by Fowler and Howell to design four survey experiments. The first two are replications of the authors' experiments on the federal minimum wage and foreign aid to South Sudan, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.
+I follow the methods outlined by Fowler and Howell to design four survey experiments. The first is a replication of the authors' experiments on the federal minimum wage, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.
 
 Research Design
 ======
 
-In each policy area, I presented respondents with the current policy.[^3] There were nine treatment arms for each policy area, in which Nancy Pelosi was said to have one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians' positions within a treatment were randomized. Respondents were then asked for their preferred policy position.
+For each policy area, I presented respondents with the current policy.[^3] There were nine treatment arms for each policy area, in which Nancy Pelosi was said to support one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians' positions within a treatment were randomized. Respondents were then asked for their preferred policy position, and acceptable responses were restricted to a set of plausible numbers for a given policy position.
 
+Respondents were recruited via Lucid between May 2, 2021 and May 9, 2021; I implemented two pre-treatment attention checks into the survey battery to screen for and remove inattentive respondents. While I collected data from 1424 respondents overall after inattentive respondents were removed, I examine partisans (including leaners)[^4] in this analysis, limiting the sample further to 1210 respondents.
 
+Following Fowler and Howell, I begin my analysis by estimating the effects of party leaders' position on partisans' policy beliefs using the following equation for each policy area:
 
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&space;Respondent&space;\text{&space;}Position&space;=&space;\text{&space;}&\alpha&space;\text{&space;}&plus;\text{&space;}&space;\beta*in-party\text{&space;}&space;position&space;\text{&space;}&plus;&space;\\&space;&\gamma&space;*out-party&space;\text{&space;}position&space;\text{&space;}&plus;&space;\\&space;&&space;\delta&space;*Respondent&space;\text{&space;}&space;Partisan&space;\text{&space;}&space;Identification&space;&plus;&space;\epsilon&space;\end{}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\begin{align*}&space;Respondent&space;\text{&space;}Position&space;=&space;\text{&space;}&\alpha&space;\text{&space;}&plus;\text{&space;}&space;\beta*in-party\text{&space;}&space;position&space;\text{&space;}&plus;&space;\\&space;&\gamma&space;*out-party&space;\text{&space;}position&space;\text{&space;}&plus;&space;\\&space;&&space;\delta&space;*Respondent&space;\text{&space;}&space;Partisan&space;\text{&space;}&space;Identification&space;&plus;&space;\epsilon&space;\end{}" title="\begin{align*} Respondent \text{ }Position = \text{ }&\alpha \text{ }+\text{ } \beta*in-party\text{ } position \text{ }+ \\ &\gamma *out-party \text{ }position \text{ }+ \\ & \delta *Respondent \text{ } Partisan \text{ } Identification + \epsilon \end{}" /></a>
 
-```{r}
-stargazer(modelmw, modelmw1, modelmw2, modelmw3, 
-          omit.stat = c("rsq", "f", "n", "adj.rsq", "ser"),
-          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/mw.html")
+Here, `in-party position` is the policy said to be preferred by the respondent's copartisan party leader while `out-party position` is the policy stated to be preferred by the other party leader. For example, among respondents in the treatment arm where Mitch McConnell preferred a \\$12.50 minimum wage and Nancy Pelosi preferred a \\$15 minimum wage, `in-party position` would equal \\$15 for a Democrat but \\$12.50 for a Republican, while `out-party position` would equal \\$12.50 for a Democrat but \\$15 for a Republican. `Respondent Partisan Identification` is a dummy variable indicating the respondent's partisan identity.
 
-```
+Using this model, the coefficients for party leaders' positions will tell us both the extent and direction of respondents' sensitivity to elite cues. Positive coefficients show that a respondent has positively updated their preferred policy position to more closely match that of the politician, while a negative coefficient shows that the respondent has moved their preferred policy away from the politician's stated position. The strength of these effects is weak when the coefficient is near 0 and increases as the coefficient approaches 1. 
 
+Results
+======
 ```{r}
 stargazer(modelmw, modelnatsec, modelinf, 
-          omit.stat = c("rsq", "f", "n", "adj.rsq", "ser"),
+          omit.stat = c("rsq", "f", "adj.rsq", "ser"),
+          title = "Table 1: Effect of In-Party and Out-Party Elite Cues on Policy Preferences",
+          dep.var.labels = c("Minimum Wage", "National Security", "Infrastructure"),
           header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/all-initial.html")
 
 ```
+<iframe src="/files/html/posts/all-initial.html" height="375px" width="100%" style="border:none;"></iframe>
 
-<iframe src="/files/html/posts/mw.html" height="700px" width="100%" style="border:none;"></iframe>
+Table 1 presents the basic results of this analysis among pooled partisan respondents examining policy preferences on minimum wage, national security spending, and the hypothetical infrastructure bill below. My replication of Fowler and Howell's minimum wage experiment produces similar results. As the in-party leader espouses a federal minimum wage that is one dollar higher, copartisan respondents respond with a preferred federal minimum wage that is 22 cents higher. Similarly, for every additional dollar in the federal minimum wage supported by the out-party leader, respondents prefer a federal minimum wage that is 22 cents higher. Both the national security spending and infrastructure bill experiments do not yield statistically significant results.
 
-<iframe src="/files/html/posts/all-initial.html" height="700px" width="100%" style="border:none;"></iframe>
+```{r}
+stargazer(modelmwdems, modelnatsecdems, modelinfdems, 
+          omit.stat = c("rsq", "f", "adj.rsq", "ser"),
+          title = "Table 2: Effect of In-Party and Out-Party Elite Cues on Policy Preferences among Democrats",
+          dep.var.labels = c("Minimum Wage", "National Security", "Infrastructure"),
+          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/all-dems.html")
+
+```
+
+<iframe src="/files/html/posts/all-dems.html" height="325px" width="100%" style="border:none;"></iframe>
+
+Performing the analysis on partisans separately reveals some intriguing trends. Table 2 presents the results from each experiment when looking at Democratic respondents alone, excluding leaners. Again, results for the national security spending and infrastructure bill experiment are not statistically significant. In the minimum wage experiment, however, the treatment effect rises to .31 for the in-party position and falls to .18 for the out-party position. Both coefficients are statistically significant (p<0.01 and p=0.07, respectively).
+
+```{r}
+stargazer(modelmwreps, modelnatsecreps, modelinfreps, 
+          omit.stat = c("rsq", "f", "adj.rsq", "ser"),
+                    title = "Table 3: Effect of In-Party and Out-Party Elite Cues on Policy Preferences among Republicans",
+          dep.var.labels = c("Minimum Wage", "National Security", "Infrastructure"),
+          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/all-reps.html")
+
+```
+
+
+<iframe src="/files/html/posts/all-reps.html" height="325px" width="100%" style="border:none;"></iframe>
+
+Among the Republican respondents, however, interesting effects emerge in the minimum wage experiment. While the in-party position appears to have no statistically significant effect on respondents' preferred minimum wage (p=0.15), Republican respondents positively updated their preferred federal minimum wage by 29 cents for every dollar increase in Nancy Pelosi's stated position (p=0.01). This might be explained in part by the fact that [a majority of Republicans](https://www.forbes.com/sites/nicholasreimann/2021/03/03/majority-of-republicans-support-increasing-minimum-wage-poll-finds/?sh=278aa6624abe) support raising the minimum wage, and according to the 2020 CES 36 percent of Republicans support a \\$15 minimum wage.
+
+Why might the experiment fail to extend?
+======
+I find that on the issue of the federal minimum wage, but not national security spending or an infrastructure bill, partisans adjust their preferred policy in response to the position taken by both the in- and out-party leader. Why might these results have replicated for the minimum wage experiment, but failed to extend?
+
+One explanation might arise from egregious outliers in the data affecting regression estimates. The issue of the minimum wage is an easy policy for respondents to conceptualize: most people have jobs, giving them a convenient and accessible point of reference from which to create their preferred policy. National security and infrastructure spending, however, obviously lack a personal comparison point and numbers in billions and trillions of dollars. Since people [have issues conceptualizing large numbers](https://onlinelibrary.wiley.com/doi/full/10.1111/cogs.12388), ven when provided with the status quo respondents may struggle to provide reasonable policy proposals. This is especially important given evidence that [inattentiveness may be rising among Lucid respondents](https://osf.io/preprints/socarxiv/8sbe4/) and that [failing to account for innatentive respondents can bias survey estimates](https://www.cambridge.org/core/journals/political-analysis/article/paying-attention-to-inattentive-survey-respondents/BEDA4CF3245489645859E7E6B022E75A). Visualizing responses and statistical measures can identify the extent to which outliers are present in the data.
+
+![](/images/posts/fowler-replication/mw.png)<!-- -->
+
+Examining the density plot in Figure 1, responses to the minimum wage experiment appear generally single-peaked and are fairly closely distributed around the average response and, importantly, the positions taken by party leaders in the experiment. A more close analysis reveals that just 5 percent of responses (68 total) are outliers.
+
+```{r}
+ inf <- ggplot(dat, aes(x=infrastructure, color=party)) +
+  stat_density(aes(group = as.factor(party), 
+                   color = as.factor(party)),
+               position="identity", geom="line",
+               adjust=2) +
+  theme_minimal() + 
+  labs(x="Preferred Infrastructure Spending (in trillions of dollars)",
+       y="Density") +
+  scale_color_manual(values=c("#113e88","#cf142b"), name="Party") +
+  ggtitle("Figure III: Respondents' Preferred Infrastructure Spending")
+
+
+inf
+ggsave("inf.png", width = 6, height = 6, units = c("in"), dpi=700) 
+
+ns <- ggplot(dat, aes(x=natsec, color=party)) +
+  stat_density(aes(group = as.factor(party), 
+                   color = as.factor(party)),
+               position="identity", geom="line",
+               adjust=2) +
+  theme_minimal() + 
+  labs(x="Preferred National Security Spending (in billions of dollars)",
+       y="Density") +
+  scale_color_manual(values=c("#113e88","#cf142b"), name="Party")+
+  ggtitle("Figure II: Respondents' Preferred National Security Spending")
+
+
+ns
+ggsave("natsec.png", width = 6, height = 6, units = c("in"), dpi=700) 
+
+mw <- ggplot(dat, aes(x=minimumwage, color=party)) +
+  stat_density(aes(group = as.factor(party), 
+                   color = as.factor(party)),
+               position="identity", geom="line",
+               adjust=2) +
+  theme_minimal() + 
+  labs(x="Preferred Federal Minimum Wage (in dollars)",
+       y="Density") +
+  scale_color_manual(values=c("#113e88","#cf142b"), name="Party") +
+  ggtitle("Figure I: Density Plot of Respondents' Preferred Minimum Wage")
+
+mw
+ggsave("mw.png", width = 6, height = 6, units = c("in"), dpi=700)
+
+outliers(dat$natsec)
+```
+
+![](/images/posts/fowler-replication/natsec.png)<!-- -->
+
+Responses to the national security spending experiment, presented in Figure 2, more clearly have higher levels of responses clustered at the upper and lower ends of the scale. A closer look at the distribution reveals that almost 20 percent (239) of responses are outliers, defined as respondents suggesting less than \\$50 billion or more than \\$1,250 billion in national security spending.
+
+![](/images/posts/fowler-replication/inf.png)<!-- -->
+
+Figure 3 shows the distribution of responses to the infrastructure spending experiment. There are noticeable clusters around numbers that are multiples of 5 and 10, and a significant number of responses at the upper limit. Similarly, 216 responses (18 percent) are outliers, with respondents suggesting that their preferred infrastructure spending was greater than 6 trillion dollars.
+
+The case to remove these outliers seems self-evident. Budgeting less than \\$50 billion for national security is 6 percent of the current budget and would be [nearly one-fifth the size](https://datalab.usaspending.gov/americas-finance-guide/spending/categories/) of the current smallest item in the national budget. At the same time, budgeting \\$1.25 trillion dollars would be 1.7 times the current budget, surpassing social security as the second-highest item. An infrastructure bill of more than 6 trillion dollars, meanwhile, would be more than three times the size of some of the [largest spending bills](https://thehill.com/policy/finance/531164-congress-unveils-23-trillion-government-spending-and-virus-relief-package) ever considered by Congress. These boundaries, then, seem like reasonable constraints to place on potential responses.
+
+```{r}
+nsQ1 <- quantile(dat$natsec, .25)
+nsQ3 <- quantile(dat$natsec, .75)
+nsIQR <- IQR(dat$natsec)
+no_outliers <- subset(dat, dat$natsec> (nsQ1 - 1.5*nsIQR) & dat$natsec< (nsQ3 + 1.5*nsIQR))
+
+infQ1 <- quantile(dat$infrastructure, .25)
+infQ3 <- quantile(dat$infrastructure, .75)
+infIQR <- IQR(dat$infrastructure)
+
+infno_outliers <- subset(dat, dat$infrastructure> (infQ1 - 1.5*infIQR) & dat$infrastructure< (infQ3 + 1.5*infIQR))
+
+dat <- subset(dat, is.na(minimumwage)==FALSE)
+
+mwQ1 <- quantile(dat$minimumwage, .25)
+mwQ3 <- quantile(dat$minimumwage, .75)
+mwIQR <- IQR(dat$minimumwage)
+mwno_outliers <- subset(dat, dat$minimumwage> (mwQ1 - 1.5*mwIQR) & dat$minimumwage< (mwQ3 + 1.5*mwIQR))
+
+modelmwmin <- lm(minimumwage ~ ipp_mw + opp_mw + as.factor(party), data=mwno_outliers)
+
+# rename variables ####
+names(modelmwmin$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+modelnatsecmin <- lm(natsec ~ ipp_ns + opp_ns + as.factor(party), data=no_outliers)
+names(modelnatsecmin$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+modelinfmin <- lm(infrastructure ~ ipp_inf + opp_inf + as.factor(party), data=infno_outliers)
+names(modelinfmin$coefficients) <- c('Intercept','In-Party Position','Out-Party Position', 'Republican')
+
+stargazer(modelmwmin, modelnatsecmin, modelinfmin, 
+          omit.stat = c("rsq", "f", "adj.rsq", "ser"),
+          title = "Table 4: Effect of In-Party and Out-Party Elite Cues on Policy Preferences, Removing Outliers",
+          label="tab1",
+          dep.var.labels = c("Minimum Wage", "National Security", "Infrastructure"),
+          header=FALSE, type='html', style = "apsr", out = "../../files/html/posts/all-nooutliers.html")
+```
+
+Results when outliers are removed
+======
+
+<iframe src="/files/html/posts/all-nooutliers.html" height="375px" width="100%" style="border:none;"></iframe>
+
+Table 4 presents the results of each experiment when outliers (policy positions further than 1.5 times the IQR below the first quartile or above the third quartile) are excluded. On the issue of the minimum wage, removing outliers slightly decreases the magnitude of the coefficients. Both in-party and out-party position have statistically significant effects on respondents' preferred minimum wage, however, with respondents increasing their preferred minimum wage by about 16 cents for every increased dollar in the out-party leader's position.
+
+After removing outliers, there still is no statistically significant effect of the out-party position on respondents' preferred national security budget. For every \\$1 billion dollar increase in the in-party leader's preferred national security budget, respondents increase their preferred national security budget by \\$370 million (p=0.02). Noticeably, even partisan identification did not have a statistically significant effect on respondents' preferred amount of national security spending.
+
+Finally, on the issue of infrastructure spending, we see important changes after removing outliers. For every additional \\$1 trillion in infrastructure spending advocated by the in-party leader, partisan respondents increase their preferred amount of infrastructure spending by \\$433 billion (p<0.001). Additionally, for every additional \\$1 trillion in the size of the infrastructure bill advocated by the opposing party leader, partisans increase the size of their preferred infrastructure spending bill by \\$239 billion (p<0.001). On infrastructure, after removing egregious outliers, we see that partisans update their policy preferences in response to both the in- and out-party leaders.
+
+Conclusion
+======
+I find strong evidence that partisans adjust their preferred federal minimum wage in response to cues from both in-party and out-party leaders. After adjusting for data collection issues by removing outliers, I find similar effects on partisans' policy preferences with a hypothetical infrastructure bill. I find that on the issue of national security spending, however, only the in-party leader's position has a statistically significant effect on partisans' policy preference.
+
+These findings are notable for a few reasons. First, I find that while partisans respond to the positions taken by their party leaders, they do not do so indiscriminately. On all three issues, the positions taken by in-party leaders are discounted significantly by partisan respondents, suggesting that partisans do not blindly adopt the positions of their party leaders.
+
+Second, these findings provide evidence to strengthen the results presented by [Fowler and Howell](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view): partisans do not broadly dismiss policy preferences from out-party leaders out-of-hand, but rather reconsider their own positions in light of information from leaders of both parties. It is especially notable that these results hold for the issues of the federal minimum wage and an infrastructure bill on a survey fielded in May 2021, given the potential political salience of these issues. Just two months earlier, all 50 Senate Republicans and seven Democrats [voted against](https://www.nytimes.com/2021/03/05/us/minimum-wage-senate.html) a \\$15 minimum wage, while President Biden had [just proposed](https://www.vox.com/2021/3/31/22357179/biden-two-trillion-infrastructure-jobs-plan-explained) a federal infrastructure bill.
+
+Political salience might provide one potential explanation for why these results failed to replicate on the issue of national security spending. Perhaps the active political debate on the minimum wage and infrastructure bill encourages partisans to actively consider their own positions as well as those of the legislating parties, while on the less-salient issue of national security spending partisans fall back on signals from their party leader. Alternatively, national security spending might simply be an issue where partisans have less faith in the other party to accurately legislate.
+
+Overall, these findings provide reason for optimism as to the state of political discourse between American partisans. Even as [polarization grows](https://www.pewresearch.org/politics/2014/06/12/political-polarization-in-the-american-public/), partisans appear open to considering positions taken by the other side as well as their own.
 
 [^1]: See, for example, [its frequent use](https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&src=typed_query) by political scientists on Twitter.
 
 [^2]: One [which seems](https://twitter.com/BrendanNyhan/status/857963843607298049) to have been created and popularized by Brendan Nyhan and Stephen Miller.
 
 [^3]: The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: "Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure."
+
+[^4]: While the analysis of pooled partisans excluding leaners is omitted for brevity, doing so actually strengthens the treatment effects slightly to 0.25 for both in-party and out-party positions in the minimum wage experiment.
