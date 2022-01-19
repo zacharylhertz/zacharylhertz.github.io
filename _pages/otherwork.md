@@ -11,8 +11,8 @@ I write data analysis pieces [on my personal blog](https://zacharylhertz.github.
 
 My work has been featured in the [Washington Post](https://www.dataforprogress.org/):
 
-* [Virginia’s upcoming election pits rural voters against urban ones. Why is there such a divide?](https://www.washingtonpost.com/politics/2021/09/22/virginias-upcoming-election-pits-rural-voters-against-urban-ones-why-is-there-such-divide/) (with [Brian Schaffner](https://twitter.com/b_schaffner) and Lucas Pyle
-* Many college Republicans didn’t vote for Trump in 2020. Racist rhetoric may be to blame. (forthcoming) (with [Pia Deshpande](https://pdeshlab.github.io/) and [Brian Schaffner](https://twitter.com/b_schaffner)
+* [Virginia’s upcoming election pits rural voters against urban ones. Why is there such a divide?](https://www.washingtonpost.com/politics/2021/09/22/virginias-upcoming-election-pits-rural-voters-against-urban-ones-why-is-there-such-divide/) (with [Brian Schaffner](https://twitter.com/b_schaffner) and Lucas Pyle)
+* Many college Republicans didn’t vote for Trump in 2020. Racist rhetoric may be to blame. (forthcoming) (with [Pia Deshpande](https://pdeshlab.github.io/) and [Brian Schaffner](https://twitter.com/b_schaffner))
 
 Additionally, I have written several pieces with [Data For Progress](https://www.dataforprogress.org/):
 
