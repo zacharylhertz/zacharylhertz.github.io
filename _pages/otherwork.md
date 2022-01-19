@@ -9,7 +9,12 @@ redirect_from:
 
 I write data analysis pieces [on my personal blog](https://zacharylhertz.github.io/posts/) and via other outlets; please see a sample of my work below.
 
-I have written several pieces with [Data For Progress](https://www.dataforprogress.org/):
+My work has been featured in the [Washington Post](https://www.dataforprogress.org/):
+
+* [Virginia’s upcoming election pits rural voters against urban ones. Why is there such a divide?](https://www.washingtonpost.com/politics/2021/09/22/virginias-upcoming-election-pits-rural-voters-against-urban-ones-why-is-there-such-divide/) (with [Brian Schaffner](https://twitter.com/b_schaffner) and Lucas Pyle
+* Many college Republicans didn’t vote for Trump in 2020. Racist rhetoric may be to blame. (forthcoming) (with [Pia Deshpande](https://pdeshlab.github.io/) and [Brian Schaffner](https://twitter.com/b_schaffner)
+
+Additionally, I have written several pieces with [Data For Progress](https://www.dataforprogress.org/):
 
 * [Memo: In What Demographics Have Opinions on Climate Change Moved the Most?](https://www.dataforprogress.org/memos/in-what-demographics-have-opinions-on-climate-change-moved-the-most) 
 * [Bipartisan Endorsements Fail To Move Public Support for COVID Relief Packages](https://www.dataforprogress.org/blog/2021/2/10/do-bipartisan-endorsements-move-voters-on-covid-relief) (with [Aadhya Shivakumar](https://twitter.com/aadhyashiv) and [Emma Winey](https://twitter.com/ewiney8))
@@ -20,7 +25,7 @@ I have also contributed to the [Tufts Public Opinion Lab blog](https://tufts-pol
 
 * [Bipartisan support from senators and voters barely moves opinion on stimulus checks](https://tufts-pol.medium.com/bipartisan-support-from-senators-and-voters-barely-moves-opinion-on-stimulus-checks-8edabea0c5b1) (with [Aadhya Shivakumar](https://twitter.com/aadhyashiv) and [Emma Winey](https://twitter.com/ewiney8))
 
-Additionally, please see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
+Finally, please see this selection of my work for [The Tufts Daily](http://tuftsdaily.com/):
 
 * [Pelosi, Clark, Pressley, Trahan talk early education, child care at ‘Speaker in the House’ series](https://tuftsdaily.com/news/2019/05/19/pelosi-clark-pressley-trahan-early-education-child-care/) 
     
