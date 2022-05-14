@@ -245,27 +245,7 @@ We can thus create the weights and store them in an object called `myweights`, t
 # Create the weights
 myweights <- anesrake(targets, poll, 
                     caseid = poll$ResponseId, cap = 8, type = "nolim")
-```
-
-    ## Warning in anesrake(targets, poll, caseid = poll$ResponseId, cap = 8, type
-    ## = "nolim"): Targets for region do not sum to 100%. Adjusting values to total
-    ## 100%Targets for pres do not sum to 100%. Adjusting values to total 100%
-
-    ## [1] "100 iterations have occurred, convergence may not be possible...still working"
-    ## [1] "150 iterations have occurred, convergence may not be possible...still working"
-    ## [1] "raking achieved only partial convergence, please check the results to ensure that sufficient convergence was achieved."
-    ## [1] "no improvement was apparent after 166 iterations"
-    ## [1] "current total change in the iteration is: 0.0190008815192524 average change per weight is: 1.33433156736323e-05"
-
-    ## Warning in rakelist(towers, mat, caseid, weightvec, cap, verbose, maxit, :
-    ## Raking algorithm achieved only partial convergence, please check the results to
-    ## ensure that sufficient convergence was achieved. Average change in weight per
-    ## case is 1.33433156736323e-05
-
-    ## Warning in rakelist(towers, mat, caseid, weightvec, cap, verbose, maxit, :
-    ## Results are stable, but do not perfectly match population marginals
-
-``` r
+                    
 # Store the weights as a variable in your data
 poll$nationalweight  <- unlist(myweights[1])
 ```
