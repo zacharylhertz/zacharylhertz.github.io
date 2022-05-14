@@ -19,38 +19,37 @@ tags:
   - Census
 ---
 
-In survey research, the composition of a sample may differ notably from the population being modeled across important characteristics (e.g. race, age, education, party identification). These sampling errors often reflect systematic bias which can pose a threat to accuracy and the researcher's ability to make inferences using the data, especially if the error is correlated with the variables of interest.
+In survey research, the composition of a sample may differ notably from the population being modeled across important characteristics (e.g. race, age, education, party identification). These sampling errors often reflect systematic bias which can pose a threat to accuracy and the researcher’s ability to make inferences using the data, especially if the error is correlated with the variables of interest.
 
-In response, researchers often construct "post-stratification weights" — values assigned to each observation which can be used to correct for sampling error and match the sample to the population on key characteristics. The idea is simple: by increasing the influence of under-represented units and likewise decreasing the influence of over-represented units, researchers can create a more representative sample. This is particularly important given the dramatic increase in the use of online opt-in (or "nonprobability") samples.
+In response, researchers often construct “post-stratification weights” — values assigned to each observation which can be used to correct for sampling error and match the sample to the population on key characteristics. The idea is simple: by increasing the influence of under-represented units and likewise decreasing the influence of over-represented units, researchers can create a more representative sample. This is particularly important given the dramatic increase in the use of online opt-in (or “nonprobability”) samples.
 
 An important implication is that you can only construct post-stratification weights using characteristics that are both measured in your data and known for the population; put more simply, if we want to make our sample reflect the population, we have to know what the population looks like! Thus, [the American Commmunity Survey (ACS)](https://www.census.gov/programs-surveys/acs), a premier data source with detailed population information, is an incredible resource to construct population targets for survey weighting.
 
-Last year, I created survey weights for a project fielded with the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/), but the task proved to be fairly involved. First, accessing ACS data requires navigating the Census Bureau's fairly labyrinthine website. In addition, the size of the national ACS files -- totaling over 10 gigabytes -- is far beyond what my computer's memory could possibly handle and crashed R Studio the first time I tried to read them in.
+Last year, I created survey weights for a project fielded with the [Tufts Public Opinion Lab](https://tufts-pol.medium.com/), but the task proved to be fairly involved. First, accessing ACS data requires navigating the Census Bureau’s fairly labyrinthine website. In addition, the size of the national ACS files – totaling over 10 gigabytes – is far beyond what my computer’s memory could possibly handle and crashed R Studio the first time I tried to read them in.
 
 In this blog post, I create weights for a simplified version of the [TPOL data](https://zacharylhertz.github.io/files/2021_Lab_survey.pdf). I walk through the process of accessing ACS data and using it to construct survey weights using R. I wrote this piece for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R.
 
-This post assumes familiarity with the basic concept of post-stratification weights and their uses; those in search of additional reading on weighting are directed to [this handy piece on different weighting methods](https://www.pewresearch.org/methods/2018/01/26/for-weighting-online-opt-in-samples-what-matters-most/) by Pew. While there are multiple weighting methods, the `{anesrake}` package allows for accessible and automated raking so I use this method to create the weights. To follow along, you will need a basic working knowledge of R. You'll also use the `{data.table}`, `{survey}`, and `{tidyverse}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven't installed them already.
+This post assumes familiarity with the basic concept of post-stratification weights and their uses; those in search of additional reading on weighting are directed to [this handy piece on different weighting methods](https://www.pewresearch.org/methods/2018/01/26/for-weighting-online-opt-in-samples-what-matters-most/) by Pew. While there are multiple weighting methods, the `{anesrake}` package allows for accessible and automated raking so I use this method to create the weights. To follow along, you will need a basic working knowledge of R. You’ll also use the `{data.table}`, `{survey}`, and `{tidyverse}` packages so be sure to install those by running `install.packages()` in the console as needed if you haven’t installed them already.
 
-Choosing your weighting variables
-======
-There's no magic "one-size-fits-all" set of variables to use when creating weights. To decide which variables to weight on, researchers should be mindful of a few things. We care most about addressing imbalances in the data that bias the outcomes of interest, so "good" weighting variables are generally correlated with the attitudes and behaviors of interest. And, as previously mentioned, we need well-measured, reliable population benchmarks for each variable we decide to weight the data on. Public opinion researchers often create weights using a similar set of demographic variables, including but not limited to race and ethnicity, age, sex, education and geographic region. Other weighting variables can include voter registration status, party identification, religion, recalled or validated voting history, and (more recently) even [social trust or primary participation](https://twitter.com/rp_griffin/status/1524837756752515098?s=20&t=tBEJ_DS9CthkcsrpGhPBiQ).
+# Choosing your weighting variables
+
+There’s no magic “one-size-fits-all” set of variables to use when creating weights. To decide which variables to weight on, researchers should be mindful of a few things. We care most about addressing imbalances in the data that bias the outcomes of interest, so “good” weighting variables are generally correlated with the attitudes and behaviors of interest. And, as previously mentioned, we need well-measured, reliable population benchmarks for each variable we decide to weight the data on. Public opinion researchers often create weights using a similar set of demographic variables, including but not limited to race and ethnicity, age, sex, education and geographic region. Other weighting variables can include voter registration status, party identification, religion, recalled or validated voting history, and (more recently) even [social trust or primary participation](https://twitter.com/rp_griffin/status/1524837756752515098?s=20&t=tBEJ_DS9CthkcsrpGhPBiQ).
 
 For this tutorial, I choose to weight the data on race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote. Population benchmarks for 2020 presidential vote can be obtained from the official FEC [2020 Presidential Election Results](https://www.fec.gov/resources/cms-content/documents/2020presgeresults.pdf) and the [United States Election Project](http://www.electproject.org/2020g). To create the population benchmarks for demographic data, we turn to the ACS.
 
-Accessing and downloading ACS data
-======
+# Accessing and downloading ACS data
 
-Personally, I find [the ACS website](https://www.census.gov/programs-surveys/acs) somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau's pretabulated data products, but for our purposes we need data that we can read in and reshape directly.
+Personally, I find [the ACS website](https://www.census.gov/programs-surveys/acs) somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau’s pretabulated data products, but for our purposes we need data that we can read in and reshape directly.
 
-For this, we can use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau's File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. I turn to the most recent data (2019).
+For this, we can use [the ACS Public Use Microdata Sample (PUMS)](https://www.census.gov/programs-surveys/acs/microdata.html). You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau’s File Transfer Protocol (FTP) site: [click this link](https://www2.census.gov/programs-surveys/acs/data/pums/) and select a year. I turn to the most recent data (2019).
 
 ## A quick note on ACS time periods
 
-Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates *are not calculated as an average of 12 monthly values* (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates). 
+Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates *are not calculated as an average of 12 monthly values* (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates).
 
 Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period. For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.
 
-This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size. If both estimates are available for your year in question, which one should you use? 
+This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size. If both estimates are available for your year in question, which one should you use?
 
 For rapidly changing geographic areas, 1-year data are best as the current data is more likely to show yearly fluctuations, but are only available for geographic areas with at least 65,000 people. If you are hoping to illustrate a smooth trend, however, 5-year data may be best since the 5-year periods overlap. Above all, **you must consistently use the same estimate** so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)[^1] and stick with them.
 
@@ -62,19 +61,19 @@ How do you interpret these zip files, to pick the appropriate data? Their names 
 
 `{file format}_{record type}{state}.zip`
 
-"File format" should take on two values: 'unix', denoting SAS datasets, and 'csv', denoting comma separated value files. "Record type" is either 'h', denoting housing files, or 'p', denoting person files. Finally, the file name includes the relevant [two-letter state abbreviation code](https://pe.usps.com/text/pub28/28apb.htm), with the abbreviation "us" denoting the nationwide data.
+“File format” should take on two values: ‘unix’, denoting SAS datasets, and ‘csv’, denoting comma separated value files. “Record type” is either ‘h’, denoting housing files, or ‘p’, denoting person files. Finally, the file name includes the relevant [two-letter state abbreviation code](https://pe.usps.com/text/pub28/28apb.htm), with the abbreviation “us” denoting the nationwide data.
 
-I prefer to work with the .csv files. Because I am constructing weighting targets for the population of all American adults, I need the person record type for the "us" geography. So, I find "csv_pus.zip" and download the file. Once you download the file, unzip it (on Mac, you can right click and open with Archive Utility). You should be able to see a README .pdf file, and then your .csv data. If you are using the five-year 2019 U.S. data, you will see four .csv files (psam_pusa.csv, psam_pusb.csv, psam_pusc.csv and psam_pusd.csv). Move the folder to an appropriate working directory[^2] where you can access the data when you start constructing weights in R.
+I prefer to work with the .csv files. Because I am constructing weighting targets for the population of all American adults, I need the person record type for the “us” geography. So, I find “csv_pus.zip” and download the file. Once you download the file, unzip it (on Mac, you can right click and open with Archive Utility). You should be able to see a README .pdf file, and then your .csv data. If you are using the five-year 2019 U.S. data, you will see four .csv files (psam_pusa.csv, psam_pusb.csv, psam_pusc.csv and psam_pusd.csv). Move the folder to an appropriate working directory[^2] where you can access the data when you start constructing weights in R.
 
-Reading ACS data into R using `{fread}`
-======
-You may notice that the 2015-2019 person-level U.S. data are ... quite large. The four .csv files combined surpass 10 gigabytes. To avoid dealing with this headache, we can selectively read in the variables that we need. 
+# Reading ACS data into R using `{fread}`
+
+You may notice that the 2015-2019 person-level U.S. data are … quite large. The four .csv files combined surpass 10 gigabytes. To avoid dealing with this headache, we can selectively read in the variables that we need.
 
 As previously stated, in addition to presidential vote I choose to weight the data on race and ethnicity, region, age, sex, educational attainment, and the interaction of education and race. Glancing through the [2019 PUMS data dictionary](https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2015-2019.pdf) I can see that the key variables here are `HISP`, `AGEP`, `REGION`, `RAC1P`, `SCHL`, and `SEX`. Additionally, to create population proportion estimates from the ACS, which is itself survey data, we will also need the ACS weights, which in this case is the variable `PWGTP`.
 
-Having identified our variables of interest, we can limit the data to just these variables and read it into R using the `fread()` command from the `{data.table}` package. Here, I do this and then combine each .csv file into a single object called 'acs':
+Having identified our variables of interest, we can limit the data to just these variables and read it into R using the `fread()` command from the `{data.table}` package. Here, I do this and then combine each .csv file into a single object called ‘acs’:
 
-```{r read in data and load packages, message=FALSE}
+``` r
 # Library setup
 library(data.table) # For fread()
 library(survey) # To create weighted proportion tables
@@ -101,11 +100,11 @@ rm(a,b,c,d) # Clear the individual objects to save on memory
 acs <- subset(acs, acs$AGEP>17) # restrict data to adults
 ```
 
-Important note on matching data and targets
-======
+# Important note on matching data and targets
+
 There are two important things to remember when creating weights using `{anesrake}`. First, the variables you weight on should have the same name for both your data and the population benchmarks. The variables must also have the same number of levels (See the [CRAN documentation](https://cran.r-project.org/web/packages/anesrake/anesrake.pdf) for more). In this case, my data is an anonymized version of the TPOL data. The relevant variables in the data are `hispanic`, `sex`, `region`, `age5`, `educ4`, `race5`, `weduc` and `pres`. With that in mind, I reshape and rename the target variables to match my data using the following code:
 
-```{r recoding,  message=FALSE}
+``` r
 # Recode variables. ####
 acs$hispanic[acs$HISP!=1] <- 1  #Hispanic
 acs$hispanic[acs$HISP==1] <- 2 #Nonhispanic
@@ -155,14 +154,13 @@ acs$weduc[acs$race5>1 & acs$educ4==3] <- 7 # NW College Grad
 acs$weduc[acs$race5>1 & acs$educ4==4] <- 8 # NW Postgrad
 ```
 
-Creating population benchmarks with `{survey}`
-======
+# Creating population benchmarks with `{survey}`
+
 Now, our benchmarks need to ultimately take the form of a list of all target values where each list element is a vector corresponding to the weighting targets for a single variable.[^3] To rephrase in slightly less technical terms, we want to create a list of the variables we are weighting on (in this case race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote). In this list, each item represents a variable and is a vector, or an object of numerical values, where each numerical value is the proportion of the population represented by the given level of the variable.
 
 This may make more sense in concrete terms, so hopefully creating the list will help illustrate the concept. Recall that we can use the `{survey}` package to calculate weighted proportions from survey data, and see [my earlier tutorial](https://zacharylhertz.github.io/posts/2021/06/survey-package) for an overview of how to use `{survey}`. We can use `{survey}` and the ACS to create numeric vectors containing the proportional breakdown of our targets with the following code:
 
-
-```{r create targets,  message=FALSE}
+``` r
 # Create survey design object using ACS and weights
 svy.acs <- svydesign(ids=~1, data=acs, weights=acs$PWGTP) 
 rm(acs) # remove the ACS to save memory
@@ -206,20 +204,20 @@ weduc <- svytable(~weduc, design=svy.acs) %>%
 pres <- c(.315, .288, .011, .385) #Biden, Trump, Other, No Vote
 ```
 
-So here, we see that for example `sex` is the vector (.513, .487), indicating that the first level of `sex` (female) are estimated to be 51.3 percent of the population while the second level (male) are 48.7 percent. We can also see it's easy to manually specify the targets if you already know them: `pres` is the vector of presidential vote targets created manually.
+So here, we see that for example `sex` is the vector (.513, .487), indicating that the first level of `sex` (female) are estimated to be 51.3 percent of the population while the second level (male) are 48.7 percent. We can also see it’s easy to manually specify the targets if you already know them: `pres` is the vector of presidential vote targets created manually.
 
 Finally, we combine the individual vectors into a list using the `list()` function, which I name `targets`, and assign names to the vectors, using the following code:
 
-```{r create list,  message=FALSE, warning=FALSE}
+``` r
 targets <- list(sex, region, age5, educ4, race5, hispanic, weduc, pres)
 # remember, these names will have to match
 names(targets) <- c("sex", "region", "age5", "educ4", 
                     "race5", "hispanic", "weduc", "pres")
 ```
 
-Remember that the names for each target variable will have to match the name of the variable in your collected data. Finally, we read in our data (if you're following along, you can access my data by downloading it [at this link](https://www.dropbox.com/s/77k6odlchaszuli/sample_data.csv?dl=0)), and clean it by removing any NA values in the variables we weight on:
+Remember that the names for each target variable will have to match the name of the variable in your collected data. Finally, we read in our data (if you’re following along, you can access my data by downloading it [at this link](https://www.dropbox.com/s/77k6odlchaszuli/sample_data.csv?dl=0)), and clean it by removing any NA values in the variables we weight on:
 
-```{r read in and clean data, message=FALSE}
+``` r
 poll <- read.csv("sample_data.csv")
 
 # Remove cases with NAs on weighting variables
@@ -233,11 +231,9 @@ poll <- subset(poll, !is.na(race5))
 poll <- subset(poll, !is.na(hispanic))
 poll <- subset(poll, !is.na(weduc))
 poll <- subset(poll, !is.na(pres))
-
 ```
 
-Using `{anesrake}` to create weights
-======
+# Using `{anesrake}` to create weights
 
 To construct the actual weights, we use an automated raking procedure from `{anesrake}`, which iterates through cases and adjusts the weight until the sample and population distributions are closely aligned along our variables of interest. In this tutorial I focus on implementation and leave further discussion of the underlying procedure to [Debell and Krosnick (2009)](https://electionstudies.org/wp-content/uploads/2018/04/nes012427.pdf).
 
@@ -245,28 +241,63 @@ The `anesrake()` command has a few key arguments. The first is your list of targ
 
 We can thus create the weights and store them in an object called `myweights`, then create a variable called `nationalweight` in the data that contains our newly-created weights:
 
-```{r create weights,  message=FALSE}
+``` r
 # Create the weights
 myweights <- anesrake(targets, poll, 
                     caseid = poll$ResponseId, cap = 8, type = "nolim")
+```
+
+    ## Warning in anesrake(targets, poll, caseid = poll$ResponseId, cap = 8, type
+    ## = "nolim"): Targets for region do not sum to 100%. Adjusting values to total
+    ## 100%Targets for pres do not sum to 100%. Adjusting values to total 100%
+
+    ## [1] "100 iterations have occurred, convergence may not be possible...still working"
+    ## [1] "150 iterations have occurred, convergence may not be possible...still working"
+    ## [1] "raking achieved only partial convergence, please check the results to ensure that sufficient convergence was achieved."
+    ## [1] "no improvement was apparent after 166 iterations"
+    ## [1] "current total change in the iteration is: 0.0190008815192524 average change per weight is: 1.33433156736323e-05"
+
+    ## Warning in rakelist(towers, mat, caseid, weightvec, cap, verbose, maxit, :
+    ## Raking algorithm achieved only partial convergence, please check the results to
+    ## ensure that sufficient convergence was achieved. Average change in weight per
+    ## case is 1.33433156736323e-05
+
+    ## Warning in rakelist(towers, mat, caseid, weightvec, cap, verbose, maxit, :
+    ## Results are stable, but do not perfectly match population marginals
+
+``` r
 # Store the weights as a variable in your data
 poll$nationalweight  <- unlist(myweights[1])
 ```
 
-And just like that, you've done it! Here, you may want to run an additional line of code to save your data with the weights as a new .csv file; if so, just run `write.csv(poll, "file-name.csv")`.
+And just like that, you’ve done it! Here, you may want to run an additional line of code to save your data with the weights as a new .csv file; if so, just run `write.csv(poll, "file-name.csv")`.
 
-How do these weights change our results? By comparing the unweighted and weighted proportion tables using the following code, we can see the unweighted results overestimate the proportion of self-identified liberals and underestimate the proportion of self-identified conservatives. 
+How do these weights change our results? By comparing the unweighted and weighted proportion tables using the following code, we can see the unweighted results overestimate the proportion of self-identified liberals and underestimate the proportion of self-identified conservatives.
 
-```{r use weights, message=FALSE}
+``` r
 # Create a svy object using our new weights
 poll.weighted <- svydesign(ids = ~1, data = poll, weights = poll$nationalweight)
 
 # Unweighted proportion table
 prop.table(table(poll$ideo5))
+```
+
+    ## 
+    ##      Conservative           Liberal          Moderate          Not sure 
+    ##        0.18398876        0.17275281        0.33497191        0.05196629 
+    ## Very conservative      Very liberal 
+    ##        0.13553371        0.12078652
+
+``` r
 # Weighted proportion table
 prop.table(svytable(~ideo5, design=poll.weighted))
 ```
 
+    ## ideo5
+    ##      Conservative           Liberal          Moderate          Not sure 
+    ##        0.19572039        0.15251333        0.32417495        0.06874058 
+    ## Very conservative      Very liberal 
+    ##        0.14534022        0.11351054
 
 [^1]: While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.
 
