@@ -1,5 +1,5 @@
 ---
-title: "Using the CES to Examine Young Voters"
+title: "Examining Trends in Montana"
 output:
   md_document:
     variant: gfm
@@ -8,14 +8,218 @@ output:
       - "--wrap=preserve"
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
-date: 2021-07-06
-permalink: /posts/2021/07/young-voters
+date: 2023-08-29
+permalink: /posts/2023/08/treasure-state
 toc: true
 tags:
-  - CIRCLE
-  - CES
+  - Montana
   - youth voting
 ---
+
+```{r}
+tester2018 <- read.csv("tester2018.csv", colClasses = "character")
+bq2022 <- read.csv("bq2022.csv")
+turnout <- read.csv("turnout.csv")
+```
+
+```{r}
+library(tidyverse)
+bq2022$YES <- as.numeric(gsub(",", "", bq2022$YES))
+bq2022$NO <- as.numeric(gsub(",", "", bq2022$NO))
+bq2022 <- bq2022 %>%
+  mutate(TOTALVOTES.22 = YES + NO,
+         NO.TWAY = NO / TOTALVOTES.22,
+         NET.NO = NO-YES) %>%
+    select(County, NO.TWAY,TOTALVOTES.22, NO, YES, NET.NO)
+
+tester2018$TESTER <- as.numeric(gsub(",", "", tester2018$TESTER))
+tester2018$ROSENDALE <- as.numeric(gsub(",", "", tester2018$ROSENDALE))
+tester2018$county_fips = tester2018$FIPS.code
+tester2018$county_fips <- paste0("30", tester2018$county_fips)
+
+
+
+tester2018 <- tester2018 %>%
+  mutate(TOTALVOTES.18 = TESTER+ROSENDALE,
+         TESTER.TWAY = TESTER / TOTALVOTES.18,
+         NET.TESTER = TESTER-ROSENDALE) %>%
+  select(County, county_fips,TESTER.TWAY, TOTALVOTES.18, 
+         TESTER,ROSENDALE, NET.TESTER)
+```
+
+```{r}
+mtdat <- merge(tester2018, bq2022)
+mtdat <- merge(mtdat, turnout)
+mtdat = subset(mtdat, County != "TOTALS")
+
+mtdat <- mtdat %>% mutate(
+  diff = TESTER.TWAY - NO.TWAY,
+  turnout.diff = turnout.2022 - turnout.2018,
+  turnout.diff.z = (turnout.diff - -0.08324821)/0.05260116,
+  turnout.diff.demean = (turnout.diff - -0.08324821)
+)
+```
+
+```{r}
+library(ggplot2) # load in first to avoid issues with fortify()
+library(tidyverse)
+library(urbnmapr) # to get shapefiles
+library(scales) # needed for rescale()
+library(sf)
+library(rgdal)
+#library(maps)
+library(maptools)
+
+
+
+minimum <- countydata %>%
+  left_join(counties, by = "county_fips") %>% 
+  filter(state_name =="Montana") %>%
+  select(long, lat, county_fips) #extracting county shape info
+
+df3 <- full_join(minimum, mtdat, by='county_fips') # merge election results and county shapefiles
+
+```
+
+
+```{r}
+# Min: -0.2045489
+# Max: 0.2515544
+# recall zi = (xi – min(x)) / (max(x) – min(x)) * 100
+# Desired midpoint (xi): 0 pct
+# rescale from (-0.2045489,0.2515544) to (-1,1) and find what 0 maps to in (-1,1)
+# so, we get: (0 + 20.45489) / (25.15544+20.45489) * 100 = 44.84706
+
+margin22 <- ggplot(df3, mapping = aes(long, lat, group = county_fips, fill = diff))+
+  geom_polygon(color = "#000000", size = .25) +
+  coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
+  scale_fill_gradientn(values=rescale(c(0,0.4484706,1)),
+                       colours=c("#5aa9e6","#859de9", "white", 
+                                          "#ec976d", "#E9724C"),
+                       guide = "colourbar",
+                       aesthetics = "fill",
+                       breaks=c(-.20,-.10,0,.10,.20),
+                       labels=c("LR-131:'NO' +20%","LR-131:'NO' +10%", "0%", "Tester 2018 +10%", "Tester 2018 +20%"))+
+  theme_minimal()
+
+margin22
+```
+
+```{r center points}
+# https://stackoverflow.com/questions/9441778/improve-centering-county-names-ggplot-maps
+
+cnames <- df3 %>% group_by(County) %>%
+    summarize_at(vars(long, lat), ~ mean(range(.)))
+
+cnames2 <- cbind(cnames, mtdat$NET.TESTER, mtdat$NET.NO, mtdat$county_fips) %>%
+  mutate(NET.TESTER = mtdat$NET.TESTER,
+         NET.NO = mtdat$NET.NO,
+         county_fips = mtdat$county_fips) %>%
+  select(County, long, lat, NET.TESTER, NET.NO, county_fips)
+```
+
+
+
+```{r}
+
+tester.net.plot <- ggplot(df3, mapping = aes(long, lat, 
+                                             group = county_fips)) + 
+  geom_point(data=cnames2, aes(long, lat, fill = NET.TESTER, colour = NET.TESTER, size=NET.TESTER)) +
+  geom_polygon(color = "#000000", fill=NA, size = .25) +
+  coord_map(projection = "albers", lat0 = 39, lat1 = 45) + 
+  scale_fill_gradient2() +
+  theme_minimal()
+
+
+tester.net.plot + theme(axis.line=element_blank(),
+      axis.text.x=element_blank(),
+      axis.text.y=element_blank(),
+      axis.ticks=element_blank(),
+      panel.grid.major=element_blank(),
+      axis.title.x=element_blank(),
+      axis.title.y=element_blank(),
+      legend.title = element_text(hjust = 0),
+      plot.title = element_text(hjust = 0.05,size = 22),
+      plot.caption = element_text(hjust = 1, face = "italic", size=10)) 
+```
+
+
+
+```{r}
+# Min: -3.268973
+# Max: 2.649147
+# recall zi = (xi – min(x)) / (max(x) – min(x)) * 100
+# Desired midpoint (xi): 0 pct
+# rescale from (-3.268973,2.649147) to (-1,1) and find what 0 maps to in (-1,1)
+# so, we get: (0 + 3.268973) / (2.649147+3.268973) * 100 = 55.23668
+
+turnoutshifts <- ggplot(df3, mapping = aes(long, lat, group = county_fips, fill = turnout.diff.z))+
+  geom_polygon(color = "#000000", size = .25) +
+  coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
+  scale_fill_gradientn(values=rescale(c(0,0.5523668,1)),
+                       colours=c("#6b2d5c","#a9245e", "white", 
+                                          "#B53E2E", "#ff4e00"),
+                       guide = "colourbar",
+                       aesthetics = "fill",
+                       breaks=c(-3, -2,-1,0,1,2),
+                       labels=c("z=-3","z=-2", "z=-1", "z=0", "z=1", "z=2")) +
+  theme_minimal()
+turnoutshifts
+```
+
+
+```{r}
+mapmargin22 <- margin22 + theme(axis.line=element_blank(),
+      axis.text.x=element_blank(),
+      axis.text.y=element_blank(),
+      axis.ticks=element_blank(),
+      panel.grid.major=element_blank(),
+      axis.title.x=element_blank(),
+      axis.title.y=element_blank(),
+      legend.title = element_text(hjust = 0),
+      plot.title = element_text(hjust = 0.05,size = 22),
+      plot.caption = element_text(hjust = 1, face = "italic", size=10)) +
+      ggtitle("2018 Tester Senate v. 2022 Referendum 131 Results") +
+  labs(caption = "Statewide two-way total: Tester 2018 51.8%, Referendum 131 'NO' 52.6%\nMap: Zachary L. Hertz\n@zacharylhertz\nData: MT SOS",
+       fill = "Difference in Two-Way\nVote Share")
+mapmargin22
+```
+
+```{r}
+mapturnoutshifts <- turnoutshifts + theme(axis.line=element_blank(),
+      axis.text.x=element_blank(),
+      axis.text.y=element_blank(),
+      axis.ticks=element_blank(),
+      panel.grid.major=element_blank(),
+      axis.title.x=element_blank(),
+      axis.title.y=element_blank(),
+      legend.title = element_text(hjust = 0),
+      plot.title = element_text(hjust = 0.05,size = 22),
+      plot.caption = element_text(hjust = 1, face = "italic", size=10)) +
+      ggtitle("Standardized 2018-2022 Turnout Shifts in Montana") +
+  labs(caption = "Statewide turnout decreased by 10.2 percentage points between 2018 and 2022.\nPurple counties saw turnout drop faster than the county-level average shift.\nOrange counties had turnout shifts less negative than the county-level average shift.\nMap: Zachary L. Hertz\n@zacharylhertz\nData: MT SOS",
+       fill = "Z-Score for 2018-2022 \nCounty Turnout Shift")
+mapturnoutshifts
+```
+
+
+```{r}
+ggplot(mtdat, aes(x=turnout.diff, y=diff)) + 
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE)
+```
+```{r}
+library(tidycensus)
+mt.dat <- get_estimates(geography = "county", 
+                             product = "characteristics", 
+                             breakdown = c("SEX", "AGEGROUP", "HISP"),  
+                             breakdown_labels = TRUE, 
+                             state = "MT",
+                             year = 2021)
+```
+
+
+
 
 ```{r read in data, include=FALSE}
 library(haven)
@@ -25,6 +229,15 @@ ces14 <- read_dta("../../../Archived/CCES/data/2014 data/CCES14_Common_Content_V
 ces16 <- read_dta("../../../Archived/CCES/data/2016 data/CCES16_Common_OUTPUT_VV.dta")
 ces18 <- read_dta("../../../Archived/CCES/data/2018 data/cces18_common_vv.dta")
 ces20 <- read.csv("../../../Archived/CCES/data/2020 data/CES20_Common_OUTPUT_vv.csv")
+```
+
+```{r}
+ces10 <- subset(ces10, V302 == 30)
+ces12 <- subset(ces12, inputstate == 30)
+ces14 <- subset(ces14, inputstate == 30)
+ces16 <- subset(ces16, inputstate == 30)
+ces18 <- subset(ces18, inputstate == 30)
+ces20 <- subset(ces20, inputstate == 30)
 ```
 
 
@@ -788,45 +1001,55 @@ p.y.valvote <- ggplot(data=subset(valvote.y.data, voted!=0),
   scale_color_manual(values=c("#D87CAC", "#031927")) +
   ggtitle("")
 
-ggsave("name.png", width = 7.2, height = 5, units = c("in"), dpi=700)
 
 ```
 
-July 1 marked 50 years since the ratification of [the 26th Amendment]() to the United States Constitution, which legally extended the right to vote to those over the age of 18. Young voters have played a vital -- at times, [even decisive](https://www.theatlantic.com/politics/archive/2012/11/youth-vote-essential-to-obama-win-pew-study-shows/429561/) -- role in elections since. But decades after the franchise was extended to 18-, 19-, and 20- year-olds, how does their voting rates compare to American adults overall?
 
-Youth have [historically voted at lower rates](https://circle.tufts.edu/our-research/broadening-youth-voting) than older voters and while some evidence suggests these turnout disparities have declined in recent elections they still remain, in part due to [inadequate voter registration](https://circle.tufts.edu/latest-research/five-weeks-away-youth-voter-registration-2016-lagging-youngest-eligible-voters) efforts targeted at the youngest voters and [particularly high barriers to voting](https://fivethirtyeight.com/features/why-younger-americans-dont-vote-more-often-no-its-not-apathy/). As voting [may be habit-forming](https://isps.yale.edu/research/publications/isps03-004), understanding to what extent these inequities persist among young voters is critical to rectifying them, working towards an evenly engaged electorate, and building lifelong voters.
+```{r}
+model <- lm(NO.TWAY ~ TESTER.TWAY, data=mtdat)
+standard_res <- rstandard(model)
+mtdat <- cbind(mtdat, standard_res)
+mtdat$abs.st.res = abs(mtdat$standard_res)
 
-The [Center for Information & Research on Civic Learning and Engagement (CIRCLE)](https://circle.tufts.edu/) at Tufts University is one of the leading sources of research on young voters. Their research generally defines youth as those under 30, however, a broader group than those 18-20 affected by the 26th Amendment, and their data sources are unfortunately not public. Instead, I turn to the [Cooperative Election Study (CES)](https://cces.gov.harvard.edu/), as the premier large-scale academic survey project aimed at studying the American Electorate. The CES has over 50,000 respondents each year in its representative sample; each wave since 2010 has included over 700 respondents between ages 18 and 20, though this number has dropped in the two most recent waves.
+library(ggrepel)
+library(ggpp)
+p <- ggplot(mtdat, aes(x=TESTER.TWAY, y=NO.TWAY)) +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE) +
+  geom_text_repel(aes(label=ifelse(abs.st.res>0.9,as.character(County),'')),
+                  hjust=0,vjust=0,
+                  box.padding = 0.4, 
+                  point.padding = 0.5,
+                  segment.color = 'grey50',
+                  direction="x",
+                  position = position_nudge_line(x = 0, y = 0.04,
+                                              method = "lm",
+                                              direction = "split")) +
+  theme(axis.line=element_blank(),
+      axis.ticks=element_blank(),
+      panel.grid.major=element_blank(),
+      axis.title.x=element_blank(),
+      axis.title.y=element_blank(),
+      plot.title = element_text(hjust = 1, size = 22),
+      plot.caption = element_text(hjust = 1, face = "italic", size=10)) +
+      ggtitle("County-Level 2018 Tester Senate v. 2022 Referendum 131 Results") +
+  labs(caption = "Statewide two-way total: Tester 2018 51.8%, Referendum 131 'NO' 52.6%\nPlot: Zachary L. Hertz\n@zacharylhertz\nData: MT SOS",
+       x = "Jon Tester 2018 Two-Way Vote Share",
+       y = "LR-131 'NO' 2022 Two-Way Vote Share") +
+  theme_minimal()
+p
+```
 
-![](/images/posts/young-voters/total-ns.png)<!-- -->
+```{r}
 
-While the CES includes voting data matched to the [Catalist LLC](https://catalist.us/) voter file, the 2020 validated vote data has not been released. Until then, I use the self-reported voting data from the CES to investigate, and will replicate my analysis when validated voting data from all CES waves are made publicly available. As a result, my findings come with the important caveat that self-reported measures [consistently overestimate turnout](https://www.cambridge.org/core/journals/political-analysis/article/abs/why-does-the-american-national-election-study-overestimate-voter-turnout/78AAF29C00F368C735507F0D5160AE20).
-
-The voter registration gap between youth and older voters remains
-======
-
-When comparing voter registration and voter turnout, it is important to note that presidential and midterm elections should not be directly compared, as voter engagement is [higher in presidential elections than midterm elections](https://www.pewresearch.org/fact-tank/2014/07/24/voter-turnout-always-drops-off-for-midterm-elections-but-why/).
-
-CES data from the past three midterm elections (2010, 2014, and 2018) shows that the gap in voter registration numbers between the 18-20 year-old cohort and all adults has been persistent. In 2010, 81.5 percent of adults said that they were registered to vote where just 57.1 percent of 18-20 year-olds did, a difference of 24.4 percentage points. While the overall percent of adults registered to vote rose slightly to 82.2 percent in 2014, the number of youth who said they were registered to vote dropped to 51.2 percent, widening the voter registration gap to 31 percent. But in 2018 overall voter registration rose to 83.3 percent and youth voter registration rose with it to 58.8 percent, returning the voter registration gap to 24.5 percent.
-
-![](/images/posts/young-voters/registration.png)<!-- -->
-
-The past three presidential elections (2012, 2016, and 2020) followed a similar yet opposite trend. 76 percent of all adults were registered to vote in 2012 while 57.3 percent of 18-20 year-olds were, a difference of 18.7 percentage points. In 2016 these numbers jumped noticeably: 81.6 percent of adults and 69.3 percent of 18-20 year-olds were registered to vote, closing the gap to just 12.3 percent. But in 2020, youth voter registration dropped slightly to 65.4 percent while overall voter registration rose to 84.3 percent, bringing the voter registration gap back to 18.9 percent, near its 2012 levels.
+ggsave("scatter.png", width = 7.3, height = 5, units = c("in"), dpi=700)
+```
 
 
-The turnout gap in midterm elections has decreased, but remains in presidential elections
-======
+```{r}
+mdat <- filter(mtdat, TESTER.TWAY > 0.5)
+```
 
-CES self-reported vote data shows that the voter turnout gap between 18-20 year-olds and all adults is highest in midterm elections, but has consistently decreased since 2010. 58.9 percent of all adults but just 16 percent of youth reported voting in 2010, a difference of almost 43 percentage points. Self-reported voting increased ten percentage points to 68.8 percent among all adults in 2014 while more than doubling among youth to 35 percent, decreasing the gap to 33.8 percent. By 2018, which saw 72.8 percent of adults report voting, 45 percent of youth ages 18-20 reported voting, bringing the difference in midterm elections to its lowest gap of 27.8 percentage points.
-
-![](/images/posts/young-voters/voting.png)<!-- -->
-
-In presidential elections, the gap in self-reported voting between 18-20 year-olds and all adults is smaller, but has not followed a consistent pattern between 2012 and 2020. In 2012, 72.6 percent of adults but just 54 percent of 18-20 year-olds reported voting, a difference of 18.6 percentage points. Self-reported voting jumped in 2016: 77.4 percent of all adults and 60.3 percent of youth said they voted, decreasing the gap to just 17.1 percent. While self-reported voting increased to 78.6 percent among all adults in 2020, however, only 55.4 percent of 18-20 year-olds reported voting, deepening the turnout gap to 23.2 percentage points.
+PLACEHOLDER TEXT
 
 
-Conclusion
-======
-
-On the 50th anniversary of extending the franchise to Americans between the ages of 18 and 20, CES data shows that turnout gaps between the youngest Americans and all adults remain but may be decreasing. Gains in youth voter turnout have been especially pronounced in midterm elections, [which see lower voter turnout than presidential elections](https://www.census.gov/content/dam/Census/library/publications/2015/demo/p20-577.pdf), suggesting that while turnout disparities have not been completely eliminated, efforts to engage the youngest voters in the less-engaged midterm congressional elections may have been successful.
-
-These findings are subject to the normal limitations of using survey data to estimate voter turnout. As relying on self-response data often overestimates turnout, I hope to replicate this analysis using the CES validated vote data once the 2020 wave is released.
