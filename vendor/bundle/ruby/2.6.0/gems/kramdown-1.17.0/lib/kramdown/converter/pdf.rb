@@ -268,7 +268,7 @@ module Kramdown
 
       def codeblock_options(el, opts)
         {
-          :font => 'Courier', :color => '880000',
+          :font => 'Courier', :color => '003262',
           :bottom_padding => opts[:size]
         }
       end
@@ -347,7 +347,7 @@ module Kramdown
       alias_method :render_a, :render_em
 
       def codespan_options(el, opts)
-        {:font => 'Courier', :color => '880000'}
+        {:font => 'Courier', :color => '003262'}
       end
 
       def render_codespan(el, opts)
