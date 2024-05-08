@@ -129,6 +129,7 @@ gmw <- svyby(~gmw, ~voter, blackdat, svymean, na.rm = TRUE) %>%
   mutate(upper = gmw + 1.96 * se,
          lower = gmw - 1.96 * se)
 
+
 oequalpay <- svyby(~oequalpay, ~voter, blackdat, svymean, na.rm = TRUE) %>%
   mutate(upper = oequalpay + 1.96 * se,
          lower = oequalpay - 1.96 * se) # significant
