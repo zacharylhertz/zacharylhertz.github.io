@@ -1,0 +1,46 @@
+---
+title: "Using the CES Recontact Data to Understand 2022 Nonvoters"
+output:
+  md_document:
+    variant: gfm+footnotes
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2024-06-15
+permalink: /posts/2024/06/infrequent-voters
+toc: true
+tags:
+  - CES
+  - black vote
+  - race and ethnicity
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+
+```{r}
+library(here)
+library(tidyverse)
+library(survey)
+```
+
+```{r}
+ces <- read.csv("../../../Sandbox/CES Panel/merged_recontact.csv")
+
+ces <- ces %>% 
+  mutate(
+    pid3_switching = case_when(
+      pid3_20 == pid3_22 ~ "Did not switch",
+      pid3_20 == 1 & pid3_22 == 2 ~ "Persuaded Republican",
+      pid3_20 > 2 & pid3_22 == 2 ~ "Captured Republican",
+      pid3_20 == 2 & pid3_22 == 1 ~ "Persuaded Democrat",
+      pid3_20 > 2 & pid3_22 == 1 ~ "Captured Democrat"
+    )
+  )
+
+pid.race.tab <- table(ces$pid3_switching, ces$race_22)
+margin.table(mytable, 1)```
