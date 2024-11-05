@@ -344,9 +344,7 @@ create_demo_table <- function(design) {
   income_stats <- get_stats("income", "Income")
   employ_stats <- get_stats("employmentft", "Employment")
 
-  
-  # Create demographics comparison table with significance tests
- demo_table <- bind_rows(
+  demo_table <- bind_rows(
     gender_stats,
     age_stats,
     college_stats,
@@ -360,18 +358,17 @@ create_demo_table <- function(design) {
       "Voters" = voter_TRUE
     ) %>%
     mutate(
-      across(c(`Non-voters`, `Voters`), round, 0),  # Round to integers
-      # Add percentage sign and significance marker
+      across(c(`Non-voters`, `Voters`), round, 0),
       `Voters` = paste0(`Voters`, sig),
       `Non-voters` = paste0(`Non-voters`, "%"),
       `Voters` = paste0(`Voters`, "%")
     ) %>%
-    select(-sig) %>%  # Remove the separate significance column
-    select(Category, Characteristic, `Non-voters`, `Voters`) %>%  # Reorder columns
+    select(-sig) %>%
+    select(Category, Characteristic, `Non-voters`, `Voters`) %>%
     mutate(
       Characteristic = case_when(
         Category == "Income" & grepl(" to ", Characteristic) ~ 
-          gsub(" to ", " `to` ", Characteristic),
+          gsub(" to ", "<span style='font-style: normal;'>to</span>", Characteristic),
         TRUE ~ Characteristic
       )
     )

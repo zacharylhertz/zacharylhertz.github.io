@@ -28,25 +28,25 @@ The Good Authority piece seems, in part, to be a response to the plethora of pre
 
 To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the two groups when it comes to income or employment.
 
-| Category        | Characteristic                   | Non-voters | Voters |
-|-----------------|----------------------------------|------------|--------|
-| Age             | 18 to 29                         | 35%        | 15\*%  |
-| Age             | 30 to 49                         | 36%        | 29\*%  |
-| Age             | 50 to 64                         | 21%        | 32\*%  |
-| Age             | 65+                              | 8%         | 24\*%  |
-| Education       | College                          | 49%        | 61\*%  |
-| Education       | No college                       | 51%        | 39\*%  |
-| Employment      | Employed full-time               | 34%        | 30%    |
-| Employment      | Not employed full-time           | 66%        | 70%    |
-| Gender          | Female                           | 51%        | 55%    |
-| Gender          | Male                             | 49%        | 45%    |
-| Income          | Under \$30,000                   | 43%        | 39%    |
-| Income          | \$30,000 `to` \$49,999           | 24%        | 22%    |
-| Income          | \$50,000 `to` \$99,999           | 23%        | 27%    |
-| Income          | \$100,000 `to` \$199,999         | 8%         | 10%    |
-| Income          | \$200,000 or more                | 2%         | 2%     |
-| Parental Status | Not a parent of a child under 18 | 73%        | 80\*%  |
-| Parental Status | Parent of a child under 18       | 27%        | 20\*%  |
+| Category        | Characteristic                                                | Non-voters | Voters |
+|-----------------|---------------------------------------------------------------|------------|--------|
+| Age             | 18 to 29                                                      | 35%        | 15\*%  |
+| Age             | 30 to 49                                                      | 36%        | 29\*%  |
+| Age             | 50 to 64                                                      | 21%        | 32\*%  |
+| Age             | 65+                                                           | 8%         | 24\*%  |
+| Education       | College                                                       | 49%        | 61\*%  |
+| Education       | No college                                                    | 51%        | 39\*%  |
+| Employment      | Employed full-time                                            | 34%        | 30%    |
+| Employment      | Not employed full-time                                        | 66%        | 70%    |
+| Gender          | Female                                                        | 51%        | 55%    |
+| Gender          | Male                                                          | 49%        | 45%    |
+| Income          | Under \$30,000                                                | 43%        | 39%    |
+| Income          | \$30,000<span style="font-style: normal;">to</span>\$49,999   | 24%        | 22%    |
+| Income          | \$50,000<span style="font-style: normal;">to</span>\$99,999   | 23%        | 27%    |
+| Income          | \$100,000<span style="font-style: normal;">to</span>\$199,999 | 8%         | 10%    |
+| Income          | \$200,000 or more                                             | 2%         | 2%     |
+| Parental Status | Not a parent of a child under 18                              | 73%        | 80\*%  |
+| Parental Status | Parent of a child under 18                                    | 27%        | 20\*%  |
 
 Note: \* indicates difference between voters and non-voters is significant at p \< 0.05
 
