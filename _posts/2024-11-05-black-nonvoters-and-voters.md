@@ -26,7 +26,7 @@ The Good Authority piece seems, in part, to be a response to the plethora of pre
 
 # Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor
 
-To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the trwo groups when it comes to income or employment.
+To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the two groups when it comes to income or employment.
 
 | Category        | Characteristic                   | Non-voters | Voters |
 |-----------------|----------------------------------|------------|--------|
@@ -60,7 +60,7 @@ Conversations about Black mobilization tend to operate around an implicit assump
 
 While Black Americans who chose to stay home in 2020 did prefer Trump at slightly higher rates than those who actually turned out to vote, the differences are small and not statistically significant. Just 13 percent of Black Americans who did not turn out to vote would have lent their support to Donald Trump, while among Black Americans who actually did cast a ballot a mere 9 percent backed the former president. This group did not appear to especially eschew Biden either: 85 percent of Black 2020 non-voters reported preferring Joe Biden, while 89 percent of Black 2020 voters supported the eventual winner.
 
-Perhaps, however, these groups differed in their policy preferences and opinion attitudes in a meaningful way that made them easy targets for persuasion and mobilization by the Republican party in the four years since. To investigate, I first look at differences between Black 2020 voters and non-voters on a number of attitudinal questions asked in the CES.
+Perhaps, however, these groups differed in their policy preferences and opinion attitudes in a meaningful way that made them easy targets for persuasion and mobilization by the Republican Party in the four years since. To investigate, I first look at differences between Black 2020 voters and non-voters on a number of attitudinal questions asked in the CES.
 
 # Black Americans who stayed home in 2020 generally express more conservative social attitudes
 
