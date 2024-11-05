@@ -345,8 +345,8 @@ create_demo_table <- function(design) {
   employ_stats <- get_stats("employmentft", "Employment")
 
   
-  # Combine all results
-  demo_table <- bind_rows(
+  # Create demographics comparison table with significance tests
+ demo_table <- bind_rows(
     gender_stats,
     age_stats,
     college_stats,
@@ -367,7 +367,14 @@ create_demo_table <- function(design) {
       `Voters` = paste0(`Voters`, "%")
     ) %>%
     select(-sig) %>%  # Remove the separate significance column
-    select(Category, Characteristic, `Non-voters`, `Voters`)  # Reorder columns
+    select(Category, Characteristic, `Non-voters`, `Voters`) %>%  # Reorder columns
+    mutate(
+      Characteristic = case_when(
+        Category == "Income" & grepl(" to ", Characteristic) ~ 
+          gsub(" to ", " `to` ", Characteristic),
+        TRUE ~ Characteristic
+      )
+    )
   
   return(demo_table)
 }
@@ -666,6 +673,8 @@ print_markdown_table <- function(demo_table) {
   demo_table %>%
     arrange(Category) %>%
     apply(1, function(row) {
+      # Replace dollar signs with escaped dollar signs
+      characteristic <- gsub("\\$", "\\\\$", row["Characteristic"])
       cat(sprintf("| %s | %s | %s | %s |\n",
                  row["Category"],
                  row["Characteristic"],

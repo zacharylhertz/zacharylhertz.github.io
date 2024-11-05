@@ -41,9 +41,9 @@ To start, I examine demographic differences between Black 2020 voters and Black 
 | Gender          | Female                           | 51%        | 55%    |
 | Gender          | Male                             | 49%        | 45%    |
 | Income          | Under \$30,000                   | 43%        | 39%    |
-| Income          | \$30,000 to \$49,999             | 24%        | 22%    |
-| Income          | \$50,000 to \$99,999             | 23%        | 27%    |
-| Income          | \$100,000 to \$199,999           | 8%         | 10%    |
+| Income          | \$30,000 `to` \$49,999           | 24%        | 22%    |
+| Income          | \$50,000 `to` \$99,999           | 23%        | 27%    |
+| Income          | \$100,000 `to` \$199,999         | 8%         | 10%    |
 | Income          | \$200,000 or more                | 2%         | 2%     |
 | Parental Status | Not a parent of a child under 18 | 73%        | 80\*%  |
 | Parental Status | Parent of a child under 18       | 27%        | 20\*%  |
