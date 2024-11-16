@@ -18,35 +18,37 @@ tags:
   - race and ethnicity
 ---
 
+*I’ve made the replication code for this blog post publically available, here* [as a GitHub repository](https://github.com/zacharylhertz/black-voter-nonvoter-analysis).
+
 Analysts love the truism that elections can be seen through two lenses: persuasion and turnout. And today, as voting ends for an election that will likely be decided by a margin of a few hundred thousand voters across seven states, particular attention has been brought to the latter. A recent [Good Authority piece](https://goodauthority.org/news/black-voters-as-saviors-and-scapegoats/) makes the crucial point[^1] that Black voters are called upon to either save the day or serve as scapegoats depending on the election results, and analysis that treats Black Americans as a monolithic voting bloc misses important dynamics in the race.
 
 The Good Authority piece seems, in part, to be a response to the plethora of pre-election pieces that focus on low-turnout Black voters. In particular, Nate Cohn of the New York Times has [written](https://www.nytimes.com/2024/05/24/upshot/trump-biden-polls-voters.html) several [pieces](https://www.nytimes.com/2024/06/15/upshot/election-democrats-republicans-turnout-trump.html) suggesting that Black voters who did not vote in 2020 [will be crucial](https://www.nytimes.com/2024/10/30/upshot/election-turnout-trump-harris-polls.html) in determining this year’s results. He’s not the only one: similar pieces ran in [CNN](https://www.cnn.com/2024/10/22/politics/young-black-men-voters/index.html) and [Time](https://time.com/7171814/kamala-harris-polls-black-voters/), and these claims have been made by [pundits](https://x.com/PatrickRuffini/status/1852717840954007899) and [academics](https://abcnews.go.com/538/vote-back-trump/story?id=109090626) alike. Yet while much ink has been spilled ahead of today’s election trying to estimate how the 2024 election might be shaped by winning over the group of Black voters who sat out 2020, very few analysts writing about Black Americans have focused on *how 2020 voters and non-voters differ*. Additionally, to the extent that these pieces have considered possible differences, their ability to establish definitive findings are largely limited because they are drawn from pre-election polling of relatively small subgroups, meaning large margins of error can obscure real differences.
 
-**How do Black Americans who chose to vote in 2020 differ from those who sat out the election?** What policy areas might motivate those who sat out in 2020 to vote in 2024, and how do their attitudes on racial and gender issues differ? To answer these questions, I use the 2020 Cooperative Election Study, which presents two distinctive advantages over analysis relying on pre-election polling. The large sample size of the CES reduces the margin of error when estimating differences between Black Americans who voted in 2020 and Black Americans who stayed home in 2020 (the 2020 data has n=3,096 Black voters and n=1,816 Black non-voters); additionally, CES respondents reply to a large battery of attitudinal and policy questions, allowing me to assess differences in opinion across a wide number of potential issues. Voter status is determined using the `CL_2020gvm` variable: respondents with a validated voting record, no matter their mode of participation, are defined as voters. Both matched non-voters and non-matched respondents are defined as non-voters; a deeper discussion of this definition can be found in the CES Guide.
+**How do Black Americans who chose to vote in 2020 differ from those who sat out the election?** What policy areas might motivate those who sat out in 2020 to vote in 2024, and how do their attitudes on racial and gender issues differ? To answer these questions, I use the 2020 Cooperative Election Study, which presents two distinctive advantages over analysis relying on pre-election polling. The large sample size of the CES reduces the margin of error when estimating differences between Black Americans who voted in 2020 and Black Americans who stayed home in 2020 (the 2020 data has n=3,096 Black voters and n=1,816 Black non-voters); additionally, CES respondents reply to a large battery of attitudinal and policy questions, allowing me to assess differences in opinion across a wide number of potential issues. Voter status is determined using the `CL_2020gvm` variable: respondents with a validated voting record, no matter their mode of participation, are defined as voters. Both matched non-voters and non-matched respondents are defined as non-voters; a deeper discussion of this definition can be found in [the CES Guide](https://dataverse.harvard.edu/file.xhtml?fileId=5793681&version=4.0).
 
 # Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor
 
 To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the two groups when it comes to income or employment.
 
-| Category        | Characteristic                                                | Non-voters | Voters |
-|-----------------|---------------------------------------------------------------|------------|--------|
-| Age             | 18 to 29                                                      | 35%        | 15\*%  |
-| Age             | 30 to 49                                                      | 36%        | 29\*%  |
-| Age             | 50 to 64                                                      | 21%        | 32\*%  |
-| Age             | 65+                                                           | 8%         | 24\*%  |
-| Education       | College                                                       | 49%        | 61\*%  |
-| Education       | No college                                                    | 51%        | 39\*%  |
-| Employment      | Employed full-time                                            | 34%        | 30%    |
-| Employment      | Not employed full-time                                        | 66%        | 70%    |
-| Gender          | Female                                                        | 51%        | 55%    |
-| Gender          | Male                                                          | 49%        | 45%    |
-| Income          | Under \$30,000                                                | 43%        | 39%    |
-| Income          | \$30,000<span style="font-style: normal;">to</span>\$49,999   | 24%        | 22%    |
-| Income          | \$50,000<span style="font-style: normal;">to</span>\$99,999   | 23%        | 27%    |
-| Income          | \$100,000<span style="font-style: normal;">to</span>\$199,999 | 8%         | 10%    |
-| Income          | \$200,000 or more                                             | 2%         | 2%     |
-| Parental Status | Not a parent of a child under 18                              | 73%        | 80\*%  |
-| Parental Status | Parent of a child under 18                                    | 27%        | 20\*%  |
+| Category        | Characteristic                                                  | Non-voters | Voters |
+|-----------------|-----------------------------------------------------------------|------------|--------|
+| Age             | 18 to 29                                                        | 35%        | 15\*%  |
+| Age             | 30 to 49                                                        | 36%        | 29\*%  |
+| Age             | 50 to 64                                                        | 21%        | 32\*%  |
+| Age             | 65+                                                             | 8%         | 24\*%  |
+| Education       | College                                                         | 49%        | 61\*%  |
+| Education       | No college                                                      | 51%        | 39\*%  |
+| Employment      | Employed full-time                                              | 34%        | 30%    |
+| Employment      | Not employed full-time                                          | 66%        | 70%    |
+| Gender          | Female                                                          | 51%        | 55%    |
+| Gender          | Male                                                            | 49%        | 45%    |
+| Income          | Under \$30,000                                                  | 43%        | 39%    |
+| Income          | \$30,000<span style="font-style: normal;"> to </span>\$49,999   | 24%        | 22%    |
+| Income          | \$50,000<span style="font-style: normal;"> to </span>\$99,999   | 23%        | 27%    |
+| Income          | \$100,000<span style="font-style: normal;"> to </span>\$199,999 | 8%         | 10%    |
+| Income          | \$200,000 or more                                               | 2%         | 2%     |
+| Parental Status | Not a parent of a child under 18                                | 73%        | 80\*%  |
+| Parental Status | Parent of a child under 18                                      | 27%        | 20\*%  |
 
 Note: \* indicates difference between voters and non-voters is significant at p \< 0.05
 
