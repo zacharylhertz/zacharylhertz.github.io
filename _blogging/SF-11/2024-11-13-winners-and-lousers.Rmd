@@ -1,0 +1,127 @@
+---
+title: "Looking at Trends in CA-11"
+output:
+  md_document:
+    variant: gfm+footnotes
+    preserve_yaml: TRUE
+    pandoc_args: 
+      - "--wrap=preserve"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../_posts") })
+date: 2024-11-13
+permalink: /posts/2024/11/pelosi
+toc: true
+tags:
+  - Congress
+  - Asian Americans
+  - Elections
+---
+
+Data sources: <https://statewidedatabase.org/d20/g22.html>
+Shapefiles: <https://statewidedatabase.org/d20/g22_geo_conv.html>
+CD boundaries: <https://sfelections.sfgov.org/sites/default/files/Documents/Maps/J22_NewCongressionalDistrictMap.pdf>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+
+```{r}
+# Load required libraries
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Read in the shapefile
+precincts <- st_read("shapefiles/mprec_075_g22_v01.shp")
+
+precincts <- precincts %>% 
+  mutate(srprec = PRECINCT) # for easier merging
+
+# Read in the vote totals
+results_data <- read.csv("c075_g22_sov_data_by_g22_srprec.csv")
+
+# Read in the crosswalk
+crosswalk <- read.csv("c075_g22_sr_blk_map.csv")
+
+
+# to join election results data:
+precincts_with_data <- precincts %>% # Shapefiles
+  left_join(results_data, by = "srprec") %>% # Left join in results
+  mutate(total_cng_votes = CNGDEM01 + CNGDEM02 + CNGGRN01 + CNGREP01, # Total CA-11 votes
+         two_way_votes = CNGDEM01 + CNGREP01, # Total D + R votes
+         pelosi.twv = CNGDEM01/two_way_votes, # Pelosi two-way 
+         pelosi.pct = CNGDEM01/total_cng_votes, # Pelosi raw pct
+         republican.twv = CNGREP01/two_way_votes,
+         republican.pct = CNGREP01/total_cng_votes)
+
+
+# Filter out the Farallon Islands by focusing on the main SF area
+sf_only <- precincts_with_data %>%
+  filter(srprec != "water") %>% 
+  st_crop(xmin = -122.55, xmax = -122.35,  # approximate SF longitude bounds
+          ymin = 37.70, ymax = 37.85)       # approximate SF latitude bounds
+
+outside_precincts <- c(
+  9731, 1106, 1105, 1104, 1109, 1111, 1107, 1112, 1113, 1114,
+  1115, 1117, 1118, 1119, 1121, 1145, 1122, 1124, 1146, 1144,
+  1123, 1125, 1126, 1128, 1127, 1141, 1147, 1148, 1142, 1129,
+  1136, 1137, 1133, 1131, 1129, 1132, 1134, 1138, 1143, 1149,
+  1135, 1139, 7942, 7943, 7944, 7945, 9902, 7947, 7948, 7949, 
+  7946, 7039, 7041, 7042, 7043, 7045, 7046, 7044, 7049, 7048,
+  7047, 7052) # Manually remove precincts outside CD boundaries
+
+# Filter the data to remove excluded precincts
+sf_only_ca_11 <- sf_only %>%
+  filter(!srprec %in% outside_precincts)
+
+crosswalk_ca_11 <- crosswalk %>% 
+  filter(!srprec %in% outside_precincts)
+
+# Calculate centroids for labeling
+precinct_centers <- st_centroid(sf_only_ca_11, of_largest_polygon = TRUE) %>% 
+    st_crop(xmin = -122.55, xmax = -122.35,  # approximate SF longitude bounds
+          ymin = 37.70, ymax = 37.85)
+
+
+# Plot with joined data
+ggplot(sf_only_ca_11) +
+  geom_sf(aes(fill = pelosi.twv)) +
+  scale_fill_gradient2(
+    low = "#C20114", 
+    mid = "#EAF2EF",
+    high = "#3266E9",
+    midpoint = 0.8395,
+    name = "Pelosi 2022\n(Two-Way Vote Share)"
+  ) +
+  # Add labels using centroids
+  # geom_sf_text(data = precinct_centers,
+  #              aes(label = srprec),
+  #              size = 2.5,
+  #              color = "black",
+  #              fontface = "bold",
+  #              check_overlap = FALSE) +  # Set to TRUE if still too crowded
+  theme_void() +
+  theme(
+    axis.text = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+ggsave("map.png", width = 15, height = 15)
+```
+
+
+```{r}
+library(leaflet)
+library(leafpop)
+
+leaflet(precincts_with_data) %>%
+  addPolygons(
+    label = ~as.character(srprec),
+    labelOptions = labelOptions(noHide = TRUE, textsize = "12px"),
+    fillOpacity = 0.7
+  )
+```
+
