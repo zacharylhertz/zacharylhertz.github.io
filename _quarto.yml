@@ -7,6 +7,7 @@ project:
 website:
   title: "Zachary Lorico Hertz"
   site-url: "index.qmd"
+  favicon: assets/favicon.png
   search: false
   navbar:
     right:
