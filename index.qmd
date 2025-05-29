@@ -1,11 +1,31 @@
 ---
-title: "hertz"
+title: "Zachary Lorico Hertz"
+subtitle: "Ph.D. Student at UC Berkeley"
+image: media/headshot.JPG
+toc: false
+format:
+  html:
+    theme: 
+      - assets/home_styles.scss
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 20em
+  links:
+    - text: LinkedIn
+      icon: linkedin
+      href: https://www.linkedin.com/in/zacharylhertz/
+    - text: GitHub
+      icon: github
+      href: https://github.com/zacharylhertz
+    - text: Email
+      icon: envelope
+      href: mailto:zachary_hertz@berkeley.edu
+    - text: Twitter
+      icon: twitter
+      href: https://www.twitter.com/zacharylhertz/
 ---
 
-This is a Quarto website.
+Welcome to my website! I am a researcher, political consultant, and data journalist driven by a love for community. In my research, I use geocoded observational data and original survey data in my research to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+Learn more [about me here,](/about.html) or check out [my research](research/research.html).

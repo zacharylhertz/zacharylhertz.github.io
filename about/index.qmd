@@ -1,0 +1,31 @@
+---
+title: "Zachary Lorico Hertz"
+subtitle: "Ph.D. Student at UC Berkeley"
+image: ../media/golden_gate.jpg
+toc: false
+about: 
+  template: trestles
+  image-shape: rounded
+  image-width: 20em
+  links:
+    - text: LinkedIn
+      icon: linkedin
+      href: https://www.linkedin.com/in/zacharylhertz/
+    - text: GitHub
+      icon: github
+      href: https://github.com/zacharylhertz
+    - text: Email
+      icon: envelope
+      href: mailto:zachary_hertz@berkeley.edu
+    - text: Twitter
+      icon: twitter
+      href: https://www.twitter.com/zacharylhertz/
+---
+
+# Hey, it's good to see you here!
+
+Thanks for taking the time to get to know me. My name is Zachary Lorico Hertz and I am a third-year Ph.D. student at UC Berkeley. I study how identities develop, are expressed through political behavior, and intersect with power in local politics. In my research, I use causal inference methods and survey data to study the effects an increasingly diverse and partisan electorate will have on representation and sub-national institutions.
+
+My writing has been featured in academic and popular outlets, including the Election Law Journal and the Washington Post. Previously, I worked as an Analyst at Data for Progress, where I fielded and analyzed polling data for a number of clients in progressive politics. In addition to my academic research, I have done independent political consulting for Groundwork Project, Data for Progress, and private clients. I received an M.A. from the University of Chicago, and a B.A. from Tufts University. I also write poetry, forthcoming in [Yearling](https://workhorsewriters.com/feedback/).
+
+While much of my time is devoted to reading, writing, or coding, I enjoy hiking, quiz bowl, and both performing and producing music in my spare time. I am in a band with other Ph.D. students called [Good Bones](https://www.instagram.com/goodbones_band/), named for [the poem](https://www.poetryfoundation.org/poems/89897/good-bones) by Maggie Smith (no, not that one). Send me an email and let's talk more!

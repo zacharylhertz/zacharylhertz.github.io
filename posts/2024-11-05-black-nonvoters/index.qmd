@@ -1,0 +1,109 @@
+---
+title: 'What Can Survey Data Tell Us About Ideological Differences Between Black Voters and Black Nonvoters?'
+author: Zachary Lorico Hertz
+date: '2024-11-05'
+date-modified: '2024-11-05'
+image: images/plot_votes.png
+aliases: 
+  - /posts/2024/11/black-voters-and-nonvoters
+categories:
+  - electoral analysis
+  - R
+  - CES
+  - Black Americans
+  - turnout
+  - race and ethnicity
+subtitle: "How much do Black 2020 voters differ from Black 2020 nonvoters, and what does this mean for the 2024 election?"
+description: 'Analysis of 2020 CES data reveals modest ideological differences between Black Americans who voted and those who stayed home, challenging assumptions about conservative nonvoter mobilization.'
+code-annotations: below
+footnotes-hover: false
+df-print: paged
+citation: true
+# format:
+#   pdf:
+#     toc: true
+#     number-sections: true
+#     colorlinks: true
+---
+
+*I've made the replication code for this blog post publically available, here* [as a GitHub repository](https://github.com/zacharylhertz/black-voter-nonvoter-analysis).
+
+Analysts love the truism that elections can be seen through two lenses: persuasion and turnout. And today, as voting ends for an election that will likely be decided by a margin of a few hundred thousand voters across seven states, particular attention has been brought to the latter. A recent [Good Authority piece](https://goodauthority.org/news/black-voters-as-saviors-and-scapegoats/) makes the crucial point[^1] that Black voters are called upon to either save the day or serve as scapegoats depending on the election results, and analysis that treats Black Americans as a monolithic voting bloc misses important dynamics in the race.
+
+[^1]: I highly recommend reading the piece --- by Nadia E. Brown, Christopher J. Clark, Anna M. Mahoney, Periloux Peay, and Michael G. Strawbridge --- in its entirety. Plus, don't you need something to keep your mind off drawing overly strong conclusions from early returns?
+
+The Good Authority piece seems, in part, to be a response to the plethora of pre-election pieces that focus on low-turnout Black voters. In particular, Nate Cohn of the New York Times has [written](https://www.nytimes.com/2024/05/24/upshot/trump-biden-polls-voters.html) several [pieces](https://www.nytimes.com/2024/06/15/upshot/election-democrats-republicans-turnout-trump.html) suggesting that Black voters who did not vote in 2020 [will be crucial](https://www.nytimes.com/2024/10/30/upshot/election-turnout-trump-harris-polls.html) in determining this year's results. He's not the only one: similar pieces ran in [CNN](https://www.cnn.com/2024/10/22/politics/young-black-men-voters/index.html) and [Time](https://time.com/7171814/kamala-harris-polls-black-voters/), and these claims have been made by [pundits](https://x.com/PatrickRuffini/status/1852717840954007899) and [academics](https://abcnews.go.com/538/vote-back-trump/story?id=109090626) alike. Yet while much ink has been spilled ahead of today's election trying to estimate how the 2024 election might be shaped by winning over the group of Black voters who sat out 2020, very few analysts writing about Black Americans have focused on *how 2020 voters and non-voters differ*. Additionally, to the extent that these pieces have considered possible differences, their ability to establish definitive findings are largely limited because they are drawn from pre-election polling of relatively small subgroups, meaning large margins of error can obscure real differences.
+
+**How do Black Americans who chose to vote in 2020 differ from those who sat out the election?** What policy areas might motivate those who sat out in 2020 to vote in 2024, and how do their attitudes on racial and gender issues differ? To answer these questions, I use the 2020 Cooperative Election Study, which presents two distinctive advantages over analysis relying on pre-election polling. The large sample size of the CES reduces the margin of error when estimating differences between Black Americans who voted in 2020 and Black Americans who stayed home in 2020 (the 2020 data has n=3,096 Black voters and n=1,816 Black non-voters); additionally, CES respondents reply to a large battery of attitudinal and policy questions, allowing me to assess differences in opinion across a wide number of potential issues. Voter status is determined using the `CL_2020gvm` variable: respondents with a validated voting record, no matter their mode of participation, are defined as voters. Both matched non-voters and non-matched respondents are defined as non-voters; a deeper discussion of this definition can be found in [the CES Guide](https://dataverse.harvard.edu/file.xhtml?fileId=5793681&version=4.0).
+
+# Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor
+
+To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the two groups when it comes to income or employment.
+
+| Category        | Characteristic                                      | Non-voters | Voters |
+|----------------|-------------------------|----------------|----------------|
+| Age             | 18 to 29                                            | 35%        | 15\*%  |
+| Age             | 30 to 49                                            | 36%        | 29\*%  |
+| Age             | 50 to 64                                            | 21%        | 32\*%  |
+| Age             | 65+                                                 | 8%         | 24\*%  |
+| Education       | College                                             | 49%        | 61\*%  |
+| Education       | No college                                          | 51%        | 39\*%  |
+| Employment      | Employed full-time                                  | 34%        | 30%    |
+| Employment      | Not employed full-time                              | 66%        | 70%    |
+| Gender          | Female                                              | 51%        | 55%    |
+| Gender          | Male                                                | 49%        | 45%    |
+| Income          | Under \$30,000                                      | 43%        | 39%    |
+| Income          | \$30,000[to]{style="font-style: normal;"}\$49,999   | 24%        | 22%    |
+| Income          | \$50,000[to]{style="font-style: normal;"}\$99,999   | 23%        | 27%    |
+| Income          | \$100,000[to]{style="font-style: normal;"}\$199,999 | 8%         | 10%    |
+| Income          | \$200,000 or more                                   | 2%         | 2%     |
+| Parental Status | Not a parent of a child under 18                    | 73%        | 80\*%  |
+| Parental Status | Parent of a child under 18                          | 27%        | 20\*%  |
+
+Note: \* indicates difference between voters and non-voters is significant at p \< 0.05
+
+The two groups diverge, however, when considering other demographic splits more consistently linked to voter engagement. Black Americans who voted in 2020 tend to be older than those who stayed home; 56 percent of Black 2020 voters were above the age of 50, as opposed to just 29 percent of non-voters. The group that voted was also more likely to be college educated, with 61 percent of Black 2020 voters holding a college degree (as opposed to 49 percent of Black 2020 non-voters). Finally, there was also a statistically significant difference in the percent of Black Americans who did not vote in 2020 who were also the parent of a child under 18 (27 percent) when compared to those who did vote (20 percent).
+
+# Black Americans who stayed home in 2020 were not much more likely to prefer Trump than those who voted
+
+Conversations about Black mobilization tend to operate around an implicit assumption that Black nonvoters are more conservative than Black voters, and many pundits [have chosen to interpret](https://www.cnn.com/2021/07/12/politics/woke-green-new-deal-defund-the-police/index.html) the erosion of support for Democrats among Black voters in 2020 as a sign that "wokeness" has driven minority voters away from the Democratic Party. Democratic strategist James Carville [argued this summer](https://www.foxnews.com/media/james-carville-biden-camp-right-concerned-about-black-vote-problem) that this demobilization explained Democrats' electoral woes, yet a quantitative assessment of the merits of this argument remains forthcoming.
+
+![](images/plot_votes.png)<!-- -->
+
+While Black Americans who chose to stay home in 2020 did prefer Trump at slightly higher rates than those who actually turned out to vote, the differences are small and not statistically significant. Just 13 percent of Black Americans who did not turn out to vote would have lent their support to Donald Trump, while among Black Americans who actually did cast a ballot a mere 9 percent backed the former president. This group did not appear to especially eschew Biden either: 85 percent of Black 2020 non-voters reported preferring Joe Biden, while 89 percent of Black 2020 voters supported the eventual winner.
+
+Perhaps, however, these groups differed in their policy preferences and opinion attitudes in a meaningful way that made them easy targets for persuasion and mobilization by the Republican Party in the four years since. To investigate, I first look at differences between Black 2020 voters and non-voters on a number of attitudinal questions asked in the CES.
+
+# Black Americans who stayed home in 2020 generally express more conservative social attitudes
+
+Among Black Americans, there appears to be very little difference between those who voted in 2020 and those who did not when considering the role of historical and systemic racism. Respondents were asked whether they agreed or disagreed with the statement that "generations of slavery and discrimination have created conditions that make it difficult for blacks \[sic\] to work their way out of the lower class." When faced with this question, 76 percent of Black 2020 voters and 72 percent of Black 2020 non-voters agreed.
+
+![](images/plot_attitudes.png)<!-- -->
+
+But when racism is *cast in a present tense*, there are statistically significant differences between the groups. Black Americans who stayed home in 2020 were less likely than those who voted to agree that white Americans have particular advantages today and more likely to suggest that any racial tensions in modern America are rare and isolated incidents.
+
+Black Americans who did not vote in 2020 were also more likely than those who did vote to agree with the statement that "women are too easily offended", though agreement was muted in absolute terms; 34 percent of Black 2020 non-voters agreed that women are too easily offended, while 23 percent of Black 2020 voters agreed with the same statement.
+
+While there appear to be real and important differences between the two groups on salient attitudinal issues, policy issues are more likely to inform us about what might actually motivate these individuals to vote or not in 2024, and for whom.
+
+# Policy differences between Black Americans who voted and stayed home in 2020 are noticeable but small
+
+To investigate, I plot the differences between Black Americans who voted in 2020 and Black Americans who stayed home across a variety of policy areas. The widest differences (about 15 percentage points on each policy) emerge when considering a proposal to repeal the Affordable Care Act and a proposal to ban assault rifles. 83 percent of Black 2020 voters support an assault rifle ban, while 68 percent of those who did not turn out to vote support the same policy. Meanwhile, a mere 23 percent of those who voted support a proposed ACA repeal, but 39 percent of those who did not vote back the hypothetical ACA repeal.
+
+![](images/plot_policy.png)<!-- -->
+
+Black Americans who voted in 2020 were notably more liberal than those who did not turn out to vote on a number of policing policies. A resounding 90 percent of Black Americans who voted in 2020 supported a proposal to ban the use of chokeholds by police, which was understandably a salient proposal given that George Floyd had been murdered less than six months previously. The same proposal was backed by 81 percent of Black Americans who did not vote, and this difference (9 percentage points) was statistically significant. 81 percent of Black Americans who voted in 2020 and 71 percent of those who did not vote supported a policy to eliminate mandatory minimum sentences for non-violent drug-related criminal offenses, another considerable and statistically significant difference.
+
+Important differences also emerged on some immigration-related policies. Nearly half (46 percent) of Black Americans who did not vote in 2020 supported a policy to withhold federal funds from police departments that failed to report illegal immigrants, though just 36 percent of those who ended up actually voting supported the policy. And while less than 1 in 4 Black 2020 voters supported a proposal to increase border security spending by 25 billion dollars, the proposal garnered support from nearly 1 in 3 Black American who failed to vote in 2020. These differences could explain some of the moderation on immigration that the Harris campaign has publicly undertaken in its attempt to win swing states.
+
+On abortion, Black 2020 voters and non-voters were generally in agreement on nuanced policies. When asked whether they would support a proposal to always allow a woman to obtain an abortion as a matter of choice, however, support dropped to just two-thirds of 2020 non-voters (as opposed to 73 percent among 2020 voters). Similarly, nearly one quarter (23 percent) of 2020 non-voters backed a total abortion ban, while just 17 percent of 2020 voters backed this proposal.
+
+Notably, Black Americans who voted in 2020 and Black Americans who did not turn out to vote appear similar on a number of policy items surrounding material concerns; about 75 percent of both groups support plans to raise the minimum wage to 15 dollars an hour, lower the Medicare eligibility age to 50, and establish a single public health care program that covers all Americans.
+
+# Conclusion
+
+By using large-scale survey data matched to administrative voter file validation, we can paint a more nuanced picture of Black voter participation than is often presented in pre-election analysis, reveal the important ways in which Black voters disagree, and potentially understand some of the trends in today's election.
+
+While Black Americans who stayed home in 2020 do express somewhat more conservative views on certain social issues and policies, these differences are relatively modest - particularly on economic policies, where both groups show strong support for progressive measures like raising the minimum wage and expanding healthcare access. The largest attitudinal gaps emerge not around historical racism but rather in perspectives on contemporary racial dynamics and gender issues.
+
+These findings suggest that treating Black non-voters as a monolithic bloc ripe for conservative mobilization oversimplifies a complex reality. The likelihood of razor-thin margins, combined with the long history of racial politics in America, leads pundits to pay especially close attention to the potential Black electorate without considering these dynamics and my analysis on how these issue positions differ between past voters and non-voters provides a strong starting point for future attempts to understand the election's results. Black voters should be understood as neither saviors nor scapegoats, but instead as a powerful electorate with its own ideological heterogeneity.
