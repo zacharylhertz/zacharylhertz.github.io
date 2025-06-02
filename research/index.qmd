@@ -39,7 +39,7 @@ format:
     anchor-sections: false
 ---
 
-Use the filters on the right to browse my research by topic. If you'd prefer, you can download my CV in .pdf format <a href="../files/cv__complete_ZacharyHertz.pdf" target="_blank">here</a>. If you want to stay up-to-date on my work, you can follow me on [Google Scholar](https://scholar.google.com/citations?user=klsCwE4AAAAJ&hl=en).
+Use the filters on the right to browse my research by topic. If you'd prefer, you can download my CV in .pdf format <a href="../files/cv__complete_ZacharyHertz.pdf" target="_blank">here</a>. You can also follow me on [Google Scholar](https://scholar.google.com/citations?user=klsCwE4AAAAJ&hl=en).
 
 ## Published Papers
 
