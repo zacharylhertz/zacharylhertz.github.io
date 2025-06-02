@@ -119,6 +119,6 @@ Overall, these findings provide reason for optimism as to the state of political
 
 <!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately using a similar trick. -->
 
-[^5]
+[[^5]]{style="display: none;"}
 
-[^5]: [Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.]{style="display: none;"}
+[^5]: [Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.]

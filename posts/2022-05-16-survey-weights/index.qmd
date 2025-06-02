@@ -299,8 +299,7 @@ prop.table(svytable(~ideo5, design=poll.weighted))
 
 <!-- A little footnote trickery to ensure proper attribution. -->
 
-<!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately using a similar trick. -->
+<!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately for this CSS implementation using a similar trick. -->
+[[^4]]{style="display: none;"}
 
-[^4]
-
-[^4]: [Photo by <a href="https://unsplash.com/@visuals?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">visuals</a> on <a href="https://unsplash.com/photos/man-in-black-suit-jacket-and-pants-standing-beside-woman-in-black-coat-oGeiYmXsasQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.]{style="display: none;"}
+[^4]: [Photo by <a href="https://unsplash.com/@visuals?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">visuals</a> on <a href="https://unsplash.com/photos/man-in-black-suit-jacket-and-pants-standing-beside-woman-in-black-coat-oGeiYmXsasQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.]
