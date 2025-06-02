@@ -26,6 +26,6 @@ about:
       href: https://www.twitter.com/zacharylhertz/
 ---
 
-Welcome to my website! I am a researcher, political consultant, and data journalist driven by a love for community. In my research, I use geocoded observational data and original survey data in my research to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**.
+Welcome to my website! I am a researcher, political consultant, and data journalist driven by a love for community. In my research, I use geocoded observational data and original survey data to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**.
 
 Learn more [about me here](https://zacharylhertz.github.io/about/), check out [my research](https://zacharylhertz.github.io/research/), or [say hi](mailto:zachary_hertz@berkeley.edu?subject=Hi!)!
