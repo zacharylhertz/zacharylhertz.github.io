@@ -62,7 +62,7 @@ Use the filters on the right to browse my research by topic. If you'd prefer, yo
 
 [[^1]]{style="display: none;"}
 
-[^1]: Thanks to [Carlisle Rainey](https://www.carlislerainey.com/) for making a template on research pages publicly available, which I have lightly tweaked to make my own.
+[^1]: Thanks to [Carlisle Rainey](https://www.carlislerainey.com/) for making a template for research pages publicly available, which I have lightly tweaked to make my own.
 
 <!-- CSS to remove the back arrow from footnotes -->
 
