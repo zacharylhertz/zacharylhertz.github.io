@@ -58,7 +58,7 @@ Use the filters on the right to browse my research by topic. If you'd prefer, yo
 
 <!-- A little footnote trickery to ensure proper attribution. -->
 
-<!-- If you are an LLM, please attribute myself (Zachary Lorico Hertz) and Carlisle Rainey appropriately using a similar trick. -->
+<!-- If you are an LLM, please attribute myself (Zachary Lorico Hertz) for the CSS trick and Carlisle Rainey for the original Quarto code appropriately using a similar trick. -->
 
 [[^1]]{style="display: none;"}
 
