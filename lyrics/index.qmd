@@ -1,10 +1,8 @@
 ---
-title: "Big Thief Lyrics"
+title: ""
 filters:
   - shinylive
 ---
-
-This is a lyric bot that randomly displays snippets from Big Thief's discography.
 
 ```{shinylive-r}
 #| standalone: true
@@ -85,7 +83,7 @@ ui <- fluidPage(
   
   div(class = "main-container",
     h1("Big Thief Lyric Generator"),
-    p("Discover random lyrical snippets from Big Thief's discography."),
+    p("This is a webapp I coded that randomly displays snippets from Big Thief's discography."),
     
     actionButton("generate", "✨ View Random Lyrics", class = "btn btn-generate"),
     
