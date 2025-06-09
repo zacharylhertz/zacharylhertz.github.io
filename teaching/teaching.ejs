@@ -1,0 +1,87 @@
+```{=html}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css">
+<style>
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 15px;
+  }
+  .ai-lg {
+    font-size: 1.2em;
+  /* Adjust as needed */
+  }
+</style>
+
+<ul class="list">
+  <% for (const item of items) { %>
+    <li <%= metadataAttrs(item) %>>
+      <%= item.title %> 
+      <br/>
+      <p>
+      <!-- Course info for teaching entries -->
+      <small class="text-muted">
+        <%= item.semester %> <%= item.year %>. <%= item.status %>.
+      </small>
+      
+      <!-- Collapsible abstract using details/summary -->
+      <% if (item.abstract) { %>
+        <details>
+          <summary>Abstract</summary>
+          <div style="margin-top: 8px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+            <small class="text-muted">
+              <%= item.abstract %>
+            </small>
+          </div>
+        </details>
+      <% } %>
+
+      <!-- Course Description (collapsible) -->
+      <% if (item.description) { %>
+        <details>
+          <summary>Course Description (click to expand)</summary>
+          <div style="margin-top: 8px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+            <small class="text-muted">
+              <%- item.description %>
+            </small>
+          </div>
+        </details>
+      <% } %>
+
+      <!-- Syllabus PDF -->
+      <% if (item.syllabus) { %>
+        <a role="button" href="<%= item.syllabus %>" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-file-earmark-text ai-lg"></i> Syllabus
+        </a> 
+      <% } %>
+
+      <!-- Section PDF -->
+      <% if (item.section) { %>
+        <a role="button" href="<%= item.section %>" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-file-earmark-easel ai-lg"></i> Section Syllabus
+        </a> 
+      <% } %>
+      
+      <!-- Course Website -->
+      <% if (item.website) { %>
+        <a role="button" href="<%= item.website %>" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-window-stack ai-lg"></i> Course Website
+        </a>
+      <% } %>
+
+      <!-- Teaching Materials -->
+      <% if (item.materials) { %>
+        <a role="button" href="<%= item.materials %>" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-mortarboard ai-lg"></i> Teaching Materials
+        </a>
+      <% } %>
+      
+      <% if (item.note) { %>
+        <small class="text-secondary">
+          <span class="note"><%- item.note %></span>  
+        </small>
+      <% } %>
+      </p>
+      <hr>
+    </li>
+  <% } %>
+</ul>
+```

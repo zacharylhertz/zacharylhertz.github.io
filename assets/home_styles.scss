@@ -1,0 +1,27 @@
+/*-- scss:rules --*/
+.quarto-about-jolla {
+    margin-top: 1rem !important;
+    padding-top: 0 !important;
+}
+
+.column-page {
+    padding-top: 0;
+}
+
+.about-entity h2,
+.about-entity .description {
+    text-align: center;
+}
+/* Center title and subtitle in the main page title block */
+.quarto-title-block .title,
+.quarto-title-block .subtitle {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Set the width of the main about intro paragraph */
+.content.column-page {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+}

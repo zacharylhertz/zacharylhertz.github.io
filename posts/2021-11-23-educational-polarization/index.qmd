@@ -1,0 +1,91 @@
+---
+title: 'Educational Polarization: A White Phenomenon?'
+author: Zachary Lorico Hertz
+date: '2021-11-23'
+date-modified: '2021-11-23'
+image: images/pid-dem-race.png
+aliases: 
+  - /posts/2021/11/educational-polarization
+categories:
+  - electoral analysis
+  - R
+  - CES
+  - educational polarization
+  - racial polariation
+  - college education
+subtitle: "Educational polarization may not be limited to white voters."
+description: 'Using Cooperative Election Study estimates to investigate educational polarization within racial groups.'
+code-annotations: below
+footnotes-hover: false
+df-print: paged
+citation: true
+# format:
+#   pdf:
+#     toc: true
+#     number-sections: true
+#     colorlinks: true
+---
+
+Recently, CES Researcher [Pia Deshpande](https://twitter.com/DeshpandePia) wrote an excellent tutorial detailing how to [plot trends over time](https://pdeshlab.github.io/posts/CES-plots-over-time) using CES data --- I highly encourage anyone who hasn't yet read the piece to promptly do so! This style of plot pairs particularly well with the [cumulative CES Common Content](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/II2DB6) dataset created by [Shiro Kuriwaki](https://www.shirokuriwaki.com/). Together, these resources can help us to understand an issue that has received [increased attention](https://www.nytimes.com/2021/09/08/us/politics/how-college-graduates-vote.html) in recent months: educational polarization.
+
+Research has noted [an increasing divide](https://www.pewresearch.org/politics/2018/03/20/1-trends-in-party-affiliation-among-demographic-groups/) in party identification along educational lines. But less attention has been devoted to how these changes differ by race. Using CES data, I note that across most racial groups, Americans with a college education less strongly identify as Republicans while Americans without a college degree less strongly identify as Democrats. These trends in partisan identification are complex, however, and differ in strength and effect by race. When it comes to vote choice, however, educational polarization is mostly limited to white Americans.
+
+# Americans without a college education of all races are increasingly unlikely to identify as Democrats
+
+![](images/pid-dem-race.png)<!-- -->
+
+The percent of those without a college degree identifying as Democrats sharply declined between 2012 and 2020, even as the share of Americans with a college degree identifying as Democrats remained somewhat constant between 2008 and 2020. While educational polarization in vote choice was mostly limited to nonhispanic white Americans, these trends in party identification played out in remarkably similar ways among Americans of all races.
+
+Among both Black Americans[^1] and Hispanic Americans, there seemed to be no educational differences in the share of self-identified Democrats in 2008 and 2012; by 2020, however, as Democratic self-identification declined among those without a college education, relatively narrow --- yet statistically significant --- gaps of about eight percentage points emerged.
+
+[^1]: It is worth noting that Black Americans with a college degree were the only college-educated racial group to identify as Democrats at a statistically significant lower rate in 2020 than in 2016 and 2012; this decline, however, was less pronounced than the attrition among those without a college degree so still led to a statistically significant educational gap.
+
+In 2008 and 2012, there were more clear differences along educational lines in the share of Asian and white Americans identifying as Democrats.[^2] These divides only widened in 2016 and by 2020, college-educated white and Asian Americans identified as Democrats at a rate almost 20 percentage points higher than their non-college educated peers.
+
+[^2]: Like before, the relatively smaller sample size of Asian Americans in the CES leads to large errors for the point estimates, so it is an important caveat to note that the educational differences in 2008 and 2012 are not statistically significant. Still, following the overall trends these differences grow and by 2016 and 2020 the difference in the point estimates are statistically significant.
+
+# Only white Americans without a college degree were sharply more likely to identify as Republicans
+
+There is strong evidence that Americans of all races without a college degree are increasingly less likely to self-identify as Democrats. How has education level impacted partisan identification specifically, then, for Americans of different races? Is the Democratic attrition among Americans without a college education being driven by switchers to the Republican party, or just an increase in independents?
+
+![](images/pid-rep-race.png)<!-- -->
+
+The share of self-identified Republicans with a college degree declined modestly between 2008 and 2020 among white, Hispanic and Asian Americans. In contrast, though just 10 percent did, Black Americans with a college degree were actually slightly more likely to identify as Republican than in previous years.
+
+The share of Hispanic and Asian Americans without a college education who self-identify as Republicans appears to have somewhat increased, though these differences are not statistically significant. There was a statistically significant increase among Black Americans without a college degree, though just 9 percent self-identified as Republicans.
+
+Among white Americans without a college degree, however, the differences were stark. The share of white Americans without a college degree who identify as Republicans has grown from 40 percent in 2008 to 53 percent in 2020.
+
+# Black Americans without a college degree increasingly identify as Independents
+
+The attrition in the share of self-identified Republicans among white, Hispanic and Asian Americans with a college degree seems to be driven somewhat by a switch to identifying as Independents; these groups all increasingly identified as Independents between 2008 and 2020.
+
+Among those without a college education, the trends were less uniform. The rate of self-identifying as an Independent appears generally stable among white and Hispanic Americans. The estimate for the share of Asian Americans without a college degree who identified as Independents seems to have increased in 2020 from 2008, but due to large standard errors these differences should not be seen as statistically significant.
+
+![](images/pid-ind-race.png)<!-- -->
+
+Black Americans without a college education saw the most notable increase in the rate at which they identified as Independents. The share of self-identified Independent Black Americans without a college degree in 2020 was double the 2008 level, though at just 16 percent this still marked a small share overall.
+
+# Educational polarization in vote choice is largely driven by nonhispanic whites
+
+But have these shifts in party identification led to educational polarization in vote choice? Examining support for the Democratic presidential candidate by race and education between 2008 and 2020 reveals a few notable trends. There appears to have been little variation in Hispanic support for the Democratic presidential candidate by education. While these levels appear to have declined slightly from their 2012 levels, we cannot conclude that the difference is statistically significant.
+
+![](images/voted-race.png)<!-- -->
+
+We see a slight but statistically significant drop in Democratic support among Black Americans between 2012 and 2020. For Black Americans there appears to be no discernible difference, however, along educational lines, and Democratic support in 2020 appears to have remained at a comparable level to 2016.
+
+Estimates for Democratic presidential support among Asian Americans appear noisy, in part due to smaller sample sizes. This makes it difficult to draw strong conclusions about trends between groups and election years. In 2020, however, CES data noted that Asian Americans with a college education voted for Joe Biden at a statistically significant higher rate than Asian Americans without a college education.
+
+It is hardly [a novel observation](https://www.washingtonpost.com/news/monkey-cage/wp/2014/01/23/how-better-educated-whites-are-driving-political-polarization/), but nonhispanic white Americans appear to most strongly drive educational polarization. In 2008 and 2012 white Americans with a college education voted for the Democratic candidate at a rate just nine percentage points higher than white Americans without a college education; this gap more than doubled by 2020, with more than half of white Americans with a college education voting for Joe Biden, compared to just 30 percent of those without a college degree.
+
+# Conclusion
+
+There appear to be growing educational divides in party identification among Americans of all races. Hispanic, white, and Asian Americans with a college degree have decreasingly identified as Republicans and increasingly identified as Independents.
+
+Americans without a college degree of all races identify less as Democrats but have sorted in different ways. Black Americans without a college degree identify slightly more as Republicans but more strongly as Independents than in previous years, while white Americans without a college degree are sharply more likely to identify as Republicans.
+
+Despite these trends, educational polarization in vote choice is mostly limited to white Americans but may be emerging among Asian Americans. Why has vote choice remained relatively stable in the face of shifting partisan identification?
+
+The absolute magnitude of these trends are somewhat small, and asymmetric: even as the share of Black Americans without a college degree who identify as Democrats dropped by 15 percentage points, the share who identified as Republicans rose by just 3 percentage points. Partisans are not defecting to the other party, but become increasingly likely to identify as Independents or respond "Not Sure". And while education seems to moderate partisan realignment, only white Americans differ in vote choice along educational lines.
+
+An excellent [working paper](https://www.dropbox.com/s/3nsueuaoquxzki1/realignments_draft.pdf?dl=0) by [Michael Barber](http://michaeljaybarber.com/) and [Jeremy C. Pope](http://jeremypope.byu.edu/) --- published while I was drafting this blog post --- presents a more thorough discussion of the dynamics and implications of these political shifts. As they note, further research on realignments must account for the potential interaction and confounding effects of race.

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zachary Lorico Hertz">
+<meta name="dcterms.date" content="2024-11-05">
+<meta name="description" content="Analysis of 2020 CES data reveals modest ideological differences between Black Americans who voted and those who stayed home, challenging assumptions about conservative nonvoter mobilization.">
+
+<title>What Can Survey Data Tell Us About Ideological Differences Between Black Voters and Black Nonvoters? – Zachary Lorico Hertz</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../assets/global_styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Zachary Lorico Hertz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research/"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching/"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/"> 
+<span class="menu-text">C.V.</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#black-americans-who-voted-in-2020-are-more-likely-to-be-older-college-educated-and-not-a-parent-of-a-minor" id="toc-black-americans-who-voted-in-2020-are-more-likely-to-be-older-college-educated-and-not-a-parent-of-a-minor" class="nav-link active" data-scroll-target="#black-americans-who-voted-in-2020-are-more-likely-to-be-older-college-educated-and-not-a-parent-of-a-minor">Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor</a></li>
+  <li><a href="#black-americans-who-stayed-home-in-2020-were-not-much-more-likely-to-prefer-trump-than-those-who-voted" id="toc-black-americans-who-stayed-home-in-2020-were-not-much-more-likely-to-prefer-trump-than-those-who-voted" class="nav-link" data-scroll-target="#black-americans-who-stayed-home-in-2020-were-not-much-more-likely-to-prefer-trump-than-those-who-voted">Black Americans who stayed home in 2020 were not much more likely to prefer Trump than those who voted</a></li>
+  <li><a href="#black-americans-who-stayed-home-in-2020-generally-express-more-conservative-social-attitudes" id="toc-black-americans-who-stayed-home-in-2020-generally-express-more-conservative-social-attitudes" class="nav-link" data-scroll-target="#black-americans-who-stayed-home-in-2020-generally-express-more-conservative-social-attitudes">Black Americans who stayed home in 2020 generally express more conservative social attitudes</a></li>
+  <li><a href="#policy-differences-between-black-americans-who-voted-and-stayed-home-in-2020-are-noticeable-but-small" id="toc-policy-differences-between-black-americans-who-voted-and-stayed-home-in-2020-are-noticeable-but-small" class="nav-link" data-scroll-target="#policy-differences-between-black-americans-who-voted-and-stayed-home-in-2020-are-noticeable-but-small">Policy differences between Black Americans who voted and stayed home in 2020 are noticeable but small</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">What Can Survey Data Tell Us About Ideological Differences Between Black Voters and Black Nonvoters?</h1>
+<p class="subtitle lead">How much do Black 2020 voters differ from Black 2020 nonvoters, and what does this mean for the 2024 election?</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">electoral analysis</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">CES</div>
+    <div class="quarto-category">Black Americans</div>
+    <div class="quarto-category">turnout</div>
+    <div class="quarto-category">race and ethnicity</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Analysis of 2020 CES data reveals modest ideological differences between Black Americans who voted and those who stayed home, challenging assumptions about conservative nonvoter mobilization.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zachary Lorico Hertz </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 5, 2024</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">November 5, 2024</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>I’ve made the replication code for this blog post publically available, here</em> <a href="https://github.com/zacharylhertz/black-voter-nonvoter-analysis">as a GitHub repository</a>.</p>
+<p>Analysts love the truism that elections can be seen through two lenses: persuasion and turnout. And today, as voting ends for an election that will likely be decided by a margin of a few hundred thousand voters across seven states, particular attention has been brought to the latter. A recent <a href="https://goodauthority.org/news/black-voters-as-saviors-and-scapegoats/">Good Authority piece</a> makes the crucial point<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that Black voters are called upon to either save the day or serve as scapegoats depending on the election results, and analysis that treats Black Americans as a monolithic voting bloc misses important dynamics in the race.</p>
+<p>The Good Authority piece seems, in part, to be a response to the plethora of pre-election pieces that focus on low-turnout Black voters. In particular, Nate Cohn of the New York Times has <a href="https://www.nytimes.com/2024/05/24/upshot/trump-biden-polls-voters.html">written</a> several <a href="https://www.nytimes.com/2024/06/15/upshot/election-democrats-republicans-turnout-trump.html">pieces</a> suggesting that Black voters who did not vote in 2020 <a href="https://www.nytimes.com/2024/10/30/upshot/election-turnout-trump-harris-polls.html">will be crucial</a> in determining this year’s results. He’s not the only one: similar pieces ran in <a href="https://www.cnn.com/2024/10/22/politics/young-black-men-voters/index.html">CNN</a> and <a href="https://time.com/7171814/kamala-harris-polls-black-voters/">Time</a>, and these claims have been made by <a href="https://x.com/PatrickRuffini/status/1852717840954007899">pundits</a> and <a href="https://abcnews.go.com/538/vote-back-trump/story?id=109090626">academics</a> alike. Yet while much ink has been spilled ahead of today’s election trying to estimate how the 2024 election might be shaped by winning over the group of Black voters who sat out 2020, very few analysts writing about Black Americans have focused on <em>how 2020 voters and non-voters differ</em>. Additionally, to the extent that these pieces have considered possible differences, their ability to establish definitive findings are largely limited because they are drawn from pre-election polling of relatively small subgroups, meaning large margins of error can obscure real differences.</p>
+<p><strong>How do Black Americans who chose to vote in 2020 differ from those who sat out the election?</strong> What policy areas might motivate those who sat out in 2020 to vote in 2024, and how do their attitudes on racial and gender issues differ? To answer these questions, I use the 2020 Cooperative Election Study, which presents two distinctive advantages over analysis relying on pre-election polling. The large sample size of the CES reduces the margin of error when estimating differences between Black Americans who voted in 2020 and Black Americans who stayed home in 2020 (the 2020 data has n=3,096 Black voters and n=1,816 Black non-voters); additionally, CES respondents reply to a large battery of attitudinal and policy questions, allowing me to assess differences in opinion across a wide number of potential issues. Voter status is determined using the <code>CL_2020gvm</code> variable: respondents with a validated voting record, no matter their mode of participation, are defined as voters. Both matched non-voters and non-matched respondents are defined as non-voters; a deeper discussion of this definition can be found in <a href="https://dataverse.harvard.edu/file.xhtml?fileId=5793681&amp;version=4.0">the CES Guide</a>.</p>
+<section id="black-americans-who-voted-in-2020-are-more-likely-to-be-older-college-educated-and-not-a-parent-of-a-minor" class="level1">
+<h1>Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor</h1>
+<p>To start, I examine demographic differences between Black 2020 voters and Black 2020 non-voters. Despite the particular attention given to the potential role of gender in previous analysis, there is no statistically significant difference between Black 2020 voters and non-voters when it comes to gender. Nor does there seem to be a meaningful difference between the two groups when it comes to income or employment.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 34%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Characteristic</th>
+<th>Non-voters</th>
+<th>Voters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Age</td>
+<td>18 to 29</td>
+<td>35%</td>
+<td>15*%</td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td>30 to 49</td>
+<td>36%</td>
+<td>29*%</td>
+</tr>
+<tr class="odd">
+<td>Age</td>
+<td>50 to 64</td>
+<td>21%</td>
+<td>32*%</td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td>65+</td>
+<td>8%</td>
+<td>24*%</td>
+</tr>
+<tr class="odd">
+<td>Education</td>
+<td>College</td>
+<td>49%</td>
+<td>61*%</td>
+</tr>
+<tr class="even">
+<td>Education</td>
+<td>No college</td>
+<td>51%</td>
+<td>39*%</td>
+</tr>
+<tr class="odd">
+<td>Employment</td>
+<td>Employed full-time</td>
+<td>34%</td>
+<td>30%</td>
+</tr>
+<tr class="even">
+<td>Employment</td>
+<td>Not employed full-time</td>
+<td>66%</td>
+<td>70%</td>
+</tr>
+<tr class="odd">
+<td>Gender</td>
+<td>Female</td>
+<td>51%</td>
+<td>55%</td>
+</tr>
+<tr class="even">
+<td>Gender</td>
+<td>Male</td>
+<td>49%</td>
+<td>45%</td>
+</tr>
+<tr class="odd">
+<td>Income</td>
+<td>Under $30,000</td>
+<td>43%</td>
+<td>39%</td>
+</tr>
+<tr class="even">
+<td>Income</td>
+<td>$30,000<span style="font-style: normal;">to</span>$49,999</td>
+<td>24%</td>
+<td>22%</td>
+</tr>
+<tr class="odd">
+<td>Income</td>
+<td>$50,000<span style="font-style: normal;">to</span>$99,999</td>
+<td>23%</td>
+<td>27%</td>
+</tr>
+<tr class="even">
+<td>Income</td>
+<td>$100,000<span style="font-style: normal;">to</span>$199,999</td>
+<td>8%</td>
+<td>10%</td>
+</tr>
+<tr class="odd">
+<td>Income</td>
+<td>$200,000 or more</td>
+<td>2%</td>
+<td>2%</td>
+</tr>
+<tr class="even">
+<td>Parental Status</td>
+<td>Not a parent of a child under 18</td>
+<td>73%</td>
+<td>80*%</td>
+</tr>
+<tr class="odd">
+<td>Parental Status</td>
+<td>Parent of a child under 18</td>
+<td>27%</td>
+<td>20*%</td>
+</tr>
+</tbody>
+</table>
+<p>Note: * indicates difference between voters and non-voters is significant at p &lt; 0.05</p>
+<p>The two groups diverge, however, when considering other demographic splits more consistently linked to voter engagement. Black Americans who voted in 2020 tend to be older than those who stayed home; 56 percent of Black 2020 voters were above the age of 50, as opposed to just 29 percent of non-voters. The group that voted was also more likely to be college educated, with 61 percent of Black 2020 voters holding a college degree (as opposed to 49 percent of Black 2020 non-voters). Finally, there was also a statistically significant difference in the percent of Black Americans who did not vote in 2020 who were also the parent of a child under 18 (27 percent) when compared to those who did vote (20 percent).</p>
+</section>
+<section id="black-americans-who-stayed-home-in-2020-were-not-much-more-likely-to-prefer-trump-than-those-who-voted" class="level1">
+<h1>Black Americans who stayed home in 2020 were not much more likely to prefer Trump than those who voted</h1>
+<p>Conversations about Black mobilization tend to operate around an implicit assumption that Black nonvoters are more conservative than Black voters, and many pundits <a href="https://www.cnn.com/2021/07/12/politics/woke-green-new-deal-defund-the-police/index.html">have chosen to interpret</a> the erosion of support for Democrats among Black voters in 2020 as a sign that “wokeness” has driven minority voters away from the Democratic Party. Democratic strategist James Carville <a href="https://www.foxnews.com/media/james-carville-biden-camp-right-concerned-about-black-vote-problem">argued this summer</a> that this demobilization explained Democrats’ electoral woes, yet a quantitative assessment of the merits of this argument remains forthcoming.</p>
+<p><img src="images/plot_votes.png" class="img-fluid"><!-- --></p>
+<p>While Black Americans who chose to stay home in 2020 did prefer Trump at slightly higher rates than those who actually turned out to vote, the differences are small and not statistically significant. Just 13 percent of Black Americans who did not turn out to vote would have lent their support to Donald Trump, while among Black Americans who actually did cast a ballot a mere 9 percent backed the former president. This group did not appear to especially eschew Biden either: 85 percent of Black 2020 non-voters reported preferring Joe Biden, while 89 percent of Black 2020 voters supported the eventual winner.</p>
+<p>Perhaps, however, these groups differed in their policy preferences and opinion attitudes in a meaningful way that made them easy targets for persuasion and mobilization by the Republican Party in the four years since. To investigate, I first look at differences between Black 2020 voters and non-voters on a number of attitudinal questions asked in the CES.</p>
+</section>
+<section id="black-americans-who-stayed-home-in-2020-generally-express-more-conservative-social-attitudes" class="level1">
+<h1>Black Americans who stayed home in 2020 generally express more conservative social attitudes</h1>
+<p>Among Black Americans, there appears to be very little difference between those who voted in 2020 and those who did not when considering the role of historical and systemic racism. Respondents were asked whether they agreed or disagreed with the statement that “generations of slavery and discrimination have created conditions that make it difficult for blacks [sic] to work their way out of the lower class.” When faced with this question, 76 percent of Black 2020 voters and 72 percent of Black 2020 non-voters agreed.</p>
+<p><img src="images/plot_attitudes.png" class="img-fluid"><!-- --></p>
+<p>But when racism is <em>cast in a present tense</em>, there are statistically significant differences between the groups. Black Americans who stayed home in 2020 were less likely than those who voted to agree that white Americans have particular advantages today and more likely to suggest that any racial tensions in modern America are rare and isolated incidents.</p>
+<p>Black Americans who did not vote in 2020 were also more likely than those who did vote to agree with the statement that “women are too easily offended”, though agreement was muted in absolute terms; 34 percent of Black 2020 non-voters agreed that women are too easily offended, while 23 percent of Black 2020 voters agreed with the same statement.</p>
+<p>While there appear to be real and important differences between the two groups on salient attitudinal issues, policy issues are more likely to inform us about what might actually motivate these individuals to vote or not in 2024, and for whom.</p>
+</section>
+<section id="policy-differences-between-black-americans-who-voted-and-stayed-home-in-2020-are-noticeable-but-small" class="level1">
+<h1>Policy differences between Black Americans who voted and stayed home in 2020 are noticeable but small</h1>
+<p>To investigate, I plot the differences between Black Americans who voted in 2020 and Black Americans who stayed home across a variety of policy areas. The widest differences (about 15 percentage points on each policy) emerge when considering a proposal to repeal the Affordable Care Act and a proposal to ban assault rifles. 83 percent of Black 2020 voters support an assault rifle ban, while 68 percent of those who did not turn out to vote support the same policy. Meanwhile, a mere 23 percent of those who voted support a proposed ACA repeal, but 39 percent of those who did not vote back the hypothetical ACA repeal.</p>
+<p><img src="images/plot_policy.png" class="img-fluid"><!-- --></p>
+<p>Black Americans who voted in 2020 were notably more liberal than those who did not turn out to vote on a number of policing policies. A resounding 90 percent of Black Americans who voted in 2020 supported a proposal to ban the use of chokeholds by police, which was understandably a salient proposal given that George Floyd had been murdered less than six months previously. The same proposal was backed by 81 percent of Black Americans who did not vote, and this difference (9 percentage points) was statistically significant. 81 percent of Black Americans who voted in 2020 and 71 percent of those who did not vote supported a policy to eliminate mandatory minimum sentences for non-violent drug-related criminal offenses, another considerable and statistically significant difference.</p>
+<p>Important differences also emerged on some immigration-related policies. Nearly half (46 percent) of Black Americans who did not vote in 2020 supported a policy to withhold federal funds from police departments that failed to report illegal immigrants, though just 36 percent of those who ended up actually voting supported the policy. And while less than 1 in 4 Black 2020 voters supported a proposal to increase border security spending by 25 billion dollars, the proposal garnered support from nearly 1 in 3 Black American who failed to vote in 2020. These differences could explain some of the moderation on immigration that the Harris campaign has publicly undertaken in its attempt to win swing states.</p>
+<p>On abortion, Black 2020 voters and non-voters were generally in agreement on nuanced policies. When asked whether they would support a proposal to always allow a woman to obtain an abortion as a matter of choice, however, support dropped to just two-thirds of 2020 non-voters (as opposed to 73 percent among 2020 voters). Similarly, nearly one quarter (23 percent) of 2020 non-voters backed a total abortion ban, while just 17 percent of 2020 voters backed this proposal.</p>
+<p>Notably, Black Americans who voted in 2020 and Black Americans who did not turn out to vote appear similar on a number of policy items surrounding material concerns; about 75 percent of both groups support plans to raise the minimum wage to 15 dollars an hour, lower the Medicare eligibility age to 50, and establish a single public health care program that covers all Americans.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>By using large-scale survey data matched to administrative voter file validation, we can paint a more nuanced picture of Black voter participation than is often presented in pre-election analysis, reveal the important ways in which Black voters disagree, and potentially understand some of the trends in today’s election.</p>
+<p>While Black Americans who stayed home in 2020 do express somewhat more conservative views on certain social issues and policies, these differences are relatively modest - particularly on economic policies, where both groups show strong support for progressive measures like raising the minimum wage and expanding healthcare access. The largest attitudinal gaps emerge not around historical racism but rather in perspectives on contemporary racial dynamics and gender issues.</p>
+<p>These findings suggest that treating Black non-voters as a monolithic bloc ripe for conservative mobilization oversimplifies a complex reality. The likelihood of razor-thin margins, combined with the long history of racial politics in America, leads pundits to pay especially close attention to the potential Black electorate without considering these dynamics and my analysis on how these issue positions differ between past voters and non-voters provides a strong starting point for future attempts to understand the election’s results. Black voters should be understood as neither saviors nor scapegoats, but instead as a powerful electorate with its own ideological heterogeneity.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>I highly recommend reading the piece — by Nadia E. Brown, Christopher J. Clark, Anna M. Mahoney, Periloux Peay, and Michael G. Strawbridge — in its entirety. Plus, don’t you need something to keep your mind off drawing overly strong conclusions from early returns?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2024,
+  author = {Lorico Hertz, Zachary},
+  title = {What {Can} {Survey} {Data} {Tell} {Us} {About} {Ideological}
+    {Differences} {Between} {Black} {Voters} and {Black} {Nonvoters?}},
+  date = {2024-11-05},
+  url = {index.qmd/posts/2024-11-05-black-nonvoters/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lorico Hertz, Zachary. 2024. <span>“What Can Survey Data Tell Us About
+Ideological Differences Between Black Voters and Black
+Nonvoters?”</span> November 5, 2024. <a href="https://index.qmd/posts/2024-11-05-black-nonvoters/">index.qmd/posts/2024-11-05-black-nonvoters/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("index\.qmd");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

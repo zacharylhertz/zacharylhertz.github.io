@@ -1,0 +1,33 @@
+---
+title: "Zachary Lorico Hertz"
+subtitle: "Ph.D. Student at UC Berkeley"
+image: media/headshot.JPG
+toc: false
+format:
+  html:
+    theme: 
+      - assets/home_styles.scss
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 20em
+  links:
+    - text: LinkedIn
+      icon: linkedin
+      href: https://www.linkedin.com/in/zacharylhertz/
+    - text: GitHub
+      icon: github
+      href: https://github.com/zacharylhertz
+    - text: Email
+      icon: envelope
+      href: mailto:zachary_hertz@berkeley.edu
+    - text: Twitter
+      icon: twitter
+      href: https://www.twitter.com/zacharylhertz/
+---
+
+Welcome to my website! 
+
+I am a researcher, political consultant, and data journalist driven by an interest in communities. <br> In my research, I use geocoded observational data and original survey data to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**. <br> I love my friends, talking about political problems, and being outside. Sometimes all at once!
+
+Learn more [about me here](https://zacharylhertz.github.io/about/), check out [my research](https://zacharylhertz.github.io/research/), or [say hi](mailto:zachary_hertz@berkeley.edu?subject=Hi!)!

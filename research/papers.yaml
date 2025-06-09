@@ -1,0 +1,109 @@
+
+
+- title: "Can Ending At-Large Elections Encourage Racial Minorities To Run For Office?"
+  type: "Working"
+  author:
+    - Zachary Lorico Hertz
+  date: 2025-05-10
+  status: "Working paper"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  abstract: "Why do racial minorities remain underrepresented among office-holders, particularly at the local level? Previous research on descriptive representation focuses on voter choices at the ballot box and attributes the paucity of minority candidates to voter bias. At the same time, given findings that at-large elections can diminish racial minorities' political power and candidates selectively run in favorable political landscapes, institutional electoral rules might contribute to the persistent disparity in racial representation among candidates. Despite these expectations, the dynamics under which electoral institutions shape candidate emergence among racial minorities remains understudied. I utilize the switch from at-large to by-district city council elections under the California Voting Rights Act of 2001 to causally identify how and under what conditions switching to by-district elections encourages racial minorities to run for local office. The evidence suggests that ending at-large elections under the CVRA increased both the number and percent share of Latino candidates among city council candidates, and boosted the rates at which Latino candidates won city council elections. These effects are strongest in cities where Latinos are more than 20 percent of the population. I also find evidence to suggest that ending at-large elections increased candidate emergence among Asian Americans in cities where Asian Americans are more than 50 percent of the citywide population. These findings highlight the importance of candidate emergence as a crucial mechanism driving descriptive representation and suggest policy interventions targeting candidate recruitment might be as important as those addressing voter participation."
+  categories: 
+    - Election law and policy
+    - Racial and ethnic politics
+    - Representation
+    - Public policy
+    - Candidate emergence
+
+- title: "<em>Noli nos tangere:</em> Have Anti-Asian Hate Crimes Increased Asian-American Pan-Ethnicity, Participation, and Partisanship?"
+  type: "Working"
+  author:
+    - Zachary Lorico Hertz
+  date: 2025-05-15
+  status: "Working paper"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  abstract: "Hate crimes against Asian Americans in the United States spiked over 300 percent between 2020 and 2021. How might this troubling trend affect political participation and attitudes? Previous research finds that out-group threats might increase the salience of group-based identities and consequently shape political attitudes, group cohesion, and behavior (Huddy 2013), but reach mixed conclusions on whether these events are politically mobilizing or demobilizing. To investigate, I pair data encoding the geographic placement of hate crimes from 2010-2022 with individual-level turnout data to causally identify whether local hate crimes increased turnout among Asian Americans. To test potential mechanisms, I design an original survey experiment to estimate how the increased salience of hate crimes affects measures of Asian pan-ethnicity, stated vote likelihood, partisan identity and strength, and other behavioral outcomes. I find that hate crimes can strengthen group cohesion among the targeted group, but limited evidence that hate crimes have politically mobilized the targeted group and null effects on partisanship. I conclude that identity is a more complex motivator of partisanship and American electoral politics than previous studies might suggest."
+  categories: 
+    -  Asian Americans
+    -  Voter turnout
+    -  Mobilization
+    -  Racial identity
+    -  Racial and ethnic politics
+    -  Voter file data
+    -  Census data
+  
+- title: "Followers or Learners? Untangling the Roles of Partisanship and Reasoning in Public Policy Preferences"
+  type: "Working"
+  author:
+    - Zachary Lorico Hertz
+  date: 2022-06-10
+  status: "Working paper"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  abstract: "Do people thoughtlessly support positions taken by their party leaders, or carefully alter their beliefs when given reason to do so? Many studies examine the effects of cues from party leaders on policy preferences and cast voters as party loyalists, but rarely compare information from party leaders to information from other political and nonpartisan sources and thus cannot disentangle whether people rationally update their preferences or blindly follow party leaders. To investigate, I vary cues to identify the comparative strength of party leader cues and test issue importance and previous knowledge as potential moderators. I find that when asked to support or oppose a discrete policy, partisans respond to cues from party leaders but not other cues. When respondents respond with a continuous range of policy preferences, however, party leader cues are not inherently stronger — and are sometimes weaker — than cues from other sources. I find limited evidence to suggest either issue importance or political knowledge significantly moderates partisan sensitivity to elite cues, no matter the source. These results suggest that while party leaders draw partisans to express support for individual policy planks, leaders’ influence on underlying beliefs is far more complicated and voters engage in more cognition than previously suggested."
+  categories: 
+    -  Public opinion
+    -  Elite cues
+    -  Survey methodology
+    -  Party cues 
+    -  Issue importance
+
+- title: "Local Diversity and Political Participation"
+  type: "Working"
+  author:
+    - Marco Mendoza Aviña
+    - Zachary Lorico Hertz
+  date: 2025-05-05
+  status: "Working paper"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  abstract: "Previous research finds that racial heterogeneity impacts a variety of outcomes, including participation. However, this relationship is complex and might be contingent on individual factors. This paper examines how the racial makeup of a locality influences political involvement among its residents. It pairs U.S. Census population estimates with validated voting records from the Congressional Elections Study for a quarter of a million citizens and a decade of federal elections. Racial diversity at the local level conditionally affects voters, fostering political engagement among Democrats but inhibiting it among Republicans."
+  categories: 
+    -  Voter file data
+    -  Census data
+    -  Racial and ethnic politics
+    -  Mobilization
+    -  Voter turnout
+  
+- title: "Does a Switch to By-District Elections Reduce Racial Turnout Disparities in Local Elections? The Impact of the California Voting Rights Act"
+  type: "Published"
+  author:
+    - Zachary Lorico Hertz
+  date: 2023-09-05
+  year: 2023
+  status: "Published"
+  journal: "<em>Election Law Journal</em>"
+  pubclosed: "https://www.liebertpub.com/doi/full/10.1089/elj.2022.0023"
+  pdf: "https://zacharylhertz.github.io/files/hertz-2023.pdf"
+  # note: 'I provide detailed examples with R code in the blog posts <a href="https://www.carlislerainey.com/blog/2024-06-03-pilot-power/">Statistical Power from Pilot Data: Simulations to Illustrate</a> and <a href="https://www.carlislerainey.com/blog/2024-06-10-pilot-power-example/">Statistical Power from Pilot Data: An Example</a> '
+  abstract: "The literature finds that an underrepresented group's comparative share of the population may moderate the effects of the California Voting Rights Act of 2001 on descriptive representation. Little attention has been devoted to the potential mechanisms driving these effects. Previous research suggests that electoral influence, conceptualized as an underrepresented group's relative size in a given political unit, can lead to an increase in turnout and subsequent descriptive representation. This article leverages ecological inference with nearest-neighbor matching and difference-in-differences methods to determine whether increased electoral influence following a switch from at-large to by-district elections as a result of the CVRA increased turnout among underrepresented groups. In my analysis, I find initial evidence suggesting that there is indeed a causal link between a CVRA-induced change in electoral institution and a reduction in the turnout gap. I do not find evidence to support my hypothesis that an increase in relative group size leads to a decrease in the turnout gap. I also do not find evidence to support my hypothesis that the effects of a switch to by-district elections on the turnout gap are more pronounced in cities where a minority group is a higher than average share of the total population. Instead, I find evidence that the treatment effects are more pronounced in cities where Hispanics are a lower than average share of the total population. In this work, I evaluate how the CVRA affects local California electorates, explain potential explanations for my findings and discuss potential areas for future research."
+  categories: 
+    - Election law and policy
+    - Voter turnout
+    - Racial and ethnic politics
+    - Mobilization
+    - Representation
+    - Public policy
+    
+# - title: "Test Paper: Demonstrating All Available Button Types and Features"
+#   type: "Published"
+#   author: "Test Author"
+#   year: 2024
+#   date: 2024-12-01
+#   journal: "<em>Test Journal of Academic Examples</em>"
+#   status: "Published"
+#   abstract: "This is a test abstract that demonstrates the collapsible abstract functionality. It should appear when you click the Abstract button above. This text can be as long as needed to test the formatting and readability of the abstract display. The abstract will be styled consistently with the rest of the paper listing and should collapse and expand smoothly using Bootstrap's built-in functionality."
+#   errata: "https://example.com/errata"
+#   website: "https://example.com/project-website"
+#   pdf: "https://example.com/test-paper.pdf"
+#   pubopen: "https://example.com/open-access-version"
+#   pubclosed: "https://example.com/publisher-version"
+#   preprint: "https://example.com/preprint"
+#   appendix: "https://example.com/appendix"
+#   dataverse: "https://example.com/dataverse"
+#   osf: "https://example.com/osf-project"
+#   github: "https://example.com/github-repo"
+#   prereg: "https://example.com/preregistration"
+#   note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+#   categories: 
+#     - this is
+#     - another
+#     - test

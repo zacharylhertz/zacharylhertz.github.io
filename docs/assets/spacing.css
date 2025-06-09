@@ -1,0 +1,9 @@
+/* css styles */
+//* Add bottom margin to images. This was a pain. */
+.quarto-post .thumbnail img {
+  margin-bottom: 1rem;
+}
+
+.quarto-post .thumbnail {
+  margin-bottom: 1rem;
+}

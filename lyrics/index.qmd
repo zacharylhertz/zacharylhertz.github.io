@@ -1,0 +1,137 @@
+---
+title: "Big Thief Lyrics"
+filters:
+  - shinylive
+---
+
+This is a lyric bot that randomly displays snippets from Big Thief's discography.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 700
+
+## file: app.R
+# Big Thief Lyric Bot
+library(shiny)
+library(shinythemes)
+library(dplyr)
+
+# Load processed data (runs once when app starts)
+lyric_chunks <- read.csv("lyric_chunks.csv", stringsAsFactors = FALSE)
+
+# Random lyric function
+get_random_lyric <- function() {
+  sample_chunk <- lyric_chunks |> slice_sample(n = 1)
+  lyrics_text <- sample_chunk$lyrics_chunk
+  attribution <- paste0("— ", sample_chunk$title, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
+  return(list(lyrics = lyrics_text, attribution = attribution))
+}
+
+# UI
+ui <- fluidPage(
+  theme = shinytheme("flatly"),
+  
+  tags$head(
+    tags$style(HTML("
+      .main-container {
+        max-width: 600px;
+        margin: 20px auto;
+        text-align: center;
+      }
+      
+      .lyrics-display {
+        background: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 30px;
+        margin: 30px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .lyrics-text {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #2c3e50;
+        font-style: italic;
+        white-space: pre-line;
+        margin-bottom: 20px;
+      }
+      
+      .attribution {
+        font-size: 14px;
+        color: #6c757d;
+        font-weight: 500;
+      }
+      
+      .btn-generate {
+        font-size: 16px;
+        padding: 12px 30px;
+        margin: 20px 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 25px;
+        color: white;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      }
+      
+      .stats {
+        font-size: 12px;
+        color: #868e96;
+        margin-top: 20px;
+      }
+    "))
+  ),
+  
+  div(class = "main-container",
+    h1("Big Thief Lyric Bot"),
+    p("Discover random lyrical snippets from Big Thief's discography"),
+    
+    actionButton("generate", "✨ Generate Random Lyrics", class = "btn btn-generate"),
+    
+    uiOutput("lyrics_display"),
+    
+    div(class = "stats",
+      textOutput("stats_text")
+    )
+  )
+)
+
+# Server
+server <- function(input, output, session) {
+  # Reactive values to store current lyrics
+  current_lyrics <- reactiveVal("🎵 Click the button above to discover beautiful lyrics")
+  current_attribution <- reactiveVal("— Ready to explore Big Thief's poetry")
+  
+  # Update when button is clicked
+  observeEvent(input$generate, {
+    result <- get_random_lyric()
+    current_lyrics(paste("🎵", result$lyrics))
+    current_attribution(result$attribution)
+  })
+  
+  # Render the lyrics display
+  output$lyrics_display <- renderUI({
+    div(class = "lyrics-display",
+      div(id = "lyrics-output",
+        div(class = "lyrics-text", current_lyrics()),
+        div(class = "attribution", current_attribution())
+      )
+    )
+  })
+  
+  # Stats text
+  output$stats_text <- renderText({
+    paste("Built from", nrow(lyric_chunks), "lyrical chunks across Big Thief's discography")
+  })
+}
+
+# Create the app
+shinyApp(ui = ui, server = server)
+
+```

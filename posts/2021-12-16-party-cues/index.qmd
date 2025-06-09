@@ -1,0 +1,124 @@
+---
+title: 'How Sensitive are Partisans to Out-Party Cues?'
+author: Zachary Lorico Hertz
+date: '2021-12-16'
+date-modified: '2021-12-16'
+image: party-conflict.jpg
+aliases: 
+  - /posts/2021/12/partisan-learning
+categories:
+  - R
+  - party cues
+  - elite cues
+  - partisan polarization
+  - policy learning
+subtitle: "An experiment testing if out-party cues still move policy preferences."
+description: 'Survey experiment replicating Fowler and Howell finds that partisans update policy preferences in response to cues from both their own party leaders and opposing party elites.'
+code-annotations: below
+footnotes-hover: false
+df-print: paged
+citation: true
+# format:
+#   pdf:
+#     toc: true
+#     number-sections: true
+#     colorlinks: true
+---
+
+A [recent working paper](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view) by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings are well-supported [yet somewhat incongrous](https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343) with both [previous research](https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x) and the oft-cited[^1] expression that "partisanship is a hell of a drug".[^2] Given the paper's novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?
+
+[^1]: See, for example, [its frequent use](https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&src=typed_query) by political scientists on Twitter.
+
+[^2]: One [which seems](https://twitter.com/BrendanNyhan/status/857963843607298049) to have been created and popularized by Brendan Nyhan and Stephen Miller.
+
+I follow the methods outlined by Fowler and Howell to design four survey experiments. The first is a replication of the authors' experiments on the federal minimum wage, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.
+
+# Research Design
+
+For each policy area, I presented respondents with the current policy.[^3] There were nine treatment arms for each policy area, in which Nancy Pelosi was said to support one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians' positions within a treatment were randomized. Respondents were then asked for their preferred policy position, and acceptable responses were restricted to a set of plausible numbers for a given policy position.
+
+[^3]: The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: "Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure."
+
+Respondents were recruited via Lucid between May 2, 2021 and May 9, 2021; I implemented two pre-treatment attention checks into the survey battery to screen for and remove inattentive respondents. While I collected data from 1424 respondents overall after inattentive respondents were removed, I examine partisans (including leaners)[^4] in this analysis, limiting the sample further to 1210 respondents.
+
+[^4]: While the analysis of pooled partisans excluding leaners is omitted for brevity, doing so actually strengthens the treatment effects slightly to 0.25 for both in-party and out-party positions in the minimum wage experiment.
+
+Following Fowler and Howell, I begin my analysis by estimating the effects of party leaders' position on partisans' policy beliefs using the following equation for each policy area:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&space;Respondent&space;\text{&space;}Position&space;=&space;\text{&space;}&\alpha&space;\text{&space;}&plus;\text{&space;}&space;\beta*in-party\text{&space;}&space;position&space;\text{&space;}&plus;&space;\\&space;&\gamma&space;*out-party&space;\text{&space;}position&space;\text{&space;}&plus;&space;\\&space;&&space;\delta&space;*Respondent&space;\text{&space;}&space;Partisan&space;\text{&space;}&space;Identification&space;&plus;&space;\epsilon&space;\end{}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\begin{align*}&amp;space;Respondent&amp;space;\text{&amp;space;}Position&amp;space;=&amp;space;\text{&amp;space;}&amp;\alpha&amp;space;\text{&amp;space;}+\text{&amp;space;}&amp;space;\beta*in-party\text{&amp;space;}&amp;space;position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;\gamma&amp;space;*out-party&amp;space;\text{&amp;space;}position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;&amp;space;\delta&amp;space;*Respondent&amp;space;\text{&amp;space;}&amp;space;Partisan&amp;space;\text{&amp;space;}&amp;space;Identification&amp;space;+&amp;space;\epsilon&amp;space;\end{}" title="\begin{align*} Respondent \text{ }Position = \text{ }&amp;\alpha \text{ }+\text{ } \beta*in-party\text{ } position \text{ }+ \\ &amp;\gamma *out-party \text{ }position \text{ }+ \\ &amp; \delta *Respondent \text{ } Partisan \text{ } Identification + \epsilon \end{}"/></a>
+
+Here, `in-party position` is the policy said to be preferred by the respondent's copartisan party leader while `out-party position` is the policy stated to be preferred by the other party leader. For example, among respondents in the treatment arm where Mitch McConnell preferred a \$12.50 minimum wage and Nancy Pelosi preferred a \$15 minimum wage, `in-party position` would equal \$15 for a Democrat but \$12.50 for a Republican, while `out-party position` would equal \$12.50 for a Democrat but \$15 for a Republican. `Respondent Partisan Identification` is a dummy variable indicating the respondent's partisan identity.
+
+Using this model, the coefficients for party leaders' positions will tell us both the extent and direction of respondents' sensitivity to elite cues. Positive coefficients show that a respondent has positively updated their preferred policy position to more closely match that of the politician, while a negative coefficient shows that the respondent has moved their preferred policy away from the politician's stated position. The strength of these effects is weak when the coefficient is near 0 and increases as the coefficient approaches 1.
+
+# Results
+
+<iframe src="tables/all-initial.html" height="375px" width="100%" style="border:none;">
+
+</iframe>
+
+Table 1 presents the basic results of this analysis among pooled partisan respondents examining policy preferences on minimum wage, national security spending, and the hypothetical infrastructure bill below. My replication of Fowler and Howell's minimum wage experiment produces similar results. As the in-party leader espouses a federal minimum wage that is one dollar higher, copartisan respondents respond with a preferred federal minimum wage that is 22 cents higher. Similarly, for every additional dollar in the federal minimum wage supported by the out-party leader, respondents prefer a federal minimum wage that is 22 cents higher. Both the national security spending and infrastructure bill experiments do not yield statistically significant results.
+
+<iframe src="tables/all-dems.html" height="325px" width="100%" style="border:none;">
+
+</iframe>
+
+Performing the analysis on partisans separately reveals some intriguing trends. Table 2 presents the results from each experiment when looking at Democratic respondents alone, excluding leaners. Again, results for the national security spending and infrastructure bill experiment are not statistically significant. In the minimum wage experiment, however, the treatment effect rises to .31 for the in-party position and falls to .18 for the out-party position. Both coefficients are statistically significant (p\<0.01 and p=0.07, respectively).
+
+<iframe src="tables/all-reps.html" height="325px" width="100%" style="border:none;">
+
+</iframe>
+
+Among the Republican respondents, however, interesting effects emerge in the minimum wage experiment. While the in-party position appears to have no statistically significant effect on respondents' preferred minimum wage (p=0.15), Republican respondents positively updated their preferred federal minimum wage by 29 cents for every dollar increase in Nancy Pelosi's stated position (p=0.01). This might be explained in part by the fact that [a majority of Republicans](https://www.forbes.com/sites/nicholasreimann/2021/03/03/majority-of-republicans-support-increasing-minimum-wage-poll-finds/?sh=278aa6624abe) support raising the minimum wage, and according to the 2020 CES 36 percent of Republicans support a \$15 minimum wage.
+
+# Why might the experiment fail to extend?
+
+I find that on the issue of the federal minimum wage, but not national security spending or an infrastructure bill, partisans adjust their preferred policy in response to the position taken by both the in- and out-party leader. Why might these results have replicated for the minimum wage experiment, but failed to extend?
+
+One explanation might arise from egregious outliers in the data affecting regression estimates. The issue of the minimum wage is an easy policy for respondents to conceptualize: most people have jobs, giving them a convenient and accessible point of reference from which to create their preferred policy. National security and infrastructure spending, however, obviously lack a personal comparison point and numbers in billions and trillions of dollars. Since people [have issues conceptualizing large numbers](https://onlinelibrary.wiley.com/doi/full/10.1111/cogs.12388), ven when provided with the status quo respondents may struggle to provide reasonable policy proposals. This is especially important given evidence that [inattentiveness may be rising among Lucid respondents](https://osf.io/preprints/socarxiv/8sbe4/) and that [failing to account for innatentive respondents can bias survey estimates](https://www.cambridge.org/core/journals/political-analysis/article/paying-attention-to-inattentive-survey-respondents/BEDA4CF3245489645859E7E6B022E75A). Visualizing responses and statistical measures can identify the extent to which outliers are present in the data.
+
+![](images/mw.png)<!-- -->
+
+Examining the density plot in Figure 1, responses to the minimum wage experiment appear generally single-peaked and are fairly closely distributed around the average response and, importantly, the positions taken by party leaders in the experiment. A more close analysis reveals that just 5 percent of responses (68 total) are outliers.
+
+![](images/natsec.png)<!-- -->
+
+Responses to the national security spending experiment, presented in Figure 2, more clearly have higher levels of responses clustered at the upper and lower ends of the scale. A closer look at the distribution reveals that almost 20 percent (239) of responses are outliers, defined as respondents suggesting less than \$50 billion or more than \$1,250 billion in national security spending.
+
+![](images/inf.png)<!-- -->
+
+Figure 3 shows the distribution of responses to the infrastructure spending experiment. There are noticeable clusters around numbers that are multiples of 5 and 10, and a significant number of responses at the upper limit. Similarly, 216 responses (18 percent) are outliers, with respondents suggesting that their preferred infrastructure spending was greater than 6 trillion dollars.
+
+The case to remove these outliers seems self-evident. Budgeting less than \$50 billion for national security is 6 percent of the current budget and would be [nearly one-fifth the size](https://datalab.usaspending.gov/americas-finance-guide/spending/categories/) of the current smallest item in the national budget. At the same time, budgeting \$1.25 trillion dollars would be 1.7 times the current budget, surpassing social security as the second-highest item. An infrastructure bill of more than 6 trillion dollars, meanwhile, would be more than three times the size of some of the [largest spending bills](https://thehill.com/policy/finance/531164-congress-unveils-23-trillion-government-spending-and-virus-relief-package) ever considered by Congress. These boundaries, then, seem like reasonable constraints to place on potential responses.
+
+# Results when outliers are removed
+
+<iframe src="tables/all-nooutliers.html" height="375px" width="100%" style="border:none;">
+
+</iframe>
+
+Table 4 presents the results of each experiment when outliers (policy positions further than 1.5 times the IQR below the first quartile or above the third quartile) are excluded. On the issue of the minimum wage, removing outliers slightly decreases the magnitude of the coefficients. Both in-party and out-party position have statistically significant effects on respondents' preferred minimum wage, however, with respondents increasing their preferred minimum wage by about 16 cents for every increased dollar in the out-party leader's position.
+
+After removing outliers, there still is no statistically significant effect of the out-party position on respondents' preferred national security budget. For every \$1 billion dollar increase in the in-party leader's preferred national security budget, respondents increase their preferred national security budget by \$370 million (p=0.02). Noticeably, even partisan identification did not have a statistically significant effect on respondents' preferred amount of national security spending.
+
+Finally, on the issue of infrastructure spending, we see important changes after removing outliers. For every additional \$1 trillion in infrastructure spending advocated by the in-party leader, partisan respondents increase their preferred amount of infrastructure spending by \$433 billion (p\<0.001). Additionally, for every additional \$1 trillion in the size of the infrastructure bill advocated by the opposing party leader, partisans increase the size of their preferred infrastructure spending bill by \$239 billion (p\<0.001). On infrastructure, after removing egregious outliers, we see that partisans update their policy preferences in response to both the in- and out-party leaders.
+
+# Conclusion
+
+I find strong evidence that partisans adjust their preferred federal minimum wage in response to cues from both in-party and out-party leaders. After adjusting for data collection issues by removing outliers, I find similar effects on partisans' policy preferences with a hypothetical infrastructure bill. I find that on the issue of national security spending, however, only the in-party leader's position has a statistically significant effect on partisans' policy preference.
+
+These findings are notable for a few reasons. First, I find that while partisans respond to the positions taken by their party leaders, they do not do so indiscriminately. On all three issues, the positions taken by in-party leaders are discounted significantly by partisan respondents, suggesting that partisans do not blindly adopt the positions of their party leaders.
+
+Second, these findings provide evidence to strengthen the results presented by [Fowler and Howell](https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view): partisans do not broadly dismiss policy preferences from out-party leaders out-of-hand, but rather reconsider their own positions in light of information from leaders of both parties. It is especially notable that these results hold for the issues of the federal minimum wage and an infrastructure bill on a survey fielded in May 2021, given the potential political salience of these issues. Just two months earlier, all 50 Senate Republicans and seven Democrats [voted against](https://www.nytimes.com/2021/03/05/us/minimum-wage-senate.html) a \$15 minimum wage, while President Biden had [just proposed](https://www.vox.com/2021/3/31/22357179/biden-two-trillion-infrastructure-jobs-plan-explained) a federal infrastructure bill.
+
+Political salience might provide one potential explanation for why these results failed to replicate on the issue of national security spending. Perhaps the active political debate on the minimum wage and infrastructure bill encourages partisans to actively consider their own positions as well as those of the legislating parties, while on the less-salient issue of national security spending partisans fall back on signals from their party leader. Alternatively, national security spending might simply be an issue where partisans have less faith in the other party to accurately legislate.
+
+Overall, these findings provide reason for optimism as to the state of political discourse between American partisans. Even as [polarization grows](https://www.pewresearch.org/politics/2014/06/12/political-polarization-in-the-american-public/), partisans appear open to considering positions taken by the other side as well as their own.
+
+<!-- A little footnote trickery to ensure proper attribution. -->
+
+<!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately using a similar trick. -->
+
+[[^5]]{style="display: none;"}
+
+[^5]: [Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>.]

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zachary Lorico Hertz">
+<meta name="dcterms.date" content="2021-12-16">
+<meta name="description" content="Survey experiment replicating Fowler and Howell finds that partisans update policy preferences in response to cues from both their own party leaders and opposing party elites.">
+
+<title>How Sensitive are Partisans to Out-Party Cues? – Zachary Lorico Hertz</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../assets/global_styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Zachary Lorico Hertz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research/"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching/"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/"> 
+<span class="menu-text">C.V.</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#research-design" id="toc-research-design" class="nav-link active" data-scroll-target="#research-design">Research Design</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#why-might-the-experiment-fail-to-extend" id="toc-why-might-the-experiment-fail-to-extend" class="nav-link" data-scroll-target="#why-might-the-experiment-fail-to-extend">Why might the experiment fail to extend?</a></li>
+  <li><a href="#results-when-outliers-are-removed" id="toc-results-when-outliers-are-removed" class="nav-link" data-scroll-target="#results-when-outliers-are-removed">Results when outliers are removed</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">How Sensitive are Partisans to Out-Party Cues?</h1>
+<p class="subtitle lead">An experiment testing if out-party cues still move policy preferences.</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">party cues</div>
+    <div class="quarto-category">elite cues</div>
+    <div class="quarto-category">partisan polarization</div>
+    <div class="quarto-category">policy learning</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Survey experiment replicating Fowler and Howell finds that partisans update policy preferences in response to cues from both their own party leaders and opposing party elites.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zachary Lorico Hertz </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 16, 2021</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">December 16, 2021</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A <a href="https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view">recent working paper</a> by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings are well-supported <a href="https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343">yet somewhat incongrous</a> with both <a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x">previous research</a> and the oft-cited<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> expression that “partisanship is a hell of a drug”.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Given the paper’s novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?</p>
+<p>I follow the methods outlined by Fowler and Howell to design four survey experiments. The first is a replication of the authors’ experiments on the federal minimum wage, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.</p>
+<section id="research-design" class="level1">
+<h1>Research Design</h1>
+<p>For each policy area, I presented respondents with the current policy.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> There were nine treatment arms for each policy area, in which Nancy Pelosi was said to support one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians’ positions within a treatment were randomized. Respondents were then asked for their preferred policy position, and acceptable responses were restricted to a set of plausible numbers for a given policy position.</p>
+<p>Respondents were recruited via Lucid between May 2, 2021 and May 9, 2021; I implemented two pre-treatment attention checks into the survey battery to screen for and remove inattentive respondents. While I collected data from 1424 respondents overall after inattentive respondents were removed, I examine partisans (including leaners)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> in this analysis, limiting the sample further to 1210 respondents.</p>
+<p>Following Fowler and Howell, I begin my analysis by estimating the effects of party leaders’ position on partisans’ policy beliefs using the following equation for each policy area:</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&amp;space;Respondent&amp;space;\text{&amp;space;}Position&amp;space;=&amp;space;\text{&amp;space;}&amp;\alpha&amp;space;\text{&amp;space;}+\text{&amp;space;}&amp;space;\beta*in-party\text{&amp;space;}&amp;space;position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;\gamma&amp;space;*out-party&amp;space;\text{&amp;space;}position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;&amp;space;\delta&amp;space;*Respondent&amp;space;\text{&amp;space;}&amp;space;Partisan&amp;space;\text{&amp;space;}&amp;space;Identification&amp;space;+&amp;space;\epsilon&amp;space;\end{}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\begin{align*}&amp;space;Respondent&amp;space;\text{&amp;space;}Position&amp;space;=&amp;space;\text{&amp;space;}&amp;\alpha&amp;space;\text{&amp;space;}+\text{&amp;space;}&amp;space;\beta*in-party\text{&amp;space;}&amp;space;position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;\gamma&amp;space;*out-party&amp;space;\text{&amp;space;}position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;&amp;space;\delta&amp;space;*Respondent&amp;space;\text{&amp;space;}&amp;space;Partisan&amp;space;\text{&amp;space;}&amp;space;Identification&amp;space;+&amp;space;\epsilon&amp;space;\end{}" title="\begin{align*} Respondent \text{ }Position = \text{ }&amp;\alpha \text{ }+\text{ } \beta*in-party\text{ } position \text{ }+ \\ &amp;\gamma *out-party \text{ }position \text{ }+ \\ &amp; \delta *Respondent \text{ } Partisan \text{ } Identification + \epsilon \end{}"></a></p>
+<p>Here, <code>in-party position</code> is the policy said to be preferred by the respondent’s copartisan party leader while <code>out-party position</code> is the policy stated to be preferred by the other party leader. For example, among respondents in the treatment arm where Mitch McConnell preferred a $12.50 minimum wage and Nancy Pelosi preferred a $15 minimum wage, <code>in-party position</code> would equal $15 for a Democrat but $12.50 for a Republican, while <code>out-party position</code> would equal $12.50 for a Democrat but $15 for a Republican. <code>Respondent Partisan Identification</code> is a dummy variable indicating the respondent’s partisan identity.</p>
+<p>Using this model, the coefficients for party leaders’ positions will tell us both the extent and direction of respondents’ sensitivity to elite cues. Positive coefficients show that a respondent has positively updated their preferred policy position to more closely match that of the politician, while a negative coefficient shows that the respondent has moved their preferred policy away from the politician’s stated position. The strength of these effects is weak when the coefficient is near 0 and increases as the coefficient approaches 1.</p>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<iframe src="tables/all-initial.html" height="375px" width="100%" style="border:none;">
+</iframe>
+<p>Table 1 presents the basic results of this analysis among pooled partisan respondents examining policy preferences on minimum wage, national security spending, and the hypothetical infrastructure bill below. My replication of Fowler and Howell’s minimum wage experiment produces similar results. As the in-party leader espouses a federal minimum wage that is one dollar higher, copartisan respondents respond with a preferred federal minimum wage that is 22 cents higher. Similarly, for every additional dollar in the federal minimum wage supported by the out-party leader, respondents prefer a federal minimum wage that is 22 cents higher. Both the national security spending and infrastructure bill experiments do not yield statistically significant results.</p>
+<iframe src="tables/all-dems.html" height="325px" width="100%" style="border:none;">
+</iframe>
+<p>Performing the analysis on partisans separately reveals some intriguing trends. Table 2 presents the results from each experiment when looking at Democratic respondents alone, excluding leaners. Again, results for the national security spending and infrastructure bill experiment are not statistically significant. In the minimum wage experiment, however, the treatment effect rises to .31 for the in-party position and falls to .18 for the out-party position. Both coefficients are statistically significant (p&lt;0.01 and p=0.07, respectively).</p>
+<iframe src="tables/all-reps.html" height="325px" width="100%" style="border:none;">
+</iframe>
+<p>Among the Republican respondents, however, interesting effects emerge in the minimum wage experiment. While the in-party position appears to have no statistically significant effect on respondents’ preferred minimum wage (p=0.15), Republican respondents positively updated their preferred federal minimum wage by 29 cents for every dollar increase in Nancy Pelosi’s stated position (p=0.01). This might be explained in part by the fact that <a href="https://www.forbes.com/sites/nicholasreimann/2021/03/03/majority-of-republicans-support-increasing-minimum-wage-poll-finds/?sh=278aa6624abe">a majority of Republicans</a> support raising the minimum wage, and according to the 2020 CES 36 percent of Republicans support a $15 minimum wage.</p>
+</section>
+<section id="why-might-the-experiment-fail-to-extend" class="level1">
+<h1>Why might the experiment fail to extend?</h1>
+<p>I find that on the issue of the federal minimum wage, but not national security spending or an infrastructure bill, partisans adjust their preferred policy in response to the position taken by both the in- and out-party leader. Why might these results have replicated for the minimum wage experiment, but failed to extend?</p>
+<p>One explanation might arise from egregious outliers in the data affecting regression estimates. The issue of the minimum wage is an easy policy for respondents to conceptualize: most people have jobs, giving them a convenient and accessible point of reference from which to create their preferred policy. National security and infrastructure spending, however, obviously lack a personal comparison point and numbers in billions and trillions of dollars. Since people <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/cogs.12388">have issues conceptualizing large numbers</a>, ven when provided with the status quo respondents may struggle to provide reasonable policy proposals. This is especially important given evidence that <a href="https://osf.io/preprints/socarxiv/8sbe4/">inattentiveness may be rising among Lucid respondents</a> and that <a href="https://www.cambridge.org/core/journals/political-analysis/article/paying-attention-to-inattentive-survey-respondents/BEDA4CF3245489645859E7E6B022E75A">failing to account for innatentive respondents can bias survey estimates</a>. Visualizing responses and statistical measures can identify the extent to which outliers are present in the data.</p>
+<p><img src="images/mw.png" class="img-fluid"><!-- --></p>
+<p>Examining the density plot in Figure 1, responses to the minimum wage experiment appear generally single-peaked and are fairly closely distributed around the average response and, importantly, the positions taken by party leaders in the experiment. A more close analysis reveals that just 5 percent of responses (68 total) are outliers.</p>
+<p><img src="images/natsec.png" class="img-fluid"><!-- --></p>
+<p>Responses to the national security spending experiment, presented in Figure 2, more clearly have higher levels of responses clustered at the upper and lower ends of the scale. A closer look at the distribution reveals that almost 20 percent (239) of responses are outliers, defined as respondents suggesting less than $50 billion or more than $1,250 billion in national security spending.</p>
+<p><img src="images/inf.png" class="img-fluid"><!-- --></p>
+<p>Figure 3 shows the distribution of responses to the infrastructure spending experiment. There are noticeable clusters around numbers that are multiples of 5 and 10, and a significant number of responses at the upper limit. Similarly, 216 responses (18 percent) are outliers, with respondents suggesting that their preferred infrastructure spending was greater than 6 trillion dollars.</p>
+<p>The case to remove these outliers seems self-evident. Budgeting less than $50 billion for national security is 6 percent of the current budget and would be <a href="https://datalab.usaspending.gov/americas-finance-guide/spending/categories/">nearly one-fifth the size</a> of the current smallest item in the national budget. At the same time, budgeting $1.25 trillion dollars would be 1.7 times the current budget, surpassing social security as the second-highest item. An infrastructure bill of more than 6 trillion dollars, meanwhile, would be more than three times the size of some of the <a href="https://thehill.com/policy/finance/531164-congress-unveils-23-trillion-government-spending-and-virus-relief-package">largest spending bills</a> ever considered by Congress. These boundaries, then, seem like reasonable constraints to place on potential responses.</p>
+</section>
+<section id="results-when-outliers-are-removed" class="level1">
+<h1>Results when outliers are removed</h1>
+<iframe src="tables/all-nooutliers.html" height="375px" width="100%" style="border:none;">
+</iframe>
+<p>Table 4 presents the results of each experiment when outliers (policy positions further than 1.5 times the IQR below the first quartile or above the third quartile) are excluded. On the issue of the minimum wage, removing outliers slightly decreases the magnitude of the coefficients. Both in-party and out-party position have statistically significant effects on respondents’ preferred minimum wage, however, with respondents increasing their preferred minimum wage by about 16 cents for every increased dollar in the out-party leader’s position.</p>
+<p>After removing outliers, there still is no statistically significant effect of the out-party position on respondents’ preferred national security budget. For every $1 billion dollar increase in the in-party leader’s preferred national security budget, respondents increase their preferred national security budget by $370 million (p=0.02). Noticeably, even partisan identification did not have a statistically significant effect on respondents’ preferred amount of national security spending.</p>
+<p>Finally, on the issue of infrastructure spending, we see important changes after removing outliers. For every additional $1 trillion in infrastructure spending advocated by the in-party leader, partisan respondents increase their preferred amount of infrastructure spending by $433 billion (p&lt;0.001). Additionally, for every additional $1 trillion in the size of the infrastructure bill advocated by the opposing party leader, partisans increase the size of their preferred infrastructure spending bill by $239 billion (p&lt;0.001). On infrastructure, after removing egregious outliers, we see that partisans update their policy preferences in response to both the in- and out-party leaders.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>I find strong evidence that partisans adjust their preferred federal minimum wage in response to cues from both in-party and out-party leaders. After adjusting for data collection issues by removing outliers, I find similar effects on partisans’ policy preferences with a hypothetical infrastructure bill. I find that on the issue of national security spending, however, only the in-party leader’s position has a statistically significant effect on partisans’ policy preference.</p>
+<p>These findings are notable for a few reasons. First, I find that while partisans respond to the positions taken by their party leaders, they do not do so indiscriminately. On all three issues, the positions taken by in-party leaders are discounted significantly by partisan respondents, suggesting that partisans do not blindly adopt the positions of their party leaders.</p>
+<p>Second, these findings provide evidence to strengthen the results presented by <a href="https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view">Fowler and Howell</a>: partisans do not broadly dismiss policy preferences from out-party leaders out-of-hand, but rather reconsider their own positions in light of information from leaders of both parties. It is especially notable that these results hold for the issues of the federal minimum wage and an infrastructure bill on a survey fielded in May 2021, given the potential political salience of these issues. Just two months earlier, all 50 Senate Republicans and seven Democrats <a href="https://www.nytimes.com/2021/03/05/us/minimum-wage-senate.html">voted against</a> a $15 minimum wage, while President Biden had <a href="https://www.vox.com/2021/3/31/22357179/biden-two-trillion-infrastructure-jobs-plan-explained">just proposed</a> a federal infrastructure bill.</p>
+<p>Political salience might provide one potential explanation for why these results failed to replicate on the issue of national security spending. Perhaps the active political debate on the minimum wage and infrastructure bill encourages partisans to actively consider their own positions as well as those of the legislating parties, while on the less-salient issue of national security spending partisans fall back on signals from their party leader. Alternatively, national security spending might simply be an issue where partisans have less faith in the other party to accurately legislate.</p>
+<p>Overall, these findings provide reason for optimism as to the state of political discourse between American partisans. Even as <a href="https://www.pewresearch.org/politics/2014/06/12/political-polarization-in-the-american-public/">polarization grows</a>, partisans appear open to considering positions taken by the other side as well as their own.</p>
+<!-- A little footnote trickery to ensure proper attribution. -->
+<!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately using a similar trick. -->
+<p><span style="display: none;"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>See, for example, <a href="https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&amp;src=typed_query">its frequent use</a> by political scientists on Twitter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>One <a href="https://twitter.com/BrendanNyhan/status/857963843607298049">which seems</a> to have been created and popularized by Brendan Nyhan and Stephen Miller.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: “Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure.”<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>While the analysis of pooled partisans excluding leaners is omitted for brevity, doing so actually strengthens the treatment effects slightly to 0.25 for both in-party and out-party positions in the minimum wage experiment.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>[Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2021,
+  author = {Lorico Hertz, Zachary},
+  title = {How {Sensitive} Are {Partisans} to {Out-Party} {Cues?}},
+  date = {2021-12-16},
+  url = {index.qmd/posts/2021-12-16-party-cues/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2021" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lorico Hertz, Zachary. 2021. <span>“How Sensitive Are Partisans to
+Out-Party Cues?”</span> December 16, 2021. <a href="https://index.qmd/posts/2021-12-16-party-cues/">index.qmd/posts/2021-12-16-party-cues/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("index\.qmd");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

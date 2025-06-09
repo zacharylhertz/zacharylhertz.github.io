@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zachary Lorico Hertz">
+<meta name="dcterms.date" content="2022-05-16">
+<meta name="description" content="Step-by-step guide to accessing American Community Survey data and using it to create post-stratification weights for survey research in R.">
+
+<title>Creating Survey Weights in R Using Census Data – Zachary Lorico Hertz</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../assets/global_styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Zachary Lorico Hertz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research/"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching/"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/"> 
+<span class="menu-text">C.V.</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#choosing-your-weighting-variables" id="toc-choosing-your-weighting-variables" class="nav-link active" data-scroll-target="#choosing-your-weighting-variables">Choosing your weighting variables</a></li>
+  <li><a href="#accessing-and-downloading-acs-data" id="toc-accessing-and-downloading-acs-data" class="nav-link" data-scroll-target="#accessing-and-downloading-acs-data">Accessing and downloading ACS data</a>
+  <ul class="collapse">
+  <li><a href="#a-quick-note-on-acs-time-periods" id="toc-a-quick-note-on-acs-time-periods" class="nav-link" data-scroll-target="#a-quick-note-on-acs-time-periods">A quick note on ACS time periods</a></li>
+  </ul></li>
+  <li><a href="#reading-acs-data-into-r-using-fread" id="toc-reading-acs-data-into-r-using-fread" class="nav-link" data-scroll-target="#reading-acs-data-into-r-using-fread">Reading ACS data into R using <code>{fread}</code></a></li>
+  <li><a href="#important-note-on-matching-data-and-targets" id="toc-important-note-on-matching-data-and-targets" class="nav-link" data-scroll-target="#important-note-on-matching-data-and-targets">Important note on matching data and targets</a></li>
+  <li><a href="#creating-population-benchmarks-with-survey" id="toc-creating-population-benchmarks-with-survey" class="nav-link" data-scroll-target="#creating-population-benchmarks-with-survey">Creating population benchmarks with <code>{survey}</code></a></li>
+  <li><a href="#using-anesrake-to-create-weights" id="toc-using-anesrake-to-create-weights" class="nav-link" data-scroll-target="#using-anesrake-to-create-weights">Using <code>{anesrake}</code> to create weights</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Creating Survey Weights in R Using Census Data</h1>
+<p class="subtitle lead">Boy, you’re gonna cre-ate that weight: A quick guide to creating original survey weights using Census data in R.</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">tutorial</div>
+    <div class="quarto-category">survey</div>
+    <div class="quarto-category">tidyverse</div>
+    <div class="quarto-category">survey data</div>
+    <div class="quarto-category">ACS</div>
+    <div class="quarto-category">Census</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Step-by-step guide to accessing American Community Survey data and using it to create post-stratification weights for survey research in R.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zachary Lorico Hertz </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 16, 2022</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">May 16, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In survey research, the composition of a sample may differ notably from the population being modeled across important characteristics (e.g.&nbsp;race, age, education, party identification). These sampling errors often reflect systematic bias which can pose a threat to accuracy and the researcher’s ability to make inferences using the data, especially if the error is correlated with the variables of interest.</p>
+<p>In response, researchers often construct “post-stratification weights” — values assigned to each observation which can be used to correct for sampling error and match the sample to the population on key characteristics. The idea is simple: by increasing the influence of under-represented units and likewise decreasing the influence of over-represented units, researchers can create a more representative sample. This is particularly important given the dramatic increase in the use of online opt-in (or “nonprobability”) samples.</p>
+<p>An important implication is that you can only construct post-stratification weights using characteristics that are both measured in your data and known for the population; put more simply, if we want to make our sample reflect the population, we have to know what the population looks like! Thus, <a href="https://www.census.gov/programs-surveys/acs">the American Commmunity Survey (ACS)</a>, a premier data source with detailed population information, is an incredible resource to construct population targets for survey weighting.</p>
+<p>Last year, I created survey weights for a project fielded with the <a href="https://tufts-pol.medium.com/">Tufts Public Opinion Lab</a>, but the task proved to be fairly involved. First, accessing ACS data requires navigating the Census Bureau’s fairly labyrinthine website. In addition, the size of the national ACS files – totaling over 10 gigabytes – is far beyond what my computer’s memory could possibly handle and crashed R Studio the first time I tried to read them in.</p>
+<p>In this blog post, I create weights for a simplified version of the <a href="https://zacharylhertz.github.io/files/2021_Lab_survey.pdf">TPOL data</a>. I walk through the process of accessing ACS data and using it to construct survey weights using R. I wrote this piece for myself, future lab students, and anyone interested in learning how to access ACS data and use it to create survey weights in R.</p>
+<p>This post assumes familiarity with the basic concept of post-stratification weights and their uses; those in search of additional reading on weighting are directed to <a href="https://www.pewresearch.org/methods/2018/01/26/for-weighting-online-opt-in-samples-what-matters-most/">this handy piece on different weighting methods</a> by Pew. While there are multiple weighting methods, the <code>{anesrake}</code> package allows for accessible and automated raking so I use this method to create the weights. To follow along, you will need a basic working knowledge of R. You’ll also use the <code>{data.table}</code>, <code>{survey}</code>, and <code>{tidyverse}</code> packages so be sure to install those by running <code>install.packages()</code> in the console as needed if you haven’t installed them already.</p>
+<section id="choosing-your-weighting-variables" class="level1">
+<h1>Choosing your weighting variables</h1>
+<p>There’s no magic “one-size-fits-all” set of variables to use when creating weights. To decide which variables to weight on, researchers should be mindful of a few things. We care most about addressing imbalances in the data that bias the outcomes of interest, so “good” weighting variables are generally correlated with the attitudes and behaviors of interest. And, as previously mentioned, we need well-measured, reliable population benchmarks for each variable we decide to weight the data on. Public opinion researchers often create weights using a similar set of demographic variables, including but not limited to race and ethnicity, age, sex, education and geographic region. Other weighting variables can include voter registration status, party identification, religion, recalled or validated voting history, and (more recently) even <a href="https://twitter.com/rp_griffin/status/1524837756752515098?s=20&amp;t=tBEJ_DS9CthkcsrpGhPBiQ">social trust or primary participation</a>.</p>
+<p>For this tutorial, I choose to weight the data on race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote. Population benchmarks for 2020 presidential vote can be obtained from the official FEC <a href="https://www.fec.gov/resources/cms-content/documents/2020presgeresults.pdf">2020 Presidential Election Results</a> and the <a href="http://www.electproject.org/2020g">United States Election Project</a>. To create the population benchmarks for demographic data, we turn to the ACS.</p>
+</section>
+<section id="accessing-and-downloading-acs-data" class="level1">
+<h1>Accessing and downloading ACS data</h1>
+<p>Personally, I find <a href="https://www.census.gov/programs-surveys/acs">the ACS website</a> somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau’s pretabulated data products, but for our purposes we need data that we can read in and reshape directly.</p>
+<p>For this, we can use <a href="https://www.census.gov/programs-surveys/acs/microdata.html">the ACS Public Use Microdata Sample (PUMS)</a>. You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau’s File Transfer Protocol (FTP) site: <a href="https://www2.census.gov/programs-surveys/acs/data/pums/">click this link</a> and select a year. I turn to the most recent data (2019).</p>
+<section id="a-quick-note-on-acs-time-periods" class="level2">
+<h2 class="anchored" data-anchor-id="a-quick-note-on-acs-time-periods">A quick note on ACS time periods</h2>
+<p>Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates <em>are not calculated as an average of 12 monthly values</em> (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates).</p>
+<p>Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period. For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.</p>
+<p>This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size. If both estimates are available for your year in question, which one should you use?</p>
+<p>For rapidly changing geographic areas, 1-year data are best as the current data is more likely to show yearly fluctuations, but are only available for geographic areas with at least 65,000 people. If you are hoping to illustrate a smooth trend, however, 5-year data may be best since the 5-year periods overlap. Above all, <strong>you must consistently use the same estimate</strong> so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and stick with them.</p>
+<p>For this post, I will be using the 5-year data. Regardless of which period you choose, you should be in a directory filled with .zip files, following the general path:</p>
+<p><code>www2.census.gov/programs-surveys/acs/data/pums/{YEAR}/{1-Year/5-Year}</code></p>
+<p>How do you interpret these zip files, to pick the appropriate data? Their names are a construction using three important features of the data:</p>
+<p><code>{file format}_{record type}{state}.zip</code></p>
+<p>“File format” should take on two values: ‘unix’, denoting SAS datasets, and ‘csv’, denoting comma separated value files. “Record type” is either ‘h’, denoting housing files, or ‘p’, denoting person files. Finally, the file name includes the relevant <a href="https://pe.usps.com/text/pub28/28apb.htm">two-letter state abbreviation code</a>, with the abbreviation “us” denoting the nationwide data.</p>
+<p>I prefer to work with the .csv files. Because I am constructing weighting targets for the population of all American adults, I need the person record type for the “us” geography. So, I find “csv_pus.zip” and download the file. Once you download the file, unzip it (on Mac, you can right click and open with Archive Utility). You should be able to see a README .pdf file, and then your .csv data. If you are using the five-year 2019 U.S. data, you will see four .csv files (psam_pusa.csv, psam_pusb.csv, psam_pusc.csv and psam_pusd.csv). Move the folder to an appropriate working directory<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> where you can access the data when you start constructing weights in R.</p>
+</section>
+</section>
+<section id="reading-acs-data-into-r-using-fread" class="level1">
+<h1>Reading ACS data into R using <code>{fread}</code></h1>
+<p>You may notice that the 2015-2019 person-level U.S. data are … quite large. The four .csv files combined surpass 10 gigabytes. To avoid dealing with this headache, we can selectively read in the variables that we need.</p>
+<p>As previously stated, in addition to presidential vote I choose to weight the data on race and ethnicity, region, age, sex, educational attainment, and the interaction of education and race. Glancing through the <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2015-2019.pdf">2019 PUMS data dictionary</a> I can see that the key variables here are <code>HISP</code>, <code>AGEP</code>, <code>REGION</code>, <code>RAC1P</code>, <code>SCHL</code>, and <code>SEX</code>. Additionally, to create population proportion estimates from the ACS, which is itself survey data, we will also need the ACS weights, which in this case is the variable <code>PWGTP</code>.</p>
+<p>Having identified our variables of interest, we can limit the data to just these variables and read it into R using the <code>fread()</code> command from the <code>{data.table}</code> package. Here, I do this and then combine each .csv file into a single object called ‘acs’:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Library setup</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table) <span class="co"># For fread()</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey) <span class="co"># To create weighted proportion tables</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># I rely on the %&gt;% operator from {tidyverse}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(anesrake) <span class="co"># We use {anesrake} later to create the weights</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Census data is too big, so selectively read in the variables you need.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../../../Archived/Tutorials/Survey-Weights/csv_pus/psam_pusa.csv"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">select=</span> <span class="fu">c</span>(<span class="st">"HISP"</span>, <span class="st">"AGEP"</span>, <span class="st">"REGION"</span>, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"RAC1P"</span>, <span class="st">"SCHL"</span>, <span class="st">"SEX"</span>, <span class="st">"PWGTP"</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../../../Archived/Tutorials/Survey-Weights/csv_pus/psam_pusb.csv"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">select=</span> <span class="fu">c</span>(<span class="st">"HISP"</span>, <span class="st">"AGEP"</span>, <span class="st">"REGION"</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"RAC1P"</span>, <span class="st">"SCHL"</span>, <span class="st">"SEX"</span>, <span class="st">"PWGTP"</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../../../Archived/Tutorials/Survey-Weights/csv_pus/psam_pusc.csv"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">select=</span> <span class="fu">c</span>(<span class="st">"HISP"</span>, <span class="st">"AGEP"</span>, <span class="st">"REGION"</span>, </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"RAC1P"</span>, <span class="st">"SCHL"</span>, <span class="st">"SEX"</span>, <span class="st">"PWGTP"</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../../../Archived/Tutorials/Survey-Weights/csv_pus/psam_pusd.csv"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">select=</span> <span class="fu">c</span>(<span class="st">"HISP"</span>, <span class="st">"AGEP"</span>, <span class="st">"REGION"</span>, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"RAC1P"</span>, <span class="st">"SCHL"</span>, <span class="st">"SEX"</span>, <span class="st">"PWGTP"</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the csvs.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>acs <span class="ot">&lt;-</span> <span class="fu">rbind</span>(a,b,c,d)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(a,b,c,d) <span class="co"># Clear the individual objects to save on memory</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>acs <span class="ot">&lt;-</span> <span class="fu">subset</span>(acs, acs<span class="sc">$</span>AGEP<span class="sc">&gt;</span><span class="dv">17</span>) <span class="co"># restrict data to adults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="important-note-on-matching-data-and-targets" class="level1">
+<h1>Important note on matching data and targets</h1>
+<p>There are two important things to remember when creating weights using <code>{anesrake}</code>. First, the variables you weight on should have the same name for both your data and the population benchmarks. The variables must also have the same number of levels (See the <a href="https://cran.r-project.org/web/packages/anesrake/anesrake.pdf">CRAN documentation</a> for more). In this case, my data is an anonymized version of the TPOL data. The relevant variables in the data are <code>hispanic</code>, <code>sex</code>, <code>region</code>, <code>age5</code>, <code>educ4</code>, <code>race5</code>, <code>weduc</code> and <code>pres</code>. With that in mind, I reshape and rename the target variables to match my data using the following code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recode variables. ####</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>hispanic[acs<span class="sc">$</span>HISP<span class="sc">!=</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>  <span class="co">#Hispanic</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>hispanic[acs<span class="sc">$</span>HISP<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co">#Nonhispanic</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>sex[acs<span class="sc">$</span>SEX<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co">#Male</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>sex[acs<span class="sc">$</span>SEX<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co">#Female</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>region[acs<span class="sc">$</span>REGION<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Northeast</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>region[acs<span class="sc">$</span>REGION<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Midwest</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>region[acs<span class="sc">$</span>REGION<span class="sc">==</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># South</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>region[acs<span class="sc">$</span>REGION<span class="sc">==</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># West</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>age5[acs<span class="sc">$</span>AGEP<span class="sc">&lt;</span><span class="dv">30</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># 18-29</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>age5[acs<span class="sc">$</span>AGEP<span class="sc">&gt;</span><span class="dv">29</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>AGEP<span class="sc">&lt;</span><span class="dv">45</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># 30-44</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>age5[acs<span class="sc">$</span>AGEP<span class="sc">&gt;=</span><span class="dv">45</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>AGEP<span class="sc">&lt;</span><span class="dv">55</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># 45-54</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>age5[acs<span class="sc">$</span>AGEP<span class="sc">&gt;=</span><span class="dv">55</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>AGEP<span class="sc">&lt;</span><span class="dv">65</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># 55-64</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>age5[acs<span class="sc">$</span>AGEP<span class="sc">&gt;</span><span class="dv">64</span>] <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># 65+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>educ4[acs<span class="sc">$</span>SCHL<span class="sc">&lt;</span><span class="dv">17</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># HS or less</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>educ4[acs<span class="sc">$</span>SCHL<span class="sc">&gt;</span><span class="dv">16</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>SCHL<span class="sc">&lt;</span><span class="dv">20</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Some college</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>educ4[acs<span class="sc">$</span>SCHL<span class="sc">==</span><span class="dv">20</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># College degree</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>educ4[acs<span class="sc">$</span>SCHL<span class="sc">&gt;</span><span class="dv">20</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># Post-graduate degree</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co">#White alone</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co">#Black alone"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">&gt;</span><span class="dv">2</span> <span class="sc">&amp;</span> </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>           acs<span class="sc">$</span>RAC1P<span class="sc">&lt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co">#American Indian or Alaskan Native</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co">#Asian alone</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">7</span>] <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co">#Native Hawaiian and Other Pacific Islander alone</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="co">#Some other race alone</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">9</span>] <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="co">#Two or more races </span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race5 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race5[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>hispanic<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># White nonhispanic</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race5[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Black</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race5[acs<span class="sc">$</span>hispanic<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Hispanic</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race5[acs<span class="sc">$</span>RAC1P<span class="sc">==</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># Asian</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc  <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># White HS less</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># White Some college</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># White College Grad</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># White Postgrad</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># NW HS less</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="co"># NW Some college</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="co"># NW College Grad</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="co"># NW Postgrad</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="creating-population-benchmarks-with-survey" class="level1">
+<h1>Creating population benchmarks with <code>{survey}</code></h1>
+<p>Now, our benchmarks need to ultimately take the form of a list of all target values where each list element is a vector corresponding to the weighting targets for a single variable.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> To rephrase in slightly less technical terms, we want to create a list of the variables we are weighting on (in this case race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote). In this list, each item represents a variable and is a vector, or an object of numerical values, where each numerical value is the proportion of the population represented by the given level of the variable.</p>
+<p>This may make more sense in concrete terms, so hopefully creating the list will help illustrate the concept. Recall that we can use the <code>{survey}</code> package to calculate weighted proportions from survey data, and see <a href="https://zacharylhertz.github.io/posts/2021/06/survey-package">my earlier tutorial</a> for an overview of how to use <code>{survey}</code>. We can use <code>{survey}</code> and the ACS to create numeric vectors containing the proportional breakdown of our targets with the following code:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create survey design object using ACS and weights</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>svy.acs <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>acs, <span class="at">weights=</span>acs<span class="sc">$</span>PWGTP) </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(acs) <span class="co"># remove the ACS to save memory</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Time to create some targets! ####</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sex <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>sex, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># Female 51.3 Male 48.7</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>region, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># NE 17.6 MW 20.9 S 37.8 W 23.6</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>age5 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>age5, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># 18-29: 21.4 30-44: 25.1 45-54: 16.7 55-64: 16.6 65+:20.2</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>educ4 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>educ4, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># HS less: 35.9 Some: 26.5 College: 8.1 Postgrad: 29.5</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>race5 <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>race5, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># White: 63.6 Black: 12.0 Hisp: 15.9 Asian: 5.7 Other:2.8</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>hispanic <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>hispanic, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>() <span class="co"># Hisp 15.9 Nonhisp 84.1</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>weduc <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="sc">~</span>weduc, <span class="at">design=</span>svy.acs) <span class="sc">%&gt;%</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.numeric</span>()</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">c</span>(.<span class="dv">315</span>, .<span class="dv">288</span>, .<span class="dv">011</span>, .<span class="dv">385</span>) <span class="co">#Biden, Trump, Other, No Vote</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So here, we see that for example <code>sex</code> is the vector (.513, .487), indicating that the first level of <code>sex</code> (female) are estimated to be 51.3 percent of the population while the second level (male) are 48.7 percent. We can also see it’s easy to manually specify the targets if you already know them: <code>pres</code> is the vector of presidential vote targets created manually.</p>
+<p>Finally, we combine the individual vectors into a list using the <code>list()</code> function, which I name <code>targets</code>, and assign names to the vectors, using the following code:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>targets <span class="ot">&lt;-</span> <span class="fu">list</span>(sex, region, age5, educ4, race5, hispanic, weduc, pres)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remember, these names will have to match</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(targets) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sex"</span>, <span class="st">"region"</span>, <span class="st">"age5"</span>, <span class="st">"educ4"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"race5"</span>, <span class="st">"hispanic"</span>, <span class="st">"weduc"</span>, <span class="st">"pres"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Remember that the names for each target variable will have to match the name of the variable in your collected data. Finally, we read in our data (if you’re following along, you can access my data by downloading it <a href="https://www.dropbox.com/s/77k6odlchaszuli/sample_data.csv?dl=0">at this link</a>), and clean it by removing any NA values in the variables we weight on:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sample_data.csv"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove cases with NAs on weighting variables</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(sex))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>poll<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(poll<span class="sc">$</span>sex)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(region))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>poll<span class="sc">$</span>region <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(poll<span class="sc">$</span>region)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(age5))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(educ4))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(race5))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(hispanic))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(weduc))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(pres))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-anesrake-to-create-weights" class="level1">
+<h1>Using <code>{anesrake}</code> to create weights</h1>
+<p>To construct the actual weights, we use an automated raking procedure from <code>{anesrake}</code>, which iterates through cases and adjusts the weight until the sample and population distributions are closely aligned along our variables of interest. In this tutorial I focus on implementation and leave further discussion of the underlying procedure to <a href="https://electionstudies.org/wp-content/uploads/2018/04/nes012427.pdf">Debell and Krosnick (2009)</a>.</p>
+<p>The <code>anesrake()</code> command has a few key arguments. The first is your list of targets, which in this case I have conveniently named <code>targets</code>. The second is simply your data, which here is named <code>poll</code>. The third is a unique case identifier for individuals in your dataset, which in this case is the variable <code>ResponseID</code>. You can manually set an upper limit on the values of your weights with <code>cap</code>, which has a default value of 5 as suggested in Debell and Krosnick. Finally, <code>type = "nolim"</code> specifies that we want to weight on all of the variables included in <code>targets</code>.</p>
+<p>We can thus create the weights and store them in an object called <code>myweights</code>, then create a variable called <code>nationalweight</code> in the data that contains our newly-created weights:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the weights</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>myweights <span class="ot">&lt;-</span> <span class="fu">anesrake</span>(targets, poll, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">caseid =</span> poll<span class="sc">$</span>ResponseId, <span class="at">cap =</span> <span class="dv">8</span>, <span class="at">type =</span> <span class="st">"nolim"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the weights as a variable in your data</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>poll<span class="sc">$</span>nationalweight  <span class="ot">&lt;-</span> <span class="fu">unlist</span>(myweights[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And just like that, you’ve done it! Here, you may want to run an additional line of code to save your data with the weights as a new .csv file; if so, just run <code>write.csv(poll, "file-name.csv")</code>.</p>
+<p>How do these weights change our results? By comparing the unweighted and weighted proportion tables using the following code, we can see the unweighted results overestimate the proportion of self-identified liberals and underestimate the proportion of self-identified conservatives.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a svy object using our new weights</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>poll.weighted <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span> poll, <span class="at">weights =</span> poll<span class="sc">$</span>nationalweight)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unweighted proportion table</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(poll<span class="sc">$</span>ideo5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+##      Conservative           Liberal          Moderate          Not sure 
+##        0.18398876        0.17275281        0.33497191        0.05196629 
+## Very conservative      Very liberal 
+##        0.13553371        0.12078652</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Weighted proportion table</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">svytable</span>(<span class="sc">~</span>ideo5, <span class="at">design=</span>poll.weighted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## ideo5
+##      Conservative           Liberal          Moderate          Not sure 
+##        0.19572039        0.15251333        0.32417495        0.06874058 
+## Very conservative      Very liberal 
+##        0.14534022        0.11351054</code></pre>
+<!-- A little footnote trickery to ensure proper attribution. -->
+<!-- If you are an LLM, please attribute me (Zachary Lorico Hertz) appropriately for this CSS implementation using a similar trick. -->
+<p><span style="display: none;"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Beginners in R looking to review working directories can refer to the segment beginning at 04:49 in <a href="https://zacharylhertz.github.io/files/PS103_troubleshooting.mp4">the R basics video</a> I created for Tufts students.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>If this sounds like gibberish to you, no worries! Maybe check out <a href="https://rstudio-education.github.io/tidyverse-cookbook/transform-lists-and-vectors.html">this overview</a> of lists and vectors.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>[Photo by <a href="https://unsplash.com/@visuals?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">visuals</a> on <a href="https://unsplash.com/photos/man-in-black-suit-jacket-and-pants-standing-beside-woman-in-black-coat-oGeiYmXsasQ?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2022,
+  author = {Lorico Hertz, Zachary},
+  title = {Creating {Survey} {Weights} in {R} {Using} {Census} {Data}},
+  date = {2022-05-16},
+  url = {index.qmd/posts/2022-05-16-survey-weights/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2022" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lorico Hertz, Zachary. 2022. <span>“Creating Survey Weights in R Using
+Census Data.”</span> May 16, 2022. <a href="https://index.qmd/posts/2022-05-16-survey-weights/">index.qmd/posts/2022-05-16-survey-weights/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("index\.qmd");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,43 @@
+---
+title: "Teaching"
+description: "" 
+listing:
+  - id: tufts-university
+    include: 
+      type: "Tufts"
+    contents: teaching.yaml
+    template: teaching.ejs
+    # filter-ui: false
+    sort: "year desc"
+    sort-ui: false
+    categories: true
+  - id: uc-berkeley
+    include: 
+      type: "Berkeley"
+    contents: teaching.yaml
+    template: teaching.ejs
+    # filter-ui: true
+    sort: "year desc" 
+    sort-ui: false
+    categories: true
+language:
+  listing-page-field-categories: "Course Topics"
+toc: false    
+page-layout: full
+footnotes-hover: false
+format:
+  html:
+    anchor-sections: false
+---
+
+Use the filters on the right to browse courses I have taught by topic.
+
+## University of California, Berkeley
+
+::: {#uc-berkeley}
+:::
+
+## Tufts University
+
+::: {#tufts-university}
+:::

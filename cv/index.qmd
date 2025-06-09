@@ -1,0 +1,7 @@
+---
+title: "C.V."
+---
+
+For your convenience, you can download a PDF copy of my CV <a href="../files/cv__complete_ZacharyHertz.pdf" target="_blank">here</a>.
+
+![](../files/cv__complete_ZacharyHertz.pdf){width="850px" height="600px"}
