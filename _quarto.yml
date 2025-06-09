@@ -9,6 +9,7 @@ website:
   site-url: "index.qmd"
   favicon: assets/favicon.png
   search: false
+  google-analytics: "G-SWWDQ72BXF"
   navbar:
     right:
       - href: about/
