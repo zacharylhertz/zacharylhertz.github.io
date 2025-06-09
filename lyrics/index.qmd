@@ -1,5 +1,6 @@
 ---
 title: ""
+pagetitle: "Lyric Generator"
 filters:
   - shinylive
 ---
@@ -11,6 +12,7 @@ filters:
 ## file: app.R
 # Big Thief Lyric Bot
 # Big Thief Lyric Bot - Fixed Version
+
 library(shiny)
 library(shinythemes)
 library(dplyr)
@@ -112,7 +114,7 @@ server <- function(input, output, session) {
       data_loaded(TRUE)
       unlink(temp_file)
     }, error = function(e) {
-      showNotification("Failed to load lyric data. Please check your internet connection.", 
+      showNotification("Failed to load lyric data. Please check your internet connection.",
                        type = "error", duration = 5)
     })
   })
@@ -129,7 +131,16 @@ server <- function(input, output, session) {
     
     sample_chunk <- chunks_data %>% slice_sample(n = 1)
     lyrics_text <- sample_chunk$lyrics_chunk
-    attribution <- paste0("— ", sample_chunk$title, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
+    
+    # Create title with hyperlink if URL exists and is non-empty
+    if (!is.null(sample_chunk$url) && !is.na(sample_chunk$url) && sample_chunk$url != "") {
+      title_html <- paste0('<a href="', sample_chunk$url, '" target="_blank" style="color: inherit; text-decoration: underline;">', 
+                           sample_chunk$title, '</a>')
+    } else {
+      title_html <- sample_chunk$title
+    }
+    
+    attribution <- paste0("— ", title_html, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
     return(list(lyrics = lyrics_text, attribution = attribution))
   }
   
@@ -153,7 +164,7 @@ server <- function(input, output, session) {
     div(class = "lyrics-display",
       div(id = "lyrics-output",
         div(class = "lyrics-text", current_lyrics()),
-        div(class = "attribution", current_attribution())
+        div(class = "attribution", HTML(current_attribution()))
       )
     )
   })

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index – Zachary Lorico Hertz</title>
+<title>Lyric Generator – Zachary Lorico Hertz</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -131,6 +131,7 @@ ul.task-list li input[type="checkbox"] {
 ## file: app.R
 # Big Thief Lyric Bot
 # Big Thief Lyric Bot - Fixed Version
+
 library(shiny)
 library(shinythemes)
 library(dplyr)
@@ -232,7 +233,7 @@ server &lt;- function(input, output, session) {
       data_loaded(TRUE)
       unlink(temp_file)
     }, error = function(e) {
-      showNotification("Failed to load lyric data. Please check your internet connection.", 
+      showNotification("Failed to load lyric data. Please check your internet connection.",
                        type = "error", duration = 5)
     })
   })
@@ -249,7 +250,16 @@ server &lt;- function(input, output, session) {
     
     sample_chunk &lt;- chunks_data %&gt;% slice_sample(n = 1)
     lyrics_text &lt;- sample_chunk$lyrics_chunk
-    attribution &lt;- paste0("— ", sample_chunk$title, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
+    
+    # Create title with hyperlink if URL exists and is non-empty
+    if (!is.null(sample_chunk$url) &amp;&amp; !is.na(sample_chunk$url) &amp;&amp; sample_chunk$url != "") {
+      title_html &lt;- paste0('&lt;a href="', sample_chunk$url, '" target="_blank" style="color: inherit; text-decoration: underline;"&gt;', 
+                           sample_chunk$title, '&lt;/a&gt;')
+    } else {
+      title_html &lt;- sample_chunk$title
+    }
+    
+    attribution &lt;- paste0("— ", title_html, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
     return(list(lyrics = lyrics_text, attribution = attribution))
   }
   
@@ -273,7 +283,7 @@ server &lt;- function(input, output, session) {
     div(class = "lyrics-display",
       div(id = "lyrics-output",
         div(class = "lyrics-text", current_lyrics()),
-        div(class = "attribution", current_attribution())
+        div(class = "attribution", HTML(current_attribution()))
       )
     )
   })
