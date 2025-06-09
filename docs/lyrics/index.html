@@ -98,6 +98,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../cv/"> 
 <span class="menu-text">C.V.</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lyrics/"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -143,20 +147,10 @@ ul.task-list li input[type="checkbox"] {
 
 ## file: app.R
 # Big Thief Lyric Bot
+# Big Thief Lyric Bot - Fixed Version
 library(shiny)
 library(shinythemes)
 library(dplyr)
-
-# Load processed data (runs once when app starts)
-lyric_chunks &lt;- read.csv("lyric_chunks.csv", stringsAsFactors = FALSE)
-
-# Random lyric function
-get_random_lyric &lt;- function() {
-  sample_chunk &lt;- lyric_chunks |&gt; slice_sample(n = 1)
-  lyrics_text &lt;- sample_chunk$lyrics_chunk
-  attribution &lt;- paste0("— ", sample_chunk$title, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
-  return(list(lyrics = lyrics_text, attribution = attribution))
-}
 
 # UI
 ui &lt;- fluidPage(
@@ -216,14 +210,19 @@ ui &lt;- fluidPage(
         color: #868e96;
         margin-top: 20px;
       }
+      
+      .loading {
+        color: #6c757d;
+        font-style: italic;
+      }
     "))
   ),
   
   div(class = "main-container",
-    h1("Big Thief Lyric Bot"),
-    p("Discover random lyrical snippets from Big Thief's discography"),
+    h1("Big Thief Lyric Generator"),
+    p("Discover random lyrical snippets from Big Thief's discography."),
     
-    actionButton("generate", "✨ Generate Random Lyrics", class = "btn btn-generate"),
+    actionButton("generate", "✨ View Random Lyrics", class = "btn btn-generate"),
     
     uiOutput("lyrics_display"),
     
@@ -235,15 +234,55 @@ ui &lt;- fluidPage(
 
 # Server
 server &lt;- function(input, output, session) {
+  # Reactive value to store the loaded data
+  lyric_chunks &lt;- reactiveVal(NULL)
+  data_loaded &lt;- reactiveVal(FALSE)
+  
+  # Load data when app starts
+  observe({
+    tryCatch({
+      data_url &lt;- "https://zacharylhertz.github.io/files/chunks.csv"
+      temp_file &lt;- tempfile(fileext = ".csv")
+      download.file(data_url, temp_file, mode = "wb")
+      chunks_data &lt;- read.csv(temp_file, stringsAsFactors = FALSE)
+      lyric_chunks(chunks_data)
+      data_loaded(TRUE)
+      unlink(temp_file)
+    }, error = function(e) {
+      showNotification("Failed to load lyric data. Please check your internet connection.", 
+                       type = "error", duration = 5)
+    })
+  })
+  
+  # Random lyric function - now uses reactive data
+  get_random_lyric &lt;- function() {
+    chunks_data &lt;- lyric_chunks()
+    if (is.null(chunks_data) || nrow(chunks_data) == 0) {
+      return(list(
+        lyrics = "Unable to load lyrics data",
+        attribution = "Please refresh the page"
+      ))
+    }
+    
+    sample_chunk &lt;- chunks_data %&gt;% slice_sample(n = 1)
+    lyrics_text &lt;- sample_chunk$lyrics_chunk
+    attribution &lt;- paste0("— ", sample_chunk$title, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
+    return(list(lyrics = lyrics_text, attribution = attribution))
+  }
+  
   # Reactive values to store current lyrics
-  current_lyrics &lt;- reactiveVal("🎵 Click the button above to discover beautiful lyrics")
-  current_attribution &lt;- reactiveVal("— Ready to explore Big Thief's poetry")
+  current_lyrics &lt;- reactiveVal("🎵 Click the button above to start generating lyrics.")
+  current_attribution &lt;- reactiveVal("— Ready to explore Adrianne Lenker's penmanship?")
   
   # Update when button is clicked
   observeEvent(input$generate, {
-    result &lt;- get_random_lyric()
-    current_lyrics(paste("🎵", result$lyrics))
-    current_attribution(result$attribution)
+    if (data_loaded()) {
+      result &lt;- get_random_lyric()
+      current_lyrics(paste("🎵", result$lyrics, "🎵"))
+      current_attribution(result$attribution)
+    } else {
+      showNotification("Data is still loading, please wait...", type = "warning")
+    }
   })
   
   # Render the lyrics display
@@ -258,13 +297,16 @@ server &lt;- function(input, output, session) {
   
   # Stats text
   output$stats_text &lt;- renderText({
-    paste("Built from", nrow(lyric_chunks), "lyrical chunks across Big Thief's discography")
+    if (data_loaded() &amp;&amp; !is.null(lyric_chunks())) {
+      paste("Built from", nrow(lyric_chunks()), "lyrical chunks across Big Thief's discography.")
+    } else {
+      "Loading lyric data..."
+    }
   })
 }
 
 # Create the app
-shinyApp(ui = ui, server = server)
-</code></pre>
+shinyApp(ui = ui, server = server)</code></pre>
 
 
 

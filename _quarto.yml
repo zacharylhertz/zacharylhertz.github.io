@@ -21,6 +21,8 @@ website:
         text: Blog
       - href: cv/
         text: C.V.
+      - href: lyrics/
+        text: Projects
 
   page-footer:
     background: light # or `dark`
