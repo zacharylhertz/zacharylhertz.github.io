@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zachary Lorico Hertz">
-<meta name="dcterms.date" content="2021-08-06">
-<meta name="description" content="Comparing Cooperative Election Study estimates of turnout among young voters to other data sources.">
 
-<title>Estimates of Youth Turnout Have Recently Diverged – Zachary Lorico Hertz</title>
+<title>Poetry – Zachary Lorico Hertz</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,20 +23,21 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<link href="../../assets/favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../assets/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-listing/list.min.js"></script>
+<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -55,6 +53,63 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-unpublished-poems .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-type','listing-author','listing-date','listing-journal','listing-after',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
+      
+      searchColumns: ["listing-title","listing-type","listing-author","listing-date","listing-journal","listing-after"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-unpublished-poems'] = new List('listing-unpublished-poems', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-published-poems .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
+      
+      searchColumns: [],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-published-poems'] = new List('listing-published-poems', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SWWDQ72BXF"></script>
 
 <script type="text/javascript">
@@ -65,8 +120,37 @@ gtag('js', new Date());
 gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../../assets/global_styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../assets/global_styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -76,7 +160,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Zachary Lorico Hertz</span>
     </a>
   </div>
@@ -86,31 +170,31 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about/"> 
+    <a class="nav-link" href="../about/"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../research/"> 
+    <a class="nav-link" href="../research/"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../teaching/"> 
+    <a class="nav-link" href="../teaching/"> 
 <span class="menu-text">Teaching</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../posts/"> 
+    <a class="nav-link" href="../posts/"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../lyrics/"> 
+    <a class="nav-link" href="../lyrics/"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../poetry/"> 
+    <a class="nav-link" href="../poetry/"> 
 <span class="menu-text">Poetry</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../cv/"> 
+    <a class="nav-link" href="../cv/"> 
 <span class="menu-text">C.V.</span></a>
   </li>  
 </ul>
@@ -124,61 +208,21 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#ces-and-circle-estimates-of-youth-voter-turnout-have-been-fairly-close-but-differed-by-12-percentage-points-in-2020" id="toc-ces-and-circle-estimates-of-youth-voter-turnout-have-been-fairly-close-but-differed-by-12-percentage-points-in-2020" class="nav-link active" data-scroll-target="#ces-and-circle-estimates-of-youth-voter-turnout-have-been-fairly-close-but-differed-by-12-percentage-points-in-2020">CES and CIRCLE estimates of youth voter turnout have been fairly close, but differed by 12 percentage points in 2020</a></li>
-  <li><a href="#potential-causes" id="toc-potential-causes" class="nav-link" data-scroll-target="#potential-causes">Potential causes</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Estimates of Youth Turnout Have Recently Diverged</h1>
-<p class="subtitle lead">Using multiple data sources to investigate age-based turnout rates.</p>
-  <div class="quarto-categories">
-    <div class="quarto-category">R</div>
-    <div class="quarto-category">CES</div>
-    <div class="quarto-category">CIRCLE</div>
-    <div class="quarto-category">youth voting</div>
-    <div class="quarto-category">voter turnout</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Comparing Cooperative Election Study estimates of turnout among young voters to other data sources.
-  </div>
+<h1 class="title">Poetry</h1>
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Zachary Lorico Hertz </p>
-          </div>
-  </div>
+<div class="quarto-title-meta column-page">
+
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">August 6, 2021</p>
-    </div>
-  </div>
   
-    <div>
-    <div class="quarto-title-meta-heading">Modified</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 6, 2021</p>
-    </div>
-  </div>
     
   </div>
   
@@ -187,41 +231,93 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </header>
 
 
-<p>With the recent release of <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/E9N6PH">the final 2020 Cooperative Election Study (CES) dataset</a>, which includes vote validation, I returned to <a href="https://zacharylhertz.github.io/posts/2021/07/young-voters">an earlier project</a> examining youth voter turnout. In looking at voter turnout among adults under the age of 30, I noticed a pronounced gap between estimates from <a href="https://circle.tufts.edu/">the Center for Information &amp; Research on Civic Learning and Engagement (CIRCLE)</a> and the CES.</p>
-<section id="ces-and-circle-estimates-of-youth-voter-turnout-have-been-fairly-close-but-differed-by-12-percentage-points-in-2020" class="level1">
-<h1>CES and CIRCLE estimates of youth voter turnout have been fairly close, but differed by 12 percentage points in 2020</h1>
-<p>There are three different ways to measure turnout using the vote validation variables in the CES. I calculated CES estimates of voter turnout using the first method, coding the unmatched as non-voters. I collected CIRCLE estimates of youth voter turnout <a href="https://circle.tufts.edu/latest-research/half-youth-voted-2020-11-point-increase-2016">for 2020 and 2016</a>, <a href="https://circle.tufts.edu/latest-research/28-young-people-voted-2018">2018</a>, <a href="https://circle.tufts.edu/latest-research/2014-youth-turnout-and-registration-rates-lowest-ever-recorded">2014</a>, <a href="https://circle.tufts.edu/latest-research/youth-vote-2012-and-role-young-women">2012</a>, and <a href="https://www.thenation.com/article/archive/young-voter-turnout-fell-60-2008-2010-dems-wont-win-2012-if-trend-continues/">2010</a> from press releases. I then calculated the absolute value of the difference between the CES and CIRCLE estimates, then plotted the results.</p>
-<p><img src="images/plot.png" class="img-fluid"><!-- --></p>
-<p>We see that the 2010 and 2012 youth voter turnout estimates were incredibly close, with a difference of just 0.2 and 0.1 percentage points respectively. These differences widened slightly between 2014 and 2018 but remained within about 3 percentage points: estimates differed by 3.3 percentage points in 2014, 1.0 percentage points in 2016, and 2.6 percentage points in 2018. In 2020, however, while the CES validated vote data estimated that voter turnout among adults ages 18-29 was 38 percent, CIRCLE found that 50 percent of adults between 18 and 29 turned out to vote, marking a difference of 12 percentage points.</p>
+<p>I also write poetry. Some of them have even been published! You can browse those works here.</p>
+<!-- ## Published poems -->
+<!-- ::: {#published-poems} -->
+<!-- ::: -->
+<section id="forthcoming" class="level2">
+<h2 data-anchor-id="forthcoming">Forthcoming</h2>
+<div id="listing-unpublished-poems" class="quarto-listing quarto-listing-container-custom">
+<style>
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 15px;
+  }
+</style>
+
+<ul class="list">
+  
+    <li data-index="0" data-listing-date-sort="1764547200000">
+      For Grace, After A Wedding
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Yearling</em>. Expected December 2025. <em>(after Frank O'Hara)</em>.
+        
+      </small>
+      
+      
+      
+      
+      <hr>
+    </li>
+  
+    <li data-index="1" data-listing-date-sort="1761955200000">
+      nine thousand nine hundred ninety nine days
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>LEON Literary Review</em>. Expected November 2025.
+        
+      </small>
+      
+      
+      
+      
+      <hr>
+    </li>
+  
+    <li data-index="2" data-listing-date-sort="1753052400000">
+      In my hometown
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Eulogy Press</em>. Expected July 2025.
+        
+      </small>
+      
+      
+      
+      
+      <hr>
+    </li>
+  
+</ul>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+
+
+
 </section>
-<section id="potential-causes" class="level1">
-<h1>Potential causes</h1>
-<p>The 12-point difference in the CIRCLE and CES estimates of youth voter turnout may be the result of methodological differences. CIRCLE states that their estimates are based on voter file data from 41 states — Alaska, DC, Hawaii, Maryland, Mississippi, New Hampshire, North Dakota, Utah, Wisconsin, and Wyoming lack reliable vote history data by age. These states are not omitted from the CES data, however, so unobserved youth voting behavior in the 10 omitted states could lead to different estimates from the different sampling frame.</p>
-<p>The CES data guide also notes vote validation matches are only made when there is a high level of confidence that respondents are assigned to the correct record. Therefore, CES records may lack vote validation due to incomplete or inaccurate information. It is also possible that there may be a systemic issue with incomplete or inaccurate voter file data, particularly among those under the age of 30.</p>
 
+<div class="quarto-listing quarto-listing-container-custom" id="listing-published-poems">
+<style>
+  .btn-xs {
+    padding: 1px 5px;
+    font-size: 15px;
+  }
+</style>
 
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2021,
-  author = {Lorico Hertz, Zachary},
-  title = {Estimates of {Youth} {Turnout} {Have} {Recently} {Diverged}},
-  date = {2021-08-06},
-  url = {index.qmd/posts/2021-08-05-youth-turnout/},
-  langid = {en}
-}
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2021" class="csl-entry quarto-appendix-citeas" role="listitem">
-Lorico Hertz, Zachary. 2021. <span>“Estimates of Youth Turnout Have
-Recently Diverged.”</span> August 6, 2021. <a href="https://index.qmd/posts/2021-08-05-youth-turnout/">index.qmd/posts/2021-08-05-youth-turnout/</a>.
-</div></div></section></div></main> <!-- /main -->
+<ul class="list">
+  
+</ul>
+<div class="listing-no-matching d-none">No matching items</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

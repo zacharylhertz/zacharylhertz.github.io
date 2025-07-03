@@ -1,0 +1,53 @@
+
+
+- title: "In my hometown"
+  type: "Forthcoming"
+  author:
+    - Zachary Lorico Hertz
+  date: 2025-07-21
+  journal: "Eulogy Press"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+
+- title: "nine thousand nine hundred ninety nine days"
+  type: "Forthcoming"
+  author:
+    - Zachary Lorico Hertz
+  date: 2025-11-01
+  journal: "LEON Literary Review"
+  # link: "https://test.com"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  
+- title: "For Grace, After A Wedding"
+  after: "after Frank O'Hara"
+  type: "Forthcoming"
+  author:
+    - Zachary Lorico Hertz
+  date: 2025-12-01
+  journal: "Yearling"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+
+
+# - title: "Test Paper: Demonstrating All Available Button Types and Features"
+#   type: "Published"
+#   author: "Test Author"
+#   year: 2024
+#   date: 2024-12-01
+#   journal: "<em>Test Journal of Academic Examples</em>"
+#   status: "Published"
+#   abstract: "This is a test abstract that demonstrates the collapsible abstract functionality. It should appear when you click the Abstract button above. This text can be as long as needed to test the formatting and readability of the abstract display. The abstract will be styled consistently with the rest of the paper listing and should collapse and expand smoothly using Bootstrap's built-in functionality."
+#   errata: "https://example.com/errata"
+#   website: "https://example.com/project-website"
+#   pdf: "https://example.com/test-paper.pdf"
+#   pubopen: "https://example.com/open-access-version"
+#   pubclosed: "https://example.com/publisher-version"
+#   preprint: "https://example.com/preprint"
+#   appendix: "https://example.com/appendix"
+#   dataverse: "https://example.com/dataverse"
+#   osf: "https://example.com/osf-project"
+#   github: "https://example.com/github-repo"
+#   prereg: "https://example.com/preregistration"
+#   note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+#   categories: 
+#     - this is
+#     - another
+#     - test

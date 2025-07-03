@@ -1,0 +1,42 @@
+---
+title: "Poetry"
+description: "" 
+listing:
+  - id: unpublished-poems
+    include: 
+      type: "Forthcoming"
+    contents: poems.yaml
+    template: poems.ejs
+    # filter-ui: false
+    sort: "date desc"
+    sort-ui: false
+    categories: false
+  - id: published-poems
+    include: 
+      type: "Published"
+    contents: poems.yaml
+    template: poems.ejs
+    # filter-ui: true
+    sort: "date desc" 
+    sort-ui: false
+    categories: false
+toc: false    
+page-layout: full
+footnotes-hover: false
+format:
+  html:
+    anchor-sections: false
+---
+
+I also write poetry. Some of them have even been published! You can browse those works here. 
+
+<!-- ## Published poems -->
+
+<!-- ::: {#published-poems} -->
+<!-- ::: -->
+
+## Forthcoming
+
+::: {#unpublished-poems}
+:::
+
