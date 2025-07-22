@@ -1,11 +1,12 @@
 
 
 - title: "In my hometown"
-  type: "Forthcoming"
+  type: "Published"
   author:
     - Zachary Lorico Hertz
   date: 2025-07-21
   journal: "Eulogy Press"
+  link: "https://eulogy.press/#in-my-hometown-hertz"
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
 
 - title: "nine thousand nine hundred ninety nine days"

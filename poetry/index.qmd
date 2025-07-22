@@ -30,10 +30,10 @@ format:
 
 I also write poetry. Some of them have even been published! You can browse those works here. 
 
-<!-- ## Published poems -->
+## Published
 
-<!-- ::: {#published-poems} -->
-<!-- ::: -->
+::: {#published-poems}
+:::
 
 ## Forthcoming
 
