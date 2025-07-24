@@ -83,8 +83,8 @@ ui <- fluidPage(
   ),
   
   div(class = "main-container",
-    h1("Big Thief Lyric Generator"),
-    p("This is a webapp I coded that randomly displays snippets from Big Thief's discography."),
+    h1("Random Excerpt Generator"),
+    p("This is a webapp I coded. I created a list of meaningful or striking excerpts from songs I've listened to, poems I like, and books I recently read."),
     
     actionButton("generate", "✨ View Random Lyrics", class = "btn btn-generate"),
     
@@ -144,7 +144,7 @@ server <- function(input, output, session) {
   }
   
   # Reactive values to store current lyrics
-  current_lyrics <- reactiveVal("🎵 Click the button above to start generating lyrics.")
+  current_lyrics <- reactiveVal("🎵 Click the button above to start excerpts.")
   current_attribution <- reactiveVal("— Ready to explore Adrianne Lenker's penmanship?")
   
   # Update when button is clicked
