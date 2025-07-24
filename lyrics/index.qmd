@@ -86,7 +86,7 @@ ui <- fluidPage(
     h1("Random Excerpt Generator"),
     p("This is a webapp I coded. I created a list of meaningful or striking excerpts from songs I've listened to, poems I like, and books I recently read."),
     
-    actionButton("generate", "✨ View Random Lyrics", class = "btn btn-generate"),
+    actionButton("generate", "✨ View Random Excerpts", class = "btn btn-generate"),
     
     uiOutput("lyrics_display"),
     
@@ -144,8 +144,8 @@ server <- function(input, output, session) {
   }
   
   # Reactive values to store current lyrics
-  current_lyrics <- reactiveVal("🎵 Click the button above to start excerpts.")
-  current_attribution <- reactiveVal("— Ready to explore Adrianne Lenker's penmanship?")
+  current_lyrics <- reactiveVal("Click the button above to start excerpts.")
+  current_attribution <- reactiveVal("— Ready to explore penmanship I appreciated?")
   
   # Update when button is clicked
   observeEvent(input$generate, {
@@ -171,7 +171,7 @@ server <- function(input, output, session) {
   # Stats text
   output$stats_text <- renderText({
     if (data_loaded() && !is.null(lyric_chunks())) {
-      paste("Built from", nrow(lyric_chunks()), "lyrical chunks across Big Thief's discography.")
+      paste("Built from", nrow(lyric_chunks()), "lyrical or literary excerpts.")
     } else {
       "Loading lyric data..."
     }
