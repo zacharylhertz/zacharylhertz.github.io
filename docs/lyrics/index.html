@@ -256,7 +256,8 @@ server &lt;- function(input, output, session) {
     if (is.null(chunks_data) || nrow(chunks_data) == 0) {
       return(list(
         lyrics = "Unable to load lyrics data",
-        attribution = "Please refresh the page"
+        attribution = "Please refresh the page",
+        media = "song"
       ))
     }
     
@@ -265,14 +266,22 @@ server &lt;- function(input, output, session) {
     
     # Create title with hyperlink if URL exists and is non-empty
     if (!is.null(sample_chunk$url) &amp;&amp; !is.na(sample_chunk$url) &amp;&amp; sample_chunk$url != "") {
-      title_html &lt;- paste0('&lt;a href="', sample_chunk$url, '" target="_blank" style="color: inherit; text-decoration: underline;"&gt;', 
-                           sample_chunk$title, '&lt;/a&gt;')
+      title_html &lt;- paste0('&lt;a href="', sample_chunk$url, '" target="_blank" style="color: inherit; text-decoration: underline;"&gt;',
+                            sample_chunk$title, '&lt;/a&gt;')
     } else {
       title_html &lt;- sample_chunk$title
     }
     
     attribution &lt;- paste0("— ", title_html, " by ", sample_chunk$artist, " (", sample_chunk$year, ")")
-    return(list(lyrics = lyrics_text, attribution = attribution))
+    
+    # Get media type, defaulting to "song" if column doesn't exist or is NA
+    media_type &lt;- if ("media" %in% names(chunks_data) &amp;&amp; !is.na(sample_chunk$media)) {
+      sample_chunk$media
+    } else {
+      "song"
+    }
+    
+    return(list(lyrics = lyrics_text, attribution = attribution, media = media_type))
   }
   
   # Reactive values to store current lyrics
@@ -283,7 +292,14 @@ server &lt;- function(input, output, session) {
   observeEvent(input$generate, {
     if (data_loaded()) {
       result &lt;- get_random_lyric()
-      current_lyrics(paste("🎵", result$lyrics, "🎵"))
+      
+      # Choose emoji based on media type
+      if (result$media == "song") {
+        current_lyrics(paste("🎵", result$lyrics, "🎵"))
+      } else {
+        current_lyrics(paste("📝", result$lyrics, "📝"))
+      }
+      
       current_attribution(result$attribution)
     } else {
       showNotification("Data is still loading, please wait...", type = "warning")
