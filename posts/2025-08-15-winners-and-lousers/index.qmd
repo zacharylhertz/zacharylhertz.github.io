@@ -1,8 +1,8 @@
 ---
-title: 'Looking at Trends in CA-11'
+title: 'In WAR, There Are No Winners But All Are Lou-sers'
 author: Zachary Lorico Hertz
-date: '2025-08-14'
-date-modified: '2025-08-14'
+date: '2025-08-15'
+date-modified: '2025-08-15'
 image: images/results_2024_map.png
 categories:
   - electoral analysis
@@ -12,8 +12,8 @@ categories:
   - turnout
   - Congress
   - race and ethnicity
-subtitle: "Did Nancy Pelosi underperform systematically in Asian American neighborhoods?"
-description: 'Analysis of cast vote data at the precinct level and Census data reveals a modest underperformance for Nancy Pelosi in neighborhoods with the most Asian Americans. However, this trend was also observed in 2022 and at the presidential level, providing little evidence that this was due to the identity of her opponent.'
+subtitle: "Is Nancy Pelosi really one of the weakest Democratic candidates for Congress - or was her opponent really one of the strongest Republican candidates?"
+description: 'Some methods suggest Nancy Pelosi faced an unusually strong challenger in 2024. Analysis of precinct-level vote records and Census data reveal that Pelosi underperformed modestly in the most Asian American neighborhoods. However, this trend was also observed in 2022 and at the presidential level, providing little evidence that the identity of her opponent drove this result.'
 code-annotations: below
 footnotes-hover: false
 df-print: paged
@@ -96,7 +96,7 @@ Speaker emerita Nancy Pelosi recently made headlines when she was spotted [visit
 
 And, to be sure, it seems from the outside that for Pelosi there's been a shortage of fun to be had recently after November's elections swept Donald Trump back into the White House and Republicans into majorities in both chambers of Congress. Pelosi herself had an unremarkable November on paper, winning 81 percent of the vote and cruising to victory over her Republican challenger Bruce Lou.
 
-But the headline commanding margin belies some interesting quirks to this particular victory. First, Lou's paltry 19 percent still marked the highest vote share of any Republican challenger Pelosi has faced since 1990.[^1] This suggests that despite losing in a blowout, perhaps Lou managed to find appeal that previous challengers to Pelosi failed to muster.
+But the headline commanding margin belies some interesting quirks to this particular victory. First, Lou's seemingly paltry 19 percent still marked the highest vote share of any Republican challenger Pelosi has faced since 1990.[^1] This suggests that despite losing in a blowout, perhaps Lou managed to find appeal that previous challengers to Pelosi failed to muster.
 
 Second, a lot of ink has been recently spilled in the WAR[^2] wars. Split Ticket's [2024 House WAR metrics](https://split-ticket.org/2024-house-wins-above-replacement-war/) suggested that the WAR in CA-11 was a whopping R+10.6, suggesting that Lou ran 10.6 points above a "replacement" Republican candidate. The [recently-released metric from G. Elliot Morris and Mark Rieke](https://www.gelliottmorris.com/p/and-the-most-skilled-us-house-representatives) claims instead that Pelosi's WAR was +4, suggesting that actually her performance was slightly better than what we would expect from a replacement Democrat. Say what you will about WAR metrics (for example, that they are highly sensitive to researcher specification and struggle to attribute results correctly to one candidate's overperformance versus their opponent's underperformance) but clearly these approaches still are inconclusive. Considering the district directly and in context provides a way to adjudicate between these competing findings.
 
@@ -125,7 +125,7 @@ Lou announced his run against Nancy Pelosi on November 1, 2023, almost a full ye
 
 From the start Lou faced a clear uphill battle. San Francisco has been a Democratic enclave for decades, and Pelosi started the cycle with \$3.5 million cash on hand at the end of the previous cycle. Lou raised slightly more than \$208,000 over the course of the campaign.[^8] After placing second in the primary with 8.6 percent of the vote, Lou was officially set to challenge Pelosi in the general.
 
-[![Lou on the campaign trail.](images/lou_campaign.jpeg)](https://x.com/RealBruceLou/status/1851740034908721667){width=40%}
+[![Lou on the campaign trail. Source: @RealBruceLou on X.](images/lou_campaign.jpeg)](https://x.com/RealBruceLou/status/1851740034908721667){width=40%}
 
 Pelosi's status as a [nationally unpopular figure](https://www.realclearpolitics.com/epolls/other/nancy_pelosi_favorableunfavorable-6673.html)[^9] means that her challengers have frequently garnered national attention, and Lou was no exception. Lou parlayed his primary victory into a social media audience of more than 15,000 followers on X[^10] where he frequently posted videos[^11] filmed in front of the San Francisco skyline directly addressing Pelosi. But there was one person Lou failed to engage with these pillories: Pelosi herself. Neither [her official X account](https://x.com/search?q=bruce%20lou%20(from%3ASpeakerPelosi)&src=typed_query) nor [her personal account](https://x.com/search?q=bruce%20lou%20(from%3ATeamPelosi)&src=typed_query&f=top) mention Lou once. He also struggled to get coverage in local mainstream news outlets;[^12] nods to Lou's campaign in The San Francisco Chronicle are limited to [a closing paragraph](https://www.sfchronicle.com/election/article/bay-area-congress-primary-18689423.php) noting his primary victory and [a quick quote](https://www.sfchronicle.com/sf/article/chinese-trump-voters-19869459.php) in a story on Chinese-American Trump voters.
 
@@ -225,6 +225,7 @@ As previously discussed, we might worry that this analysis omits the political f
 
 ![Scatterplot of residuals from the above map, by precinct's 2022 vote history. Click to expand.](images/residuals_22vote.png){.lightbox width=1700, group="post-gallery"}
 
+Thus, I next regress Lou's vote share on the 2022 results in a given precinct. This uses the precinct's 2022 electoral results to predict Lou's vote share. To restate, what this does is give us a prediction of how well Lou should do in a given precinct based on its 2022 voting record. We can then use this prediction to see whether Lou did better or worse than the historical trends would suggest. Again, the results from this model are plotted in this interactive map, where you can zoom in, scroll, and select precincts to view the results.
 
 ```{r interactive-map-historical-predictions}
 leaflet(final_data, options = leafletOptions(
@@ -339,7 +340,7 @@ Again, if we plot the residuals from this model against the precinct's share of 
 
 ![Scatterplot of residuals from the above map, by Asian American population. Click to expand.](images/residuals_asianpoppres.png){.lightbox width=1700, group="post-gallery"}
 
-But, to those who know San Francisco geography, the previously-mentioned pattern in Bayview-Hunters Point is notable for another reason. [Bayview-Hunters Point](https://en.wikipedia.org/wiki/Bayview%E2%80%93Hunters_Point,_San_Francisco) is a historically Black neighborhood, and today is one of San Francisco's most diverse neighborhoods. Is it possible that Lou's seeming underperformance of Trump in this neighborhood is being driven by non-Asian, non-white voters who voted Trump but did not vote for Lou, either due to downballot lag or other reasons?
+But, to those who know San Francisco geography, the previously-mentioned pattern in Bayview-Hunters Point is notable for another reason. [Bayview-Hunters Point](https://en.wikipedia.org/wiki/Bayview%E2%80%93Hunters_Point,_San_Francisco) is a historically Black neighborhood, and today is one of San Francisco's most diverse neighborhoods. Is it possible that Lou's apparent underperformance of Trump in this neighborhood is being driven by non-Asian, non-white voters who voted Trump but did not vote for Lou, either due to downballot lag or other reasons?
 
 To investigate, I use the Census data to calculate a measure of diversity for each precinct. Specifically, I calculate a [Blau index](https://en.wikipedia.org/wiki/Diversity_index). For a geography with $G$ groups, we can take the proportion $p_g$ of individuals belonging to any given group $g$. The index is constructed by taking the sum of each $p_g$ squared, and subtracting the total from $1$. Thus by construction we get a measure of diversity, $D_{blau}$ that increases as the geography gets more diverse. If the entire population is only from a single group, $G=1$ and $\sum_{g=1}^G p_g^2 = 1$, so $D_{blau}=1-1=0$. As the number of groups increases or as the relative dispersion across groups increases, thus $D_{blau}$ approaches 1. Specifically, I calculate the diversity index using the following equation:
 
