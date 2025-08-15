@@ -104,8 +104,20 @@ Third, [others have noted](https://x.com/ZacharyDonnini/status/18871833001180696
 
 Fourth, and perhaps most importantly in motivating me to actually write this piece up, I actually know Lou from our time playing quiz bowl in high school.[^4] So, with these points in mind, I wrote up a short post to answer a few questions. Was Lou's (relatively) strong performance buoyed by a particular ability to leverage appeals to the Asian community, or did his loss simply mark a continuation of declining support for an aging Pelosi?
 
+# The Substance
+
+- **Lou's "historic" performance was driven by broader trends, not individual strength.** While Lou won 19% (the highest for a Republican challenger to Pelosi since 1990), this reflects ongoing erosion in Pelosi's support rather than exceptional candidate appeal—her vote share fell 3 percentage points from 2022.
+
+- **Asian American neighborhoods showed mixed results for Lou, not systematic support.** Although Lou performed relatively well in some Asian-heavy precincts, he actually underperformed predictions in core Asian American areas like Chinatown and parts of the Richmond and Sunset districts.
+
+- **Historical partisanship matters more than demographics.** Precinct-level analysis reveals that 2022 voting patterns and baseline Republican support better predicted Lou's performance than Asian American population percentages.
+
+- **Lou ran behind Trump in diverse neighborhoods.** In racially diverse areas like Bayview-Hunters Point, Lou underperformed Trump's presidential vote share by 3-4 percentage points, suggesting limited crossover appeal beyond the top of the ticket.
+
+- In this post, I assume some basic familiarity with the neighborhoods of San Francisco. Neighborhood names are included in the interactive maps, and also **you can scroll to the end of the gallery to find a labelled map of San Francisco neighborhoods**.
+
 # Bruce Almighty
-Before getting into the analysis, for the unfamiliar, *who* is Bruce Lou? As mentioned earlier, I first met Lou when we were both high school seniors: he at Saratoga High School, I at Davis Senior High School.[^5] He went on to attend UC Berkeley[^6] where he graduated with a degree in computer science in 2019.
+Before getting into the analysis, for the unfamiliar, *who is* Bruce Lou? As mentioned earlier, I first met Lou when we were both high school seniors: he at Saratoga High School, I at Davis Senior High School.[^5] He went on to attend UC Berkeley[^6] where he graduated with a degree in computer science in 2019.
 
 After graduating, Lou worked as a software engineer and at [True Search](https://trueplatform.com/). He also started a consulting firm, [Stingray](https://stingray.vip/about-us), and helped fundraise/distribute pepper spray to Chinatown residents in 2021. During this time period, he had no notable public appearances in politics.[^7]
 
@@ -124,13 +136,13 @@ Did Lou post a historically high performance for Republicans in CA-11 because of
 
 To do this, I first downloaded the [2024 statement of vote data](https://statewidedatabase.org/d20/g24.html) at the precinct level from the California Statewide Database,[^13] grabbed the shapefiles from the Statewide Database [geographic data page](https://statewidedatabase.org/d20/g24_geo_conv.html), then used the city of San Francisco [Department of Elections map](https://sfelections.sfgov.org/sites/default/files/Documents/Maps/J22_NewCongressionalDistrictMap.pdf) to determine which precincts in San Francisco county are not in the CA-11 boundaries and thus should be deleted. Because Pelosi won every single precinct with an outright majority, I've instead colored the map to reflect whether Pelosi won a precinct by *more* or *less* than the citywide margin of victory.
 
-![Precinct-level map of the November general election, normalized to citywide results. Click to expand.](images/results_2024_map.png){.lightbox width=1700}
+![Precinct-level map of the November general election, normalized to citywide results. Blue indicates precincts where Pelosi won a higher share of the vote than her citywide average; red indicates precincts where Lous won a higher share of the vote than his citywide average. Click to expand.](images/results_2024_map.png){.lightbox width=1700, group="post-gallery"}
 
-Glancing at the map, there are a few clear patterns. Pelosi does the best in the center of the city, particularly in the Castro and Buena Vista Heights neighborhoods. Meanwhile, relative to the citywide results Lou does well in the Marina District, Chinatown, the Richmond District, the Sunset District and Parkside. Lou performed especially well in Bayview-Hunters Point and Silver Terrace; his closest precinct was in the latter, where he closed the margin to six percentage points and lost 53.3-46.7 percent.
+Glancing at the map, there are a few clear patterns. Pelosi does the best in the center of the city, particularly in the Noe Valley and Buena Vista Heights neighborhoods. Meanwhile, relative to the citywide results Lou does well in the Marina District, Chinatown, the Richmond District, the Sunset District and Parkside. Lou performed especially well in Bayview-Hunters Point and Silver Terrace; his closest precinct was in the latter, where he closed the margin to six percentage points and lost 53.3-46.7 percent.
 
 Readers familiar with San Francisco will note that most of these neighborhoods have considerable Asian American populations. Rather than eyeballing it, though, we can use the 2020 Census data to visualize the Asian American population in San Francisco. I started by grabbing Census data at the block level from [IPUMS](https://www.ipums.org/),[^14] then using the [crosswalk](https://statewidedatabase.org/d20/g24_geo_conv.html) provided by the Statewide Database to determine racial demographics at the electoral precinct level. I then mapped the results with ggplot:
 
-![Precinct-level map of Asian Americans in the district. Click to expand.](images/aa_pop_map.png){.lightbox width=1700}
+![Precinct-level map of Asian American population in the district. Click to expand.](images/aa_pop_map.png){.lightbox width=1700, group="post-gallery"}
 
 We can see that indeed, with the primary exception of the Marina District, the map of the Asian American population in San Francisco seems suspiciously similar to the map of neighborhoods where Lou improved on the citywide average. But, as I said, eyeballing these comparisons can only get us so far. First, a simple scatterplot should convince you that this relationship is more than suggestive.
 
@@ -138,26 +150,26 @@ We can see that indeed, with the primary exception of the Marina District, the m
 
 Of course, here we can still clearly see that there are several precincts that are less than 25 percent Asian American where Lou outpaced his citywide margin, and several precincts that are 25-50 percent Asian American where Lou underperformed his citywide margin. One obvious explanation is that these approaches do not account for historical partisanship; perhaps the areas where Lou did best are historically (relative) Republican strongholds, that also coincidentally happen to include several Asian American neighborhoods. To address this, we can look at the shift in results between 2022 and 2024 in this district.
 
-![Precinct-level map of 2022-2024 shifts in the district. Click to expand.](images/headline_22_24_shift.png){.lightbox width=1700}
+![Precinct-level map of 2022-2024 shifts in the district. Red indicates a precinct where Lou won a higher percent of the vote than 2022 Republican candidate John Dennis. Blue indicates a precinct where Pelosi won a higher percent of the vote in 2024 than she had in the same precinct in 2022. Click to expand.](images/headline_22_24_shift.png){.lightbox width=1700, group="post-gallery"}
 
 Between 2022 and 2024, Pelosi's support fell by about 3 percent. This map shows that the turn against Pelosi was distributed relatively evenly throughout the city, though there were some pronounced shifts around Market Street and in the Bayview-Hunters Point area. To draw out how neighborhoods moved relative to expectations, we can also visualize whether precincts shifted more between 2022 and 2024 than the city as a whole.
 
-![Precinct-level map of 2022-2024 shifts in the district normalized to citywide results. Click to expand.](images/normalized_22_24_shift.png){.lightbox width=1700}
+![Precinct-level map of 2022-2024 shifts in the district normalized to citywide results. Blue indicates a precinct that had less of a shift to Republicans between 2022 and 2024 than the city as a whole. Red indicates a precinct that shifted more towards Republicans between 2022 and 2024 than the city overall. Click to expand.](images/normalized_22_24_shift.png){.lightbox width=1700}
 
 This draws out the previous conclusion: by and large, what seemed originally like a tidy story of geographic shifts becomes somewhat of an oversimplification. We can see that the 2022-2024 shift was indeed stronger in the Market and Bayview-Hunters Point regions, but baring a slightly stronger than expected move in the Tenderloin and Chinatown there is a far less certain link between neighborhoods' Asian American populations and the 2024 performance. The scatterplot tells a similarly opaque story.
 
-![Scatterplot of 2022-2024 shifts in the district normalized to citywide results, by precinct Asian American population. Click to expand.](images/scatter_22_24_shift.png){.lightbox width=1700}
+![Scatterplot of 2022-2024 shifts in the district normalized to citywide results, by precinct Asian American population. Click to expand.](images/scatter_22_24_shift.png){.lightbox width=1700, group="post-gallery"}
 
 # Everything Everywhere All At Once
 So far, the picture on this election remains a bit confusing. We know that Lou did somewhat better in the west and the south of the city, and that this performance seems somewhat tied to the precinct's partisanship and number of Asian American voters. But how do we adjudicate between these two factors? And, dear reader, why force you to trust me when I can let you look directly at the data?
 
 Here we get to the main point of the piece. I use a number of bivariate regressions to predict Lou's vote share, map the predictions against the actual results, and discuss the relative explanatory power of each.
 
-First, I regress Lou's vote share on the percent of a precinct that is Asian American. This uses the precinct's Asian American population to predict Lou's expected vote share. The residuals from this model are thus the difference between *how much of the vote we would expect Lou to get* in a precinct based only on its racial demographics, and how much of the vote *he actually received*. The results are visible in this interactive map, which you can scroll and zoom around at your pleasure.
+First, I regress Lou's vote share on the percent of a precinct that is Asian American. This uses the precinct's Asian American population to predict Lou's expected vote share. The residuals from this model are thus the difference between how much of the vote *Lou actually received*, and *how much of the vote we would expect Lou to get* in a precinct based only on its racial demographics. The results are visible in this interactive map, which you can scroll and zoom around at your pleasure.
 
 ```{r interactive-map-asian}
 leaflet(final_data, options = leafletOptions(
-  minZoom = 11.3, 
+  minZoom = 11.4, 
   maxZoom = 20,
   maxBounds = list(
     list(min(st_bbox(final_data)[2]) - 0.01, min(st_bbox(final_data)[1]) - 0.005),  # SW: [lat, lng]
@@ -211,13 +223,12 @@ From this map, a few interesting things pop out. Intuitively, Lou's previously-n
 
 As previously discussed, we might worry that this analysis omits the political factors. And indeed, if we plot the residuals against the precinct's 2022 vote history we can see that the prediction error of a model using only Asian American population to predict Lou's vote share is correlated with how strongly the precinct supported Nancy Pelosi in 2022.
 
-![Scatterplot of residuals from the above map, by precinct's 2022 vote history. Click to expand.](images/residuals_22vote.png){.lightbox width=1700}
+![Scatterplot of residuals from the above map, by precinct's 2022 vote history. Click to expand.](images/residuals_22vote.png){.lightbox width=1700, group="post-gallery"}
 
-Thus, I next regress Lou's vote share on the 2022 results in a given precinct. This uses the precinct's 2022 electoral results to predict Lou's vote share. To restate, what this does is give us a prediction of how well Lou should do in a given precinct based on its 2022 voting record. We can then use this prediction to see whether Lou did better or worse than the historical trends would suggest. Again, the results from this model are plotted in this interactive map, where you can zoom in, scroll, and select precincts to view the results.
 
 ```{r interactive-map-historical-predictions}
 leaflet(final_data, options = leafletOptions(
-  minZoom = 11.3, 
+  minZoom = 11.4, 
   maxZoom = 20,
   maxBounds = list(
     list(min(st_bbox(final_data)[2]) - 0.01, min(st_bbox(final_data)[1]) - 0.005),  # SW: [lat, lng]
@@ -271,13 +282,13 @@ You might notice that the results resemble (but are not identical to!) the earli
 
 Also notable is that if we plot the residuals from this model against the precinct's share of Asian Americans, there does *not* appear to be an immediate and clear pattern. There is, of course, still a positive association, but this suggests that the percent of a precinct that is Asian American has a much smaller effect on Lou's performance than the precinct's historical partisanship.
 
-![Scatterplot of residuals from the above map, by precinct's 2022 vote history. Click to expand.](images/residuals_asianpop.png){.lightbox width=1700}
+![Scatterplot of residuals from the above map, by precinct's Asian American population. Click to expand.](images/residuals_asianpop.png){.lightbox width=1700, group="post-gallery"}
 
 Finally, I regress Lou's vote share on Donald Trump's vote share in a given precinct. This uses the precinct's support for Donald Trump to predict Lou's vote share. Essentially, the goal of this is to use a measure for baseline 2024 partisanship in a precinct to predict how well we would expect Lou to do, based purely on that measure. One advantage to this approach is that because these elections were held simultaneously, any differences can be attributed to actual changes in vote choice rather than compositional changes in the electorate. It should also be noted that, for context, Trump won 14.7 percent of the vote in CA-11 and thus underran Lou by about 4.3 percent.
 
 ```{r interactive-map-trump-predictions}
 leaflet(final_data, options = leafletOptions(
-  minZoom = 12, 
+  minZoom = 11.4, 
   maxZoom = 20,
   maxBounds = list(
     list(min(st_bbox(final_data)[2]) - 0.01, min(st_bbox(final_data)[1]) - 0.005),  # SW: [lat, lng]
@@ -326,7 +337,7 @@ But the results in the Bayview-Hunters Point area are most interesting to me. He
 
 Again, if we plot the residuals from this model against the precinct's share of Asian Americans, there does *not* appear to be an immediate and clear pattern. The association between the precinct's Asian American population and Lou's performance relative to Trump's seems even weaker than the previous association between precinct's Asian American population and Lou's performance relative to previous election results.
 
-![Scatterplot of residuals from the above map, by Asian American population. Click to expand.](images/residuals_asianpoppres.png){.lightbox width=1700}
+![Scatterplot of residuals from the above map, by Asian American population. Click to expand.](images/residuals_asianpoppres.png){.lightbox width=1700, group="post-gallery"}
 
 But, to those who know San Francisco geography, the previously-mentioned pattern in Bayview-Hunters Point is notable for another reason. [Bayview-Hunters Point](https://en.wikipedia.org/wiki/Bayview%E2%80%93Hunters_Point,_San_Francisco) is a historically Black neighborhood, and today is one of San Francisco's most diverse neighborhoods. Is it possible that Lou's seeming underperformance of Trump in this neighborhood is being driven by non-Asian, non-white voters who voted Trump but did not vote for Lou, either due to downballot lag or other reasons?
 
@@ -340,7 +351,7 @@ Plotting the results produces a result that resembles (but is not identical to) 
 
 Returning to the original question, we can plot the residuals from the regression of Lou's vote share on Donald Trump's vote share against the diversity levels in a given precinct. Interestingly, there appears to be a bit of a u-shape, where Lou underperformed relative to the top of the ticket in both the most and least diverse precincts.
 
-![Scatterplot of residuals from regression of Lou's vote share on Trump vote share, by Blau index. Click to expand.](images/residuals_blau.png){.lightbox width=1700}
+![Scatterplot of residuals from regression of Lou's vote share on Trump vote share, by Blau index. Click to expand.](images/residuals_blau.png){.lightbox width=1700, group="post-gallery"}
 
 # TL;DR: The Usual Suspects
 To recap, what can we take away from all of this? I set out to answer a few questions. First, it is an undisputable fact that Lou won a higher share of the vote than any Republican challenger to Nancy Pelosi in the past 35 years. Does that mean that he did extraordinarily well? Overall, the evidence suggests that Lou did about as well as we might expect from the current trends. Pelosi's overall support fell 3 percent despite a relatively large shift in the overall environment between 2022 and 2024.
@@ -381,13 +392,15 @@ For now, though, my take is that Bruce Lou's 2024 performance appears to be less
 
 [^14]: Citation: Steven Manson, Jonathan Schroeder, David Van Riper, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. IPUMS National Historical Geographic Information System: Version 19.0 [dataset]. Minneapolis, MN: IPUMS. 2024. <http://doi.org/10.18128/D050.V19.0>
 
-## Extra Interactive Map
+## Extra Maps
+
+![Neighborhoods of San Francisco, as defined by the city planning department. Click to expand.](images/neighborhoods.png){.lightbox width=1700, group="post-gallery"}
 
 As a treat, I've left this interactive map of the general results for you to look through.
 
 ```{r interactive-map-general}
 leaflet(final_data, options = leafletOptions(
-  minZoom = 11.3, 
+  minZoom = 11.4, 
   maxZoom = 20,
   maxBounds = list(
     list(min(st_bbox(final_data)[2]) - 0.01, min(st_bbox(final_data)[1]) - 0.005),  # SW: [lat, lng]
