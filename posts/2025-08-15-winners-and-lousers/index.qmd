@@ -16,6 +16,7 @@ subtitle: "Is Nancy Pelosi really one of the weakest Democratic candidates for C
 description: 'Some methods suggest Nancy Pelosi faced an unusually strong challenger in 2024. Analysis of precinct-level vote records and Census data reveal that Pelosi underperformed modestly in the most Asian American neighborhoods. However, this trend was also observed in 2022 and at the presidential level, providing little evidence that the identity of her opponent drove this result.'
 code-annotations: below
 footnotes-hover: false
+reference-location: margin
 df-print: paged
 citation: true
 # format:
@@ -446,7 +447,7 @@ leaflet(final_data, options = leafletOptions(
 
 ## Data Sources
 
--   Election Data: <https://statewidedatabase.org/d20/g22.html>
--   Shapefiles: <https://statewidedatabase.org/d20/g22_geo_conv.html>
--   CD boundaries: <https://sfelections.sfgov.org/sites/default/files/Documents/Maps/J22_NewCongressionalDistrictMap.pdf>
+-   [Election Data](https://statewidedatabase.org/d20/g22.html)
+-   [Shapefiles](https://statewidedatabase.org/d20/g22_geo_conv.html)
+-   [CD boundaries](https://sfelections.sfgov.org/sites/default/files/Documents/Maps/J22_NewCongressionalDistrictMap.pdf)
 -   Steven Manson, Jonathan Schroeder, David Van Riper, Katherine Knowles, Tracy Kugler, Finn Roberts, and Steven Ruggles. IPUMS National Historical Geographic Information System: Version 19.0 [dataset]. Minneapolis, MN: IPUMS. 2024. <http://doi.org/10.18128/D050.V19.0>

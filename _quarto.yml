@@ -6,7 +6,7 @@ project:
 
 website:
   title: "Zachary Lorico Hertz"
-  site-url: "index.qmd"
+  site-url: "https://zacharylhertz.github.io"
   favicon: assets/favicon.png
   search: false
   google-analytics: "G-SWWDQ72BXF"

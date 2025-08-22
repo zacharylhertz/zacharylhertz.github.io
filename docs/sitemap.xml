@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>index.qmd/cv/index.html</loc>
+    <loc>https://zacharylhertz.github.io/cv/index.html</loc>
     <lastmod>2025-05-29T11:47:40.191Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/poetry/index.html</loc>
+    <loc>https://zacharylhertz.github.io/poetry/index.html</loc>
     <lastmod>2025-07-22T14:07:33.355Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/about/index.html</loc>
+    <loc>https://zacharylhertz.github.io/about/index.html</loc>
     <lastmod>2025-07-02T22:27:32.424Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-11-23-educational-polarization/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-11-23-educational-polarization/index.html</loc>
     <lastmod>2025-05-29T14:58:09.586Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/index.html</loc>
     <lastmod>2025-05-29T17:13:34.809Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2022-05-16-survey-weights/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2022-05-16-survey-weights/index.html</loc>
     <lastmod>2025-06-02T07:14:01.813Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-07-06-ces-young-voters/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-07-06-ces-young-voters/index.html</loc>
     <lastmod>2025-05-29T14:58:30.715Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2024-11-05-black-nonvoters/index.html</loc>
-    <lastmod>2025-05-29T14:57:53.378Z</lastmod>
+    <loc>https://zacharylhertz.github.io/posts/2025-08-22-educational-polarization-redux/index.html</loc>
+    <lastmod>2025-08-22T06:56:58.086Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/lyrics/index.html</loc>
-    <lastmod>2025-07-24T19:18:56.371Z</lastmod>
-  </url>
-  <url>
-    <loc>index.qmd/research/index.html</loc>
-    <lastmod>2025-07-03T00:27:09.666Z</lastmod>
-  </url>
-  <url>
-    <loc>index.qmd/posts/2021-07-13-news-interest/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-07-13-news-interest/index.html</loc>
     <lastmod>2025-05-29T14:56:54.037Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-08-05-youth-turnout/index.html</loc>
+    <loc>https://zacharylhertz.github.io/research/index.html</loc>
+    <lastmod>2025-07-03T00:27:09.666Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zacharylhertz.github.io/lyrics/index.html</loc>
+    <lastmod>2025-07-24T19:18:56.371Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zacharylhertz.github.io/posts/2024-11-05-black-nonvoters/index.html</loc>
+    <lastmod>2025-05-29T14:57:53.378Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zacharylhertz.github.io/posts/2021-08-05-youth-turnout/index.html</loc>
     <lastmod>2025-05-29T14:25:51.490Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2025-08-15-winners-and-lousers/index.html</loc>
-    <lastmod>2025-08-15T08:09:50.936Z</lastmod>
+    <loc>https://zacharylhertz.github.io/posts/2025-08-15-winners-and-lousers/index.html</loc>
+    <lastmod>2025-08-22T07:01:28.241Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-12-16-party-cues/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-12-16-party-cues/index.html</loc>
     <lastmod>2025-06-02T07:14:36.811Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-06-29-survey-package/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-06-29-survey-package/index.html</loc>
     <lastmod>2025-05-29T14:26:38.576Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/posts/2021-06-22-dfp-lucid/index.html</loc>
+    <loc>https://zacharylhertz.github.io/posts/2021-06-22-dfp-lucid/index.html</loc>
     <lastmod>2025-05-29T14:27:26.314Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/index.html</loc>
+    <loc>https://zacharylhertz.github.io/index.html</loc>
     <lastmod>2025-06-09T10:20:12.048Z</lastmod>
   </url>
   <url>
-    <loc>index.qmd/teaching/index.html</loc>
+    <loc>https://zacharylhertz.github.io/teaching/index.html</loc>
     <lastmod>2025-05-29T12:21:48.462Z</lastmod>
   </url>
 </urlset>

@@ -1,1 +1,1 @@
-Sitemap: index.qmd/sitemap.xml
+Sitemap: https://zacharylhertz.github.io/sitemap.xml
