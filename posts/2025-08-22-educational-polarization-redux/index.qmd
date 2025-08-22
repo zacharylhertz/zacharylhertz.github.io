@@ -1,5 +1,5 @@
 ---
-title: 'Revisiting "Educational Polarization: A White Phenomenon?"'
+title: 'Revisiting "Educational Polarization: A White Phenomenon?" in the Wake of the 2024 Election'
 author: Zachary Lorico Hertz
 date: '2025-08-22'
 image: images/pid-dem-race.png
@@ -34,6 +34,8 @@ citation: true
 [^4]: Noting, of course, that there's relatively wide error bars due to sample size constraints.
 
 [^5]: As I noted in 2021, the relatively small sample size of Asian Americans in the CES creates high uncertainty in the point estimates, so it remains important to caveat the educational differences in 2008 and 2012 among Asian Americans as not statistically significant. Still, in the following years these differences grew and following 2016 the difference in the point estimates for college-educated and non college-educated Asian Americans' Democratic party identification are statistically significant.
+
+*As usual, you can find the code to replicate this analysis in a GitHub repository [linked here](https://github.com/zacharylhertz/EdPol/).*
 
 Recent analysis [by The New York Times](https://www.nytimes.com/2025/08/20/us/politics/democratic-party-voter-registration-crisis.html?unlocked_article_code=1.f08.oYIE.IpxqtEpWRKyA&smid=url-share)[^1] declared that Democrats are facing a "voter registration crisis": across states that track partisan voter registration, Democrats have lost ground in the share of voters affiliated with the party. Does this hold for the electorate writ large?
 
