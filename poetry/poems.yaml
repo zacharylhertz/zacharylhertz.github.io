@@ -10,12 +10,12 @@
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
 
 - title: "nine thousand nine hundred ninety nine days"
-  type: "Forthcoming"
+  type: "Published"
   author:
     - Zachary Lorico Hertz
   date: 2025-11-01
   journal: "LEON Literary Review"
-  # link: "https://test.com"
+  link: "https://leonliteraryreview.com/issue-33-zachary-lorico-hertz/"
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
   
 - title: "For Grace, After A Wedding"
