@@ -123,7 +123,7 @@ server <- function(input, output) {
                  color = "darkgreen", size = 1.5, linetype = "dashed") +
       annotate("text", 
                x = input$estimate, 
-               y = max(y_vals) * 0.95,
+               y = max(y_vals) * 0.85,
                label = paste0("Estimate = ", round(input$estimate, 2)),
                color = "darkgreen", 
                size = 5,

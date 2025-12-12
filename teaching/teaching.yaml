@@ -1,10 +1,24 @@
 
 
+- title: "PS232-A: Formal Models in Political Science I"
+  type: "Berkeley"
+  year: 2026
+  semester: "Spring"
+  status: "Graduate student instructor for Sean Gailmard"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  description: "This is a first course on game theory and its application in political science research. It covers elements of utility theory, representations of static and dynamic games under complete and incomplete information, and analysis of games based on Nash equilibrium and refinements. The major course objectives are to enable students to solve formal problems containing these elements, and to begin consuming scholarly literature based on them."
+  categories: 
+    - Quantitative methods
+    - Game theory
+    - Formal models
+
 - title: "PS 3: Introduction to Empirical Analysis and Quantitative Methods"
   type: "Berkeley"
   year: 2025
   semester: "Fall"
   status: "Graduate student instructor for David Broockman"
+  syllabus: "../files/ps3_syllabus_f25.pdf"
+  section: "../files/ps3_sectionsyllabus_f25.pdf"
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
   description: "Data is increasingly central to politics, policy, law, business, and life. No matter where your life or career takes you, you will need to rely on analyzing and interpreting data -- be it understanding how persuasive a study summarized in a news article is, making a case before a judge, deciding which voters to target in your political campaign, as a political leader trying to decide what policy best serves your constituents, or as a political scientist trying to understand how politics works. The purpose of this class is to equip you to better understand how to gather and interpret data that speaks to important questions of all kinds. Much of the course, although not all of it, will focus on applications in political science, teaching you how to pose and answer political science research questions in a rigorous way."
   categories: 
