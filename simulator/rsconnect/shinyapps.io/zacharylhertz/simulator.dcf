@@ -1,0 +1,10 @@
+name: simulator
+title:
+username: zacharylhertz
+account: zacharylhertz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 16300255
+bundleId: 11312178
+url: https://zacharylhertz.shinyapps.io/simulator/
+version: 1
