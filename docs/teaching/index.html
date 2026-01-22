@@ -91,9 +91,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-type','listing-year','listing-semester','listing-status','listing-description','listing-categories','listing-syllabus','listing-section',{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-title','listing-type','listing-year','listing-semester','listing-status','listing-syllabus','listing-section','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] }],
       
-      searchColumns: ["listing-title","listing-type","listing-year","listing-semester","listing-status","listing-description","listing-categories","listing-syllabus","listing-section"],
+      searchColumns: ["listing-title","listing-type","listing-year","listing-semester","listing-status","listing-syllabus","listing-section","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -276,8 +276,16 @@ window.Quarto = {
 
       <!-- Syllabus PDF -->
       
+        <a role="button" href="../files/ps232a_syllabus_s26.pdf" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-file-earmark-text ai-lg"></i> Syllabus
+        </a> 
+      
 
       <!-- Section PDF -->
+      
+        <a role="button" href="../files/ps232a_sectionsyllabus_s26.pdf" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-file-earmark-easel ai-lg"></i> Section Syllabus
+        </a> 
       
       
       <!-- Course Website -->

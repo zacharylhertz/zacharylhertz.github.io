@@ -5,6 +5,8 @@
   year: 2026
   semester: "Spring"
   status: "Graduate student instructor for Sean Gailmard"
+  syllabus: "../files/ps232a_syllabus_s26.pdf"
+  section: "../files/ps232a_sectionsyllabus_s26.pdf"
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
   description: "This is a first course on game theory and its application in political science research. It covers elements of utility theory, representations of static and dynamic games under complete and incomplete information, and analysis of games based on Nash equilibrium and refinements. The major course objectives are to enable students to solve formal problems containing these elements, and to begin consuming scholarly literature based on them."
   categories: 
