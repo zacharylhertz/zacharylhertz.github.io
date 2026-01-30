@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zachary Lorico Hertz">
+<meta name="dcterms.date" content="2026-01-29">
+<meta name="description" content="This is a copy of a document I prepared for Berkeley’s graduate formal models class. As someone who initially struggled with proof writing, I thought it might help my students to synthesize and write up my thoughts on a number of strategies. I have made minimal edits, so it may refer to class materials.">
+
+<title>Proof Advice and Strategies for Political Scientists – Zachary Lorico Hertz</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SWWDQ72BXF"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/global_styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Zachary Lorico Hertz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research/"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching/"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../lyrics/"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../poetry/"> 
+<span class="menu-text">Poetry</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/"> 
+<span class="menu-text">C.V.</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Proof Advice and Strategies for Political Scientists</h1>
+<p class="subtitle lead">Advice for social scientists learning about writing proofs for the first time.</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">game theory</div>
+    <div class="quarto-category">formal models</div>
+    <div class="quarto-category">proofs</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This is a copy of a document I prepared for Berkeley’s graduate formal models class. As someone who initially struggled with proof writing, I thought it might help my students to synthesize and write up my thoughts on a number of strategies. I have made minimal edits, so it may refer to class materials.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zachary Lorico Hertz </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 29, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction-the-proofsolving-is-in-the-pudding" class="level1 page-columns page-full">
+<h1>Introduction: the proof(solving) is in the pudding</h1>
+<p>At various points in this class, we will ask you to complete <strong>proofs</strong> as part of your assessments. Proofs may be unfamiliar to many of you<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, particularly since they are not taught in math camp, so I want to give you some advice on how to approach proofs.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;If you’ve managed to avoid learning about proofs to this point, I’ll note very quickly that a <strong>mathematical proof</strong> is a specific kind of deductive argument structured to derive some arbitrary mathematical statement, in which the analyst uses the premises and mathematics to show that the conclusion is logically guaranteed by the premises.</p></div></div><p>The zeroth step in solving proofs is to identify <em>when</em> you are being asked to write one. We will usually not literally state “write a proof showing <span class="math inline">\(x\)</span>.” Instead, you’ll see the words “Show that…” or “Prove that…”, sometimes following a premise. When you see these in your problem set questions, you’ll know it’s time to lock in and write a proof.</p>
+<p>Before we get too far into this guide, I also want to caution that proofs are, unfortunately, more of an art than a science. This is unfortunate because a lack of hard and fast rules or a clear “how-to” is at odds with the student’s impulse to be told <em>how</em> to do something. I struggled with them when I was first learning math for this reason, but this document serves as a synthesis of the advice I’ve found that was helpful, and my attempt to satisfy that impulse.</p>
+<p>I’ll note that it can also help to think of the proof writing process as similar to solving a maze or puzzle: you have a set starting point and a set end point, but it’s up to you to figure out the correct set of actions that will actually get you there. At many points in the proof you will have to make a decision about what to do next, and it might not be the right one! But, like solving a maze, you can always undo steps to try and feel your way to the solution. Furthermore, because each proof is different, ultimately the best way to improve is <em>practice</em>.</p>
+</section>
+<section id="what-is-a-proof" class="level1 page-columns page-full">
+<h1>What is a proof?</h1>
+<p>When it comes to proofs, we have a simple goal: <strong>we want to prove some statement to be true (or false)</strong>. We can identify a good (or bad) proof via its traits.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Proofs should have a beginning, whether this is a list of assumptions, the premises as stated by the question, the thing that you are trying to show, or something else. Proofs are composed of a combination of clear and precise logical statements written in grammatically correct English or its mathematical equivalent,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and include a conclusion (“therefore, <span class="math inline">\(X\)</span> is true” etc).</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Though, of course, we must avoid leaning on traits as a formal definition lest we fall into <a href="https://sites.psu.edu/sierraastle/2019/10/21/behold-a-man/">Diogenes’ trap</a>.</p></div><div id="fn3"><p><sup>3</sup>&nbsp;Review the Week One exercises and handout if you are having problems on this point.</p></div></div><p>Conversely, there are many things that proofs <em>should not be</em>. You should not include variables or objects in a proof that have not been defined. This is easier said than done, but your proof cannot involve incorrect logic. Your statements must flow from each other logically! Finally, and this is learned over time, but proofs (in theory) should not be verbose. You don’t necessarily need to state every detail or write every line of mathematical simplification, especially as your mathematical intuition improves. This is best practice for application but given that your proofs in this class are part of training I would ignore this advice for now and write out every step (it’ll also help you if you return to your solutions later).</p>
+</section>
+<section id="ok-fine-but-how-do-i-write-the-proof" class="level1 page-columns page-full">
+<h1>Ok fine, but how do I write the proof?</h1>
+<p>Well, like I said, it’s more of an art than a science. So I can’t give you a step-by-step guide exactly. That said, there are a few things you <strong>must</strong> do before you start having to pick among branching paths.</p>
+<section id="step-0-what-is-the-question-asking-me" class="level2">
+<h2 class="anchored" data-anchor-id="step-0-what-is-the-question-asking-me">Step 0: What is the question asking me?</h2>
+<p>This step sounds trivial, but don’t fall into the trap of skipping it. This can be deceptively tricky! Getting a handle on what is being asked of you, both in the literal question and the larger didactic point it is trying to make, will go a long ways towards finding a solution. Consider connections between the question and the specific examples from lecture or section; draw it out if you need to. If you can get a solid understanding on this point, the solution may fall into place.</p>
+</section>
+<section id="step-1-define-the-beginning-and-the-end." class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-1-define-the-beginning-and-the-end.">Step 1: Define the beginning and the end.</h2>
+<p>With any proof, there is some statement that we are being asked to prove. When you have not yet written the proof, the statement is called a <em>conjecture</em>; once it has been shown to be true it is a <em>theorem</em>. Within that statement you have some information that you are given as fact, called the <em>premise</em> (or, sometimes, the <em>hypothesis</em>), as well as the thing that you are ultimately trying to prove, called the <em>conclusion</em>. So, make sure when reading to look at the problem closely.</p>
+<p>Your <em>premise</em> is usually identified with some key words: <strong>let</strong>, <strong>suppose</strong>, <strong>if</strong>, <strong>assume</strong>, <strong>consider</strong>, <strong>say</strong>, <strong>given</strong> are all examples. This information is treated as an underlying assumption; in fact, treating the premise as a simple and true fact of the world will be crucial to completing your proof. This is your starting point; it might even help to highlight this.</p>
+<p>Your <em>conclusion</em> is also identified with key words: <strong>implies</strong>, <strong>show</strong>, <strong>then</strong>, <strong>prove</strong> all are possible words indicating a conclusion. Use these to identify the statement that you need to reach by manipulating your hypotheses and applying definitions. The conclusion is where we need to end the proof; again, I might even highlight the conclusion to make it easier to return to on the paper.</p>
+<p><strong>You must start your proof with an initial statement of what you are trying to prove</strong>. <em>For example</em>, some question might say that “There is some <span class="math inline">\(x, y \in \mathbb{R}\)</span>. Show that <span class="math inline">\(x&gt;5\)</span> implies <span class="math inline">\(x^2 &gt;25\)</span>.” We notice the premise is <span class="math inline">\(x \in \mathbb{R}\)</span>, since that is the information given as a premise ahead of our conclusion. We also spot our conclusion coming around the word <em>implies</em>: the full conclusion is <span class="math inline">\(x&gt;5\)</span> implies <span class="math inline">\(x^2 &gt;25\)</span>. To start your proof, we might start by rephrasing the conclusion: “If <span class="math inline">\(x&gt;5\)</span>, then <span class="math inline">\(x^2 &gt;25\)</span>.”</p>
+<p>We always start by restating the conclusion because doing so forces you to ask yourself “What am I trying to prove?”. This will serve as a sort of common thread<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> to which we can return throughout the proof.</p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;In the <a href="https://en.wikipedia.org/wiki/Ariadne#Minos_and_Theseus">metaphorical Ariadnian</a> sense, though not <a href="https://en.wikipedia.org/wiki/Ariadne%27s_thread_(logic)">the formal one</a>.</p></div></div></section>
+<section id="step-2-define-your-terms." class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-2-define-your-terms.">Step 2: Define your terms.</h2>
+<p>This is good general advice, but a critical step in proofing.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> The first time you introduce any variable, whether in the initial statement, the proof itself, or the conclusion, <strong>you must state a definition for the variable</strong>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;I’m pretty sure this is not an acceptable verb form to describe this process, and instead exclusively refers to the baking technique. But we have to have fun sometimes.</p></div></div><p>This will also be helpful for solving the proof. Often, mathematics relies on the use of definitions themselves as tools to gain leverage on the proof. For example, if we know that if a random variable <span class="math inline">\(X\)</span> that has a CDF <span class="math inline">\(F(x)\)</span>, it is definitionally true that the probability <span class="math inline">\(X\)</span> exceeds some value <span class="math inline">\(x\)</span> <span class="math inline">\(\mathbb{P}(X\geq x)\)</span> is equal to <span class="math inline">\(1-F(x)\)</span>. If, at some point, we have a statement about the probability <span class="math inline">\(\mathbb{P}(X\geq x)\)</span>, we could then swap it with <span class="math inline">\(1-F(x)\)</span> <em>because</em> of this definition. So, we can see that definitions will sometimes get us out of a tight spot.</p>
+</section>
+<section id="step-3-begin-writing-in-steps." class="level2">
+<h2 class="anchored" data-anchor-id="step-3-begin-writing-in-steps.">Step 3: Begin writing in steps.</h2>
+<p>You want to write proofs in a natural, step-by-step order, like a manual or (at risk of mixing my metaphors) a recipe. As we’ve stated before, you must begin by stating the assumptions given by the problem and then following a logical set of steps from that point to reach the conclusion. The reason (against future best practice) it will help you to write out each step clearly and explicitly, even if they seem obvious, is that it helps readers (including your future self) follow the steps closely with less effort.</p>
+</section>
+<section id="step-4" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-4">Step 4: ?????</h2>
+<p>From here, there are a number of strategies you might take to complete your proof. This depends whether you are choosing to prove your conclusion is <em>true</em> or whether you are choosing to prove the conclusion is <em>false</em>.</p>
+<p>If you are trying to prove your conclusion is <em>true,</em> there are three common strategies: <strong>direct proofs</strong> (which are generally preferred), <strong>proofs by contrapositive</strong>, and <strong>proof by contradiction</strong>.</p>
+<section id="for-a-true-conclusion-direct-proofs" class="level3">
+<h3 class="anchored" data-anchor-id="for-a-true-conclusion-direct-proofs">For a true conclusion: Direct proofs</h3>
+<p>Perhaps the thing you are trying to prove can be distilled into a simple form: “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>.” One classic example is the proof “If <span class="math inline">\(n\)</span> is an even integer, then <span class="math inline">\(n^2\)</span> is even,” but a wide variety of statements for potential direct proofs exist: consider “If <span class="math inline">\(\mathbb{P}(A)=1\)</span>, then <span class="math inline">\(\mathbb{P}(A \cup B )=1\)</span>” or “If <span class="math inline">\(a \succsim b\)</span> and <span class="math inline">\(b \succsim c\)</span>, then <span class="math inline">\(a \succsim c\)</span>.”</p>
+<p>Composing a direct proof is mechanically simple in abstract terms. Because we are trying to prove the conditional statement “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>,” we start by assuming that <span class="math inline">\(P\)</span> is true (our <em>premise</em>!), then set up some implication <span class="math inline">\(P_1\)</span> that follows from <span class="math inline">\(P\)</span>. Then, having gotten to <span class="math inline">\(P_1\)</span>, we find some implication <span class="math inline">\(P_2\)</span> that follows from <span class="math inline">\(P_2\)</span>. We do this until we arrive at some <span class="math inline">\(P_n\)</span>, for which if <span class="math inline">\(P_n\)</span> is true, it follows that <span class="math inline">\(Q\)</span> is true.</p>
+<p>This is perhaps more clear with a direct example. Consider again the statement “If <span class="math inline">\(n\)</span> is an odd integer, then <span class="math inline">\(n^2\)</span> is odd,” which I shall prove with a direct proof.</p>
+<p><strong>Conjecture</strong>: If <span class="math inline">\(n\)</span> is an odd integer, then <span class="math inline">\(n^2\)</span> is odd.</p>
+<p><strong>Proof</strong>: Since <span class="math inline">\(n\)</span> is odd (given by the premise), by the definition of odd integers there must exist some integer <span class="math inline">\(k\)</span> such that <span class="math inline">\(n=2k+1\)</span>. If <span class="math inline">\(n=2k+1\)</span>, then <span class="math inline">\(n^2 = (2k+1)^2\)</span>. Then:</p>
+<p><span class="math display">\[\begin{align*}
+n^2 &amp;= (2k+1)^2 \tag{from above} \\
+&amp;= 4k^2 + 4k + 1 \tag{$(a+b)^2 = a^2 + 2ab + b^2$} \\
+&amp;= 2(2k^2 + 2k) + 1 \tag{arithmetic}
+\end{align*}\]</span></p>
+<p>In our last step, we found a way to re-express <span class="math inline">\(n^2\)</span> in the form <span class="math inline">\(2 \times (\text{some integer}) + 1\)</span>, which is the definition of odd integers. Therefore, for an odd integer <span class="math inline">\(n\)</span>, <span class="math inline">\(n^2\)</span> is odd.</p>
+</section>
+<section id="for-a-true-conclusion-proofs-by-contrapositive" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="for-a-true-conclusion-proofs-by-contrapositive">For a true conclusion: Proofs by contrapositive</h3>
+<p>While statements of the form “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>” can usually be solved by direct proof, sometimes we need to rely on other approaches. One fact we can exploit is the fact that “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>” is logically equivalent to the statement “If not <span class="math inline">\(Q\)</span>, then not <span class="math inline">\(P\)</span>,”<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> which we call the <em>contrapositive</em>. So, sometimes, rather than doing a direct proof of “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>” we can rely on a proof instead of “If not <span class="math inline">\(Q\)</span>, then not <span class="math inline">\(P\)</span>.” This is called <strong>proof by contraposition.</strong></p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;But, importantly, this is not equivalent to the statement “If not <span class="math inline">\(P\)</span>, then not <span class="math inline">\(Q\)</span>.”</p></div></div><p>To follow the intuition here, consider a statement “If I am at the Big Thief concert, then I bought a ticket;” hopefully you can see that this is a statement with the form “If <span class="math inline">\(P\)</span>, then <span class="math inline">\(Q\)</span>” where <span class="math inline">\(P\)</span> is “I am at the Big Thief concert” and <span class="math inline">\(Q\)</span> is “I bought a ticket (for that concert).” Our original statement is logically equivalent to the <em>contrapositive</em> statement “If I did not buy a ticket, I am not at the Big Thief concert.” So, of course, if we can prove the statement “If I did not buy a ticket, I am not at the Big Thief concert” is true, we will have necessarily also proved the statement “If I am at the Big Thief concert, then I bought a ticket.”</p>
+<p>Again, I use an example to help illustrate proof by contrapositive in action. We take a related statement to our first example: “Let <span class="math inline">\(x\)</span> be an integer. Prove that <span class="math inline">\(x^2\)</span> is an odd number if and only if <span class="math inline">\(x\)</span> is an odd number.” As a note, the “if and only if” in this statement requires us to prove both directions of the implication. In other words, we must first prove that if <span class="math inline">\(x\)</span> is odd, then <span class="math inline">\(x^2\)</span> is odd. Second, we must prove that if <span class="math inline">\(x^2\)</span> is odd, then <span class="math inline">\(x\)</span> is odd. We have already proven the first statement above; for the second statement, we use proof by contrapositive.</p>
+<p><strong>Conjecture</strong>: Let <span class="math inline">\(x\)</span> be an integer. Then <span class="math inline">\(x^2\)</span> is odd if and only if <span class="math inline">\(x\)</span> is odd.</p>
+<p><strong>Proof</strong>: The contrapositive of “if <span class="math inline">\(x^2\)</span> is odd, then <span class="math inline">\(x\)</span> is odd” is “if <span class="math inline">\(x\)</span> is even, then <span class="math inline">\(x^2\)</span> is even.” It suffices to prove this contrapositive.</p>
+<p>Suppose <span class="math inline">\(x\)</span> is even. By the definition of even integers, there exists some integer <span class="math inline">\(k\)</span> such that <span class="math inline">\(x = 2k\)</span>. Then:</p>
+<p><span class="math display">\[\begin{align*}
+x^2 &amp;= (2k)^2 \tag{substitution} \\
+&amp;= 4k^2 \tag{$(ax)^2 = a^2 x^2$} \\
+&amp;= 2(2k^2) \tag{arithmetic}
+\end{align*}\]</span></p>
+<p>Since <span class="math inline">\(k\)</span> is an integer, <span class="math inline">\(2k^2\)</span> is also an integer. Thus <span class="math inline">\(x^2\)</span> is in the form <span class="math inline">\(2 \times (\text{some integer})\)</span>, which is the definition of even integers. Therefore, if <span class="math inline">\(x\)</span> is even, then <span class="math inline">\(x^2\)</span> is even, completing the proof by contrapositive.</p>
+<p>This is somewhat of an awkward process, and thinking ahead I don’t believe there’s any point where you will be required to do proof by contraposition in this course.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> But, of course, it exists and others might like it, so in the spirit of keeping this a thorough discussion of proof strategies I included it anyways.</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;As a disclaimer, I have not gone ahead in the course materials, so I could be wrong. Please don’t sue me!</p></div></div></section>
+<section id="for-a-true-conclusion-proof-by-contradiction" class="level3">
+<h3 class="anchored" data-anchor-id="for-a-true-conclusion-proof-by-contradiction">For a true conclusion: Proof by contradiction</h3>
+<p>Instead, in what is technically a particular type of proof by contrapositive, we can start with an assumption that the original statement is <em>not</em> true. If an example exists such that it is impossible that the original statement could be <em>not</em> true, then logically we must conclude that the original statement <em>is</em> true.</p>
+<p>Essentially, what this requires you to do is take the premise(s) in the statement, and assume that all premises are true but the conclusion itself is false. From there, use definitions and mathematics to work your way to the contradicting statement.</p>
+<p>Of course, I want to give you an example of proof by contradiction in action. Consider the statement “If <span class="math inline">\(n\)</span> is an even perfect square with both <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> integers and <span class="math inline">\(n = m^2\)</span>, then <span class="math inline">\(m\)</span> is even.”</p>
+<p><strong>Conjecture</strong>: If <span class="math inline">\(n\)</span> is an even perfect square with both <span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> integers and <span class="math inline">\(n = m^2\)</span>, then <span class="math inline">\(m\)</span> is even.</p>
+<p><strong>Proof</strong>: Suppose <span class="math inline">\(n\)</span> is even (given by the premise). We proceed by contradiction. Assume for the sake of contradiction that <span class="math inline">\(m\)</span> is not even, meaning <span class="math inline">\(m\)</span> is odd. By the definition of odd integers, there exists some integer <span class="math inline">\(k\)</span> such that <span class="math inline">\(m = 2k + 1\)</span>. Then:</p>
+<p><span class="math display">\[\begin{align*}
+n &amp;= m^2 \tag{given} \\
+&amp;= (2k+1)^2 \tag{substitution} \\
+&amp;= 4k^2 + 4k + 1 \tag{$(a+b)^2 = a^2 + 2ab + b^2$} \\
+&amp;= 2(2k^2 + 2k) + 1 \tag{arithmetic}
+\end{align*}\]</span></p>
+<p>Since <span class="math inline">\(k\)</span> is an integer, <span class="math inline">\(2k^2 + 2k\)</span> is also an integer. Thus <span class="math inline">\(n\)</span> is in the form <span class="math inline">\(2 \times (\text{some integer}) + 1\)</span>, which is the definition of odd integers. This means <span class="math inline">\(n\)</span> is odd.</p>
+<p>However, this contradicts our premise that <span class="math inline">\(n\)</span> is even. Therefore, our assumption that <span class="math inline">\(m\)</span> is odd must be false, and we conclude that <span class="math inline">\(m\)</span> is even. </p>
+</section>
+<section id="for-a-true-conclusion-proof-by-induction" class="level3">
+<h3 class="anchored" data-anchor-id="for-a-true-conclusion-proof-by-induction">For a true conclusion: Proof by induction</h3>
+<p>Another powerful technique is <strong>proof by induction</strong>, which is particularly useful for proving statements about natural numbers or sequences. The basic idea is like climbing a ladder: if you can get on the first rung, and you can prove that being on any rung lets you reach the next rung, then you can climb the entire ladder.</p>
+<p>More formally, to prove a statement <span class="math inline">\(P(n)\)</span> is true for all natural numbers <span class="math inline">\(n \geq n_0\)</span>, we follow these steps:</p>
+<ol type="1">
+<li><strong>Base case</strong>: Starting with the “base case,” prove that <span class="math inline">\(P(n_0)\)</span> is true (usually <span class="math inline">\(n_0 = 0\)</span> or <span class="math inline">\(n_0 = 1\)</span>).</li>
+<li><strong>Inductive hypothesis</strong>: Then, we take what is called the “inductive hypothesis,” and assume that <span class="math inline">\(P(k)\)</span> is true for some arbitrary integer <span class="math inline">\(k \geq n_0\)</span>.</li>
+<li><strong>Inductive step</strong>: Using the assumption that <span class="math inline">\(P(k)\)</span> is true, prove that <span class="math inline">\(P(k+1)\)</span> is also true.</li>
+</ol>
+<p>If we can complete all three steps, we’ve proven the statement is true for all <span class="math inline">\(n \geq n_0\)</span>.</p>
+<p>As before, I include an illustrative example. Consider the statement “For all positive integers <span class="math inline">\(n\)</span>, the sum of the first <span class="math inline">\(n\)</span> positive integers equals <span class="math inline">\(\frac{n(n+1)}{2}\)</span>.” In other words, <span class="math inline">\(1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}\)</span>.</p>
+<p><strong>Conjecture</strong>: For all positive integers <span class="math inline">\(n\)</span>, <span class="math inline">\(\sum_{i=1}^{n} i = \frac{n(n+1)}{2}\)</span>.</p>
+<p><strong>Proof</strong>: We proceed by induction on <span class="math inline">\(n\)</span>.</p>
+<p><strong>Base case</strong> (<span class="math inline">\(n=1\)</span>): When <span class="math inline">\(n=1\)</span>, the left side is simply <span class="math inline">\(1\)</span>. The right side is <span class="math inline">\(\frac{1(1+1)}{2} = \frac{2}{2} = 1\)</span>. Since both sides equal <span class="math inline">\(1\)</span>, we can conclude that the base case is true, and move on.</p>
+<p><strong>Inductive hypothesis</strong>: Assume that for some arbitrary positive integer <span class="math inline">\(k\)</span>, the statement holds. That is, assume: <span class="math display">\[\sum_{i=1}^{k} i = \frac{k(k+1)}{2}\]</span></p>
+<p><strong>Inductive step</strong>: We must show that the statement holds for <span class="math inline">\(k+1\)</span>. That is, we need to prove: <span class="math display">\[\sum_{i=1}^{k+1} i = \frac{(k+1)(k+2)}{2}\]</span></p>
+<p>Starting with the left side: <span class="math display">\[\begin{align*}
+\sum_{i=1}^{k+1} i &amp;= \left(\sum_{i=1}^{k} i\right) + (k+1) \tag{separating the last term} \\
+&amp;= \frac{k(k+1)}{2} + (k+1) \tag{by inductive hypothesis} \\
+&amp;= \frac{k(k+1)}{2} + \frac{2(k+1)}{2} \tag{common denominator} \\
+&amp;= \frac{k(k+1) + 2(k+1)}{2} \tag{arithmetic} \\
+&amp;= \frac{(k+1)(k+2)}{2} \tag{factoring}
+\end{align*}\]</span></p>
+<p>This is exactly what we wanted to show. Therefore, by the principle of mathematical induction, the statement holds for all positive integers <span class="math inline">\(n\)</span>.</p>
+</section>
+<section id="for-a-false-conclusion-proof-by-counterexample" class="level3">
+<h3 class="anchored" data-anchor-id="for-a-false-conclusion-proof-by-counterexample">For a <em>false</em> conclusion: Proof by counterexample</h3>
+<p>If you are trying to prove your conclusion is <em>false,</em> we rely on <strong>proof by counterexample.</strong> Similar to proof by contradiction, all you need to do is find a single counterexample for which the statement is false! This is best done with a simple counterexample. Do <strong>not</strong> try to construct a general argument that states the statement is universally false. To restate the intuition, if we do not believe that <span class="math inline">\(Q\)</span> is false, it <em>must</em> be true.</p>
+</section>
+</section>
+<section id="step-5-profit" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="step-5-profit">Step 5: Profit</h2>
+<p>Using these strategies, you should be well on your way to proofing successfully. I’ll leave you with a number of miscellaneous tips and rules of thumb.</p>
+<ul>
+<li><p>First, to emphasize, there are many correct ways to get to the same end result. This is both why proofs are interesting, and also why they are hard.</p></li>
+<li><p>Second, we (those outside of STEM, anyways) often think of math as distinct from writing. But you should treat your proofs as written content, or essays. What does that mean exactly? Recall that when we are writing proofs, our ultimate goal is to construct and elucidate a valid line of reasoning. Thus, your proofs should start with a word (or even a sentence!), and as a rule of thumb make sense when read aloud. This is why we practiced examples in our first section; now, you get to put it into practice. Proofs should be easy to read in a literal sense: use line breaks generously.</p></li>
+<li><p>Writing on scratch paper before typesetting in LaTeX will help you try multiple approaches when needed. I generally recommend starting on physical paper.</p></li>
+<li><p>If you don’t know where to start, try writing out the assumption(s), any additional implications of these assumptions, and the definitions of the term(s) in the assumption(s) and conclusion. What more can you conclude from what’s given? What do you need to be true in order for the conclusion to hold?</p></li>
+<li><p>Sometimes, if you get stuck, try seeing what can be done to work backwards from the conclusion. While the proof will ultimately be read linearly from start to finish, nothing says you have to work that way!</p></li>
+<li><p>One tip from our friends in the math department is to inject a little art into your mathematics. Specifically, they suggest drawing a table somewhere on your scrap paper. I don’t mean something filled regressions - a literal, four-legged piece of furniture.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Any time you add a new object to your proof, give it a one-letter name (remember, mathematicians love that) and draw it on the table. This is useful because it: a. forces you to define your objects, b. gives them names, and c.&nbsp;places your set of objects visually in front of you in an organized place, where you can think about how they relate to one another.</p></li>
+<li><p>To <a href="https://youtu.be/su56rdSvQBU?si=qp0sUScldfzuyqyi&amp;t=71">paraphrase Don Draper</a>, if you don’t like what you’re looking at, change what you’re looking at. Substituting in definitions, dividing or multiplying by <span class="math inline">\(1\)</span>, adding <span class="math inline">\(0\)</span> can all help you get traction on your proof.</p></li>
+<li><p>It’s usually better for the purposes of reaching a solution to over-write than under-write: write your thoughts, confusion, basic definitions, parallel examples, and the like. Just be sure your final draft is compact and neat.</p></li>
+<li><p>Avoid phrases like “clearly,” “obviously,” or “as you can see.” These phrases often indicate that you have skipped a step that is necessary for your reader, or that you’ve failed to justify a link or statement.</p></li>
+<li><p>Stylistically, mathematical proofs avoid the singular first-person pronoun (there is no ‘I’ in math) in favor of the first-person plural. Do your best Queen Victoria: “<em>We</em> see that…, *We can conclude…” etc.</p></li>
+<li><p>Again, every variable, letter, or piece of notation must be explicitly defined. This is useful for analytical traction, and necessary for your reader.</p></li>
+<li><p>Finally, signpost the ending. Make sure you reach the correct conclusion, and state that you have reached the conclusion explicitly: “Thus, we find…, We therefore prove that…” etc.</p></li>
+</ul>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;At least, to me, though I think many (if not all) people would agree!</p></div></div></section>
+</section>
+<section id="summary" class="level1 page-columns page-full">
+<h1>Summary</h1>
+<p>In this class, for a number of different questions, you will be asked to show that some things are true or some properties hold. You can consider these questions to all follow a similar structure: you have some starting point. You want to use math to reach the end point. This requires some manipulation, for which this document should prove useful.</p>
+<p>At the end of the day, unfortunately there’s only so much I can do over writing to help you with this particular skill. Practice (both in section, with your groups, and on your own) will be the most prudent teacher. Patience is a virtue in many areas, and this is no different: sadly, proofs are difficult<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> and it will take repeated exposure before you feel comfortable doing them. Be clear, be concise, proofread, and now… proofwrite.</p>
+<div class="no-row-height column-margin column-container"><div id="fn9"><p><sup>9</sup>&nbsp;At least, to me, though I think many (if not all) people would agree!</p></div></div></section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>While this is an original document, I read several pieces of proof advice to prepare this document. If you’re in search of additional reading, I also recommend these pieces as primary sources. In alphabetical surname order, I drew on materials from <a href="https://www.cs.sfu.ca/~ggbaker/zju/math/proof.html">Greg Baker</a>, <a href="https://people.math.harvard.edu/~bullery/math101/3_%20Proof%20strategies.pdf">Brooke Ellery</a>, <a href="https://drive.google.com/file/d/1yh3nIm9_oSY8KKl2gktmZT22EHIWikiQ/view">Katharine Ott</a>, <a href="https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf">Phillip Milner</a>, and <a href="https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/handouts/070%20Guide%20to%20Proofs.pdf">Keith Schwarz</a>. I also borrowed two tips from a document written by David LaRoche and Jackie Jones, provided to me by Jack Maedgen. I am thankful to these authors for their public materials.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2026,
+  author = {Lorico Hertz, Zachary},
+  title = {Proof {Advice} and {Strategies} for {Political} {Scientists}},
+  date = {2026-01-29},
+  url = {https://zacharylhertz.github.io/posts/2026-01-29-putting-in-the-proofs/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lorico Hertz, Zachary. 2026. <span>“Proof Advice and Strategies for
+Political Scientists.”</span> January 29, 2026. <a href="https://zacharylhertz.github.io/posts/2026-01-29-putting-in-the-proofs/">https://zacharylhertz.github.io/posts/2026-01-29-putting-in-the-proofs/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zacharylhertz\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

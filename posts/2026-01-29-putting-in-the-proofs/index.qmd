@@ -1,0 +1,235 @@
+---
+title: 'Proof Advice and Strategies for Political Scientists'
+author: Zachary Lorico Hertz
+date: '2026-01-29'
+image: images/proof.jpg
+categories:
+  - game theory
+  - formal models
+  - proofs
+subtitle: "Advice for social scientists learning about writing proofs for the first time."
+description: "This is a copy of a document I prepared for Berkeley's graduate formal models class. As someone who initially struggled with proof writing, I thought it might help my students to synthesize and write up my thoughts on a number of strategies. I have made minimal edits, so it may refer to class materials."
+code-annotations: below
+footnotes-hover: false
+reference-location: margin
+toc: false
+df-print: paged
+citation: true
+---
+
+# Introduction: the proof(solving) is in the pudding
+At various points in this class, we will ask you to complete **proofs** as part of your assessments. Proofs may be unfamiliar to many of you[^1], particularly since they are not taught in math camp, so I want to give you some advice on how to approach proofs.
+
+The zeroth step in solving proofs is to identify *when* you are being asked to write one. We will usually not literally state "write a proof showing $x$." Instead, you'll see the words "Show that..." or "Prove that...", sometimes following a premise. When you see these in your problem set questions, you'll know it's time to lock in and write a proof.
+
+Before we get too far into this guide, I also want to caution that proofs are, unfortunately, more of an art than a science. This is unfortunate because a lack of hard and fast rules or a clear "how-to" is at odds with the student's impulse to be told *how* to do something. I struggled with them when I was first learning math for this reason, but this document serves as a synthesis of the advice I've found that was helpful, and my attempt to satisfy that impulse.
+
+I'll note that it can also help to think of the proof writing process as similar to solving a maze or puzzle: you have a set starting point and a set end point, but it's up to you to figure out the correct set of actions that will actually get you there. At many points in the proof you will have to make a decision about what to do next, and it might not be the right one! But, like solving a maze, you can always undo steps to try and feel your way to the solution. Furthermore, because each proof is different, ultimately the best way to improve is *practice*. 
+
+# What is a proof?
+When it comes to proofs, we have a simple goal: **we want to prove some statement to be true (or false)**. We can identify a good (or bad) proof via its traits.[^2] Proofs should have a beginning, whether this is a list of assumptions, the premises as stated by the question, the thing that you are trying to show, or something else. Proofs are composed of a combination of clear and precise logical statements written in grammatically correct English or its mathematical equivalent,[^3] and include a conclusion ("therefore, $X$ is true" etc).
+
+Conversely, there are many things that proofs *should not be*. You should not include variables or objects in a proof that have not been defined. This is easier said than done, but your proof cannot involve incorrect logic. Your statements must flow from each other logically! Finally, and this is learned over time, but proofs (in theory) should not be verbose. You don't necessarily need to state every detail or write every line of mathematical simplification, especially as your mathematical intuition improves. This is best practice for application but given that your proofs in this class are part of training I would ignore this advice for now and write out every step (it'll also help you if you return to your solutions later).
+
+# Ok fine, but how do I write the proof?
+
+Well, like I said, it's more of an art than a science. So I can't give you a step-by-step guide exactly. That said, there are a few things you **must** do before you start having to pick among branching paths.
+
+## Step 0: What is the question asking me?
+
+This step sounds trivial, but don't fall into the trap of skipping it. This can be deceptively tricky! Getting a handle on what is being asked of you, both in the literal question and the larger didactic point it is trying to make, will go a long ways towards finding a solution. Consider connections between the question and the specific examples from lecture or section; draw it out if you need to. If you can get a solid understanding on this point, the solution may fall into place.
+
+## Step 1: Define the beginning and the end.
+
+With any proof, there is some statement that we are being asked to prove. When you have not yet written the proof, the statement is called a *conjecture*; once it has been shown to be true it is a *theorem*. Within that statement you have some information that you are given as fact, called the *premise* (or, sometimes, the *hypothesis*), as well as the thing that you are ultimately trying to prove, called the *conclusion*. So, make sure when reading to look at the problem closely. 
+
+Your *premise* is usually identified with some key words: **let**, **suppose**, **if**, **assume**, **consider**, **say**, **given** are all examples. This information is treated as an underlying assumption; in fact, treating the premise as a simple and true fact of the world will be crucial to completing your proof. This is your starting point; it might even help to highlight this.
+
+Your *conclusion* is also identified with key words: **implies**, **show**, **then**, **prove** all are possible words indicating a conclusion. Use these to identify the statement that you need to reach by manipulating your hypotheses and applying definitions. The conclusion is where we need to end the proof; again, I might even highlight the conclusion to make it easier to return to on the paper.
+
+**You must start your proof with an initial statement of what you are trying to prove**. *For example*, some question might say that "There is some $x, y \in \mathbb{R}$. Show that $x>5$ implies $x^2 >25$." We notice the premise is $x \in \mathbb{R}$, since that is the information given as a premise ahead of our conclusion. We also spot our conclusion coming around the word *implies*: the full conclusion is $x>5$ implies $x^2 >25$. To start your proof, we might start by rephrasing the conclusion: "If $x>5$, then $x^2 >25$."
+
+We always start by restating the conclusion because doing so forces you to ask yourself "What am I trying to prove?". This will serve as a sort of common thread[^4] to which we can return throughout the proof.
+
+## Step 2: Define your terms.
+This is good general advice, but a critical step in proofing.[^5] The first time you introduce any variable, whether in the initial statement, the proof itself, or the conclusion, **you must state a definition for the variable**. 
+
+This will also be helpful for solving the proof. Often, mathematics relies on the use of definitions themselves as tools to gain leverage on the proof. For example, if we know that if a random variable $X$ that has a CDF $F(x)$, it is definitionally true that the probability $X$ exceeds some value $x$ $\mathbb{P}(X\geq x)$ is equal to $1-F(x)$. If, at some point, we have a statement about the probability $\mathbb{P}(X\geq x)$, we could then swap it with $1-F(x)$ *because* of this definition. So, we can see that definitions will sometimes get us out of a tight spot.
+
+## Step 3: Begin writing in steps.
+
+You want to write proofs in a natural, step-by-step order, like a manual or (at risk of mixing my metaphors) a recipe. As we've stated before, you must begin by stating the assumptions given by the problem and then following a logical set of steps from that point to reach the conclusion. The reason (against future best practice) it will help you to write out each step clearly and explicitly, even if they seem obvious, is that it helps readers (including your future self) follow the steps closely with less effort.
+
+## Step 4: ?????
+From here, there are a number of strategies you might take to complete your proof. This depends whether you are choosing to prove your conclusion is *true* or whether you are choosing to prove the conclusion is *false*. 
+
+If you are trying to prove your conclusion is *true,* there are three common strategies: **direct proofs** (which are generally preferred), **proofs by contrapositive**, and **proof by contradiction**.
+
+### For a true conclusion: Direct proofs
+Perhaps the thing you are trying to prove can be distilled into a simple form: "If $P$, then $Q$." One classic example is the proof "If $n$ is an even integer, then $n^2$ is even," but a wide variety of statements for potential direct proofs exist: consider "If $\mathbb{P}(A)=1$, then $\mathbb{P}(A \cup B )=1$" or "If $a \succsim b$ and $b \succsim c$, then $a \succsim c$." 
+
+Composing a direct proof is mechanically simple in abstract terms. Because we are trying to prove the conditional statement "If $P$, then $Q$," we start by assuming that $P$ is true (our *premise*!), then set up some implication $P_1$ that follows from $P$. Then, having gotten to $P_1$, we find some implication $P_2$ that follows from $P_2$. We do this until we arrive at some $P_n$, for which if $P_n$ is true, it follows that $Q$ is true. 
+
+This is perhaps more clear with a direct example. Consider again the statement "If $n$ is an odd integer, then $n^2$ is odd," which I shall prove with a direct proof.
+
+\mycolor
+
+**Conjecture**: If $n$ is an odd integer, then $n^2$ is odd.
+
+**Proof**: Since $n$ is odd (given by the premise), by the definition of odd integers there must exist some integer $k$ such that $n=2k+1$. If $n=2k+1$, then $n^2 = (2k+1)^2$. Then:
+
+\begin{align*}
+n^2 &= (2k+1)^2 \tag{from above} \\
+&= 4k^2 + 4k + 1 \tag{$(a+b)^2 = a^2 + 2ab + b^2$} \\
+&= 2(2k^2 + 2k) + 1 \tag{arithmetic}
+\end{align*}
+
+In our last step, we found a way to re-express $n^2$ in the form $2 \times (\text{some integer}) + 1$, which is the definition of odd integers. Therefore, for an odd integer $n$, $n^2$ is odd. 
+
+\normalcolor
+
+### For a true conclusion: Proofs by contrapositive
+While statements of the form "If $P$, then $Q$" can usually be solved by direct proof, sometimes we need to rely on other approaches. One fact we can exploit is the fact that "If $P$, then $Q$" is logically equivalent to the statement "If not $Q$, then not $P$,"[^6] which we call the *contrapositive*. So, sometimes, rather than doing a direct proof of "If $P$, then $Q$" we can rely on a proof instead of "If not $Q$, then not $P$." This is called **proof by contraposition.**
+
+To follow the intuition here, consider a statement "If I am at the Big Thief concert, then I bought a ticket;" hopefully you can see that this is a statement with the form "If $P$, then $Q$" where $P$ is "I am at the Big Thief concert" and $Q$ is "I bought a ticket (for that concert)." Our original statement is logically equivalent to the *contrapositive* statement "If I did not buy a ticket, I am not at the Big Thief concert." So, of course, if we can prove the statement "If I did not buy a ticket, I am not at the Big Thief concert" is true, we will have necessarily also proved the statement "If I am at the Big Thief concert, then I bought a ticket."
+
+Again, I use an example to help illustrate proof by contrapositive in action. We take a related statement to our first example: "Let $x$ be an integer. Prove that $x^2$ is an odd number if and only if $x$ is an odd number." As a note, the "if and only if" in this statement requires us to prove both directions of the implication. In other words, we must first prove that if $x$ is odd, then $x^2$ is odd. Second, we must prove that if $x^2$ is odd, then $x$ is odd. We have already proven the first statement above; for the second statement, we use proof by contrapositive.
+
+\mycolor
+**Conjecture**: Let $x$ be an integer. Then $x^2$ is odd if and only if $x$ is odd.
+
+**Proof**: The contrapositive of "if $x^2$ is odd, then $x$ is odd" is "if $x$ is even, then $x^2$ is even." It suffices to prove this contrapositive.
+
+Suppose $x$ is even. By the definition of even integers, there exists some integer $k$ such that $x = 2k$. Then:
+
+\begin{align*}
+x^2 &= (2k)^2 \tag{substitution} \\
+&= 4k^2 \tag{$(ax)^2 = a^2 x^2$} \\
+&= 2(2k^2) \tag{arithmetic}
+\end{align*}
+
+Since $k$ is an integer, $2k^2$ is also an integer. Thus $x^2$ is in the form $2 \times (\text{some integer})$, which is the definition of even integers. Therefore, if $x$ is even, then $x^2$ is even, completing the proof by contrapositive.
+
+\normalcolor
+
+This is somewhat of an awkward process, and thinking ahead I don't believe there's any point where you will be required to do proof by contraposition in this course.[^7] But, of course, it exists and others might like it, so in the spirit of keeping this a thorough discussion of proof strategies I included it anyways.
+
+### For a true conclusion: Proof by contradiction
+Instead, in what is technically a particular type of proof by contrapositive, we can start with an assumption that the original statement is *not* true. If an example exists such that it is impossible that the original statement could be *not* true, then logically we must conclude that the original statement *is* true.
+
+Essentially, what this requires you to do is take the premise(s) in the statement, and assume that all premises are true but the conclusion itself is false. From there, use definitions and mathematics to work your way to the contradicting statement.
+
+Of course, I want to give you an example of proof by contradiction in action. Consider the statement "If $n$ is an even perfect square with both $m$ and $n$ integers and $n = m^2$, then $m$ is even."
+
+\mycolor
+
+**Conjecture**: If $n$ is an even perfect square with both $m$ and $n$ integers and $n = m^2$, then $m$ is even.
+
+**Proof**: Suppose $n$ is even (given by the premise). We proceed by contradiction. Assume for the sake of contradiction that $m$ is not even, meaning $m$ is odd. By the definition of odd integers, there exists some integer $k$ such that $m = 2k + 1$. Then:
+
+\begin{align*}
+n &= m^2 \tag{given} \\
+&= (2k+1)^2 \tag{substitution} \\
+&= 4k^2 + 4k + 1 \tag{$(a+b)^2 = a^2 + 2ab + b^2$} \\
+&= 2(2k^2 + 2k) + 1 \tag{arithmetic}
+\end{align*}
+
+Since $k$ is an integer, $2k^2 + 2k$ is also an integer. Thus $n$ is in the form $2 \times (\text{some integer}) + 1$, which is the definition of odd integers. This means $n$ is odd.
+
+However, this contradicts our premise that $n$ is even. Therefore, our assumption that $m$ is odd must be false, and we conclude that $m$ is even.
+\normalcolor
+
+### For a true conclusion: Proof by induction
+Another powerful technique is **proof by induction**, which is particularly useful for proving statements about natural numbers or sequences. The basic idea is like climbing a ladder: if you can get on the first rung, and you can prove that being on any rung lets you reach the next rung, then you can climb the entire ladder.
+
+More formally, to prove a statement $P(n)$ is true for all natural numbers $n \geq n_0$, we follow these steps:
+
+1. **Base case**: Starting with the "base case," prove that $P(n_0)$ is true (usually $n_0 = 0$ or $n_0 = 1$).
+2. **Inductive hypothesis**: Then, we take what is called the "inductive hypothesis," and assume that $P(k)$ is true for some arbitrary integer $k \geq n_0$.
+3. **Inductive step**: Using the assumption that $P(k)$ is true, prove that $P(k+1)$ is also true.
+
+If we can complete all three steps, we've proven the statement is true for all $n \geq n_0$.
+
+As before, I include an illustrative example. Consider the statement "For all positive integers $n$, the sum of the first $n$ positive integers equals $\frac{n(n+1)}{2}$." In other words, $1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$.
+
+\mycolor
+
+**Conjecture**: For all positive integers $n$, $\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$.
+
+**Proof**: We proceed by induction on $n$.
+
+**Base case** ($n=1$): When $n=1$, the left side is simply $1$. The right side is $\frac{1(1+1)}{2} = \frac{2}{2} = 1$. Since both sides equal $1$, we can conclude that the base case is true, and move on.
+
+**Inductive hypothesis**: Assume that for some arbitrary positive integer $k$, the statement holds. That is, assume:
+$$\sum_{i=1}^{k} i = \frac{k(k+1)}{2}$$
+
+**Inductive step**: We must show that the statement holds for $k+1$. That is, we need to prove:
+$$\sum_{i=1}^{k+1} i = \frac{(k+1)(k+2)}{2}$$
+
+Starting with the left side:
+\begin{align*}
+\sum_{i=1}^{k+1} i &= \left(\sum_{i=1}^{k} i\right) + (k+1) \tag{separating the last term} \\
+&= \frac{k(k+1)}{2} + (k+1) \tag{by inductive hypothesis} \\
+&= \frac{k(k+1)}{2} + \frac{2(k+1)}{2} \tag{common denominator} \\
+&= \frac{k(k+1) + 2(k+1)}{2} \tag{arithmetic} \\
+&= \frac{(k+1)(k+2)}{2} \tag{factoring}
+\end{align*}
+
+This is exactly what we wanted to show. Therefore, by the principle of mathematical induction, the statement holds for all positive integers $n$.
+
+\normalcolor
+
+### For a *false* conclusion: Proof by counterexample
+
+If you are trying to prove your conclusion is *false,* we rely on **proof by counterexample.** Similar to proof by contradiction, all you need to do is find a single counterexample for which the statement is false! This is best done with a simple counterexample. Do **not** try to construct a general argument that states the statement is universally false. To restate the intuition, if we do not believe that $Q$ is false, it *must* be true.
+
+## Step 5: Profit
+
+Using these strategies, you should be well on your way to proofing successfully. I'll leave you with a number of miscellaneous tips and rules of thumb.
+
+- First, to emphasize, there are many correct ways to get to the same end result. This is both why proofs are interesting, and also why they are hard.
+
+- Second, we (those outside of STEM, anyways) often think of math as distinct from writing. But you should treat your proofs as written content, or essays. What does that mean exactly? Recall that when we are writing proofs, our ultimate goal is to construct and elucidate a valid line of reasoning. Thus, your proofs should start with a word (or even a sentence!), and as a rule of thumb make sense when read aloud. This is why we practiced examples in our first section; now, you get to put it into practice. Proofs should be easy to read in a literal sense: use line breaks generously.
+
+- Writing on scratch paper before typesetting in LaTeX will help you try multiple approaches when needed. I generally recommend starting on physical paper.
+
+- If you don't know where to start, try writing out the assumption(s), any additional implications of these assumptions, and the definitions of the term(s) in the assumption(s) and conclusion. What more can you conclude from what's given? What do you need to be true in order for the conclusion to hold?
+
+- Sometimes, if you get stuck, try seeing what can be done to work backwards from the conclusion. While the proof will ultimately be read linearly from start to finish, nothing says you have to work that way! 
+
+- One tip from our friends in the math department is to inject a little art into your mathematics. Specifically, they suggest drawing a table somewhere on your scrap paper. I don't mean something filled regressions - a literal, four-legged piece of furniture.[^9] Any time you add a new object to your proof, give it a one-letter name (remember, mathematicians love that) and draw it on the table. This is useful because it: a. forces you to define your objects, b. gives them names, and c. places your set of objects visually in front of you in an organized place, where you can think about how they relate to one another.
+
+- To [paraphrase Don Draper](https://youtu.be/su56rdSvQBU?si=qp0sUScldfzuyqyi&t=71), if you don't like what you're looking at, change what you're looking at. Substituting in definitions, dividing or multiplying by $1$, adding $0$ can all help you get traction on your proof.
+
+- It's usually better for the purposes of reaching a solution to over-write than under-write: write your thoughts, confusion, basic definitions, parallel examples, and the like. Just be sure your final draft is compact and neat.
+
+- Avoid phrases like “clearly,” “obviously,” or “as you can see.” These phrases often indicate that you have skipped a step that is necessary for your reader, or that you've failed to justify a link or statement.
+
+- Stylistically, mathematical proofs avoid the singular first-person pronoun (there is no 'I' in math) in favor of the first-person plural. Do your best Queen Victoria: "*We* see that..., *We can conclude..." etc.
+
+- Again, every variable, letter, or piece of notation must be explicitly defined. This is useful for analytical traction, and necessary for your reader.
+
+- Finally, signpost the ending. Make sure you reach the correct conclusion, and state that you have reached the conclusion explicitly: "Thus, we find..., We therefore prove that..." etc.
+
+
+# Summary
+
+In this class, for a number of different questions, you will be asked to show that some things are true or some properties hold. You can consider these questions to all follow a similar structure: you have some starting point. You want to use math to reach the end point. This requires some manipulation, for which this document should prove useful.
+
+At the end of the day, unfortunately there's only so much I can do over writing to help you with this particular skill. Practice (both in section, with your groups, and on your own) will be the most prudent teacher. Patience is a virtue in many areas, and this is no different: sadly, proofs are difficult[^9] and it will take repeated exposure before you feel comfortable doing them. Be clear, be concise, proofread, and now... proofwrite.
+
+# References
+
+While this is an original document, I read several pieces of proof advice to prepare this document. If you're in search of additional reading, I also recommend these pieces as primary sources. In alphabetical surname order, I drew on materials from [Greg Baker](https://www.cs.sfu.ca/~ggbaker/zju/math/proof.html), [Brooke Ellery](https://people.math.harvard.edu/~bullery/math101/3_%20Proof%20strategies.pdf), 
+[Katharine Ott](https://drive.google.com/file/d/1yh3nIm9_oSY8KKl2gktmZT22EHIWikiQ/view), [Phillip Milner](https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf), and [Keith Schwarz](https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/handouts/070%20Guide%20to%20Proofs.pdf). I also borrowed two tips from a document written by David LaRoche and Jackie Jones, provided to me by Jack Maedgen. I am thankful to these authors for their public materials.
+
+
+[^1]: If you've managed to avoid learning about proofs to this point, I'll note very quickly that a **mathematical proof** is a specific kind of deductive argument structured to derive some arbitrary mathematical statement, in which the analyst uses the premises and mathematics to show that the conclusion is logically guaranteed by the premises.
+[^2]: Though, of course, we must avoid leaning on traits as a formal definition lest we fall into [Diogenes' trap](https://sites.psu.edu/sierraastle/2019/10/21/behold-a-man/).
+[^3]: Review the Week One exercises and handout if you are having problems on this point.
+[^4]: In the [metaphorical Ariadnian](https://en.wikipedia.org/wiki/Ariadne#Minos_and_Theseus) sense, though not [the formal one](https://en.wikipedia.org/wiki/Ariadne%27s_thread_(logic)). 
+[^5]: I'm pretty sure this is not an acceptable verb form to describe this process, and instead exclusively refers to the baking technique. But we have to have fun sometimes.
+[^6]: But, importantly, this is not equivalent to the statement "If not $P$, then not $Q$."
+[^7]: As a disclaimer, I have not gone ahead in the course materials, so I could be wrong. Please don't sue me!
+[^8]: It doesn't have to be a table. For this technique any structure to hold a number of items will work: a basket, a bag, a box, whatever fits your visual style.
+[^9]: At least, to me, though I think many (if not all) people would agree!
