@@ -134,23 +134,23 @@ n &= m^2 \tag{given} \\
 &= 2(2k^2 + 2k) + 1 \tag{arithmetic}
 \end{align*}
 
-Since $k$ is an integer, $2k^2 + 2k$ is also an integer. Thus $n$ is in the form $2 \times (\text{some integer}) + 1$, which is the definition of odd integers. This means $n$ is odd.
+Since $k$ is an integer, $2k^2 + 2k$ is also an integer. Thus we can note that $n$ is an object of the form $2 \times (\text{some integer}) + 1$, which is just the definition of odd integers. This means $n$ is odd.
 
-However, this contradicts our premise that $n$ is even. Therefore, our assumption that $m$ is odd must be false, and we conclude that $m$ is even.
+However, this conclusion contradicts our original premise, that $n$ is even. Therefore, our original assumption that $m$ is odd must be false, and we can conclude from this proof that $m$ is even.
 \normalcolor
 
 ### For a true conclusion: Proof by induction
-Another powerful technique is **proof by induction**, which is particularly useful for proving statements about natural numbers or sequences. The basic idea is like climbing a ladder: if you can get on the first rung, and you can prove that being on any rung lets you reach the next rung, then you can climb the entire ladder.
+Another strategy, one that is generally considered to be quite powerful, is **proof by induction.** It is often compared to climbing a ladder or [falling dominoes](https://en.wikipedia.org/wiki/Mathematical_induction)[^8]. The idea is that we can think of many proofs as a series of repetitive and iterative steps. When climbing a ladder, you must start on the first "rung," and advance across rungs with a repetitive climbing motion. If you can prove that being on any rung of the ladder also means that you can advance to the next rung, then logically it follows that you can climb the entire ladder. 
 
-More formally, to prove a statement $P(n)$ is true for all natural numbers $n \geq n_0$, we follow these steps:
+Of course, metaphor can only get us so far as explanation. So as before we'll cover the general set of steps you'll need to follow to do proof by induction, and then cover an applied case. In general, to prove some statement $P(n)$ is true for all natural numbers $n \geq n_0$, proof by induction will follow these three steps:
 
-1. **Base case**: Starting with the "base case," prove that $P(n_0)$ is true (usually $n_0 = 0$ or $n_0 = 1$).
-2. **Inductive hypothesis**: Then, we take what is called the "inductive hypothesis," and assume that $P(k)$ is true for some arbitrary integer $k \geq n_0$.
-3. **Inductive step**: Using the assumption that $P(k)$ is true, prove that $P(k+1)$ is also true.
+1. **Base case**: You have start with the "base case," which we can imagine as usually the lower bound. For that base case, usually $n_0 = 0$ or $n_0 = 1$, first prove that $P(n_0)$ is true. In metaphor, this is like saying that I can reach the second rung from the first rung on a ladder.
+2. **Inductive hypothesis**: We assume that $P(k)$ is true for some arbitrary integer $k \geq n_0$, which is called our "inductive hypothesis." In metaphor, this is equivalent to imagining that we are starting from a random rung on an infinitely-long ladder.
+3. **Inductive step**: Finally, using our inductive hypothesis (the assumption that $P(k)$ is true), we must prove that $P(k+1)$ is also true. In metaphor, this is like proving that, given I'm on some random rung of a ladder, extending my hand and pushing off my leg will successfully bring me to the next rung of the ladder.
 
-If we can complete all three steps, we've proven the statement is true for all $n \geq n_0$.
+If you can successfully complete all three steps, then you've managed to prove that your statement is true, and furthermore that it will hold for all $n \geq n_0$.
 
-As before, I include an illustrative example. Consider the statement "For all positive integers $n$, the sum of the first $n$ positive integers equals $\frac{n(n+1)}{2}$." In other words, $1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$.
+To make this more clear, I include an illustrative example. Consider the statement "For all positive integers $n$, the sum of the first $n$ positive integers equals $\frac{n(n+1)}{2}$." In other words, $1 + 2 + 3 + \cdots + n = \frac{n(n+1)}{2}$.
 
 \mycolor
 
@@ -160,10 +160,10 @@ As before, I include an illustrative example. Consider the statement "For all po
 
 **Base case** ($n=1$): When $n=1$, the left side is simply $1$. The right side is $\frac{1(1+1)}{2} = \frac{2}{2} = 1$. Since both sides equal $1$, we can conclude that the base case is true, and move on.
 
-**Inductive hypothesis**: Assume that for some arbitrary positive integer $k$, the statement holds. That is, assume:
+**Inductive hypothesis**: Remember that this step requires us to assume that the original statement will hold for some arbitrary integer. In this case, we can phrase this as being true for some $n=k$, recalling that our original statement is $\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$:
 $$\sum_{i=1}^{k} i = \frac{k(k+1)}{2}$$
 
-**Inductive step**: We must show that the statement holds for $k+1$. That is, we need to prove:
+**Inductive step**: Now, we need to prove that if the statement holds for $n=k$, it also holds for $n=k+1$. In other words, we need to prove:
 $$\sum_{i=1}^{k+1} i = \frac{(k+1)(k+2)}{2}$$
 
 Starting with the left side:
@@ -175,7 +175,7 @@ Starting with the left side:
 &= \frac{(k+1)(k+2)}{2} \tag{factoring}
 \end{align*}
 
-This is exactly what we wanted to show. Therefore, by the principle of mathematical induction, the statement holds for all positive integers $n$.
+We end by proving that the statement is true for our arbitrary $k$ and $k+1$. So, thanks to mathematical induction, we can imagine that for any positive integer this will hold for the following positive integer, and we have therefore proved the statement holds for all positive integers $n$.
 
 \normalcolor
 
@@ -216,12 +216,12 @@ Using these strategies, you should be well on your way to proofing successfully.
 
 In this class, for a number of different questions, you will be asked to show that some things are true or some properties hold. You can consider these questions to all follow a similar structure: you have some starting point. You want to use math to reach the end point. This requires some manipulation, for which this document should prove useful.
 
-At the end of the day, unfortunately there's only so much I can do over writing to help you with this particular skill. Practice (both in section, with your groups, and on your own) will be the most prudent teacher. Patience is a virtue in many areas, and this is no different: sadly, proofs are difficult[^9] and it will take repeated exposure before you feel comfortable doing them. Be clear, be concise, proofread, and now... proofwrite.
+At the end of the day, unfortunately there's only so much I can do over writing to help you with this particular skill. Practice (both in section, with your groups, and on your own) will be the most prudent teacher. Patience is a virtue in many areas, and this is no different: sadly, proofs are difficult[^10] and it will take repeated exposure before you feel comfortable doing them. Be clear, be concise, proofread, and now... proofwrite.
 
 # References
 
-While this is an original document, I read several pieces of proof advice to prepare this document. If you're in search of additional reading, I also recommend these pieces as primary sources. In alphabetical surname order, I drew on materials from [Greg Baker](https://www.cs.sfu.ca/~ggbaker/zju/math/proof.html), [Brooke Ellery](https://people.math.harvard.edu/~bullery/math101/3_%20Proof%20strategies.pdf), 
-[Katharine Ott](https://drive.google.com/file/d/1yh3nIm9_oSY8KKl2gktmZT22EHIWikiQ/view), [Phillip Milner](https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf), and [Keith Schwarz](https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/handouts/070%20Guide%20to%20Proofs.pdf). I also borrowed two tips from a document written by David LaRoche and Jackie Jones, provided to me by Jack Maedgen. I am thankful to these authors for their public materials.
+While this is an original document, I read several pieces of proof advice to prepare it. If you're in search of additional reading, I also recommend these pieces as primary sources. In alphabetical surname order, I drew on materials from [Greg Baker](https://www.cs.sfu.ca/~ggbaker/zju/math/proof.html), [Brooke Ellery](https://people.math.harvard.edu/~bullery/math101/3_%20Proof%20strategies.pdf), 
+[Phillip Milner](https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf), [Katharine Ott](https://drive.google.com/file/d/1yh3nIm9_oSY8KKl2gktmZT22EHIWikiQ/view), and [Keith Schwarz](https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/handouts/070%20Guide%20to%20Proofs.pdf). I also borrowed two tips from a document written by David LaRoche and Jackie Jones, provided to me by Jack Maedgen. I am thankful to these authors for their public materials.
 
 
 [^1]: If you've managed to avoid learning about proofs to this point, I'll note very quickly that a **mathematical proof** is a specific kind of deductive argument structured to derive some arbitrary mathematical statement, in which the analyst uses the premises and mathematics to show that the conclusion is logically guaranteed by the premises.
@@ -231,5 +231,6 @@ While this is an original document, I read several pieces of proof advice to pre
 [^5]: I'm pretty sure this is not an acceptable verb form to describe this process, and instead exclusively refers to the baking technique. But we have to have fun sometimes.
 [^6]: But, importantly, this is not equivalent to the statement "If not $P$, then not $Q$."
 [^7]: As a disclaimer, I have not gone ahead in the course materials, so I could be wrong. Please don't sue me!
-[^8]: It doesn't have to be a table. For this technique any structure to hold a number of items will work: a basket, a bag, a box, whatever fits your visual style.
-[^9]: At least, to me, though I think many (if not all) people would agree!
+[^8]: Both metaphors are used on the [Wikipedia page](https://en.wikipedia.org/wiki/Mathematical_induction).
+[^9]: It doesn't have to be a table. For this technique any structure to hold a number of items will work: a basket, a bag, a box, whatever fits your visual style.
+[^10]: At least, to me, though I think many (if not all) people would agree!

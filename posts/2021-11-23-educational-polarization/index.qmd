@@ -11,7 +11,7 @@ categories:
   - R
   - CES
   - educational polarization
-  - racial polariation
+  - racial polarization
   - college education
 subtitle: "Educational polarization may not be limited to white voters."
 description: 'Using Cooperative Election Study estimates to investigate educational polarization within racial groups.'

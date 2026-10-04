@@ -20,12 +20,36 @@
   
 - title: "For Grace, After A Wedding"
   after: "after Frank O'Hara"
-  type: "Forthcoming"
+  type: "Published"
   author:
     - Zachary Lorico Hertz
   date: 2025-12-01
   journal: "Yearling"
-  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  note: 'This journal is print-only.'
+
+- title: "Maps"
+  type: "Published"
+  author:
+    - Zachary Lorico Hertz
+  date: 2026-04-29
+  journal: "Pink Electric"
+  link: "https://www.electric-pink.org/poetry/maps"
+  
+- title: "Loneliness is a warm gun"
+  type: "Published"
+  author:
+    - Zachary Lorico Hertz
+  date: 2026-05-28
+  journal: "Some Words"
+  link: "https://somewords.boards.net/thread/146/zachary-lorico-hertz"
+  
+- title: "I. (Marrakech)"
+  type: "Published"
+  author:
+    - Zachary Lorico Hertz
+  date: 2026-08-15
+  journal: "Plague Circus Press"
+  link: "https://plaguecircuspress.com/i-marrakech-by-zachary-lorico-hertz"
 
 
 # - title: "Test Paper: Demonstrating All Available Button Types and Features"

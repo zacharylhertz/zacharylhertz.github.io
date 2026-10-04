@@ -28,6 +28,8 @@ about:
 
 Welcome to my website! 
 
-I am a researcher, political consultant, and data journalist driven by an interest in communities. <br> In my research, I use geocoded observational data and original survey data to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**. <br> I love my friends, talking about political problems, and being outside. Sometimes all at once!
+**I am currently studying local policymaking in city councils. If you are here because you received an email from me, please consider participating in my survey or email me if you have any questions!**
+
+I am a researcher, political consultant, and data journalist driven by an interest in communities. <br> In my research, I use geocoded observational data and original survey data to understand questions at the intersection of **political behavior, identity politics, local politics, and American political institutions**. <br> I love my friends, talking about political problems, and being outside. Sometimes all at once.
 
 Learn more [about me here](https://zacharylhertz.github.io/about/), check out [my research](https://zacharylhertz.github.io/research/), or [say hi](mailto:zachary_hertz@berkeley.edu?subject=Hi!)!

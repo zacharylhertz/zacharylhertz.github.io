@@ -63,9 +63,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-after','listing-type','listing-author','listing-date','listing-journal',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
+      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
       
-      searchColumns: ["listing-title","listing-after","listing-type","listing-author","listing-date","listing-journal"],
+      searchColumns: [],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -91,9 +91,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-type','listing-author','listing-date','listing-journal','listing-link',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
+      valueNames: ['listing-title','listing-type','listing-author','listing-date','listing-journal','listing-link','listing-after','listing-note',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
       
-      searchColumns: ["listing-title","listing-type","listing-author","listing-date","listing-journal","listing-link"],
+      searchColumns: ["listing-title","listing-type","listing-author","listing-date","listing-journal","listing-link","listing-after","listing-note"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -244,7 +244,91 @@ window.Quarto = {
 
 <ul class="list">
   
-    <li data-index="0" data-listing-date-sort="1761980400000">
+    <li data-index="0" data-listing-date-sort="1786766400000">
+      I. (Marrakech)
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Plague Circus Press</em>. August 2026.
+        
+      </small>
+      
+      
+        <br>
+        <a role="button" href="https://plaguecircuspress.com/i-marrakech-by-zachary-lorico-hertz" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-feather"></i> Read it here.
+        </a>
+      
+      
+      
+      <hr>
+    </li>
+  
+    <li data-index="1" data-listing-date-sort="1779940800000">
+      Loneliness is a warm gun
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Some Words</em>. May 2026.
+        
+      </small>
+      
+      
+        <br>
+        <a role="button" href="https://somewords.boards.net/thread/146/zachary-lorico-hertz" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-feather"></i> Read it here.
+        </a>
+      
+      
+      
+      <hr>
+    </li>
+  
+    <li data-index="2" data-listing-date-sort="1777435200000">
+      Maps
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Pink Electric</em>. April 2026.
+        
+      </small>
+      
+      
+        <br>
+        <a role="button" href="https://www.electric-pink.org/poetry/maps" type="button" class="btn btn-outline-secondary btn-xs">
+          <i class="bi bi-feather"></i> Read it here.
+        </a>
+      
+      
+      
+      <hr>
+    </li>
+  
+    <li data-index="3" data-listing-date-sort="1764565200000">
+      For Grace, After A Wedding
+      <br>
+      <small class="text-muted">
+        
+        
+          <em>Yearling</em>. December 2025. <em>(after Frank O'Hara)</em>.
+        
+      </small>
+      
+      
+      
+      
+        <br>
+        <small class="text-secondary">
+          <span class="note">This journal is print-only.</span>
+        </small>
+      
+      <hr>
+    </li>
+  
+    <li data-index="4" data-listing-date-sort="1761969600000">
       nine thousand nine hundred ninety nine days
       <br>
       <small class="text-muted">
@@ -265,7 +349,7 @@ window.Quarto = {
       <hr>
     </li>
   
-    <li data-index="1" data-listing-date-sort="1753081200000">
+    <li data-index="5" data-listing-date-sort="1753070400000">
       In my hometown
       <br>
       <small class="text-muted">
@@ -289,8 +373,12 @@ window.Quarto = {
 </ul>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
+<!-- Hides the Forthcoming heading and listing when no poems in poems.yaml have type "Forthcoming". -->
+<style>
+  .forthcoming-section:not(:has(.list li)) { display: none; }
+</style>
 </section>
-<section id="forthcoming" class="level2">
+<section id="forthcoming" class="level2 forthcoming-section">
 <h2 data-anchor-id="forthcoming">Forthcoming</h2>
 <div id="listing-unpublished-poems" class="quarto-listing quarto-listing-container-custom">
 <style>
@@ -302,29 +390,13 @@ window.Quarto = {
 
 <ul class="list">
   
-    <li data-index="0" data-listing-date-sort="1764576000000">
-      For Grace, After A Wedding
-      <br>
-      <small class="text-muted">
-        
-        
-          <em>Yearling</em>. Expected December 2025. <em>(after Frank O'Hara)</em>.
-        
-      </small>
-      
-      
-      
-      
-      <hr>
-    </li>
-  
 </ul>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
-
-
-
 </section>
+
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

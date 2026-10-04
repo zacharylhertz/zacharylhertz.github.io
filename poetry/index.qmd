@@ -35,8 +35,15 @@ I also write poetry. Some of them have even been published! You can browse those
 ::: {#published-poems}
 :::
 
+<!-- Hides the Forthcoming heading and listing when no poems in poems.yaml have type "Forthcoming". -->
+<style>
+  .forthcoming-section:not(:has(.list li)) { display: none; }
+</style>
+
+:::: {.forthcoming-section}
 ## Forthcoming
 
 ::: {#unpublished-poems}
 :::
+::::
 

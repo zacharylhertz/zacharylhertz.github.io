@@ -8,7 +8,7 @@ categories:
   - R
   - CES
   - educational polarization
-  - racial polariation
+  - racial polarization
   - college education
 subtitle: "Tracking Democratic de-identification and vote attrition across racial groups."
 description: 'Using Cooperative Election Study estimates to investigate educational polarization within racial groups, I find more evidence to show educational polarization is a universal phenomenon, and add to the warning signs for Democrats ahead of 2026.'
