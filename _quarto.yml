@@ -20,8 +20,6 @@ website:
         text: Teaching
       - href: posts/
         text: Blog
-      - href: lyrics/
-        text: Projects
       - href: poetry/
         text: Poetry
       - href: cv/

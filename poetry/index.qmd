@@ -26,6 +26,8 @@ page-layout: full
 footnotes-hover: false
 format:
   html:
+    include-in-header: 
+      text: '<meta name="format-detection" content="address=no, telephone=no, date=no">'
     anchor-sections: false
     css:
       - poems.css

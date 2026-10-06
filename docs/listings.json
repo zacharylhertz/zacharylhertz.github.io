@@ -1,5 +1,9 @@
 [
   {
+    "listing": "/research/index.html",
+    "items": []
+  },
+  {
     "listing": "/posts/index.html",
     "items": [
       "/posts/2026-01-29-putting-in-the-proofs/index.html",
@@ -15,10 +19,6 @@
       "/posts/2021-06-29-survey-package/index.html",
       "/posts/2021-06-22-dfp-lucid/index.html"
     ]
-  },
-  {
-    "listing": "/research/index.html",
-    "items": []
   },
   {
     "listing": "/poetry/index.html",

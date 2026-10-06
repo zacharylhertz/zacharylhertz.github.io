@@ -1,5 +1,18 @@
 
 
+- title: "PS W164A: Political Psychology and Involvement"
+  type: "Berkeley"
+  year: 2026
+  semester: "Summer"
+  status: "Graduate student instructor for David Broockman"
+  syllabus: "../files/ps164b_syllabus_s26.pdf"
+  # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
+  description: "What can psychology tell us about why believe what they believe about current events, vote the way they do, or even perpetrate atrocities? This class explores the sources of public opinion and political behavior through the application of psychological theories about personality, cognition, social influence, and identity. The course focuses on both underlying psychological theories and concepts and their political implications. This class will largely focus on applications in United States politics and society, but I will include examples from other countries as well."
+  categories: 
+    - Political psychology
+    - Political behavior
+    - Social identity
+
 - title: "PS232-A: Formal Models in Political Science I"
   type: "Berkeley"
   year: 2026

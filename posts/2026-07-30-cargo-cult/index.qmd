@@ -1,0 +1,56 @@
+---
+title: "Against Cargo Cult (Social) Science"
+author: Zachary Lorico Hertz
+date: '2026-07-30'
+draft: true
+image: images/ideology-placement-race.png
+categories:
+  - electoral analysis
+  - R
+  - CES
+  - partisan polarization
+  - racial polarization
+  - college education
+subtitle: "Tracking ideological self-identification and partisan perceptions, across racial groups."
+description: 'Using Cooperative Election Study estimates to investigate ideological self-identification and perceptions of the Democratic and Republican parties within the mass public and within racial groups, I find little evidence that perception of the parties are shifting but some evidence of shifts in self-identification.'
+code-annotations: below
+footnotes-hover: false
+reference-location: margin
+toc: false
+df-print: paged
+citation: true
+# format:
+#   pdf:
+#     toc: true
+#     number-sections: true
+#     colorlinks: true
+---
+
+[^1]: Best known for other work.
+[^2]: By Feynman's own confession! The speech ends with Feynman doling out "one last bit of advice: Never say that you’ll give a talk unless you know clearly what you’re going to talk about and more or less what you’re going to say."
+[^3]: Here, I merely mean the sort of non-nulls that Feynman describes, not necessarily an additive magnitude.
+
+Recently, I revisited "Cargo Cult Science," a graduation speech by Richard Feynman.[^1] The speech, delivered as Caltech's 1974 commencement address, is meant to be advice to graduates on the delineation between good science, bad science, and pseudoscience. While there is some solid advice to be found, it's buried inside a speech that is meandering,[^2] encased in the language of its time, and seemingly-allergic to prescription. So, I thought I might benefit from talking through the speech and its implications on the page. Perhaps you, my abstract reader may even benefit too! 
+
+![Jack Quaid as a young Richard Feynman in Christopher Nolan's film Oppenheimer (2023).](images/feynman.jpg){.lightbox group="feynman-gallery"}
+
+# [Yeah, science!](https://www.youtube.com/watch?v=saYqNH0OjbY)
+
+Feynman starts with some bohemian anecdotes about his experiences with the contemporary mystics of the 1970s, most notably [Uri Geller](https://en.wikipedia.org/wiki/Uri_Geller), in a rather deadpan delivery that I'm sure delivered better from the graduation stage. His point is that magicians, mystics, and witch doctors all present a pseudo-science of beliefs about the way the world works. To the sneering academic, it seems laughably obvious that these paranormal phenomenon are not rooted in reality on the basis that their interventions do not lead to results. And yet, when considering the many things that people believe, we could think of phenomena rooted in seemingly-scientific methods (education, criminal justice) that also have inconclusively beneficial results. 
+
+Certainly, we treat the latter as scientific and devote a great deal of academic attention to them. This is in spite of a great deal of uncertainty as to whether we have been able to induce positive effects[^3] in the world. Furthermore, people either choose to or are forced to abide by scientific best practice. This is true even for findings driven by social scientists: recall [the COVID-19 responses](https://www.rsfjournal.org/content/8/8/1), the [endless deluge of campaigns](https://x.com/zacharylhertz/status/1853609064858874089?s=20) mindlessly re-applying [Gerber, Green and Larimer (2008)](https://www-cambridge-org.libproxy.berkeley.edu/core/journals/american-political-science-review/article/social-pressure-and-voter-turnout-evidence-from-a-largescale-field-experiment/11E84AF4C0B7FBD1D20C855972C2C3EB?utm_campaign=shareaholic&utm_medium=copy_link&utm_source=bookmark), or the oft-repeated finding from [Kahneman and Deaton (2010)](https://pubmed.ncbi.nlm.nih.gov/20823223/) that happiness plateaus above $75,000 a year.
+
+Feynman says taking this at face value leads us to a rather provocative conclusion. If we're listening to these findings, even ones that appear to have no effects, perhaps "we really ought to look into theories that don’t work, and science that isn’t science." This is where the idea of "cargo cult science" comes in. 
+
+# What the hell is a cargo cult?
+
+This metaphor draws on an anthropological phenomenon described throughout the 1940s and 1950s, in which indigenous islanders in the South Pacific developed rituals (thus "cult") resembling Western transportation, meant to manifest the appearance of an abundance of food and goods (thus "cargo"). In the example Feynman describes, islanders construct a mock airstrip, complete with faux-runway controller, meant to guide airplanes to the island. 
+
+> They’re doing everything right.  The form is perfect.  It looks exactly the way it looked before.  But it doesn’t work.  No airplanes land.  So I call these things Cargo Cult Science, because they follow all the apparent precepts and forms of scientific investigation, but they’re missing something essential, because the planes don’t land.
+
+
+vast amounts of quant social science are “we’re just going to assign a number to this unquantifiable variable in order to treat it as data then pretend this is more rigorous than what humanities researchers do” and endless numbers of people go along with it
+
+
+
+> The first principle is that you must not fool yourself—and you are the easiest person to fool.  So you have to be very careful about that.  After you’ve not fooled yourself, it’s easy not to fool other scientists.  You just have to be honest in a conventional way after that.  
