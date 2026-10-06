@@ -1,0 +1,11 @@
+/* Serif display face for titles and year headings. */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap');
+
+.poem-year-heading,
+.poem-card-title,
+.forthcoming-section h2 {
+  font-family: "EB Garamond", Georgia, serif;
+}
+
+.poem-year-heading { font-weight: 700; font-size: 2rem; }
+.poem-card-title { font-size: 1.2rem; font-weight: 600; }

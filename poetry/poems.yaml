@@ -7,6 +7,8 @@
   date: 2025-07-21
   journal: "Eulogy Press"
   link: "https://eulogy.press/#in-my-hometown-hertz"
+  image: images/thumbs/hometown.jpg
+  pushcart: true
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
 
 - title: "nine thousand nine hundred ninety nine days"
@@ -16,6 +18,7 @@
   date: 2025-11-01
   journal: "LEON Literary Review"
   link: "https://leonliteraryreview.com/issue-33-zachary-lorico-hertz/"
+  image: images/thumbs/nnnnd.jpg
   # note: 'This is a test note that appears at the bottom. It can contain <a href="https://example.com">HTML links</a> and other formatting as needed.'
   
 - title: "For Grace, After A Wedding"
@@ -25,7 +28,9 @@
     - Zachary Lorico Hertz
   date: 2025-12-01
   journal: "Yearling"
-  note: 'This journal is print-only.'
+  print-only: true
+  image: images/thumbs/fgaaw.jpg
+  pushcart: true
 
 - title: "Maps"
   type: "Published"
@@ -34,6 +39,7 @@
   date: 2026-04-29
   journal: "Pink Electric"
   link: "https://www.electric-pink.org/poetry/maps"
+  image: images/thumbs/maps.jpg
   
 - title: "Loneliness is a warm gun"
   type: "Published"
@@ -42,6 +48,7 @@
   date: 2026-05-28
   journal: "Some Words"
   link: "https://somewords.boards.net/thread/146/zachary-lorico-hertz"
+  image: images/thumbs/loneliness.jpg
   
 - title: "I. (Marrakech)"
   type: "Published"
@@ -50,6 +57,7 @@
   date: 2026-08-15
   journal: "Plague Circus Press"
   link: "https://plaguecircuspress.com/i-marrakech-by-zachary-lorico-hertz"
+  image: images/thumbs/marrakech.jpg
 
 
 # - title: "Test Paper: Demonstrating All Available Button Types and Features"

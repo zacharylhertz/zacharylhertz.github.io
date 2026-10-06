@@ -1,0 +1,52 @@
+```{=html}
+<%
+  // Published poems as a photo grid, grouped by year (newest first).
+  // Fields used from poems.yaml: title, journal, date, image, link, print-only, pushcart.
+  const months = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"];
+  // Read ISO dates (2025-11-01) as calendar dates so they don't shift a month by time zone.
+  const parseDate = (d) => {
+    const m = String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return { year: +m[1], month: +m[2] - 1 };
+    const obj = new Date(d);
+    return { year: obj.getFullYear(), month: obj.getMonth() };
+  };
+  const sorted = [...items].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const years = [];
+  for (const item of sorted) {
+    const { year } = parseDate(item.date);
+    if (!years.length || years[years.length - 1].year !== year) years.push({ year, items: [] });
+    years[years.length - 1].items.push(item);
+  }
+%>
+<div class="list poem-years">
+<% for (const group of years) { %>
+  <section class="poem-year">
+    <h2 class="poem-year-heading"><%= group.year %></h2>
+    <div class="poem-grid">
+    <% for (const item of group.items) { %>
+      <%
+        const { month } = parseDate(item.date);
+        const printOnly = item['print-only'];
+        const detail = printOnly ? months[month] + ", print only" : months[month];
+      %>
+      <div class="poem-card" <%= metadataAttrs(item) %>>
+        <% if (item.link) { %><a class="poem-card-link" href="<%= item.link %>" target="_blank" rel="noopener"><% } %>
+          <div class="poem-card-image">
+            <% if (item.image) { %>
+              <img src="<%= item.image %>" alt="" loading="lazy">
+            <% } %>
+          </div>
+          <div class="poem-card-title"><%= item.title %></div>
+        <% if (item.link) { %></a><% } %>
+        <div class="poem-card-meta"><em><%= item.journal %></em> (<%= detail %>)</div>
+        <% if (item.pushcart) { %>
+          <div class="poem-card-award">Nominated for the Pushcart Prize</div>
+        <% } %>
+      </div>
+    <% } %>
+    </div>
+  </section>
+<% } %>
+</div>
+```

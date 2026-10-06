@@ -15,7 +15,8 @@ listing:
     include: 
       type: "Published"
     contents: poems.yaml
-    template: poems.ejs
+    template: poems-grid.ejs
+    date-format: "YYYY-MM-DD"
     # filter-ui: true
     sort: "date desc" 
     sort-ui: false
@@ -26,20 +27,17 @@ footnotes-hover: false
 format:
   html:
     anchor-sections: false
+    css:
+      - poems.css
+      - poems-serif.css
 ---
 
 I also write poetry. Some of them have even been published! You can browse those works here. 
 
-## Published
-
 ::: {#published-poems}
 :::
 
-<!-- Hides the Forthcoming heading and listing when no poems in poems.yaml have type "Forthcoming". -->
-<style>
-  .forthcoming-section:not(:has(.list li)) { display: none; }
-</style>
-
+<!-- Hidden by poems.css when no poems in poems.yaml have type "Forthcoming". -->
 :::: {.forthcoming-section}
 ## Forthcoming
 
