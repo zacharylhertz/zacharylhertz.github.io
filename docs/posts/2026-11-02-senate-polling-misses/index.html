@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zachary Lorico Hertz">
+<meta name="dcterms.date" content="2026-11-02">
+<meta name="description" content="Using final-weeks Senate polls from 1998 to 2024, I look at the direction of polling misses, whether polling misses are related to a state’s partisan lean, and how this varies across key 2026 states.">
+
+<title>Which Way Do Senate Polls Miss? – Zachary Lorico Hertz</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-800d58d8a656452b2cf839acf4fa445e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SWWDQ72BXF"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../assets/global_styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Zachary Lorico Hertz</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research/"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching/"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../poetry/"> 
+<span class="menu-text">Poetry</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/"> 
+<span class="menu-text">C.V.</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#first-a-quick-methods-note" id="toc-first-a-quick-methods-note" class="nav-link active" data-scroll-target="#first-a-quick-methods-note">First, a quick methods note</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-margin" id="toc-what-is-a-margin" class="nav-link" data-scroll-target="#what-is-a-margin">What is a margin?</a></li>
+  </ul></li>
+  <li><a href="#polls-historically-overstated-both-parties-but-recently-favor-democrats" id="toc-polls-historically-overstated-both-parties-but-recently-favor-democrats" class="nav-link" data-scroll-target="#polls-historically-overstated-both-parties-but-recently-favor-democrats">Polls historically overstated both parties, but recently favor Democrats</a></li>
+  <li><a href="#in-recent-midterms-polls-underestimate-state-partisanship" id="toc-in-recent-midterms-polls-underestimate-state-partisanship" class="nav-link" data-scroll-target="#in-recent-midterms-polls-underestimate-state-partisanship">In recent midterms, polls underestimate state partisanship</a></li>
+  <li><a href="#which-way-will-polls-miss-state-level-histories-offer-little-information" id="toc-which-way-will-polls-miss-state-level-histories-offer-little-information" class="nav-link" data-scroll-target="#which-way-will-polls-miss-state-level-histories-offer-little-information">Which way will polls miss? State-level histories offer little information</a></li>
+  <li><a href="#what-if-the-partisan-pattern-holds" id="toc-what-if-the-partisan-pattern-holds" class="nav-link" data-scroll-target="#what-if-the-partisan-pattern-holds">What if the partisan pattern holds?</a></li>
+  <li><a href="#how-to-read-the-final-polls" id="toc-how-to-read-the-final-polls" class="nav-link" data-scroll-target="#how-to-read-the-final-polls">How to read the final polls</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Which Way Do Senate Polls Miss?</h1>
+<p class="subtitle lead">Polling misses in Senate races tend to favor Democrats, a slightly pre-Trump phenomenon.</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">electoral analysis</div>
+    <div class="quarto-category">polling</div>
+    <div class="quarto-category">R</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Using final-weeks Senate polls from 1998 to 2024, I look at the direction of polling misses, whether polling misses are related to a state’s partisan lean, and how this varies across key 2026 states.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zachary Lorico Hertz </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 2, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Before publishing: add a replication link? -->
+<p>I’m going to start this off with a bold prediction: <strong>tomorrow, it will be apparent that the polls were off.</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> You don’t have to be a Nate to understand that what remains unclear — the question that’s keeping every Democratic hobbyist poll-watcher from Kalamazoo to Kissimmee<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> doomscrolling — are <em>“how much will the polls miss by”</em> and <em>“will they overestimate Democrats, or Republicans?”</em> While of course past performance is no guarantee of future results, we <em>can</em> fortunately at least set expectations to help you sleep a little easier tonight using historical polling error. In this post, I compare the average nonpartisan Senate polling in the last 21 days of the campaign with the actual results in 14 elections since 1998.</p>
+<section id="first-a-quick-methods-note" class="level1">
+<h1>First, a quick methods note</h1>
+<p>I grabbed polls from FiveThirtyEight’s public archive.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> The public <a href="https://github.com/fivethirtyeight/data/tree/master/pollster-ratings">polling file</a> only includes polls up until 2022, so I turned to <a href="https://web.archive.org/web/20241118073720/https://projects.fivethirtyeight.com/polls/data/senate_polls.csv">an Internet Archive copy</a> of FiveThirtyEight’s 2024 Senate polling data. I subset down to nonpartisan polls from the final 21 days of the race. That leaves 2,404 polls across 389 races. As my source for election results, I turn to the <a href="https://doi.org/10.7910/DVN/PEJ5QU">MIT Election Lab</a>.</p>
+<section id="what-is-a-margin" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-margin">What is a margin?</h2>
+<p>The margin between two candidates is often used as shorthand for the poll’s prediction about election results. I’ll leave the debate about whether this is <a href="https://www.patrickruffini.com/p/actually-you-should-look-at-margins">a good measure</a> or a <a href="https://x.com/RealCarlAllen/status/2115259481135141025?a=a7hkLhDQx12mN7fSn-M&amp;s=20">fundamentally flawed one</a> to the Patrick Ruffinis and Carl Allens of the world,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> but it is close to an “industry standard” that most journalists use, so I focus on margin here.</p>
+<p>To calculate margin, you take the difference between the gap between candidates’ polled vote share and the gap in their actual vote share. We’ll take as an example a poll that I conducted. The <a href="https://www.filesforprogress.org/datasets/2022/11/dfp_oh_final_midterm_tabs.pdf">final Data for Progress poll</a> of Ohio’s 2022 Senate race had J.D. Vance beating Tim Ryan 55 percent to 45 percent, a 10-point margin. Meanwhile, when votes were counted, Vance won 53 percent to 46.9 percent, a margin of about 6 points. So, the poll predicted R+10, the election result was R+6.1, and thus the poll missed by (10-6.1=) 3.9 points, a prediction about 4 points too favorable to Republicans.</p>
+<p><img src="images/fig0_margin_explainer.png" class="img-fluid"></p>
+<p>In this analysis, I calculate this for every poll, then take the average misses for each race and year. To close out this example, there were eleven polls of OH-SEN in 2022 which averaged a prediction of Vance +5.0. Because the result was Vance +6.1, this means those polls overestimated Democrats by about a point.</p>
+</section>
+</section>
+<section id="polls-historically-overstated-both-parties-but-recently-favor-democrats" class="level1">
+<h1>Polls historically overstated both parties, but recently favor Democrats</h1>
+<p><img src="images/fig1_polling_error.png" class="img-fluid"></p>
+<p>Looking at average misses over the past 28 years, we can see that in a typical year Senate polls were about 2.6 points too favorable to one party or the other. There’s a decent amount of range — in 2020, polls were nearly 7 points too favorable to Democrats — and this aggregation averages across all races polled in a given year, which means that it conceals the extent to which polls missed in <em>a given race</em>.</p>
+<p>There does not appear to be a “midterm effect” in Senate polling misses: across seven midterm elections, the average Senate polling miss is essentially zero. Senate polling misses also do not appear to be related to partisan control of the White House. Under Democratic presidents, Senate polls overestimated Democratic Senate candidates by about a third of a point on average. Under Republican presidents, Senate polls overestimated Democratic candidates by about 1.3 points.</p>
+<p>One interesting that stands out, however, is that between 1998 and 2012 Senate polling tended to overestimate Republicans. In six of eight elections the polls were too favorable towards Republicans, by an average of 1.2 points. Since 2014, however, polls have overestimated Democratic candidates for Senate by an average of 3.3 points. This is driven by large polling errors in the 2016, 2020 and 2024 presidential cycles. The midterm years in that period are more muted: polls overstated Democratic Senate margins by about 0.7 points in 2018 and 1.5 points in 2022.</p>
+<p>Some argue<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> that this year’s polls are overestimating Republicans, in part because of the recent trend of pollsters weighting to recalled presidential vote. What we can see is this sort of miss might at first seem somewhat surprising, given the recent history of polls overestimating Democrats. But the data also suggests that a 2026 polling miss overestimating <em>Republicans</em> would not be surprising. Because the yearly average polling miss has a standard deviation of about 3 points across 1998-2024, and because the modern midterms overestimated Democrats by small amounts, we shouldn’t be surprised if the polls favor Republicans this year. There is about a 1 in 6 chance that 2026 Senate polls favor Republicans on average by 2 points or more. An even larger miss, in which 2026 Senate polls ultimately overestimate Republican support by 5 points or more, is about 2 standard deviations out and thus unlikely but not even out of the question.</p>
+<p>But of course, average error can only tell us so much. Given the shape of the Senate battleground, we might be more interested in whether errors are concentrated in safe or battleground states, or whether there is a correlation between a state’s partisan lean and the polling error. This is especially important given that the Democratic path to a Senate majority relies on polling holding for red states like Alaska, Texas, Kansas, Nebraska and Iowa.</p>
+</section>
+<section id="in-recent-midterms-polls-underestimate-state-partisanship" class="level1">
+<h1>In recent midterms, polls underestimate state partisanship</h1>
+<p><img src="images/fig3_error_by_state_vote.png" class="img-fluid"></p>
+<p>Here, I take midterm years and plot races’ polling error against how the state voted in the previous presidential election<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. A flat line means that there is no relationship between how Democratic or Republican a state is and its eventual polling error. An upward-sloping line means that polls overestimated Republicans in blue states and overestimated Democrats in Republican states; in other words, that the election results ended up more partisan than the polls suggested.</p>
+<p>We can see that from 1998 to 2014, there is essentially no relationship between a state’s presidential vote and polling misses, bar 2010 which is driven entirely by a large miss off two polls in Hawaii. In 2018 and 2022, however, we see that polls overestimated Democrats in red states and overestimated Republicans in blue states. Specifically, an increase in 10 points of a state’s Republican share of the two-party presidential vote is associated with polls overestimating Democrats by about 2.4 points <em>more</em> in 2018 and 3.5 points in 2022.</p>
+<p>Given a Senate map where Democrats are hoping to pick up seats in recent red states like Alaska, Ohio, North Carolina, Texas, Kansas and Iowa, this dynamic is incredibly important. In 2018 and 2022, we can see that states where the party won less than 47 percent of the two-party presidential vote had polling misses overestimating Democrats by about 4 to 5 points on average. <a href="https://www.nytimes.com/2026/10/27/us/politics/midterm-polls-errors-states.html?unlocked_article_code=1.NVE.7rUx.MZtXc0A2Y9kX&amp;smid=url-share">A recent Times piece by Caroline Soler</a> notes that polling error tracked partisanship in 2018 and 2022.</p>
+<p>One caveat to these findings is that they’re averages driven by many non-competitive races. This year, where control of the Senate comes down to a <a href="https://www.nytimes.com/2026/11/01/us/politics/times-siena-poll-senate.html?unlocked_article_code=1.NVE.kNGI.2LATVFKCjjOi&amp;smid=url-share">handful of key races</a> we would want to know whether this holds in the competitive races. But of the 20 midterm races in states where Democrats won less than 47 percent of the presidential vote, only seven had a polling average within 10 points, six in 2018 alone.</p>
+<p>In those close races<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> in red states, polls overstated support for Democrats in six of seven races. The one exception was Texas in 2018, when polls overestimated support for Ted Cruz by about 3 points. If that pattern holds, Democrats in places like Texas, Ohio, Iowa or Kansas would run behind their final polls, even in a good year for the party.</p>
+<p>But Texas 2018 also serves as a reminder that polling misses are not particularly correlated within-state over time, another point mentioned by <a href="https://www.nytimes.com/2026/10/27/us/politics/midterm-polls-errors-states.html?unlocked_article_code=1.NVE.7rUx.MZtXc0A2Y9kX&amp;smid=url-share">Soler’s article</a>. Texas Senate polling in 2018 may have overestimated Republican support, but then polling misses went on to overstate Democratic support by about 4 points in 2020 and nearly 5 in 2024. So, this begs the question: what has polling error actually been in the states that matter this year?</p>
+</section>
+<section id="which-way-will-polls-miss-state-level-histories-offer-little-information" class="level1">
+<h1>Which way will polls miss? State-level histories offer little information</h1>
+<p><img src="images/fig2_state_grid.png" class="img-fluid"></p>
+<p>Here, I plot polling misses over time at the state-level for 15 states with key Senate races this year. Looking at any given state, we can see that error is noisy over time: reading down the graph we see error bounce left and right over time. Across states, polling error in one election predicts the direction of polling error in the next only 53 percent of the time.</p>
+<p>Instead, the type of year and national environment seem far more predictive of polling miss directions. In presidential years, polls in these states have overestimated Democrats in 24 of 27 races. In the last two midterms, however, polls in these states overestimated Democrats in only 8 of 14 races. This is in part because of the previous dynamic, where polls overestimated Democrats in 8 of the 10 races in states Democrats had lost in the previous presidential election, and overestimated Republicans in all four races in states Democrats had won.</p>
+</section>
+<section id="what-if-the-partisan-pattern-holds" class="level1">
+<h1>What if the partisan pattern holds?</h1>
+<p><img src="images/fig4_partisan_shift.png" class="img-fluid"></p>
+<p>What would this look like in practice? I start with the state-level <a href="https://www.natesilver.net/p/nate-silver-2026-midterm-election-polls-model">Silver Bulletin polling averages</a> and shift each one by the average relationship between a state’s presidential vote and its polling miss in 2018 and 2022.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> You should read this <strong>not as a forecast</strong>, but as an arithmetic exercise. This is a uniform swing, agnostic to any national-level polling misses or candidate-quality differences<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
+<p>What this does show is how much exactly a repeat in polling errors correlated with state-level partisanship could cost Democrats tomorrow. Democratic leads of about 3 points in Texas, Ohio, Kansas and Alaska fall to between about half a point and 1.5 points, and Iowa flips entirely to the Republican column.</p>
+</section>
+<section id="how-to-read-the-final-polls" class="level1">
+<h1>How to read the final polls</h1>
+<p>None of what I wrote can definitively tell you which way the polls will miss on Tuesday. What I can offer are a few rules for reading the polls.</p>
+<p>First, any leads within the margin of error are effectively tied. One interesting historical data point shores this up: since 1998, only 50 of 75 Senate races within 4 points were actually won by the candidate leading in the polls. Of the 314 races with a lead of 4 points or more, however, all of the candidates leading in the polling averages won. Notable almost-exception is Sara Gideon, who had a 3.8 point lead over Susan Collins heading into the 2020 Maine Senate election only to lose by more than 8 points.</p>
+<p>Second, don’t assume you can sign the bias. Polling errors have been surprisingly variable, and the last two midterms only overestimated Democrats by about a point. A D+3 polling miss and an R+2 polling miss are equally likely, but each would be the miss that launched a thousand takes.</p>
+<p>Third, we should be especially skeptical of small Democratic leads in red states. Looking at states where Democrats won 47 percent or less of the two-party presidential vote since 2014, Democrats had leads of less than 6 points in five races but only won one: 2018 MT-SEN. In these same states, Republicans had leads of less than 6 points in 13 races and won all 13. Of course, a national polling miss underestimating Republicans could turn this on its head in 2026. But because the potential Democratic majority relies on these states (Ohio, Florida, Iowa, Alaska, Texas, Kansas, South Carolina, Montana and Nebraska) a systemic polling error in these states could limit their inroads.</p>
+<p>Finally, don’t assume history will repeat itself. Polls in Texas went from overestimating Republicans in 2018 to overestimating Democrats in 2020 and 2024. The last cycle can only tell you so much.</p>
+<p>If we expect the pattern of Democratic underperformance in red states to continue into 2026, it’s possible Democrats in places like Texas, Ohio, Iowa or Kansas run behind their final polls, even despite a bluer national environment. But, if the polls are indeed underestimating Democrats nationally, as some have speculated, those two forces would partly cancel.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Bold prediction, get it?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Or Bangor to Brownsville, or Toledo to Topeka, or Anchorage to Amarillo, or…<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Rest in peace, Fivey.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>For whatever it’s worth I tend to come down on the Allen side of this debate.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>I recommend this solid <a href="https://projects.statenavigate.com/features/total-recall-bias/">State Navigate piece</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>I use two-party vote share for the presidential election votes, polls, and Senate results in this chart because undecided voters make safe-state polling look worse than it actually is<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Beware of small-sample analysis!<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>The shift is 0.29 points (robust SE 0.07, p &lt; .001, 50 races) per point of a state’s 2024 two-party presidential vote above or below 50 percent, from 2018 and 2022 with year fixed effects. In a backtest using only earlier elections, a shift like this reduced typical error in races polled within 10 points from 5.49 to 4.87 points across 2016 to 2024.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>And we would certainly expect voters to treat Ken Paxton and Susan Collins differently<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2026,
+  author = {Lorico Hertz, Zachary},
+  title = {Which {Way} {Do} {Senate} {Polls} {Miss?}},
+  date = {2026-11-02},
+  url = {https://zacharylhertz.github.io/posts/2026-11-02-senate-polling-misses/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lorico_hertz2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lorico Hertz, Zachary. 2026. <span>“Which Way Do Senate Polls
+Miss?”</span> November 2, 2026. <a href="https://zacharylhertz.github.io/posts/2026-11-02-senate-polling-misses/">https://zacharylhertz.github.io/posts/2026-11-02-senate-polling-misses/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zacharylhertz\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
