@@ -114,7 +114,7 @@ md`**Under your assumptions, recall-weighted polls are ${Math.abs(err).toFixed(1
 
 ```{ojs}
 //| echo: false
-Inputs.table(races.map(d => ({"State": d.state, "Polling average": lead(d.avg), "Your corrected margin": lead(d.adj), "Flips?": Math.sign(d.adj) !== Math.sign(d.avg) ? "Yes" : ""})), {rows: 14, layout: "auto"})
+Inputs.table(races.map(d => ({"State": d.state, "Polling average": lead(d.avg), "Your corrected margin": lead(d.adj), "Flips?": Math.sign(d.adj) !== Math.sign(d.avg) ? "Yes" : ""})), {rows: 14, height: 520, layout: "auto"})
 ```
 
 Note that this is applied uniformly to every state when we think that there will likely be differences across states. This is meant for you to see, generally, how these assumptions shape our predictions.
