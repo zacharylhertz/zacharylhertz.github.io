@@ -349,6 +349,36 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   #needle .view-toggle button:nth-child(2n) { border-right: 0; }
   #needle .view-toggle button:nth-last-child(-n+2) { border-bottom: 0; }
 }
+
+/* What the trailing candidate needs */
+#needle .needs { max-width: 720px; }
+#needle .needs[hidden], #needle [hidden].nd-chart, #needle [hidden].dvc-chart, #needle .table-scroll[hidden] { display: none; }
+#needle .needs h2 { margin-top: 1.75rem; }
+#needle .rp-legend i.k-need { width: 3px; height: 14px; background: var(--ink); }
+#needle .nd-plot { position: relative; height: 22px; margin-top: .3rem; }
+#needle .nd-plot > i { position: absolute; display: block; }
+#needle .nd-plot .grid { top: -.3rem; bottom: -.3rem; width: 1px; background: #eef0f2; }
+#needle .nd-plot .zero { top: -.3rem; bottom: -.3rem; width: 1px; background: #8a929c; }
+#needle .nd-plot .band { top: 7px; height: 8px; border-radius: 2px; background: #d3d8dd; }
+#needle .nd-plot .dot { top: 5px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; box-sizing: border-box; border: 2px solid #fff; background: #56606c; }
+#needle .nd-plot .need { top: -5px; bottom: -5px; width: 3px; margin-left: -1.5px; background: var(--ink); }
+
+/* Davis v Cooper */
+#needle .rp-legend i.k-pos { width: 12px; height: 10px; background: #3f4954; }
+#needle .rp-legend i.k-neg { width: 12px; height: 10px; background: #b4bcc5; }
+#needle .dvc-list { display: grid; gap: 3px; max-width: 720px; margin-top: .2rem; }
+#needle .dvc-row { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) 3.4em; gap: .7rem; align-items: center; font-size: .86rem; }
+#needle .dvc-row .val { text-align: right; }
+#needle .dvc-row.axis { font-size: .75rem; color: var(--muted); }
+#needle .dvc-bar { position: relative; height: 14px; }
+#needle .dvc-bar i { position: absolute; display: block; top: 2px; height: 10px; }
+#needle .dvc-bar i.zero { top: -2px; height: 18px; width: 1px; background: #8a929c; }
+#needle .dvc-bar i.grid { top: -2px; height: 18px; width: 1px; background: #eef0f2; }
+#needle .dvc-bar i.pos { background: #3f4954; }
+#needle .dvc-bar i.neg { background: #b4bcc5; }
+#needle .rd-table thead th { white-space: normal; }
+#needle .rd-table tbody th { white-space: normal; min-width: 8em; }
+@media (max-width: 480px) { #needle .dvc-row { grid-template-columns: 6.5em minmax(0, 1fr) 3em; gap: .45rem; } }
 </style>
 
 <div id="needle">
@@ -477,6 +507,22 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     </div>
   </section>
 
+  <!-- draft for ZH: wording in the "What X needs", "Davis v Cooper" and new-map sections is an unapproved draft (added overnight 2026-11-03). -->
+  <section class="needs" id="needs" aria-labelledby="needs-title" hidden="">
+    <h2 id="needs-title">What the trailing candidate needs</h2>
+    <p id="needs-text"></p>
+    <div class="nd-chart" id="needs-chart" hidden="">
+      <div class="rp-legend" aria-hidden="true">
+        <span><i class="k-need"></i>Needed to tie</span>
+        <span><i class="k-dot"></i>Model's best guess</span>
+        <span><i class="k-95"></i>Model's 90% range</span>
+      </div>
+      <div class="nd-plot" id="needs-plot" aria-hidden="true"></div>
+      <div class="rp-axis" id="needs-axis" aria-hidden="true"></div>
+      <p class="small" id="needs-caption" style="margin-top:.3rem"></p>
+    </div>
+  </section>
+
   <!-- draft for ZH: headings, labels and explanatory text in the three sections below are unapproved drafts. -->
   <h2>Estimate by county</h2>
   <p class="small">The model's estimate of the final margin in each county, with the range of likely outcomes. Margins are Democrat minus Republican, in points.</p>
@@ -492,6 +538,27 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     </table>
   </div>
   <p class="small" style="margin-top:.4rem">Blue is the part of a range where Davis leads, red where Buckhout leads.</p>
+
+  <h2>Davis v Cooper</h2>
+  <p class="small">How Davis is doing compared with Cooper, the Democrat running for US Senate against Whatley tonight, on the same ballots. Each number is Davis's margin over Buckhout minus Cooper's margin over Whatley, in points, counting only places where both races have reported.</p>
+  <p id="dvc-line">Not available yet.</p>
+  <div class="dvc-chart" id="dvc-chart" hidden="">
+    <div class="rp-legend" aria-hidden="true">
+      <span><i class="k-pos"></i>Davis running ahead of Cooper</span>
+      <span><i class="k-neg"></i>Davis running behind Cooper</span>
+    </div>
+    <div class="dvc-list" id="dvc-list" aria-hidden="true"></div>
+  </div>
+  <p class="small" id="dvc-few" style="margin-top:.4rem"></p>
+  <details>
+    <summary>Davis v Cooper as a table</summary>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Davis v Cooper table">
+      <table>
+        <thead><tr><th scope="col">County</th><th scope="col">House votes</th><th scope="col">Davis margin</th><th scope="col">Cooper margin</th><th scope="col">Davis minus Cooper</th></tr></thead>
+        <tbody id="dvc-body"></tbody>
+      </table>
+    </div>
+  </details>
 
   <h2>Estimate of the final margin over time</h2>
   <div class="chart" id="trend-chart" tabindex="0" role="group" aria-label="Chart of the estimated final margin over time."></div>
@@ -512,6 +579,19 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <h2>Who is ahead of the benchmark</h2>
   <p class="small">The benchmark is how each county would vote in an exactly even race, based on past results and compared like for like on the votes counted so far.</p>
   <div class="groups" id="bench-groups"></div>
+
+  <h2>The Senate race on the old and new maps</h2>
+  <p class="small">Tonight's US Senate race (Cooper v Whatley), counted on two sets of lines: NC-1 as drawn for 2024 and NC-1 as redrawn in 2025. The 2024 presidential margin on the same votes shows how far apart the two sets of lines already were. This is the Senate race on two maps, not an estimate of how Davis would do on the old lines.</p>
+  <p id="rd-status">Not available yet.</p>
+  <div class="table-scroll" id="rd-table-wrap" tabindex="0" role="region" aria-label="Senate margin on the old and new lines" hidden="">
+    <table class="rd-table">
+      <thead><tr><th scope="col">Lines</th><th scope="col">Votes counted</th><th scope="col">Counted, as share of 2024 vote</th><th scope="col">Senate margin tonight</th><th scope="col">2024 president, same votes</th><th scope="col">2024 president, all votes</th></tr></thead>
+      <tbody id="rd-body"></tbody>
+    </table>
+  </div>
+  <p id="rd-gap" style="margin-top:.5rem"></p>
+  <p class="small" id="rd-missing"></p>
+  <p class="small" id="rd-note" hidden="">Some renamed early-voting sites could not be matched to the old lines. Their votes are counted in full; only their 2024 comparison margin uses the county average for that vote method.</p>
 
   <h2>Chance Davis wins over time</h2>
   <div class="chart" id="hist-chart" tabindex="0" role="group" aria-label="Line chart of the chance Davis wins over time. Use the left and right arrow keys to move between updates."></div>
@@ -561,6 +641,10 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <h2>Method note</h2>
   <div class="method">
     <p>This page shows a model estimate. It is not an official result and it is not an AP call.</p>
+    <p>Before any votes are counted, the model starts from Davis winning by 4.5 points. That is an average of the four public polls of this district with fieldwork ending after August 1, from the poll file published by The New York Times: co/efficient, Buckhout +1 (October 8); Neighborhood Research, Davis +10 (October 6); GQR, Davis +8 (October 4); and GBAO for House Majority PAC, Davis +7 (September 11). Three of the four were done by partisan firms or for a party group, so each of those is moved 4.5 points toward the other party, and larger polls count for more. Without that adjustment the average is Davis +5.6. These are few polls and mostly partisan, so the model treats the starting point as uncertain: before votes it gives Davis about a 70% chance. A later Democratic poll (RedBox, Davis +1, October 23) is not in the Times file and is not included. As votes are counted, they take over from this starting point; the chart "What's powering the estimate right now?" shows how much each part counts.</p>
+    <p>The block under the main numbers shows what the candidate behind in the count would need. It takes the current lead in votes and the model's estimate of the votes still to be counted, and works out the margin on those votes that would tie the race. The model's own estimate of how those votes will break, with its 90% range, is shown beside it. If the lead is larger than the votes the model expects to remain, the trailing candidate cannot catch up on those votes.</p>
+    <p>Davis v Cooper compares Davis's margin over Buckhout with Cooper's margin over Whatley in the US Senate race, using only places where both races have reported votes, so the two margins come from the same ballots. Counties with fewer than 500 House votes counted are held back, because a few hundred votes give a noisy number. Both candidates are Democrats, so the chart uses grey rather than party colours.</p>
+    <p>The section on the Senate race on the old and new maps counts tonight's Senate votes on two sets of lines: NC-1 as drawn for 2024, which also included Greene, Lenoir, Wayne and Wilson counties, and NC-1 as redrawn in 2025. Where a renamed early-voting site cannot be matched to the old lines, its votes are counted in full; only its 2024 comparison margin uses the county average for that vote method. (In a county the old lines split, a new polling place is left out, and a new absentee or other county-wide unit counts at the county's share inside the old lines.) The old-lines figure needs the state's statewide results file, because the county files cover only the new district. The 2024 presidential margin on the same counted votes is shown so the gap tonight can be compared with the gap the lines already had. The counted share compares votes counted tonight with 2024 presidential votes on those lines; it stays below 100% because turnout is lower in a midterm. The section waits until that share is at least 10% on both sets of lines.</p>
     <p>Results are unofficial until certified. Vote counts come from the North Carolina State Board of Elections.</p>
     <p>The page checks for new data regularly, and the data file can lag the state feed by a few minutes.</p>
     <p><a id="repo-link" href="#">Code and data</a></p>
@@ -1536,7 +1620,6 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   let trendIndex = null;
   let trendGeom = null;
   let trendFinal = false;
-  const TINT_D = "#EEF4FB", TINT_R = "#FDF0EF";
 
   function renderTrend(s) {
     trendFinal = s.status === "final";
@@ -1585,7 +1668,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   function timeTicks(t0, t1, pw) {
     const span = t1 - t0;
     const steps = [5, 10, 15, 30, 60, 120, 240, 480, 1440];
-    const maxTicks = Math.max(2, Math.floor(pw / 70));
+    const maxTicks = Math.max(3, Math.floor(pw / 64));
     let step = steps[steps.length - 1] * 60000;
     for (let i = 0; i < steps.length; i++) {
       if (span / (steps[i] * 60000) <= maxTicks) { step = steps[i] * 60000; break; }
@@ -1610,14 +1693,17 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     if (!trendData.length) return;
     const W = Math.max(280, box.clientWidth || 700);
     const narrow = W < 480;
-    const m = { l: 44, r: 10, t: 20 };
+    // Right gutter for the end labels, sized to the longest label so they never sit on the plot.
+    const lm = lastWith("margin_mid"), lr = lastWith("reported_margin"), lp = lastWith("pct_counted_est");
+    const labLen = Math.max(lm ? named(lm.margin_mid).length : 0, lr ? named(lr.reported_margin).length : 0, 8);
+    const m = { l: 40, r: Math.min(116, Math.ceil(labLen * (narrow ? 6.3 : 6.9)) + 12), t: 10 };
     const ph = narrow ? 200 : 260;           // margin panel
     const gap = 44, ph2 = narrow ? 56 : 70;  // turnout panel
     const top2 = m.t + ph + gap;
     const H = top2 + ph2 + 24;
     const pw = W - m.l - m.r;
     const t0 = trendData[0].ms, t1 = trendData[trendData.length - 1].ms, span = t1 - t0;
-    const xOf = function (t) { return span > 0 ? m.l + (t - t0) / span * pw : m.l + pw / 2; };
+    const xOf = function (t) { return span > 0 ? m.l + (t - t0) / span * pw : m.l + pw - 4; };  // a lone point sits at the right, by its label
     let mx = 0;
     trendData.forEach(function (h) {
       ["margin_mid", "margin_lo95", "margin_hi95", "margin_lo50", "margin_hi50", "reported_margin"].forEach(function (k) { if (isNum(h[k])) mx = Math.max(mx, Math.abs(h[k])); });
@@ -1626,17 +1712,13 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     const yOf = function (v) { return m.t + (Y - Math.max(-Y, Math.min(Y, v))) / (2 * Y) * ph; };
     const y2Of = function (p) { return top2 + (1 - Math.max(0, Math.min(100, p)) / 100) * ph2; };
     const svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, height: H, "aria-hidden": "true" });
-    const halo = { "paint-order": "stroke", stroke: "#fff", "stroke-width": 3, "stroke-linejoin": "round" };
 
-    // Tinted halves and side names
-    svg.appendChild(svgEl("rect", { x: m.l, y: m.t, width: pw, height: ph / 2, fill: TINT_D }));
-    svg.appendChild(svgEl("rect", { x: m.l, y: m.t + ph / 2, width: pw, height: ph / 2, fill: TINT_R }));
+    const tint = function (v) { return v > 0.05 ? "#1171B9" : (v < -0.05 ? "#C81E24" : "#1f2933"); };
+    // Light gridlines; tick text coloured by side
     [-Y, -Y / 2, 0, Y / 2, Y].forEach(function (v) {
-      if (v !== 0) svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yOf(v), y2: yOf(v), stroke: "#fff", "stroke-width": 1 }));
-      svgText(svg, m.l - 6, yOf(v) + 4, axisLabel(v), { "text-anchor": "end" });
+      if (v !== 0) svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yOf(v), y2: yOf(v), stroke: "#e3e6ea", "stroke-width": 1 }));
+      svgText(svg, m.l - 6, yOf(v) + 4, axisLabel(v), { "text-anchor": "end", style: "fill:" + tint(v) });
     });
-    svgText(svg, m.l + 6, m.t + 15, "Davis ahead", { fill: "#1171B9", style: "fill:#1171B9;font-weight:600" });
-    svgText(svg, m.l + 6, m.t + ph - 7, "Buckhout ahead", { style: "fill:#C81E24;font-weight:600" });
 
     // Bands
     const band = function (lo, hi, fill, op) {
@@ -1651,9 +1733,9 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
         svg.appendChild(svgEl("path", { d: up + " " + dn + " Z", fill: fill, "fill-opacity": op }));
       });
     };
-    band("margin_lo95", "margin_hi95", "#7a838e", 0.2);
-    band("margin_lo50", "margin_hi50", "#56606c", 0.3);
-    svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yOf(0), y2: yOf(0), stroke: "#56606c", "stroke-width": 1 }));
+    band("margin_lo95", "margin_hi95", "#dfe2e6", 1);
+    band("margin_lo50", "margin_hi50", "#b3bac2", 1);
+    svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yOf(0), y2: yOf(0), stroke: "#8a929c", "stroke-width": 1 }));
 
     // Lines
     const line = function (key, attrs) {
@@ -1663,40 +1745,35 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
         svg.appendChild(svgEl("path", Object.assign({ d: d, fill: "none", "stroke-linejoin": "round" }, attrs)));
       });
     };
-    line("reported_margin", { stroke: "#1f2933", "stroke-width": 1.75, "stroke-dasharray": "1.5 3.5", "stroke-linecap": "round" });
-    line("margin_mid", { stroke: "#1f2933", "stroke-width": 2, "stroke-linecap": "round" });
+    line("reported_margin", { stroke: "#1f2933", "stroke-width": 1.75, "stroke-dasharray": "0.5 3.5", "stroke-linecap": "round" });
+    line("margin_mid", { stroke: "#1f2933", "stroke-width": 2.25, "stroke-linecap": "round" });
 
-    // Now marker
+    // Thin marker at the latest update
     const xNow = xOf(t1);
-    svg.appendChild(svgEl("line", { x1: xNow, x2: xNow, y1: m.t - 4, y2: top2 + ph2, stroke: "#8a929c", "stroke-width": 1, "stroke-dasharray": "3 3" }));
-    svgText(svg, xNow, m.t - 7, trendFinal ? "Final" : "Now", { "text-anchor": span > 0 ? "end" : "middle", style: "fill:#1f2933" });
+    svg.appendChild(svgEl("line", { x1: xNow, x2: xNow, y1: m.t, y2: top2 + ph2, stroke: "#aab1ba", "stroke-width": 1 }));
 
-    // End labels for the latest estimate and the latest reported margin
-    const lm = lastWith("margin_mid"), lr = lastWith("reported_margin");
-    const tint = function (v) { return v > 0.05 ? "#1171B9" : (v < -0.05 ? "#C81E24" : "#1f2933"); };
+    // End labels in the right gutter: estimate (bold, coloured) and reported (lighter), two lines each
     const labels = [];
-    if (lm) {
-      labels.push({ h: lm, y: yOf(lm.margin_mid), v: lm.margin_mid, text: named(lm.margin_mid) + " estimate as of " + clock(lm.ms) });
-    }
     if (lr) {
-      svg.appendChild(svgEl("circle", { cx: xOf(lr.ms), cy: yOf(lr.reported_margin), r: 3.5, fill: "#fff", stroke: "#1f2933", "stroke-width": 1.5 }));
-      labels.push({ h: lr, y: yOf(lr.reported_margin), v: lr.reported_margin, text: named(lr.reported_margin) + " reported" });
+      svg.appendChild(svgEl("circle", { cx: xOf(lr.ms), cy: yOf(lr.reported_margin), r: 3, fill: "#fff", stroke: "#1f2933", "stroke-width": 1.5 }));
+      labels.push({ y: yOf(lr.reported_margin), v: lr.reported_margin, main: named(lr.reported_margin), sub: "reported", bold: false });
     }
-    if (lm) svg.appendChild(svgEl("circle", { cx: xOf(lm.ms), cy: yOf(lm.margin_mid), r: 4, fill: "#1f2933", stroke: "#fff", "stroke-width": 1.5 }));
+    if (lm) {
+      svg.appendChild(svgEl("circle", { cx: xOf(lm.ms), cy: yOf(lm.margin_mid), r: 4, fill: "#1f2933", stroke: "#fff", "stroke-width": 1.5 }));
+      labels.push({ y: yOf(lm.margin_mid), v: lm.margin_mid, main: named(lm.margin_mid), sub: "estimate", bold: true });
+    }
+    const LH = 28;                                   // height of one two-line label
+    labels.forEach(function (L) { L.c = L.y; });
     if (labels.length === 2) {
-      const a = labels[0], b = labels[1];
-      const hiL = a.y <= b.y ? a : b, loL = a.y <= b.y ? b : a;
-      hiL.ty = hiL.y - 9;
-      loL.ty = Math.max(loL.y + 17, hiL.ty + 15);
-    } else if (labels.length === 1) {
-      labels[0].ty = labels[0].y - 9;
-    }
+      const a = labels[0].c <= labels[1].c ? labels[0] : labels[1], b = a === labels[0] ? labels[1] : labels[0];
+      if (b.c - a.c < LH) { const mid = (a.c + b.c) / 2; a.c = mid - LH / 2; b.c = mid + LH / 2; }
+      if (a.c < m.t + 8) { b.c += m.t + 8 - a.c; a.c = m.t + 8; }
+      if (b.c > m.t + ph - 16) { a.c -= b.c - (m.t + ph - 16); b.c = m.t + ph - 16; }
+    } else labels.forEach(function (L) { L.c = Math.max(m.t + 8, Math.min(m.t + ph - 16, L.c)); });
+    const gx = W - m.r + 8;
     labels.forEach(function (L) {
-      const ty = Math.max(m.t + 12, Math.min(m.t + ph - 4, L.ty));
-      const x = xOf(L.h.ms);
-      const estW = L.text.length * 6.6;
-      const anchorEnd = x - estW - 6 >= m.l || x + estW + 6 > W - m.r;
-      svgText(svg, anchorEnd ? x - 6 : x + 6, ty, L.text, Object.assign({ class: "end", "text-anchor": anchorEnd ? "end" : "start", style: "fill:" + tint(L.v) }, halo));
+      svgText(svg, gx, L.c + 2, L.main, { style: "fill:" + tint(L.v) + ";font-weight:" + (L.bold ? 700 : 400) + ";font-size:" + (narrow ? 11.5 : 12.5) + "px" });
+      svgText(svg, gx, L.c + 15, L.sub, { style: "font-size:11px" });
     });
 
     // Turnout panel
@@ -1718,11 +1795,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       svg.appendChild(svgEl("path", { d: d, fill: "#7a838e", "fill-opacity": 0.3 }));
       svg.appendChild(svgEl("path", { d: top, fill: "none", stroke: "#56606c", "stroke-width": 1.5 }));
     });
-    const lp = lastWith("pct_counted_est");
-    if (lp) {
-      const x = xOf(lp.ms), y = y2Of(lp.pct_counted_est);
-      svgText(svg, x - 6, y - 6 >= top2 + 12 ? y - 6 : y + 15, pctIn(lp.pct_counted_est) + " reported", Object.assign({ class: "end", "text-anchor": "end" }, halo));
-    }
+    if (lp) svgText(svg, gx, Math.max(top2 + 4, y2Of(lp.pct_counted_est)) + 4, pctIn(lp.pct_counted_est), { class: "end" });
 
     // Time axis, under the turnout panel
     timeTicks(t0, t1, pw).forEach(function (t) {
@@ -1819,9 +1892,9 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     }
   })();
 
-  // draft for ZH: descriptions of the three sources. The +2 is CFG$prior_mid in needle_nc01/R/config.R.
+  // Descriptions of the three sources. The 4.5 is CFG$prior_mid in needle_nc01/R/config.R (approved by ZH 2026-11-03).
   const SOURCES = [
-    ["prior", "Starting estimate", "The pre-election starting point: our assumption that Davis wins by 2 points. It is not a polling average."],
+    ["prior", "Starting estimate", "The pre-election starting point: Davis by 4.5 points, an adjusted average of four district polls since August. Three of the four were partisan, so the range around it is kept wide. See the method note."],
     ["model", "Model", "The model's projection of the votes not yet counted, from the results so far."],
     ["actual", "Counted votes", "Votes already counted."]
   ];
@@ -2021,13 +2094,250 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     }
   }
 
+  /* ---------- what the trailing candidate needs ---------- */
+  const pts1 = function (x) { return Math.abs(x).toFixed(1); };
+  const roundVotes = function (x) {
+    if (!isNum(x)) return NA;
+    if (x < 100) return int(x);
+    const step = x >= 10000 ? 1000 : (x >= 1000 ? 100 : 10);
+    return int(Math.max(step, Math.round(x / step) * step));
+  };
+  // Margin on the remaining votes from the trailing candidate's side: "win by 3.1", "lose by 0.9".
+  const winLose = function (x) {
+    if (!isNum(x)) return NA;
+    if (pts1(x) === "0.0") return "break even";
+    return (x > 0 ? "win by " : "lose by ") + pts1(x);
+  };
+  const block = function (x) { return x && typeof x === "object" && x.available === true ? x : null; };
+
+  function renderNeeds(s) {
+    const t = block(s.trailing_needs);
+    const plot = $("needs-plot"), axis = $("needs-axis");
+    clear(plot); clear(axis);
+    $("needs").hidden = true;
+    $("needs-chart").hidden = true;
+    if (!t) return;
+    const hasLead = isNum(t.lead_votes) && t.lead_votes > 0;
+    const who = hasLead && (t.trailer === "Davis" || t.trailer === "Buckhout") ? t.trailer : null;
+    $("needs-title").textContent = who ? "What " + who + " needs" : "The votes still to count";
+    const parts = [];
+    if (who) parts.push(who + " trails by " + int(t.lead_votes) + (Math.round(t.lead_votes) === 1 ? " vote." : " votes."));
+    else if (isNum(t.lead_votes)) parts.push("Davis and Buckhout are tied in the count.");
+    const rem = t.remaining_votes_mid;
+    if (isNum(rem) && rem >= 1) {
+      parts.push("About " + roundVotes(rem) + (Math.round(rem) === 1 ? " vote remains" : " votes remain") +
+        (isNum(t.remaining_votes_lo90) && isNum(t.remaining_votes_hi90) ? " (" + roundVotes(t.remaining_votes_lo90) + " to " + roundVotes(t.remaining_votes_hi90) + ")." : "."));
+    } else if (isNum(rem)) {
+      parts.push("The model expects no votes left to count.");
+    }
+    const need = t.needed_margin, exp = t.expected_margin_mid;
+    let chart = false;
+    if (who && t.needed_possible === false) {
+      parts.push(who + " cannot catch up on the expected remaining votes: the lead is larger than the votes the model expects to be left.");
+    } else if (who && isNum(need)) {
+      let txt = who + " needs to win them by " + pts1(need) + " points";
+      if (isNum(exp)) {
+        txt += "; the model expects " + who + " to " + winLose(exp).replace(" by ", " them by ").replace("break even", "split them evenly");
+        if (isNum(t.expected_margin_lo90) && isNum(t.expected_margin_hi90)) txt += " (range: " + winLose(t.expected_margin_lo90) + " to " + winLose(t.expected_margin_hi90) + ")";
+        chart = true;
+      }
+      parts.push(txt + ".");
+    }
+    $("needs-text").textContent = parts.join(" ");
+    $("needs").hidden = false;
+    if (!chart) return;
+
+    // Horizontal scale: trailer's margin on the remaining votes, in points.
+    let mx = 0;
+    [need, exp, t.expected_margin_lo90, t.expected_margin_hi90].forEach(function (v) { if (isNum(v)) mx = Math.max(mx, Math.abs(v)); });
+    const D = Math.min(100, Math.max(20, Math.ceil(mx / 10) * 10));
+    const pos = function (v) { return 50 + 50 * Math.max(-D, Math.min(D, v)) / D; };
+    const add = function (cls, left, width) {
+      const i = document.createElement("i");
+      i.className = cls;
+      i.style.left = left + "%";
+      if (width !== undefined) i.style.width = Math.max(width, 0.6) + "%";
+      plot.appendChild(i);
+    };
+    [-D / 2, D / 2].forEach(function (v) { add("grid", pos(v)); });
+    add("zero", 50);
+    if (isNum(t.expected_margin_lo90) && isNum(t.expected_margin_hi90)) {
+      const a = Math.min(t.expected_margin_lo90, t.expected_margin_hi90), b = Math.max(t.expected_margin_lo90, t.expected_margin_hi90);
+      add("band", pos(a), pos(b) - pos(a));
+    }
+    add("dot", pos(exp));
+    add("need", pos(need));
+    plot.title = $("needs-text").textContent;
+    [[-D, "Lose by " + D, "first"], [0, "Even", "even"], [D, "Win by " + D, "last"]].forEach(function (a) {
+      const sp = legendText("span", a[2], a[1]);
+      sp.style.left = pos(a[0]) + "%";
+      axis.appendChild(sp);
+    });
+    $("needs-caption").textContent = who + "'s margin on the votes still to be counted, in points.";
+    $("needs-chart").hidden = false;
+  }
+
+  /* ---------- Davis v Cooper ---------- */
+  const DVC_MIN_VOTES = 500;
+  const signed = function (x) {
+    if (!isNum(x)) return NA;
+    const v = Math.abs(x).toFixed(1);
+    return v === "0.0" ? "0.0" : (x > 0 ? "+" : "−") + v;
+  };
+  const leadText = function (x, a, b) {
+    if (!isNum(x)) return a + ": " + NA;
+    const v = pts1(x);
+    if (v === "0.0") return a + " and " + b + " are tied";
+    return a + (x > 0 ? " leads " : " trails ") + b + " by " + v + " points";
+  };
+  const houseVotes = function (n) { return int(n) + (Math.round(n) === 1 ? " House vote" : " House votes"); };
+
+  function renderDvc(s) {
+    const d = block(s.davis_v_cooper);
+    const list = $("dvc-list"), body = $("dvc-body");
+    clear(list); clear(body);
+    $("dvc-few").textContent = "";
+    $("dvc-chart").hidden = true;
+    if (!d) { $("dvc-line").textContent = "Not available yet."; emptyRow(body, 5, "Not available yet."); return; }
+    const dist = d.district || {};
+    const g = dist.davis_minus_cooper;
+    if (isNum(g)) {
+      const v = pts1(g);
+      $("dvc-line").textContent = (v === "0.0" ? "Davis is running even with Cooper on the same ballots." :
+        "Davis is running " + v + " points " + (g > 0 ? "ahead of" : "behind") + " Cooper on the same ballots.") +
+        (isNum(dist.davis_margin) && isNum(dist.cooper_margin)
+          ? " " + leadText(dist.davis_margin, "Davis", "Buckhout") + " and " + leadText(dist.cooper_margin, "Cooper", "Whatley") + (isNum(dist.votes_house) ? ", on " + houseVotes(dist.votes_house) + "." : ".")
+          : "");
+    } else {
+      $("dvc-line").textContent = "Not available yet.";
+    }
+    const counties = arr(d.by_county).filter(function (c) { return c && c.county; });
+    const enough = function (c) { return isNum(c.votes_house) && c.votes_house >= DVC_MIN_VOTES && isNum(c.davis_minus_cooper); };
+    const shown = counties.filter(enough).sort(function (a, b) { return b.davis_minus_cooper - a.davis_minus_cooper || String(a.county).localeCompare(String(b.county)); });
+    const held = counties.filter(function (c) { return !enough(c); }).sort(function (a, b) { return String(a.county).localeCompare(String(b.county)); });
+
+    // Table: district first, then counties in chart order, then held-back counties.
+    if (isNum(g)) body.appendChild(row(["NC-1 total", int(dist.votes_house), margin(dist.davis_margin), margin(dist.cooper_margin), signed(g)]));
+    shown.forEach(function (c) {
+      body.appendChild(row([titleCase(c.county), int(c.votes_house), margin(c.davis_margin), margin(c.cooper_margin), signed(c.davis_minus_cooper)]));
+    });
+    held.forEach(function (c) {
+      const tr = row([titleCase(c.county), int(c.votes_house)]);
+      const few = legendText("td", "muted", isNum(c.votes_house) && c.votes_house > 0 ? "Too few votes" : "No votes yet");
+      few.colSpan = 3;
+      tr.appendChild(few);
+      body.appendChild(tr);
+    });
+    if (!body.firstChild) emptyRow(body, 5, "Not available yet.");
+    const fewc = held.filter(function (c) { return isNum(c.votes_house) && c.votes_house > 0; });
+    if (fewc.length) $("dvc-few").textContent = "Too few votes to show (under " + int(DVC_MIN_VOTES) + " House votes): " + fewc.map(function (c) { return titleCase(c.county); }).join(", ") + ".";
+    if (!shown.length) return;
+
+    let mx = 0;
+    shown.forEach(function (c) { mx = Math.max(mx, Math.abs(c.davis_minus_cooper)); });
+    const D = Math.min(100, Math.max(5, Math.ceil(mx / 5) * 5));
+    const pos = function (v) { return 50 + 50 * Math.max(-D, Math.min(D, v)) / D; };
+    const ax = document.createElement("div");
+    ax.className = "dvc-row axis";
+    ax.appendChild(legendText("span", "", ""));
+    const axis = document.createElement("div");
+    axis.className = "rp-axis";
+    [[-D, "Cooper ahead by " + D, "first"], [0, "Same", "even"], [D, "Davis ahead by " + D, "last"]].forEach(function (a) {
+      const sp = legendText("span", a[2], a[1]);
+      sp.style.left = pos(a[0]) + "%";
+      axis.appendChild(sp);
+    });
+    ax.appendChild(axis);
+    ax.appendChild(legendText("span", "val", "Pts"));
+    list.appendChild(ax);
+    shown.forEach(function (c) {
+      const r = document.createElement("div");
+      r.className = "dvc-row";
+      const name = titleCase(c.county);
+      const x = c.davis_minus_cooper;
+      r.title = name + ": " + (pts1(x) === "0.0" ? "Davis and Cooper even" : signed(x) + " points, " + (x > 0 ? "Davis ahead" : "Cooper ahead")) +
+        ". " + leadText(c.davis_margin, "Davis", "Buckhout") + "; " + leadText(c.cooper_margin, "Cooper", "Whatley") + "; " + houseVotes(c.votes_house) + ".";
+      r.appendChild(legendText("span", "", name));
+      const bar = document.createElement("div");
+      bar.className = "dvc-bar";
+      const mk = function (cls, left, width) {
+        const i = document.createElement("i");
+        i.className = cls;
+        i.style.left = left + "%";
+        if (width !== undefined) i.style.width = Math.max(width, 0.6) + "%";
+        bar.appendChild(i);
+      };
+      [-D / 2, D / 2].forEach(function (v) { mk("grid", pos(v)); });
+      mk(x >= 0 ? "pos" : "neg", Math.min(pos(x), 50), Math.abs(pos(x) - 50));
+      mk("zero", 50);
+      r.appendChild(bar);
+      r.appendChild(legendText("span", "val", signed(x)));
+      list.appendChild(r);
+    });
+    $("dvc-chart").hidden = false;
+  }
+
+  /* ---------- the Senate race on the old and new lines ---------- */
+  const RD_MIN_SHARE = 0.10;
+  const oldNew = function (x, who, verb) {
+    if (!isNum(x)) return null;
+    const v = pts1(x);
+    if (v === "0.0") return who + " margin " + verb + " the same on both sets of lines";
+    return who + " margin " + verb + " " + v + " points " + (x > 0 ? "better" : "worse") + " on the old lines than on the new";
+  };
+
+  function renderRedistrict(s) {
+    const r = block(s.redistricting);
+    const body = $("rd-body");
+    clear(body);
+    $("rd-gap").textContent = "";
+    $("rd-missing").textContent = "";
+    $("rd-note").hidden = true;
+    $("rd-table-wrap").hidden = true;
+    if (!r) { $("rd-status").textContent = "Not available yet."; return; }
+    const o = r.old_lines || {}, n = r.new_lines || {};
+    if (typeof r.old_lines_unavailable_reason === "string" && r.old_lines_unavailable_reason) {
+      $("rd-status").textContent = "The old-lines comparison needs the state's statewide results file, which is not available right now.";
+      return;
+    }
+    const ready = isNum(o.counted_share) && isNum(n.counted_share) && o.counted_share >= RD_MIN_SHARE && n.counted_share >= RD_MIN_SHARE;
+    if (!ready) {
+      $("rd-status").textContent = "Too early. This waits until votes equal to at least 10% of the 2024 presidential vote are counted on both sets of lines" +
+        (isNum(o.counted_share) && isNum(n.counted_share) ? " (now " + share(o.counted_share) + " on the old lines and " + share(n.counted_share) + " on the new)." : ".");
+      return;
+    }
+    $("rd-status").textContent = "";
+    $("rd-note").hidden = r.low_match_flag !== true;
+    [["Old lines (2024 map)", o], ["New lines (2025 map)", n]].forEach(function (x) {
+      const L = x[1];
+      const tr = row(["", int(L.counted_votes), share(L.counted_share), margin(L.senate_margin), margin(L.pres2024_margin_counted), margin(L.pres2024_margin)]);
+      const th = tr.firstChild;
+      th.textContent = x[0];
+      if (isNum(L.counties_total)) th.appendChild(legendText("span", "muted", ", " + L.counties_total + " counties"));
+      body.appendChild(tr);
+    });
+    $("rd-table-wrap").hidden = false;
+    const gap = r.gap || {};
+    const a = oldNew(gap.senate_old_minus_new, "Cooper's", "is"), b = oldNew(gap.pres2024_counted_old_minus_new, "Harris's", "was");
+    const bits = [];
+    if (a) bits.push("On the votes counted so far, " + a + ".");
+    if (b) bits.push("On the same votes in 2024, " + b + (isNum(gap.pres2024_old_minus_new) ? " (" + (pts1(gap.pres2024_old_minus_new) === "0.0" ? "the same" : pts1(gap.pres2024_old_minus_new) + " points " + (gap.pres2024_old_minus_new > 0 ? "better" : "worse")) + " on all votes)." : "."));
+    $("rd-gap").textContent = bits.join(" ");
+    const miss = [];
+    [["old", o], ["new", n]].forEach(function (x) {
+      const m = arr(x[1].counties_missing).map(function (c) { return titleCase(c && typeof c === "object" ? c.county || "" : c); }).filter(Boolean);
+      if (m.length) miss.push("Not yet reporting on the " + x[0] + " lines: " + m.join(", ") + ".");
+    });
+    $("rd-missing").textContent = miss.join(" ");
+  }
+
   /* ---------- state and polling ---------- */
   let lastGood = null;
   let lastText = null;
 
   function renderAll(s) {
     // One malformed section must not take the rest of the page down on the night.
-    [renderHead, renderDial, renderStats, renderCount, renderMap, renderEstimates, renderTrend, renderSources, renderGroups, renderHistoryData, renderMethods, function (d) {
+    [renderHead, renderDial, renderStats, renderNeeds, renderCount, renderMap, renderEstimates, renderDvc, renderTrend, renderSources, renderGroups, renderRedistrict, renderHistoryData, renderMethods, function (d) {
       countyRows = arr(d.by_county);
       drawCounties();
     }, renderEarly].forEach(function (f) {
@@ -2093,7 +2403,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   drawCounties();
   renderEarly({});
   renderHistoryData({});
-  [renderEstimates, renderTrend, renderSources, renderGroups].forEach(function (f) {
+  [renderEstimates, renderTrend, renderSources, renderGroups, renderNeeds, renderDvc, renderRedistrict].forEach(function (f) {
     try { f({}); } catch (err) { console.error("needle: section failed", err); }
   });
   poll();
