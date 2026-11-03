@@ -12,7 +12,6 @@ description: "This is a copy of a document I prepared for Berkeley's graduate fo
 code-annotations: below
 footnotes-hover: false
 reference-location: margin
-toc: false
 df-print: paged
 citation: true
 ---

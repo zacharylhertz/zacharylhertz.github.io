@@ -1,0 +1,3 @@
+# Shared settings for every post: footnotes in the right margin, table of contents on the left.
+reference-location: margin
+toc-location: left

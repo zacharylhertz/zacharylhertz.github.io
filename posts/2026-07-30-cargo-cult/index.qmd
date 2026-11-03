@@ -16,7 +16,6 @@ description: 'Using Cooperative Election Study estimates to investigate ideologi
 code-annotations: below
 footnotes-hover: false
 reference-location: margin
-toc: false
 df-print: paged
 citation: true
 # format:

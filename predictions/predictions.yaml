@@ -371,4 +371,75 @@
   categories: [2026 Elections]
   source: ""
   notes: "Essentially a test of my problems with recall weighting, which other pollsters are not letting run Slack. NYT predicts a bluer environment. Case for: Trump deniers. Case against: unfair comparing one poll to an average; NYT is bluer than CW in 5/7 states so relies on a pro-D miss."
-  
+
+- prediction: "Mike Lawler will lose reelection in NY-17."
+  criteria: "...the Democratic nominee is elected in NY-17."
+  confidence: 60
+  effort: "Quick take"
+  basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: ratings average Tilt R; Lawler has run well ahead of the top of the ticket. Case for: Split Ticket has the Democrat 71%; Harris-adjacent suburban seat in a blue year."
+
+- prediction: "Matt Dunlap will win ME-02."
+  criteria: "...Matt Dunlap is elected in ME-02."
+  confidence: 55
+  effort: "Quick take"
+  basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
+  made: 2026-11-03
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: ratings average Lean R; LePage is well known and the seat voted Trump. Case for: Split Ticket has it near even (D 45%); blue environment; Golden-style crossover appeal."
+
+- prediction: "David Valadao will lose reelection in CA-22."
+  criteria: "...the Democratic nominee is elected in CA-22."
+  confidence: 62
+  effort: "Quick take"
+  basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
+  made: 2026-11-03
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Valadao has survived bad years before; Latino turnout drop-off. Case for: ratings average Tilt D; Split Ticket has the Democrat 62%."
+
+- prediction: "Derrick Van Orden will lose reelection in WI-03."
+  criteria: "...Rebecca Cooke is elected in WI-03."
+  confidence: 60
+  effort: "Quick take"
+  basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Split Ticket has it close to a coin flip (Cooke 54%). Case for: ratings average Lean D; rematch with a stronger challenger in a blue year."
+
+- prediction: "Scott Weiner will win election in CA-11."
+  criteria: "...Scott Weiner is elected in CA-11."
+  confidence: 80
+  effort: "Considered"
+  basis: "Public polling; modeled turnout"
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Pelosi endorsement could sway undecideds. Case for: primary results suggest Weiner has enough support among progressives, polling lead, fundraising advantage."
+
+- prediction: "Mike Thompson will win election in CA-04."
+  criteria: "...Mike Thompson is elected in CA-04."
+  confidence: 90
+  effort: "Considered"
+  basis: "Private polling; bad modeling"
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: small sample survey, undecideds + weak partisans could break heavy for Jones, who needs to win Rs at about a 3-1 rate, Jones has a cash advantage and Thompson was held to 40 in the primary. Case for: incumbency, environment, evidence from survey suggests Republicans see Jones as further left."

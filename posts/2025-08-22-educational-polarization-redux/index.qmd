@@ -15,7 +15,6 @@ description: 'Using Cooperative Election Study estimates to investigate educatio
 code-annotations: below
 footnotes-hover: false
 reference-location: margin
-toc: false
 df-print: paged
 citation: true
 # format:

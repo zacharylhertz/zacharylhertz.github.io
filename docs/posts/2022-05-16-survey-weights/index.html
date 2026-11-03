@@ -104,7 +104,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../assets/global_styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -154,9 +154,8 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -171,9 +170,13 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <li><a href="#using-anesrake-to-create-weights" id="toc-using-anesrake-to-create-weights" class="nav-link" data-scroll-target="#using-anesrake-to-create-weights">Using <code>{anesrake}</code> to create weights</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content page-columns page-full column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -197,7 +200,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
@@ -238,23 +241,23 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p>There’s no magic “one-size-fits-all” set of variables to use when creating weights. To decide which variables to weight on, researchers should be mindful of a few things. We care most about addressing imbalances in the data that bias the outcomes of interest, so “good” weighting variables are generally correlated with the attitudes and behaviors of interest. And, as previously mentioned, we need well-measured, reliable population benchmarks for each variable we decide to weight the data on. Public opinion researchers often create weights using a similar set of demographic variables, including but not limited to race and ethnicity, age, sex, education and geographic region. Other weighting variables can include voter registration status, party identification, religion, recalled or validated voting history, and (more recently) even <a href="https://twitter.com/rp_griffin/status/1524837756752515098?s=20&amp;t=tBEJ_DS9CthkcsrpGhPBiQ">social trust or primary participation</a>.</p>
 <p>For this tutorial, I choose to weight the data on race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote. Population benchmarks for 2020 presidential vote can be obtained from the official FEC <a href="https://www.fec.gov/resources/cms-content/documents/2020presgeresults.pdf">2020 Presidential Election Results</a> and the <a href="http://www.electproject.org/2020g">United States Election Project</a>. To create the population benchmarks for demographic data, we turn to the ACS.</p>
 </section>
-<section id="accessing-and-downloading-acs-data" class="level1">
+<section id="accessing-and-downloading-acs-data" class="level1 page-columns page-full">
 <h1>Accessing and downloading ACS data</h1>
 <p>Personally, I find <a href="https://www.census.gov/programs-surveys/acs">the ACS website</a> somewhat difficult to navigate. Navigating to pages looking for data generally takes you to the Census Bureau’s pretabulated data products, but for our purposes we need data that we can read in and reshape directly.</p>
 <p>For this, we can use <a href="https://www.census.gov/programs-surveys/acs/microdata.html">the ACS Public Use Microdata Sample (PUMS)</a>. You can directly access PUMS files for most years between 1996 and 2019 (the most recent available data) through the Census Bureau’s File Transfer Protocol (FTP) site: <a href="https://www2.census.gov/programs-surveys/acs/data/pums/">click this link</a> and select a year. I turn to the most recent data (2019).</p>
-<section id="a-quick-note-on-acs-time-periods" class="level2">
+<section id="a-quick-note-on-acs-time-periods" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="a-quick-note-on-acs-time-periods">A quick note on ACS time periods</h2>
 <p>Remember, the ACS provides estimates for a specific given time period: one year, three years, or five years. It is critical to note that 1-year estimates <em>are not calculated as an average of 12 monthly values</em> (and similarly, the 5-year estimates are not calculated as the average of 60 monthly values, nor as the average of five individual 1-year estimates).</p>
 <p>Instead, the ACS collects survey data continuously, nearly every day of the year and then aggregates the results over the specific time period, spread evenly to avoid placing uneven weight on any given month or year within the period. For ACS 1-year data, this time period is the calendar year, so the 2019 ACS 1-year estimate covers January 2019 to December 2019. For ACS 5-year data, this time period is five calendar years, so the 2019 ACS 5-year estimate covers January 2015 to December 2019.</p>
 <p>This creates a tradeoff for researchers choosing between 1-year and 5-year estimates. 1-year data is the most current, but 5-year data can generally be more reliable due to the larger sample size. If both estimates are available for your year in question, which one should you use?</p>
 <p>For rapidly changing geographic areas, 1-year data are best as the current data is more likely to show yearly fluctuations, but are only available for geographic areas with at least 65,000 people. If you are hoping to illustrate a smooth trend, however, 5-year data may be best since the 5-year periods overlap. Above all, <strong>you must consistently use the same estimate</strong> so be sure to pick either 1-year estimates or 5-year estimates (or 3-year estimates, if applicable)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and stick with them.</p>
-<p>For this post, I will be using the 5-year data. Regardless of which period you choose, you should be in a directory filled with .zip files, following the general path:</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.</p></div></div><p>For this post, I will be using the 5-year data. Regardless of which period you choose, you should be in a directory filled with .zip files, following the general path:</p>
 <p><code>www2.census.gov/programs-surveys/acs/data/pums/{YEAR}/{1-Year/5-Year}</code></p>
 <p>How do you interpret these zip files, to pick the appropriate data? Their names are a construction using three important features of the data:</p>
 <p><code>{file format}_{record type}{state}.zip</code></p>
 <p>“File format” should take on two values: ‘unix’, denoting SAS datasets, and ‘csv’, denoting comma separated value files. “Record type” is either ‘h’, denoting housing files, or ‘p’, denoting person files. Finally, the file name includes the relevant <a href="https://pe.usps.com/text/pub28/28apb.htm">two-letter state abbreviation code</a>, with the abbreviation “us” denoting the nationwide data.</p>
 <p>I prefer to work with the .csv files. Because I am constructing weighting targets for the population of all American adults, I need the person record type for the “us” geography. So, I find “csv_pus.zip” and download the file. Once you download the file, unzip it (on Mac, you can right click and open with Archive Utility). You should be able to see a README .pdf file, and then your .csv data. If you are using the five-year 2019 U.S. data, you will see four .csv files (psam_pusa.csv, psam_pusb.csv, psam_pusc.csv and psam_pusd.csv). Move the folder to an appropriate working directory<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> where you can access the data when you start constructing weights in R.</p>
-</section>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Beginners in R looking to review working directories can refer to the segment beginning at 04:49 in <a href="https://zacharylhertz.github.io/files/PS103_troubleshooting.mp4">the R basics video</a> I created for Tufts students.</p></div></div></section>
 </section>
 <section id="reading-acs-data-into-r-using-fread" class="level1">
 <h1>Reading ACS data into R using <code>{fread}</code></h1>
@@ -337,10 +340,10 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="co"># NW College Grad</span></span>
 <span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>weduc[acs<span class="sc">$</span>race5<span class="sc">&gt;</span><span class="dv">1</span> <span class="sc">&amp;</span> acs<span class="sc">$</span>educ4<span class="sc">==</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="co"># NW Postgrad</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="creating-population-benchmarks-with-survey" class="level1">
+<section id="creating-population-benchmarks-with-survey" class="level1 page-columns page-full">
 <h1>Creating population benchmarks with <code>{survey}</code></h1>
 <p>Now, our benchmarks need to ultimately take the form of a list of all target values where each list element is a vector corresponding to the weighting targets for a single variable.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> To rephrase in slightly less technical terms, we want to create a list of the variables we are weighting on (in this case race and ethnicity, region, age, sex, educational attainment, the interaction of education and race, and 2020 presidential vote). In this list, each item represents a variable and is a vector, or an object of numerical values, where each numerical value is the proportion of the population represented by the given level of the variable.</p>
-<p>This may make more sense in concrete terms, so hopefully creating the list will help illustrate the concept. Recall that we can use the <code>{survey}</code> package to calculate weighted proportions from survey data, and see <a href="https://zacharylhertz.github.io/posts/2021/06/survey-package">my earlier tutorial</a> for an overview of how to use <code>{survey}</code>. We can use <code>{survey}</code> and the ACS to create numeric vectors containing the proportional breakdown of our targets with the following code:</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;If this sounds like gibberish to you, no worries! Maybe check out <a href="https://rstudio-education.github.io/tidyverse-cookbook/transform-lists-and-vectors.html">this overview</a> of lists and vectors.</p></div></div><p>This may make more sense in concrete terms, so hopefully creating the list will help illustrate the concept. Recall that we can use the <code>{survey}</code> package to calculate weighted proportions from survey data, and see <a href="https://zacharylhertz.github.io/posts/2021/06/survey-package">my earlier tutorial</a> for an overview of how to use <code>{survey}</code>. We can use <code>{survey}</code> and the ACS to create numeric vectors containing the proportional breakdown of our targets with the following code:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create survey design object using ACS and weights</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>svy.acs <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>acs, <span class="at">weights=</span>acs<span class="sc">$</span>PWGTP) </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(acs) <span class="co"># remove the ACS to save memory</span></span>
@@ -403,7 +406,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(weduc))</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>poll <span class="ot">&lt;-</span> <span class="fu">subset</span>(poll, <span class="sc">!</span><span class="fu">is.na</span>(pres))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="using-anesrake-to-create-weights" class="level1">
+<section id="using-anesrake-to-create-weights" class="level1 page-columns page-full">
 <h1>Using <code>{anesrake}</code> to create weights</h1>
 <p>To construct the actual weights, we use an automated raking procedure from <code>{anesrake}</code>, which iterates through cases and adjusts the weight until the sample and population distributions are closely aligned along our variables of interest. In this tutorial I focus on implementation and leave further discussion of the underlying procedure to <a href="https://electionstudies.org/wp-content/uploads/2018/04/nes012427.pdf">Debell and Krosnick (2009)</a>.</p>
 <p>The <code>anesrake()</code> command has a few key arguments. The first is your list of targets, which in this case I have conveniently named <code>targets</code>. The second is simply your data, which here is named <code>poll</code>. The third is a unique case identifier for individuals in your dataset, which in this case is the variable <code>ResponseID</code>. You can manually set an upper limit on the values of your weights with <code>cap</code>, which has a default value of 5 as suggested in Debell and Krosnick. Finally, <code>type = "nolim"</code> specifies that we want to weight on all of the variables included in <code>targets</code>.</p>
@@ -438,18 +441,10 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p><span style="display: none;"><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></span></p>
 
 
-</section>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;[Photo by <a href="https://unsplash.com/@visuals?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">visuals</a> on <a href="https://unsplash.com/photos/man-in-black-suit-jacket-and-pants-standing-beside-woman-in-black-coat-oGeiYmXsasQ?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]</p></div></div></section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>While somewhat irrelevant to our purposes here, I wanted to note that ACS 3-year estimates have been discontinued and are only available for the 2005-2007, 2006-2008, 2007-2009, 2008-2010, 2009-2011, 2010-2012 and 2011-2013 periods.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Beginners in R looking to review working directories can refer to the segment beginning at 04:49 in <a href="https://zacharylhertz.github.io/files/PS103_troubleshooting.mp4">the R basics video</a> I created for Tufts students.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>If this sounds like gibberish to you, no worries! Maybe check out <a href="https://rstudio-education.github.io/tidyverse-cookbook/transform-lists-and-vectors.html">this overview</a> of lists and vectors.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>[Photo by <a href="https://unsplash.com/@visuals?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">visuals</a> on <a href="https://unsplash.com/photos/man-in-black-suit-jacket-and-pants-standing-beside-woman-in-black-coat-oGeiYmXsasQ?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2022,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2022,
   author = {Lorico Hertz, Zachary},
   title = {Creating {Survey} {Weights} in {R} {Using} {Census} {Data}},
   date = {2022-05-16},

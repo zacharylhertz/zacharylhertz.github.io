@@ -69,7 +69,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../assets/global_styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -119,9 +119,8 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -132,9 +131,13 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content page-columns page-full column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -156,7 +159,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
@@ -187,11 +190,11 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 
 
 <p>A <a href="https://drive.google.com/file/d/1CL9llsfYWU0egabxQhxYFZn4cO4N4iT8/view">recent working paper</a> by Anthony Fowler and William Howell finds that partisans update their policy beliefs in response to both in- and out-party elite cues. I found the paper especially notable for a few reasons: its findings are well-supported <a href="https://www.cambridge.org/core/journals/british-journal-of-political-science/article/party-cues-in-the-news-democratic-elites-republican-backlash-and-the-dynamics-of-climate-skepticism/9B173B1C904EC70361BBBF51C456A343">yet somewhat incongrous</a> with both <a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1540-5907.2011.00541.x">previous research</a> and the oft-cited<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> expression that “partisanship is a hell of a drug”.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Given the paper’s novelty and relevance to my own research interests, I ran an extension and replication in May 2021. Do partisans update their policy beliefs in response to elite cues from both in-party and out-party leaders?</p>
-<p>I follow the methods outlined by Fowler and Howell to design four survey experiments. The first is a replication of the authors’ experiments on the federal minimum wage, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.</p>
-<section id="research-design" class="level1">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See, for example, <a href="https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&amp;src=typed_query">its frequent use</a> by political scientists on Twitter.</p></div><div id="fn2"><p><sup>2</sup>&nbsp;One <a href="https://twitter.com/BrendanNyhan/status/857963843607298049">which seems</a> to have been created and popularized by Brendan Nyhan and Stephen Miller.</p></div></div><p>I follow the methods outlined by Fowler and Howell to design four survey experiments. The first is a replication of the authors’ experiments on the federal minimum wage, while the other two extend their design to examine policy preferences for spending on national security and a hypothetical infrastructure bill.</p>
+<section id="research-design" class="level1 page-columns page-full">
 <h1>Research Design</h1>
 <p>For each policy area, I presented respondents with the current policy.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> There were nine treatment arms for each policy area, in which Nancy Pelosi was said to support one of three possible positions and Mitch McConnell was said to hold one position from a set of three overlapping but separate positions. Both the assigned treatment and order of politicians’ positions within a treatment were randomized. Respondents were then asked for their preferred policy position, and acceptable responses were restricted to a set of plausible numbers for a given policy position.</p>
-<p>Respondents were recruited via Lucid between May 2, 2021 and May 9, 2021; I implemented two pre-treatment attention checks into the survey battery to screen for and remove inattentive respondents. While I collected data from 1424 respondents overall after inattentive respondents were removed, I examine partisans (including leaners)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> in this analysis, limiting the sample further to 1210 respondents.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: “Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure.”</p></div><div id="fn4"><p><sup>4</sup>&nbsp;While the analysis of pooled partisans excluding leaners is omitted for brevity, doing so actually strengthens the treatment effects slightly to 0.25 for both in-party and out-party positions in the minimum wage experiment.</p></div></div><p>Respondents were recruited via Lucid between May 2, 2021 and May 9, 2021; I implemented two pre-treatment attention checks into the survey battery to screen for and remove inattentive respondents. While I collected data from 1424 respondents overall after inattentive respondents were removed, I examine partisans (including leaners)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> in this analysis, limiting the sample further to 1210 respondents.</p>
 <p>Following Fowler and Howell, I begin my analysis by estimating the effects of party leaders’ position on partisans’ policy beliefs using the following equation for each policy area:</p>
 <p><a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&amp;space;Respondent&amp;space;\text{&amp;space;}Position&amp;space;=&amp;space;\text{&amp;space;}&amp;\alpha&amp;space;\text{&amp;space;}+\text{&amp;space;}&amp;space;\beta*in-party\text{&amp;space;}&amp;space;position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;\gamma&amp;space;*out-party&amp;space;\text{&amp;space;}position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;&amp;space;\delta&amp;space;*Respondent&amp;space;\text{&amp;space;}&amp;space;Partisan&amp;space;\text{&amp;space;}&amp;space;Identification&amp;space;+&amp;space;\epsilon&amp;space;\end{}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\begin{align*}&amp;space;Respondent&amp;space;\text{&amp;space;}Position&amp;space;=&amp;space;\text{&amp;space;}&amp;\alpha&amp;space;\text{&amp;space;}+\text{&amp;space;}&amp;space;\beta*in-party\text{&amp;space;}&amp;space;position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;\gamma&amp;space;*out-party&amp;space;\text{&amp;space;}position&amp;space;\text{&amp;space;}+&amp;space;\\&amp;space;&amp;&amp;space;\delta&amp;space;*Respondent&amp;space;\text{&amp;space;}&amp;space;Partisan&amp;space;\text{&amp;space;}&amp;space;Identification&amp;space;+&amp;space;\epsilon&amp;space;\end{}" title="\begin{align*} Respondent \text{ }Position = \text{ }&amp;\alpha \text{ }+\text{ } \beta*in-party\text{ } position \text{ }+ \\ &amp;\gamma *out-party \text{ }position \text{ }+ \\ &amp; \delta *Respondent \text{ } Partisan \text{ } Identification + \epsilon \end{}"></a></p>
 <p>Here, <code>in-party position</code> is the policy said to be preferred by the respondent’s copartisan party leader while <code>out-party position</code> is the policy stated to be preferred by the other party leader. For example, among respondents in the treatment arm where Mitch McConnell preferred a $12.50 minimum wage and Nancy Pelosi preferred a $15 minimum wage, <code>in-party position</code> would equal $15 for a Democrat but $12.50 for a Republican, while <code>out-party position</code> would equal $12.50 for a Democrat but $15 for a Republican. <code>Respondent Partisan Identification</code> is a dummy variable indicating the respondent’s partisan identity.</p>
@@ -229,7 +232,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p>After removing outliers, there still is no statistically significant effect of the out-party position on respondents’ preferred national security budget. For every $1 billion dollar increase in the in-party leader’s preferred national security budget, respondents increase their preferred national security budget by $370 million (p=0.02). Noticeably, even partisan identification did not have a statistically significant effect on respondents’ preferred amount of national security spending.</p>
 <p>Finally, on the issue of infrastructure spending, we see important changes after removing outliers. For every additional $1 trillion in infrastructure spending advocated by the in-party leader, partisan respondents increase their preferred amount of infrastructure spending by $433 billion (p&lt;0.001). Additionally, for every additional $1 trillion in the size of the infrastructure bill advocated by the opposing party leader, partisans increase the size of their preferred infrastructure spending bill by $239 billion (p&lt;0.001). On infrastructure, after removing egregious outliers, we see that partisans update their policy preferences in response to both the in- and out-party leaders.</p>
 </section>
-<section id="conclusion" class="level1">
+<section id="conclusion" class="level1 page-columns page-full">
 <h1>Conclusion</h1>
 <p>I find strong evidence that partisans adjust their preferred federal minimum wage in response to cues from both in-party and out-party leaders. After adjusting for data collection issues by removing outliers, I find similar effects on partisans’ policy preferences with a hypothetical infrastructure bill. I find that on the issue of national security spending, however, only the in-party leader’s position has a statistically significant effect on partisans’ policy preference.</p>
 <p>These findings are notable for a few reasons. First, I find that while partisans respond to the positions taken by their party leaders, they do not do so indiscriminately. On all three issues, the positions taken by in-party leaders are discounted significantly by partisan respondents, suggesting that partisans do not blindly adopt the positions of their party leaders.</p>
@@ -241,19 +244,10 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p><span style="display: none;"><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></span></p>
 
 
-</section>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;[Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]</p></div></div></section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>See, for example, <a href="https://twitter.com/search?q=partisanship%20is%20a%20hell%20of%20a%20drug&amp;src=typed_query">its frequent use</a> by political scientists on Twitter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>One <a href="https://twitter.com/BrendanNyhan/status/857963843607298049">which seems</a> to have been created and popularized by Brendan Nyhan and Stephen Miller.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>The infrastructure bill had no status-quo equivalent, so respondents were simply presented with the sentence: “Congress is currently considering an infrastructure bill to create jobs and rebuild national infrastructure.”<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>While the analysis of pooled partisans excluding leaners is omitted for brevity, doing so actually strengthens the treatment effects slightly to 0.25 for both in-party and out-party positions in the minimum wage experiment.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>[Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/a-picture-of-a-donkey-and-a-donkey-with-stars-on-it-o20b9MMegxY?utm_content=creditCopyText&amp;utm_medium=referral&amp;utm_source=unsplash">Unsplash</a>.]<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2021,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2021,
   author = {Lorico Hertz, Zachary},
   title = {How {Sensitive} Are {Partisans} to {Out-Party} {Cues?}},
   date = {2021-12-16},

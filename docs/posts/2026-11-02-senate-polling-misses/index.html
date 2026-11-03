@@ -69,7 +69,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../assets/global_styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -119,9 +119,8 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -136,9 +135,13 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <li><a href="#how-to-read-the-final-polls" id="toc-how-to-read-the-final-polls" class="nav-link" data-scroll-target="#how-to-read-the-final-polls">How to read the final polls</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content page-columns page-full column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -158,7 +161,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
@@ -184,35 +187,35 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 
 <!-- Before publishing: add a replication link? -->
 <p>I’m going to start this off with a bold prediction: <strong>tomorrow, it will be apparent that the polls were off.</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> You don’t have to be a Nate to understand that what remains unclear — the question that’s keeping every Democratic hobbyist poll-watcher from Kalamazoo to Kissimmee<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> doomscrolling — are <em>“how much will the polls miss by”</em> and <em>“will they overestimate Democrats, or Republicans?”</em> While of course past performance is no guarantee of future results, we <em>can</em> fortunately at least set expectations to help you sleep a little easier tonight using historical polling error. In this post, I compare the average nonpartisan Senate polling in the last 21 days of the campaign with the actual results in 14 elections since 1998.</p>
-<section id="first-a-quick-methods-note" class="level1">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Bold prediction, get it?</p></div><div id="fn2"><p><sup>2</sup>&nbsp;Or Bangor to Brownsville, or Toledo to Topeka, or Anchorage to Amarillo, or…</p></div></div><section id="first-a-quick-methods-note" class="level1 page-columns page-full">
 <h1>First, a quick methods note</h1>
 <p>I grabbed polls from FiveThirtyEight’s public archive.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> The public <a href="https://github.com/fivethirtyeight/data/tree/master/pollster-ratings">polling file</a> only includes polls up until 2022, so I turned to <a href="https://web.archive.org/web/20241118073720/https://projects.fivethirtyeight.com/polls/data/senate_polls.csv">an Internet Archive copy</a> of FiveThirtyEight’s 2024 Senate polling data. I subset down to nonpartisan polls from the final 21 days of the race. That leaves 2,404 polls across 389 races. As my source for election results, I turn to the <a href="https://doi.org/10.7910/DVN/PEJ5QU">MIT Election Lab</a>.</p>
-<section id="what-is-a-margin" class="level2">
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;Rest in peace, Fivey.</p></div></div><section id="what-is-a-margin" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="what-is-a-margin">What is a margin?</h2>
 <p>The margin between two candidates is often used as shorthand for the poll’s prediction about election results. I’ll leave the debate about whether this is <a href="https://www.patrickruffini.com/p/actually-you-should-look-at-margins">a good measure</a> or a <a href="https://x.com/RealCarlAllen/status/2115259481135141025?a=a7hkLhDQx12mN7fSn-M&amp;s=20">fundamentally flawed one</a> to the Patrick Ruffinis and Carl Allens of the world,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> but it is close to an “industry standard” that most journalists use, so I focus on margin here.</p>
-<p>To calculate margin, you take the difference between the gap between candidates’ polled vote share and the gap in their actual vote share. We’ll take as an example a poll that I conducted. The <a href="https://www.filesforprogress.org/datasets/2022/11/dfp_oh_final_midterm_tabs.pdf">final Data for Progress poll</a> of Ohio’s 2022 Senate race had J.D. Vance beating Tim Ryan 55 percent to 45 percent, a 10-point margin. Meanwhile, when votes were counted, Vance won 53 percent to 46.9 percent, a margin of about 6 points. So, the poll predicted R+10, the election result was R+6.1, and thus the poll missed by (10-6.1=) 3.9 points, a prediction about 4 points too favorable to Republicans.</p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;For whatever it’s worth I tend to come down on the Allen side of this debate.</p></div></div><p>To calculate margin, you take the difference between the gap between candidates’ polled vote share and the gap in their actual vote share. We’ll take as an example a poll that I conducted. The <a href="https://www.filesforprogress.org/datasets/2022/11/dfp_oh_final_midterm_tabs.pdf">final Data for Progress poll</a> of Ohio’s 2022 Senate race had J.D. Vance beating Tim Ryan 55 percent to 45 percent, a 10-point margin. Meanwhile, when votes were counted, Vance won 53 percent to 46.9 percent, a margin of about 6 points. So, the poll predicted R+10, the election result was R+6.1, and thus the poll missed by (10-6.1=) 3.9 points, a prediction about 4 points too favorable to Republicans.</p>
 <p><img src="images/fig0_margin_explainer.png" class="img-fluid"></p>
 <p>In this analysis, I calculate this for every poll, then take the average misses for each race and year. To close out this example, there were eleven polls of OH-SEN in 2022 which averaged a prediction of Vance +5.0. Because the result was Vance +6.1, this means those polls overestimated Democrats by about a point.</p>
 </section>
 </section>
-<section id="polls-historically-overstated-both-parties-but-recently-favor-democrats" class="level1">
+<section id="polls-historically-overstated-both-parties-but-recently-favor-democrats" class="level1 page-columns page-full">
 <h1>Polls historically overstated both parties, but recently favor Democrats</h1>
 <p><img src="images/fig1_polling_error.png" class="img-fluid"></p>
 <p>Looking at average misses over the past 28 years, we can see that in a typical year Senate polls were about 2.6 points too favorable to one party or the other. There’s a decent amount of range — in 2020, polls were nearly 7 points too favorable to Democrats — and this aggregation averages across all races polled in a given year, which means that it conceals the extent to which polls missed in <em>a given race</em>.</p>
 <p>There does not appear to be a “midterm effect” in Senate polling misses: across seven midterm elections, the average Senate polling miss is essentially zero. Senate polling misses also do not appear to be related to partisan control of the White House. Under Democratic presidents, Senate polls overestimated Democratic Senate candidates by about a third of a point on average. Under Republican presidents, Senate polls overestimated Democratic candidates by about 1.3 points.</p>
 <p>One interesting that stands out, however, is that between 1998 and 2012 Senate polling tended to overestimate Republicans. In six of eight elections the polls were too favorable towards Republicans, by an average of 1.2 points. Since 2014, however, polls have overestimated Democratic candidates for Senate by an average of 3.3 points. This is driven by large polling errors in the 2016, 2020 and 2024 presidential cycles. The midterm years in that period are more muted: polls overstated Democratic Senate margins by about 0.7 points in 2018 and 1.5 points in 2022.</p>
 <p>Some argue<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> that this year’s polls are overestimating Republicans, in part because of the recent trend of pollsters weighting to recalled presidential vote. What we can see is this sort of miss might at first seem somewhat surprising, given the recent history of polls overestimating Democrats. But the data also suggests that a 2026 polling miss overestimating <em>Republicans</em> would not be surprising. Because the yearly average polling miss has a standard deviation of about 3 points across 1998-2024, and because the modern midterms overestimated Democrats by small amounts, we shouldn’t be surprised if the polls favor Republicans this year. There is about a 1 in 6 chance that 2026 Senate polls favor Republicans on average by 2 points or more. An even larger miss, in which 2026 Senate polls ultimately overestimate Republican support by 5 points or more, is about 2 standard deviations out and thus unlikely but not even out of the question.</p>
-<p>But of course, average error can only tell us so much. Given the shape of the Senate battleground, we might be more interested in whether errors are concentrated in safe or battleground states, or whether there is a correlation between a state’s partisan lean and the polling error. This is especially important given that the Democratic path to a Senate majority relies on polling holding for red states like Alaska, Texas, Kansas, Nebraska and Iowa.</p>
+<div class="no-row-height column-margin column-container"><div id="fn5"><p><sup>5</sup>&nbsp;I recommend this solid <a href="https://projects.statenavigate.com/features/total-recall-bias/">State Navigate piece</a>.</p></div></div><p>But of course, average error can only tell us so much. Given the shape of the Senate battleground, we might be more interested in whether errors are concentrated in safe or battleground states, or whether there is a correlation between a state’s partisan lean and the polling error. This is especially important given that the Democratic path to a Senate majority relies on polling holding for red states like Alaska, Texas, Kansas, Nebraska and Iowa.</p>
 </section>
-<section id="in-recent-midterms-polls-underestimate-state-partisanship" class="level1">
+<section id="in-recent-midterms-polls-underestimate-state-partisanship" class="level1 page-columns page-full">
 <h1>In recent midterms, polls underestimate state partisanship</h1>
 <p><img src="images/fig3_error_by_state_vote.png" class="img-fluid"></p>
 <p>Here, I take midterm years and plot races’ polling error against how the state voted in the previous presidential election<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. A flat line means that there is no relationship between how Democratic or Republican a state is and its eventual polling error. An upward-sloping line means that polls overestimated Republicans in blue states and overestimated Democrats in Republican states; in other words, that the election results ended up more partisan than the polls suggested.</p>
-<p>We can see that from 1998 to 2014, there is essentially no relationship between a state’s presidential vote and polling misses, bar 2010 which is driven entirely by a large miss off two polls in Hawaii. In 2018 and 2022, however, we see that polls overestimated Democrats in red states and overestimated Republicans in blue states. Specifically, an increase in 10 points of a state’s Republican share of the two-party presidential vote is associated with polls overestimating Democrats by about 2.4 points <em>more</em> in 2018 and 3.5 points in 2022.</p>
+<div class="no-row-height column-margin column-container"><div id="fn6"><p><sup>6</sup>&nbsp;I use two-party vote share for the presidential election votes, polls, and Senate results in this chart because undecided voters make safe-state polling look worse than it actually is</p></div></div><p>We can see that from 1998 to 2014, there is essentially no relationship between a state’s presidential vote and polling misses, bar 2010 which is driven entirely by a large miss off two polls in Hawaii. In 2018 and 2022, however, we see that polls overestimated Democrats in red states and overestimated Republicans in blue states. Specifically, an increase in 10 points of a state’s Republican share of the two-party presidential vote is associated with polls overestimating Democrats by about 2.4 points <em>more</em> in 2018 and 3.5 points in 2022.</p>
 <p>Given a Senate map where Democrats are hoping to pick up seats in recent red states like Alaska, Ohio, North Carolina, Texas, Kansas and Iowa, this dynamic is incredibly important. In 2018 and 2022, we can see that states where the party won less than 47 percent of the two-party presidential vote had polling misses overestimating Democrats by about 4 to 5 points on average. <a href="https://www.nytimes.com/2026/10/27/us/politics/midterm-polls-errors-states.html?unlocked_article_code=1.NVE.7rUx.MZtXc0A2Y9kX&amp;smid=url-share">A recent Times piece by Caroline Soler</a> notes that polling error tracked partisanship in 2018 and 2022.</p>
 <p>One caveat to these findings is that they’re averages driven by many non-competitive races. This year, where control of the Senate comes down to a <a href="https://www.nytimes.com/2026/11/01/us/politics/times-siena-poll-senate.html?unlocked_article_code=1.NVE.kNGI.2LATVFKCjjOi&amp;smid=url-share">handful of key races</a> we would want to know whether this holds in the competitive races. But of the 20 midterm races in states where Democrats won less than 47 percent of the presidential vote, only seven had a polling average within 10 points, six in 2018 alone.</p>
 <p>In those close races<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> in red states, polls overstated support for Democrats in six of seven races. The one exception was Texas in 2018, when polls overestimated support for Ted Cruz by about 3 points. If that pattern holds, Democrats in places like Texas, Ohio, Iowa or Kansas would run behind their final polls, even in a good year for the party.</p>
-<p>But Texas 2018 also serves as a reminder that polling misses are not particularly correlated within-state over time, another point mentioned by <a href="https://www.nytimes.com/2026/10/27/us/politics/midterm-polls-errors-states.html?unlocked_article_code=1.NVE.7rUx.MZtXc0A2Y9kX&amp;smid=url-share">Soler’s article</a>. Texas Senate polling in 2018 may have overestimated Republican support, but then polling misses went on to overstate Democratic support by about 4 points in 2020 and nearly 5 in 2024. So, this begs the question: what has polling error actually been in the states that matter this year?</p>
+<div class="no-row-height column-margin column-container"><div id="fn7"><p><sup>7</sup>&nbsp;Beware of small-sample analysis!</p></div></div><p>But Texas 2018 also serves as a reminder that polling misses are not particularly correlated within-state over time, another point mentioned by <a href="https://www.nytimes.com/2026/10/27/us/politics/midterm-polls-errors-states.html?unlocked_article_code=1.NVE.7rUx.MZtXc0A2Y9kX&amp;smid=url-share">Soler’s article</a>. Texas Senate polling in 2018 may have overestimated Republican support, but then polling misses went on to overstate Democratic support by about 4 points in 2020 and nearly 5 in 2024. So, this begs the question: what has polling error actually been in the states that matter this year?</p>
 </section>
 <section id="which-way-will-polls-miss-state-level-histories-offer-little-information" class="level1">
 <h1>Which way will polls miss? State-level histories offer little information</h1>
@@ -220,11 +223,11 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p>Here, I plot polling misses over time at the state-level for 15 states with key Senate races this year. Looking at any given state, we can see that error is noisy over time: reading down the graph we see error bounce left and right over time. Across states, polling error in one election predicts the direction of polling error in the next only 53 percent of the time.</p>
 <p>Instead, the type of year and national environment seem far more predictive of polling miss directions. In presidential years, polls in these states have overestimated Democrats in 24 of 27 races. In the last two midterms, however, polls in these states overestimated Democrats in only 8 of 14 races. This is in part because of the previous dynamic, where polls overestimated Democrats in 8 of the 10 races in states Democrats had lost in the previous presidential election, and overestimated Republicans in all four races in states Democrats had won.</p>
 </section>
-<section id="what-if-the-partisan-pattern-holds" class="level1">
+<section id="what-if-the-partisan-pattern-holds" class="level1 page-columns page-full">
 <h1>What if the partisan pattern holds?</h1>
 <p><img src="images/fig4_partisan_shift.png" class="img-fluid"></p>
 <p>What would this look like in practice? I start with the state-level <a href="https://www.natesilver.net/p/nate-silver-2026-midterm-election-polls-model">Silver Bulletin polling averages</a> and shift each one by the average relationship between a state’s presidential vote and its polling miss in 2018 and 2022.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> You should read this <strong>not as a forecast</strong>, but as an arithmetic exercise. This is a uniform swing, agnostic to any national-level polling misses or candidate-quality differences<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
-<p>What this does show is how much exactly a repeat in polling errors correlated with state-level partisanship could cost Democrats tomorrow. Democratic leads of about 3 points in Texas, Ohio, Kansas and Alaska fall to between about half a point and 1.5 points, and Iowa flips entirely to the Republican column.</p>
+<div class="no-row-height column-margin column-container"><div id="fn8"><p><sup>8</sup>&nbsp;The shift is 0.29 points (robust SE 0.07, p &lt; .001, 50 races) per point of a state’s 2024 two-party presidential vote above or below 50 percent, from 2018 and 2022 with year fixed effects. In a backtest using only earlier elections, a shift like this reduced typical error in races polled within 10 points from 5.49 to 4.87 points across 2016 to 2024.</p></div><div id="fn9"><p><sup>9</sup>&nbsp;And we would certainly expect voters to treat Ken Paxton and Susan Collins differently</p></div></div><p>What this does show is how much exactly a repeat in polling errors correlated with state-level partisanship could cost Democrats tomorrow. Democratic leads of about 3 points in Texas, Ohio, Kansas and Alaska fall to between about half a point and 1.5 points, and Iowa flips entirely to the Republican column.</p>
 </section>
 <section id="how-to-read-the-final-polls" class="level1">
 <h1>How to read the final polls</h1>
@@ -239,20 +242,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>Bold prediction, get it?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Or Bangor to Brownsville, or Toledo to Topeka, or Anchorage to Amarillo, or…<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Rest in peace, Fivey.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>For whatever it’s worth I tend to come down on the Allen side of this debate.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>I recommend this solid <a href="https://projects.statenavigate.com/features/total-recall-bias/">State Navigate piece</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>I use two-party vote share for the presidential election votes, polls, and Senate results in this chart because undecided voters make safe-state polling look worse than it actually is<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>Beware of small-sample analysis!<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>The shift is 0.29 points (robust SE 0.07, p &lt; .001, 50 races) per point of a state’s 2024 two-party presidential vote above or below 50 percent, from 2018 and 2022 with year fixed effects. In a backtest using only earlier elections, a shift like this reduced typical error in races polled within 10 points from 5.49 to 4.87 points across 2016 to 2024.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>And we would certainly expect voters to treat Ken Paxton and Susan Collins differently<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2026,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2026,
   author = {Lorico Hertz, Zachary},
   title = {Which {Way} {Do} {Senate} {Polls} {Miss?}},
   date = {2026-11-02},

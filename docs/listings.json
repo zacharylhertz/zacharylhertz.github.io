@@ -18,6 +18,7 @@
   {
     "listing": "/posts/index.html",
     "items": [
+      "/posts/2026-11-03-remember-remember/index.html",
       "/posts/2026-11-02-senate-polling-misses/index.html",
       "/posts/2026-01-29-putting-in-the-proofs/index.html",
       "/posts/2025-08-22-educational-polarization-redux/index.html",
@@ -32,5 +33,9 @@
       "/posts/2021-06-29-survey-package/index.html",
       "/posts/2021-06-22-dfp-lucid/index.html"
     ]
+  },
+  {
+    "listing": "/predictions/all.html",
+    "items": []
   }
 ]

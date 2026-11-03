@@ -1,0 +1,171 @@
+---
+title: 'Revisiting Black Voters and Black Nonvoters'
+author: Zachary Lorico Hertz
+date: '2026-11-02'
+image: images/plot_trump_trend.png
+draft: true
+categories:
+  - electoral analysis
+  - R
+  - CES
+  - Black Americans
+  - turnout
+  - race and ethnicity
+subtitle: "Are Black Americans who stay home more pro-Trump than those who vote, and did that gap grow after 2020?"
+description: 'Using the 2020 and 2024 Cooperative Election Study, I find Black non-voters preferred Trump by about 5 points more than Black voters in both years, with no detectable change in that gap. Most Black non-voters preferred the Democrat, and about 3 in 10 chose neither.'
+code-annotations: below
+footnotes-hover: false
+reference-location: margin
+df-print: paged
+citation: true
+---
+
+<!-- TODO for ZH: replace the placeholder and uncomment once a replication repo exists.
+*As usual, you can find the code to replicate this analysis in a GitHub repository [linked here](TODO).*
+-->
+
+<!-- TODO for ZH: the three outside sources in the first paragraphs (Soler and Schaffner, theGrio, Statehouse News Bureau) were read this session through a page-summarising fetch, not by eye. Please click through and check the quoted words before publishing. I did not read any NYT or X source for this draft. -->
+
+Two years ago, on Election Day, I [wrote a post](https://zacharylhertz.github.io/posts/2024-11-05-black-nonvoters/) arguing that Black Americans who stayed home in 2020 "were not much more likely to prefer Trump than those who voted": 13 percent against 9 percent. Since then, [Caroline Soler and Brian Schaffner](https://sites.tufts.edu/cooperativeelectionstudy/?p=96) have reported from the 2024 Cooperative Election Study (CES) that "for the first time in decades, non-voters preferred the Republican candidate over the Democratic," with Trump ahead of Harris 52 to 48 among non-voters who stated a preference. Meanwhile, as tomorrow's midterm approaches, Black non-voters are once again being discussed as an untapped reserve: [Jim Clyburn says](https://thegrio.com/2026/10/07/black-voter-turnout-clyburn-trump/) Black turnout will depend on whether Democrats speak to everyday economic pressures, and [a group in Ohio](https://wysu.org/ohio-news/2026-06-23/group-says-inactive-black-voters-in-ohio-could-make-a-difference-in-upcoming-midterms) counts about 603,000 eligible Black voters who sat out 2022 and says half of them showing up could decide a statewide seat.
+
+So it seems worth asking a plain question: **are Black Americans who stay home more pro-Trump than those who vote, and did that gap grow between 2020 and 2024?** If non-voters are a reserve for one party, it matters which party.
+
+The CES can answer this for the reasons it could last time. It has a large Black sample (6,952 respondents in 2020 and 7,728 in 2024), it checks turnout against voter files instead of taking people's word for it, and it asks everyone their presidential preference before the election, whether or not they end up voting. I keep the 2024 post's definition: a voter has a validated vote record, and a non-voter is anyone else, including people the vendor could not find on the voter file. That last choice turns out to matter a lot, and I come back to it near the end.[^weights]
+
+[^weights]: Weighting shrinks these samples a good deal. Among Black respondents the Kish effective sample size, roughly the size of an unweighted sample with the same precision, is 2,721 of 6,952 in 2020 and 1,919 of 7,728 in 2024. For the main estimates below, that means 1,487 voters and 1,285 non-voters in 2020, and 1,035 voters and 1,025 non-voters in 2024.
+
+The short answer is yes to the first half and no to the second. Black non-voters preferred Trump by 4.9 points more than Black voters in 2020 and by 5.0 points more in 2024, and the change in that gap is indistinguishable from zero (0.0 points, standard error 2.0, *p* = .99). Trump gained about 4.7 points in both groups. In both years, most Black non-voters preferred the Democrat, and more chose neither candidate than chose Trump.
+
+One correction before the results. The vote question in my 2024 post went only to people who said they voted, so its "non-voters" were mostly people who said they voted and whom the vendor could not find on the voter file. I've added [a note to that post](https://zacharylhertz.github.io/posts/2024-11-05-black-nonvoters/). Here I use the question asked of everyone before the election, with every response option in the denominator, on the pre-election weight. On that measure, 2020 looks rather different: Biden had 85 percent of Black voters and 59 percent of non-voters, Trump had 7 and 12 percent, and 29 percent of non-voters chose neither.
+
+# Black non-voters are more pro-Trump than voters, but mostly they prefer the Democrat or no one
+
+![Trump does better among Black non-voters than Black voters in both years, but his share is smaller than the share choosing neither candidate. Click to expand.](images/plot_votes.png){.lightbox group="nonvoters-gallery" width=75%}
+
+In 2024, 16.8 percent of Black non-voters preferred Trump, against 11.8 percent of Black voters. Harris had 53.2 percent of non-voters and 81.0 percent of voters, and 30.0 percent of non-voters chose someone else, weren't sure, or said they wouldn't vote, against 7.2 percent of voters.
+
+Soler and Schaffner have a point here. Among those who picked one of the two candidates, Trump's share of Black non-voters (24.0 percent) was nearly double his share of Black voters (12.7 percent), an 11.3 point gap. But the national flip they describe does not appear among Black Americans: on the same two-party measure, Black non-voters preferred Harris 76 to 24. There were about three Harris supporters for every Trump supporter among Black non-voters. Mobilizing them, even at random, would still have netted votes for Democrats.
+
+# Trump gained about the same among Black voters and non-voters
+
+![The two lines run almost parallel: Trump gains about 4.7 points in each group, and the gap stays at about 5 points. Click to expand.](images/plot_trump_trend.png){.lightbox group="nonvoters-gallery" width=75%}
+
+If Republican gains were concentrated among people who stayed home, we would expect the lines above to diverge. They do not. Trump's share rose from 7.2 to 11.8 percent among Black voters (up 4.7 points, standard error 1.3) and from 12.1 to 16.8 percent among Black non-voters (up 4.7 points, standard error 1.5). The gap moved from 4.9 to 5.0 points. The confidence interval on that change runs from about -3.9 to +4.0 points, so these data rule out the gap having widened by much more than 4 points, though with 80 percent power I could only reliably detect a change of about 5.6 points. On the two-party measure the gap rises from 9.2 to 11.3 points, a change of 2.0 points (standard error 2.5, *p* = .42).
+
+The Democratic share fell in both groups as well, by 4.2 points among voters and 5.9 among non-voters, while the share choosing neither barely moved.
+
+# The gap only appears to grow in answers given after Trump won
+
+There is a version of this analysis that looks like widening, and it happens to be the one I'd have run by simply updating my old code. Using the post-election vote question, the gap goes from 4.1 points to 8.4 points. That change of 4.3 points is not statistically significant (standard error 3.0, *p* = .14). If I add the preference question shown to people who said they did not vote, it goes from 4.0 to 9.3 points, a change of 5.3 points that does clear the usual bar (standard error 2.6, *p* = .04).
+
+I don't read this as evidence the gap widened, for two reasons. First, the same people show no widening in what they said before the election: among post-wave respondents, the pre-election gap is 4.8 points in 2020 and 4.7 in 2024. What changed is what non-voters said afterward. Trump's share among these Black non-voters went from 13.6 percent before the 2024 election to 19.3 percent after it, up 5.7 points (standard error 1.1), with no such move in 2020 (down 0.4 points, standard error 1.3).[^winner] Second, the post-election number for 2024 voters depends heavily on the weight. On the post-election weight, Trump has 10.0 percent of Black validated voters, while the weight the CES built for validated respondents gives him 15.6 percent. That weight also reproduces the 84 percent Harris share Soler and Schaffner report for Black voters (I get 84 on a two-party basis), so I trust it more.[^pew] Put that weight on the voters and the post-election gap goes from 3.1 to 2.7 points (a change of -0.3, standard error 3.2, *p* = .92).
+
+[^winner]: It's tempting to call this a bandwagon, with low-engagement people drifting toward the winner after the fact, but I can't separate that from late-deciding. In 2020, Biden's share among non-voters rose 9.8 points between waves. That partly reflects the post-election question offering no "I won't vote" option, which pushes "neither" down in both years.
+
+[^pew]: The [Washington Examiner](https://www.washingtonexaminer.com/news/4738212/gop-black-voters-unemployment-rate-midterms/) reports Pew's figure for Trump among Black voters as 15 percent. <!-- TODO for ZH: I read this secondhand through the Examiner; check against Pew directly. -->
+
+# Non-voters are younger, which accounts for part of the 2024 gap
+
+Perhaps non-voters aren't especially Trump-friendly at all, and are simply younger. In 2024, 32 percent of Black non-voters were under 30 against 6 percent of voters, and 10 percent were 65 or older against 32 percent of voters. As in my earlier post, they are also more likely to be parents of a child under 18 (28 percent against 19 percent), and the income and education differences are large, though I would not lean on the 2024 versions of those for reasons I get to below.
+
+| Category | Characteristic | Non-voters, 2020 | Voters, 2020 | Non-voters, 2024 | Voters, 2024 |
+|----------|----------------|------|------|------|------|
+| Age | 18 to 29 | 38% | 11\*% | 32% | 6\*% |
+| Age | 30 to 49 | 37% | 28\*% | 37% | 26\*% |
+| Age | 50 to 64 | 18% | 34\*% | 21% | 35\*% |
+| Age | 65+ | 7% | 26\*% | 10% | 32\*% |
+| Education | Some college or more | 48% | 63\*% | 46% | 75\*% |
+| Education | Four-year degree or more | 15% | 26\*% | 14% | 40\*% |
+| Employment | Employed full-time | 30% | 31% | 33% | 38\*% |
+| Gender | Female | 50% | 57\*% | 49% | 60\*% |
+| Parental status | Parent of a child under 18 | 31% | 22\*% | 28% | 19\*% |
+| Income | Under \$30,000 | 48% | 38\*% | 45% | 27\*% |
+| Income | \$30,000 to \$49,999 | 21% | 23% | 18% | 19% |
+| Income | \$50,000 to \$99,999 | 22% | 27\*% | 26% | 31\*% |
+| Income | \$100,000 to \$199,999 | 6% | 11\*% | 8% | 17\*% |
+| Income | \$200,000 or more | 2% | 2% | 3% | 6\*% |
+
+Note: \* indicates the difference between voters and non-voters is significant at *p* \< 0.05, without adjustment for multiple comparisons. All Black respondents on the pre-election weight, so the 2020 figures differ slightly from my 2024 post, which used the post-election sample. The 2020 survey asks Male or Female and the 2024 survey asks Man, Woman, Non-binary or Other; the gender row uses the first two options in each.
+
+![In 2024 the difference between younger and older Black Americans was larger than the difference between voters and non-voters of the same age. Click to expand.](images/plot_age.png){.lightbox group="nonvoters-gallery" width=75%}
+
+Splitting by age, in 2024 Trump had 18.6 percent of Black non-voters under 50 and 15.6 percent of Black voters under 50, a gap of 3.0 points (standard error 3.0, *p* = .31). Among those 50 and older it was 12.8 against 10.0 percent, a gap of 2.7 points (standard error 2.1, *p* = .20). Age itself did more work: under-50s were 5.6 points more pro-Trump among voters and 5.8 points more among non-voters. That age pattern was absent among 2020 non-voters. Adjusting for age, a four-year degree and gender, the voter gap is 4.3 points in 2020 (standard error 1.3, *p* = .001) and 1.7 points in 2024 (standard error 1.9, *p* = .35), though the change between them is not significant (-2.5, standard error 2.3, *p* = .27). By this cut, what looks like non-voters' Trumpiness in 2024 is in good part youth.
+
+# Non-voters still sit to the right of voters on race and gender, about as they did in 2020
+
+![On all five attitude items, Black non-voters give the more conservative answer in both years. Click to expand.](images/plot_attitudes.png){.lightbox group="nonvoters-gallery" width=75%}
+
+The CES repeats all five attitude questions from my earlier post, in the same words, and the differences look familiar. In 2024, 33 percent of Black non-voters agreed that women are too easily offended, against 20 percent of voters (34 and 23 percent in 2020). And 77 percent of non-voters agreed that whites get away with offenses that African Americans would never get away with, against 89 percent of voters (78 and 86 percent in 2020). Agreement that "generations of slavery and discrimination" hold Black Americans back went from a 4 point difference in 2020 to a 10 point difference in 2024 (72 and 76 percent, then 69 and 79 percent). That's the largest change in the group, but it is not statistically significant (-6.3 points, standard error 3.3, *p* = .06), and the rest are smaller.
+
+# On policy, non-voters lean right on guns and abortion, but voters moved further on the border
+
+Much of my earlier policy battery is gone. Of the 22 policy items I plotted in 2024, 11 were not asked in 2024 (including single-payer, the minimum wage and the whole set of police reforms), 2 were replaced by different proposals, and 4 changed in a word or in the question around them, so I show those but do not test them for change.[^items] That leaves 5 policy items worded the same way in both years, which, with the 5 attitude items, makes 10 I can compare.
+
+[^items]: Not asked in 2024: single-payer Medicare, lowering the Medicare age, the Affordable Care Act mandate, withholding federal funds from police departments over immigration reporting, the \$15 minimum wage, equal pay, the 20-week abortion ban, mandatory minimums, body cameras, chokeholds, and the transgender military ban. Replaced: the \$25 billion border security proposal became "build a wall," and the food stamp work requirement became a Medicaid one. Changed slightly: 2024 asks about "always allow a woman *the right* to obtain an abortion," where 2020 had no "the right," and drops "entire" from "repeal the entire Affordable Care Act." The two questions about the number of police keep their text, but in 2024 they run under "on the issue of gun regulation" instead of in a policing battery.
+
+![Black non-voters are more conservative on guns, the Affordable Care Act and abortion, but in 2024 Black voters are the more supportive of border patrols and less supportive of cutting police. Click to expand.](images/plot_policy.png){.lightbox group="nonvoters-gallery" width=75%}
+
+The familiar differences persist. In 2024, 81 percent of Black voters supported banning assault rifles against 65 percent of non-voters, and 23 percent of voters supported easier concealed-carry permits against 38 percent of non-voters. Just 17 percent of voters supported repealing the Affordable Care Act, against 37 percent of non-voters. Non-voters were also more likely to support making abortion illegal in all circumstances (18 percent against 11 percent) or permitting it only in cases of rape, incest or danger to the woman's life (60 percent against 51 percent).
+
+But non-voters are not to the right on everything. In 2020, voters and non-voters were indistinguishable on border patrols (50 and 49 percent support). In 2024, support had surged in both groups, more so among voters: 82 percent of voters against 71 percent of non-voters. And 35 percent of voters supported cutting the number of police by 10 percent, against 41 percent of non-voters. If Black non-voters are a reserve for Republicans, it isn't obviously on the issues Republicans are running on.
+
+Some caution is warranted, because I am running a lot of tests. The voter/non-voter difference is significant at the .05 level on 10 of the 10 comparable items in 2024 and 7 of 10 in 2020. But of the 10 tests of whether a gap *changed*, 2 clear .05 and only one (border patrols, -10.3 points, standard error 2.7, *p* \< .001) survives a correction for multiple comparisons. Even that one shrinks to -4.8 points (standard error 2.8, *p* = .08) if I use the validated-respondent weight on voters.
+
+# Half of Black midterm non-voters say they skipped 2020 as well
+
+A presidential non-voter and a midterm non-voter are not the same person, so with a midterm tomorrow it is worth a brief look at 2022. With no presidential race that year, I use House preference and what respondents recalled doing in 2020.
+
+![About half of Black 2022 non-voters say they did not vote for president in 2020, and those who did mostly recall voting for Biden. Click to expand.](images/plot_2022.png){.lightbox group="nonvoters-gallery" width=75%}
+
+Half (51 percent) of Black 2022 non-voters recalled not voting for president in 2020, against 8 percent of voters, which means the other half are people who say they turned out for a presidential race and then did not turn out for a midterm. They recalled voting for Trump at about the same rate as voters (7.6 and 8.1 percent, *p* = .57), and for Biden at less than half the rate (39 and 83 percent). On House preference before the 2022 election, 9.0 percent of non-voters chose the Republican against 7.3 percent of voters (a gap of 1.7 points, standard error 1.0, *p* = .08), while 40 percent chose the Democrat against 77 percent, and 51 percent chose no one against 15 percent. They are also young: 72 percent were under 50, against 33 percent of voters. If anything, the Black midterm non-voter looks less like a Republican in waiting than like someone who has not picked a side.[^house]
+
+[^house]: House preference depends on the race on offer, and uncontested seats and unfamiliar candidates push people toward "not sure" or "no one," especially people paying little attention. I would not read much into the "no one" level itself.
+
+# Most 2024 "non-voters" are people the voter file could not find
+
+Here is the part that could undo all of the above. In 2020, the CES matched respondents to Catalist's voter file. By 2024 it had moved to [TargetSmart](https://sites.tufts.edu/cooperativeelectionstudy/?p=96), and the 2022 variables carry the same prefix. Across those files, the share of Black adults who could not be found on the voter file went from 32 percent to 51 percent to 58 percent. Of the people I am calling non-voters, 59 percent were unmatched in 2020, and 90 percent were unmatched in 2024.
+
+![The share of Black adults not found on the voter file nearly doubles between 2020 and 2024. Click to expand.](images/plot_match.png){.lightbox group="nonvoters-gallery" width=75%}
+
+The [CES guide](https://dataverse.harvard.edu/file.xhtml?fileId=5793681&version=4.0) defends counting unmatched people as non-voters on the grounds that the most common reason for no match is that the person isn't registered. That was written about the 2020 file, and I doubt it holds as well for the 2024 one. Among unmatched Black respondents who answered the 2024 post-election wave, 88 percent said they voted, up from 79 percent in 2020. The validated vote share of Black adults falls from 46 to 36 percent, and [Census figures reported by theGrio](https://thegrio.com/2026/10/07/black-voter-turnout-clyburn-trump/) put 2024 turnout among Black citizens at 59.6 percent, a different denominator and a self-report, but not 23 points worth of different. Unmatched rates also rose very unevenly: for Black adults with a four-year degree they went from 29 to 33 percent, and for those without one from 32 to 65 percent. That is probably why the 2024 voters look so educated in the table above. I take this as a change in the measuring instrument rather than a change in Black Americans, though I can't prove it from these data.
+
+So I checked whether the headline survives without the unmatched. It does, in that nothing suggests widening. Comparing voters only with people on the file who have no vote record, the Trump gap goes from 5.1 to 3.0 points (a change of -2.1, standard error 3.6, *p* = .57), or from 6.8 to 0.4 points using the validated-respondent weight (a change of -6.4, standard error 3.6, *p* = .07). But with only 669 such people in 2024, the Kish effective sample is just 132 to 183, so this is a thin group, and by itself it can't say the gap is gone. Comparing voters only with the unmatched gives 4.9 and then 5.2 points.
+
+# Conclusion
+
+Are Black Americans who stay home more pro-Trump than those who vote? Yes, by about 5 points in both 2020 and 2024. Did that gap grow? Not detectably. Trump gained about as much among Black voters as among Black non-voters, the gap is in good part about age, and the signs of widening appear only in answers given after the election and on one particular weight. Most Black non-voters preferred the Democrat, 3 in 10 chose no one, and they were to the left of voters on border patrols and on cutting police in 2024. Treating them as a Republican reserve overstates what the data show, and so does treating them as identical to voters.
+
+There is a good deal this can't do. It compares two separate cross-sections with two voter file vendors, and 9 in 10 of the 2024 non-voters are defined by not being found, so I can't say much about people who were truly registered and stayed home. It can't speak to who was persuaded or who dropped out between 2020 and 2024, which would take a panel. A stated preference isn't a vote, so none of this tells us how these people would behave if they actually turned out. And it is all from before tomorrow: 2026 could look nothing like this. I'd love to see someone repeat this with a fixed voter file across years.
+
+# The estimates
+
+All entries are the non-voter minus voter difference in percentage points, followed by the standard error and *p*-value. The last column is the difference between the 2024 and 2020 gaps. I treat 2020 and 2024 as independent samples, and these standard errors account for weights but not for how the weights themselves were estimated.
+
+| Measure | 2020 gap (SE, *p*) | 2024 gap (SE, *p*) | Change (SE, *p*) |
+|---------|----------|----------|----------|
+| Trump share. Before the election, all options, all non-voters **(main estimate)** | +4.9 (1.2, <.001) | +5.0 (1.6, .003) | +0.0 (2.0, .989) |
+| Democratic share. Same | -26.1 (1.8, <.001) | -27.8 (2.1, <.001) | -1.7 (2.7, .530) |
+| Neither. Same | +21.2 (1.6, <.001) | +22.8 (1.8, <.001) | +1.7 (2.4, .476) |
+| Trump share. Before the election, two-party, all non-voters | +9.2 (1.5, <.001) | +11.3 (2.0, <.001) | +2.0 (2.5, .419) |
+| Trump share. Before, all options, on-file non-voters only | +5.1 (1.7, .003) | +3.0 (3.2, .352) | -2.1 (3.6, .571) |
+| Same, with validation weight | +6.8 (2.4, .004) | +0.4 (2.6, .869) | -6.4 (3.6, .072) |
+| Trump share. Before, all options, unmatched only against voters | +4.9 (1.3, <.001) | +5.2 (1.7, .002) | +0.3 (2.2, .884) |
+| Trump share. After the election, only those who said they voted (as in 2024 post) | +4.1 (2.0, .038) | +8.4 (2.2, <.001) | +4.3 (3.0, .144) |
+| Same, but validation weight on voters | +3.1 (2.0, .127) | +2.7 (2.4, .263) | -0.3 (3.2, .915) |
+| Trump share. After the election, everyone, all options | +4.0 (1.7, .020) | +9.3 (2.0, <.001) | +5.3 (2.6, .044) |
+| Trump share. Before the election, among post-wave respondents | +4.8 (1.7, .006) | +4.7 (1.7, .006) | -0.1 (2.4, .966) |
+
+The 10 items with the same wording in both years, in the same format, with the Benjamini-Hochberg adjusted *p*-value for the change. Positive gaps mean non-voters agree or support more than voters.
+
+| Item | 2020 gap (SE, *p*) | 2024 gap (SE, *p*) | Change (SE, *p*) | Adjusted *p* |
+|-------|----------|----------|----------|------|
+| Women are too easily offended. | +11.2 (2.4, <.001) | +13.8 (2.6, <.001) | +2.7 (3.5, .454) | .509 |
+| Whites get away with offenses that African Americans would never get away with. | -7.9 (2.1, <.001) | -11.9 (2.2, <.001) | -4.0 (3.0, .182) | .456 |
+| Generations of slavery and discrimination have created conditions that make it difficult for Blacks to work their way out of the lower class. | -3.9 (2.2, .081) | -10.2 (2.5, <.001) | -6.3 (3.3, .058) | .194 |
+| White people in the U.S. have certain advantages because of the color of their skin. | -5.8 (2.0, .004) | -9.1 (2.2, <.001) | -3.3 (3.0, .276) | .509 |
+| Racial problems in the U.S. are rare, isolated situations. | +8.8 (2.2, <.001) | +6.9 (2.0, <.001) | -2.0 (3.0, .509) | .509 |
+| Ban assault rifles. | -18.2 (1.7, <.001) | -16.1 (2.1, <.001) | +2.1 (2.7, .429) | .509 |
+| Make it easier to obtain concealed-carry permits. | +12.5 (1.8, <.001) | +14.9 (2.1, <.001) | +2.4 (2.8, .385) | .509 |
+| Increase border patrols on the US-Mexican border. | -0.7 (1.9, .725) | -11.0 (1.9, <.001) | -10.3 (2.7, <.001) | .001 |
+| Permit abortion only in case of rape, incest or danger to the woman's life. | +2.9 (1.9, .125) | +9.0 (2.2, <.001) | +6.1 (2.9, .035) | .173 |
+| Make abortions illegal in all circumstances. | +8.3 (1.6, <.001) | +6.6 (1.6, <.001) | -1.6 (2.3, .478) | .509 |

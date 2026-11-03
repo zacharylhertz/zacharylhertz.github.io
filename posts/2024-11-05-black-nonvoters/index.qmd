@@ -26,6 +26,8 @@ citation: true
 #     colorlinks: true
 ---
 
+*Correction (November 2026): this post described its non-voter vote figures as coming from Black Americans who stayed home. The question, `CC20_410`, went only to people who said they voted, so those figures mostly describe people who said they voted and were not found on the voter file. Asked of everyone before the election, Biden had 85 percent of Black voters and 59 percent of non-voters, and Trump had 7 and 12 percent. The 13-to-9 Trump difference below, which I called not significant, is 4.1 points (standard error 2.0, p = .04). "College" in the table means some college or more; the shares with a four-year degree are 25 and 16 percent. I return to this [in an update](https://zacharylhertz.github.io/posts/2026-11-02-black-nonvoters-revisited/).*
+
 *I've made the replication code for this blog post publically available, here* [as a GitHub repository](https://github.com/zacharylhertz/black-voter-nonvoter-analysis).
 
 Analysts love the truism that elections can be seen through two lenses: persuasion and turnout. And today, as voting ends for an election that will likely be decided by a margin of a few hundred thousand voters across seven states, particular attention has been brought to the latter. A recent [Good Authority piece](https://goodauthority.org/news/black-voters-as-saviors-and-scapegoats/) makes the crucial point[^1] that Black voters are called upon to either save the day or serve as scapegoats depending on the election results, and analysis that treats Black Americans as a monolithic voting bloc misses important dynamics in the race.

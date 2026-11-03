@@ -69,7 +69,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../../assets/global_styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -119,9 +119,8 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -132,9 +131,13 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content page-columns page-full column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -157,7 +160,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </div>
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-body">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
@@ -190,7 +193,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 <p><em>Correction (November 2026): this post described its non-voter vote figures as coming from Black Americans who stayed home. The question, <code>CC20_410</code>, went only to people who said they voted, so those figures mostly describe people who said they voted and were not found on the voter file. Asked of everyone before the election, Biden had 85 percent of Black voters and 59 percent of non-voters, and Trump had 7 and 12 percent. The 13-to-9 Trump difference below, which I called not significant, is 4.1 points (standard error 2.0, p = .04). “College” in the table means some college or more; the shares with a four-year degree are 25 and 16 percent. I return to this <a href="https://zacharylhertz.github.io/posts/2026-11-02-black-nonvoters-revisited/">in an update</a>.</em></p>
 <p><em>I’ve made the replication code for this blog post publically available, here</em> <a href="https://github.com/zacharylhertz/black-voter-nonvoter-analysis">as a GitHub repository</a>.</p>
 <p>Analysts love the truism that elections can be seen through two lenses: persuasion and turnout. And today, as voting ends for an election that will likely be decided by a margin of a few hundred thousand voters across seven states, particular attention has been brought to the latter. A recent <a href="https://goodauthority.org/news/black-voters-as-saviors-and-scapegoats/">Good Authority piece</a> makes the crucial point<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that Black voters are called upon to either save the day or serve as scapegoats depending on the election results, and analysis that treats Black Americans as a monolithic voting bloc misses important dynamics in the race.</p>
-<p>The Good Authority piece seems, in part, to be a response to the plethora of pre-election pieces that focus on low-turnout Black voters. In particular, Nate Cohn of the New York Times has <a href="https://www.nytimes.com/2024/05/24/upshot/trump-biden-polls-voters.html">written</a> several <a href="https://www.nytimes.com/2024/06/15/upshot/election-democrats-republicans-turnout-trump.html">pieces</a> suggesting that Black voters who did not vote in 2020 <a href="https://www.nytimes.com/2024/10/30/upshot/election-turnout-trump-harris-polls.html">will be crucial</a> in determining this year’s results. He’s not the only one: similar pieces ran in <a href="https://www.cnn.com/2024/10/22/politics/young-black-men-voters/index.html">CNN</a> and <a href="https://time.com/7171814/kamala-harris-polls-black-voters/">Time</a>, and these claims have been made by <a href="https://x.com/PatrickRuffini/status/1852717840954007899">pundits</a> and <a href="https://abcnews.go.com/538/vote-back-trump/story?id=109090626">academics</a> alike. Yet while much ink has been spilled ahead of today’s election trying to estimate how the 2024 election might be shaped by winning over the group of Black voters who sat out 2020, very few analysts writing about Black Americans have focused on <em>how 2020 voters and non-voters differ</em>. Additionally, to the extent that these pieces have considered possible differences, their ability to establish definitive findings are largely limited because they are drawn from pre-election polling of relatively small subgroups, meaning large margins of error can obscure real differences.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I highly recommend reading the piece — by Nadia E. Brown, Christopher J. Clark, Anna M. Mahoney, Periloux Peay, and Michael G. Strawbridge — in its entirety. Plus, don’t you need something to keep your mind off drawing overly strong conclusions from early returns?</p></div></div><p>The Good Authority piece seems, in part, to be a response to the plethora of pre-election pieces that focus on low-turnout Black voters. In particular, Nate Cohn of the New York Times has <a href="https://www.nytimes.com/2024/05/24/upshot/trump-biden-polls-voters.html">written</a> several <a href="https://www.nytimes.com/2024/06/15/upshot/election-democrats-republicans-turnout-trump.html">pieces</a> suggesting that Black voters who did not vote in 2020 <a href="https://www.nytimes.com/2024/10/30/upshot/election-turnout-trump-harris-polls.html">will be crucial</a> in determining this year’s results. He’s not the only one: similar pieces ran in <a href="https://www.cnn.com/2024/10/22/politics/young-black-men-voters/index.html">CNN</a> and <a href="https://time.com/7171814/kamala-harris-polls-black-voters/">Time</a>, and these claims have been made by <a href="https://x.com/PatrickRuffini/status/1852717840954007899">pundits</a> and <a href="https://abcnews.go.com/538/vote-back-trump/story?id=109090626">academics</a> alike. Yet while much ink has been spilled ahead of today’s election trying to estimate how the 2024 election might be shaped by winning over the group of Black voters who sat out 2020, very few analysts writing about Black Americans have focused on <em>how 2020 voters and non-voters differ</em>. Additionally, to the extent that these pieces have considered possible differences, their ability to establish definitive findings are largely limited because they are drawn from pre-election polling of relatively small subgroups, meaning large margins of error can obscure real differences.</p>
 <p><strong>How do Black Americans who chose to vote in 2020 differ from those who sat out the election?</strong> What policy areas might motivate those who sat out in 2020 to vote in 2024, and how do their attitudes on racial and gender issues differ? To answer these questions, I use the 2020 Cooperative Election Study, which presents two distinctive advantages over analysis relying on pre-election polling. The large sample size of the CES reduces the margin of error when estimating differences between Black Americans who voted in 2020 and Black Americans who stayed home in 2020 (the 2020 data has n=3,096 Black voters and n=1,816 Black non-voters); additionally, CES respondents reply to a large battery of attitudinal and policy questions, allowing me to assess differences in opinion across a wide number of potential issues. Voter status is determined using the <code>CL_2020gvm</code> variable: respondents with a validated voting record, no matter their mode of participation, are defined as voters. Both matched non-voters and non-matched respondents are defined as non-voters; a deeper discussion of this definition can be found in <a href="https://dataverse.harvard.edu/file.xhtml?fileId=5793681&amp;version=4.0">the CES Guide</a>.</p>
 <section id="black-americans-who-voted-in-2020-are-more-likely-to-be-older-college-educated-and-not-a-parent-of-a-minor" class="level1">
 <h1>Black Americans who voted in 2020 are more likely to be older, college educated, and not a parent of a minor</h1>
@@ -352,12 +355,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>I highly recommend reading the piece — by Nadia E. Brown, Christopher J. Clark, Anna M. Mahoney, Periloux Peay, and Michael G. Strawbridge — in its entirety. Plus, don’t you need something to keep your mind off drawing overly strong conclusions from early returns?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2024,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lorico_hertz2024,
   author = {Lorico Hertz, Zachary},
   title = {What {Can} {Survey} {Data} {Tell} {Us} {About} {Ideological}
     {Differences} {Between} {Black} {Voters} and {Black} {Nonvoters?}},

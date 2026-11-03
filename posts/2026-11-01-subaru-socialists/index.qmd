@@ -1,0 +1,103 @@
+---
+title: "Will Subaru Socialists Take Over the Democratic Party?"
+author: Zachary Lorico Hertz
+date: '2026-11-01'
+draft: true
+image: images/kang-groups-share.png
+categories:
+  - electoral analysis
+  - R
+  - CES
+  - Democratic primaries
+  - college education
+subtitle: "Do the voters behind the left's primary wins exist, and how much of the Democratic coalition are they?"
+description: 'DRAFT SKELETON. Using Cooperative Election Study estimates, I find that the voters Jay Caspian Kang calls Subaru Socialists and the Great Disappointed exist but are about 5 percent of Democratic primary voters, and that most Democrats to the left of their party are older than either group.'
+code-annotations: below
+footnotes-hover: false
+reference-location: margin
+df-print: paged
+citation: true
+---
+
+<!-- SKELETON. Bullets are notes to turn into prose. Numbers trace to subaru/output/ logs, named per section. -->
+<!-- TODO: add the replication repo link. -->
+<!-- TODO: link Kang's piece and Silver's post. -->
+
+<!-- Opening: the claim, from scratch; the question; why the CES; the answer. -->
+
+- **The moment:** left insurgents have won Democratic primaries this year, and people will soon read those wins as a preview of 2028.
+- **The claim:** Jay Caspian Kang's "Subaru Socialists and the Great Disappointed." Summarize from scratch. Subaru Socialists are college-educated millennials earning less than they expected. The Great Disappointed are younger graduates formed by the pandemic and Gaza. Kang: the party "will almost certainly remake itself" in their image.
+- **The question:** do these voters exist, and how much of the Democratic coalition are they?
+- **The data:** why the CES can answer this: large samples, validated primary voters, a candidate choice item in 2016, and self and party placement in every year.
+- **The answer:** they exist, but they are about 5 percent of primary voters, and the left of the party is much bigger and older than they are.
+
+# Kang is right that the Subaru Socialists were real
+
+![Young graduates fall off a cliff at \$60,000 in a way other groups do not. Click to expand.](images/sanders-by-income.png){.lightbox group="subaru-gallery" width=75%}
+
+- Sanders share among graduates born 1982-95: 58.6 under \$30k, 55.9 at \$30-60k, 37.0 at \$60-100k, 33.2 at \$100-150k, 26.6 at \$150k+. The drop comes at \$60k. (`log_07`)
+- That gap is specific to this group: below minus above median income is +24.4 here, against +7.5 for the same cohort without a degree and +10.4 for Gen X graduates. (`log_06`)
+
+# But they are a small share of primary voters
+
+![Kang's two groups as a share of validated Democratic primary voters. Click to expand.](images/kang-groups-share.png){.lightbox group="subaru-gallery" width=75%}
+
+- Kang's two groups: 1.8, 3.7 and 5.2 percent in 2016, 2020 and 2024. Every graduate born 1982 or later, at any income: 6.6, 14.3, 16.1. Born before 1982: about three-quarters. (`log_06`)
+- Concede: Kang says they vote at a high rate for their age, and they do. Validated 2024 turnout is 58.4 for low-income graduates in the Subaru cohort, against 31.9 for the same cohort without a degree. High turnout from a small group is still a small share. (`log_06`)
+
+# Maybe size doesn't matter, because a cohesive faction can launch a campaign
+
+- **The theory:** you don't need a majority to matter in a primary. Polsby (1983), as Cohen, Karol, Noel and Zaller (2016) read him, argued that multicandidate primaries reward candidates who mobilize a narrow following, win a modest plurality and outlast rivals. Cohen et al. call this "mobilize your faction," and they concede that *The Party Decides* underrated it. Blum and Noel (2024) give the more recent version: a faction is a sub-coalition trying to reshape its party, and most factions cooperate with the party rather than try to take it over.
+- **Applied here:** a small, cohesive group could be an out-of-the-box constituency, a base a candidate has on day one. Maybe that is what powered Sanders's 2016 and 2020 bids out of the gate.
+- **Tilt and size are separate questions:** how a group leans doesn't tell you how many votes it supplies. That takes its size and turnout too (Grimmer, Marble and Tanigawa-Lau 2025).
+
+![How far each group leaned toward Sanders in 2016, and how big it was. Click to expand.](images/tilt-and-size.png){.lightbox group="subaru-gallery" width=75%}
+
+- **Concede: they really were a constituency.** They split 59.9 to 40.1 for Sanders, 19.7 points above his 40.2 among all CES respondents who reported voting for him or Clinton. Only young white voters without a degree were close (61.8). (`post_tilt_and_size_2016.csv`)
+- **But the group was small:** 2.3 percent of Clinton and Sanders voters, and 3.5 percent of Sanders's voters.
+
+![Net votes each group gave Sanders or Clinton in 2016. Click to expand.](images/net-votes.png){.lightbox group="subaru-gallery" width=75%}
+
+- **Cohesion matters more than sheer size:** older Black voters were 14.2 percent of voters and split 82-18 for Clinton, giving her a net 9.2 votes per 100. Older white voters without a degree were nearly twice as large (27.0 percent) and gave her a net 3.6. Kang's group gave Sanders a net 0.5.
+- **What it would have taken:** Clinton's margin here is 19.7 points. Had Kang's group gone unanimously for Sanders, that closes 1.9. Had older Black voters merely matched his overall share, that closes 6.4. It's hard to build a Democratic primary coalition against a bloc that cohesive.
+
+![The left flank of the 2020 Democratic primary electorate. Click to expand.](images/left-flank.png){.lightbox group="subaru-gallery" width=75%}
+
+- **The left flank is older too:** among 2020 primary voters, 66.9 percent of those left of the party were born before 1982, and low-income young graduates were 4.3 percent. (`coalition_primary_voters.csv`)
+
+<!-- TODO: "out of the gate" is not yet tested. These shares are national, across the whole primary calendar. A cut of early-state respondents in 2016 would test it directly, and cells may be thin. -->
+<!-- TODO: the CES has no 2020 candidate item that a label search could find, so the 2020 half of the point rests on left-of-party placement. Check against the codebook. -->
+<!-- TODO: 19.7 is the margin among CES respondents. The actual 2016 margin was smaller (about 12 points, from memory, unverified). Check before printing, and consider reweighting to the true result. -->
+
+# Maybe the younger group is different, because of Gaza
+
+![College-educated Democrats who disapproved of Biden in 2024. Click to expand.](images/gaza-and-economy.png){.lightbox group="subaru-gallery" width=100%}
+
+- Concede: Kang has a point. Among Great Disappointed graduates, disapproval of Biden is 37.4 percent for those who did not choose "provide arms to Israel" and 6.2 for those who did (n=112). The same gap is 21.1 and 14.1 in the Subaru cohort, 10.9 and 8.6 in Gen X, and 4.8 and 8.0 among older voters. With controls: +23.1, +4.3, +0.4, -2.6. (`log_10`, `log_06`)
+- Against him: the economy divides them at least as much, 58.0 against 22.3, with controls +35.0. The group is also more negative on the economy than Subaru graduates (+13.2). His "less around the economy" doesn't hold. (`log_10`, `log_06`)
+- The cohort gap on being left of the party is clear in only one year: +8.2 against Subaru graduates in 2024, +0.4 in 2025. (`log_06`)
+
+# Maybe they matter where the wins happened
+
+![College graduates aged 25-44 as a share of Democrats in selected districts. Click to expand.](images/districts.png){.lightbox group="subaru-gallery" width=75%}
+
+<!-- TODO: the 14 districts are my own list from code/05_sanders_checks.R. Replace with a defensible list of districts where insurgents won. MI-13 (6.5) is the exception to the pattern and needs explaining. -->
+
+- This is the best objection to the answer above. Graduates aged 25-44 were 29.8 percent of Democratic identifiers in NY-14 and 33.5 in NY-07, against 16.2 nationally. (`log_05`, `notes_on_kang.md`)
+- Low-income graduates weren't concentrated there: 2.2 in NY-14, against 3.8 nationally. So this is about young graduates in general. (`log_05`, `notes_on_kang.md`)
+- Small samples (2018-20, 103 and 140 respondents), so this is suggestive. It uses 2018-20 districts, and the people have aged since.
+
+# Conclusion
+
+- **Answer literally:** will Subaru Socialists take over the Democratic Party? In some districts they might. On these numbers, not in a national primary.
+- **What it means for 2028:** they are a real faction, and a faction can reshape a party without taking it over (Blum and Noel 2024). A 2028 candidate could start from them, but has to win the older majority, including its left flank and a far more cohesive bloc of older Black voters.
+- **What this can't do:** the CES doesn't cover 2026 yet. The 2024 primary was uncontested. 2016 is the only year with a candidate choice, and that vote is self-reported. Only some states record primary party (26, 43 and 21). The 2028 electorate will be younger. Influence through activists and the media isn't captured by vote shares.
+
+**Estimates.** <!-- TODO: end table with estimate, SE and p for each number above, as in the party perceptions post. -->
+
+<!-- Sources for section 3. Status as of 2026-11-01:
+Read in full: Cohen, Karol, Noel, Zaller. 2016. "Party Versus Faction in the Reformed Presidential Nominating System." PS: Political Science & Politics 49(4): 701-708. Noel's CV gives vol. 43 and pp. 701-707, a typo; the journal page gives 49(4).
+Read pp. 1-10 only (publisher excerpt) plus abstract: Blum and Noel. 2024. Cooperating Factions: A Network Analysis of Party Divisions in U.S. Presidential Nominations. Cambridge Elements. doi:10.1017/9781009495615. Published online Nov 2024; Noel's CV dates it 2025. Its section 5 uses primary voter surveys on "lanes" and is the part to read next.
+Abstract and summaries only; article not read: Grimmer, Marble, Tanigawa-Lau. 2025. "Measuring the Contribution of Voting Blocs to Election Outcomes." Journal of Politics 87(3): 905-921. doi:10.1086/732964.
+Via Cohen et al. 2016 only; not read: Polsby 1983, Consequences of Party Reform; Bartels 1988; Bawn et al. 2012.
+On Noel's CV; not retrieved: Cohen, Karol, Noel, Zaller. 2020. "The party no longer decides." Politico, Feb. 3. Banda, Cluverius, Mason, Noel. 2022. "Ideological Divisions Within the Democratic Primary Electorate." Noel. 2018. "The Activists Decide." JEPOP 28(2). -->
