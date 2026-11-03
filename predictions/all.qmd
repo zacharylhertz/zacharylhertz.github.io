@@ -36,9 +36,7 @@ format:
     include-after-body: topic-filter.html
 ---
 
-Every prediction with its resolution criteria and my notes. See the [predictions page](index.qmd) for how this works. Click a column header to sort.
-
-*Effort* is how much work went into a probability, so you can weigh each call accordingly: a **quick take** is a gut call from public information, **considered** means I worked through polls or crosstabs, and a **deep dive** rests on my own analysis or model.
+This page has every prediction I made with the criteria I use for resolving predictions, as well as some short notes for/against each prediction. See the [predictions page](index.qmd) for the general summary. You can sort by clicking column headers. Remember, these are both my assessment of the general probabilities, and then my personal confidence in my own analysis, which I call *effort.* This should serve as a pseudo-weight on how much I would actually stand behind a call or be open to updating. A **quick take** is something I'm making on vibes or a gut check, **considered** generally means some amount of rough BOTECs without modeling, and **deep dives** are things I base on original analysis or modeling.
 
 ```{=html}
 <div class="topic-filter"><label for="topic-filter">Topic</label><select id="topic-filter" class="form-select form-select-sm"><option value="">All topics</option></select></div>
