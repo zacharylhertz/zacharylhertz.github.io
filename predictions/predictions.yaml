@@ -1,0 +1,58 @@
+# Prediction log. Append new entries at the bottom.
+# When a prediction resolves, change only `outcome` (and add `source`).
+#
+# Fields:
+#   prediction: self-explanatory
+#   criteria: resolution rules
+#   confidence: percent probability of Yes
+#   made: date of prediction (YYYY-MM-DD)
+#   resolves: date of resolution (YYYY-MM-DD)
+#   outcome: {Open, Yes, No, Void}
+#   categories: topics for easy filtering
+#   source: link to source to 'prove' resolution?
+
+
+- prediction: "Nithya Raman will be elected Mayor of Los Angeles."
+  criteria: "Resolves Yes if Raman wins the LA Mayoral election."
+  confidence: 65
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [Elections]
+  source: ""
+
+- prediction: "Kevin Kiley will lose reelection in CA-03."
+  criteria: "Resolves Yes if Richard Pan is elected in CA-03."
+  confidence: 65
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [Elections]
+  source: ""
+
+- prediction: "Roy Cooper will win election in NC-SEN."
+  criteria: "Resolves Yes if Roy Cooper is elected in NC-SEN."
+  confidence: 80
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [Elections]
+  source: ""
+
+- prediction: "Peggy Flanagan will win election in MN-SEN."
+  criteria: "Resolves Yes if Peggy Flanagan is elected in MN-SEN."
+  confidence: 85
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [Elections]
+  source: ""
+  
+- prediction: "Peggy Flanagan will win MN-SEN by at least a 9 point margin."
+  criteria: "Resolves Yes if Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya."
+  confidence: 85
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [Elections]
+  source: ""

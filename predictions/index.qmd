@@ -1,0 +1,42 @@
+---
+title: "Predictions"
+description: ""
+listing:
+  - id: prediction-log
+    contents: predictions.yaml
+    type: table
+    fields: [categories, prediction, confidence, made, resolves, outcome, criteria]
+    field-display-names:
+      categories: "Topic"
+      prediction: "Prediction"
+      confidence: "Confidence (%)"
+      made: "Made"
+      resolves: "Resolves by"
+      outcome: "Outcome"
+      criteria: "Resolves Yes if"
+    field-types:
+      made: date
+      resolves: date
+      confidence: number
+    date-format: "YYYY-MM-DD"
+    sort: "made desc"
+    sort-ui: [confidence, made, resolves, outcome]
+    filter-ui: true
+    categories: true
+    page-size: 100
+language:
+  listing-page-field-categories: "Filter predictions by topic"
+toc: false
+page-layout: full
+format:
+  html:
+    anchor-sections: false
+    css: predictions.css
+---
+
+On this page, I attempt to “pre-register” predictions by committing to making them publicly here. I assign each prediction a confidence level and a resolution date.^[Sometimes may be an approximate date.] As they resolve, I’ll come back and keep a scorecard. I don’t edit entries, so I’m committing to showcasing my failures as well as my successes, and you can verify things via the page’s [change history](https://github.com/zacharylhertz/zacharylhertz.github.io/commits/main/predictions/predictions.yaml).
+
+## All predictions
+
+::: {#prediction-log}
+:::
