@@ -207,3 +207,93 @@
   outcome: "Open"
   categories: [2026 Elections]
   notes: "Entirely vibes. While Figures is behind in public polling I suspect this is a prime seat for Callais backlash to have an effect."
+
+- prediction: "Greg Abbott will run ahead of Ken Paxton in Texas."
+  criteria: "...D-minus-R margin in TX-GOV is lower than in TX-SEN."
+  confidence: 90
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: ticket-splitting is quite low; Talarico persuasion could be overstated. Case for: Implied in NYT polling; incumbency, Paxton is Paxton."
+
+- prediction: "Rob Sand will run ahead of Josh Turek in Iowa."
+  criteria: "...D-minus-R margin in IA-GOV is higher than in IA-SEN."
+  confidence: 90
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: only polled in one(?) instance; Senate races have nationalized so Turek could close the gap in late movement. Case for: Implied in NYT polling; more ticket-splitting in non-federal races; xtabs imply lean Republican undecideds break Sand."
+
+- prediction: "Hannah Pingree will run ahead of Troy Jackson in Maine."
+  criteria: "...D-minus-R margin in ME-GOV is higher than in ME-SEN."
+  confidence: 95
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Polling error? Case for: Pingree is leaps and bounds ahead in relative polling; Collins-specific dynamic may drag Jackson down relative to state lean."
+
+- prediction: "Darline Graham will win SC-SEN."
+  criteria: "...Darline Graham wins SC-SEN."
+  confidence: 70
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: NYT/Siena tie poll where majority thinks Graham has no experience; Andrews could win independents; potential large blue polling error. Case for: Trump +18 state; Graham narrowly leads polling averages; close red state polls tend to overstate Dems."
+
+- prediction: "Pete Ricketts will win NE-SEN."
+  criteria: "...Pete Ricketts wins NE-SEN."
+  confidence: 70
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Osborn maintains or exceeds 2024 levels of x-party appeal; leads in some October polls; blue polling miss. Case for: Trump +20 state; Ricketts narrowly leads polling averages, Osborne underperformed 2024 polls and 2026 leads are mostly internals/partisan polls."
+
+- prediction: "Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX."
+  criteria: "...in at least 3 of the 5 races, the certified D-minus-R margin is lower than the Silver Bulletin average margin was on 2026-11-02."
+  confidence: 60
+  made: 2026-11-03
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "My own analysis: close midterm Senate polls in red states underestimated Dems. Previous calls assume Republicans beat polling averages by about 2 points in each race."
+
+- prediction: "Bobby Pulido will defeat Monica De La Cruz in TX-15."
+  criteria: "...Bobby Pulido is elected in TX-15."
+  confidence: 55
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: NYT/Siena implies limited Latino reversion; incumbency. Case for: 2018-2024 swing powered by low-propensity voters who may stay home; even minor Latino reversion flips the seat."
+
+- prediction: "Brandon Herrera will win TX-23."
+  criteria: "...Brandon Herrera is elected in TX-23."
+  confidence: 68
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: open seat in a blue year; more competitive the bluer the state environment. Case for: Small 2018-2024 movement relative to the state, so Hispanic reversion might be muted here."
+
+- prediction: "Bob Harvie will defeat Brian Fitzpatrick in PA-01."
+  criteria: "...Bob Harvie is elected in PA-01."
+  confidence: 58
+  made: 2026-11-03
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Case against: Fitzpatrick doggedly survives. Case for: Harris district in a bluer national environment; Harvie leads polls narrowly; incumbent personal vote may not survive the wavey environment."
