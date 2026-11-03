@@ -10,49 +10,200 @@
 #   outcome: {Open, Yes, No, Void}
 #   categories: topics for easy filtering
 #   source: link to source to 'prove' resolution?
+#   notes: justification / case for + against
 
 
 - prediction: "Nithya Raman will be elected Mayor of Los Angeles."
-  criteria: "Resolves Yes if Raman wins the LA Mayoral election."
+  criteria: "...Raman wins the LA Mayoral election."
   confidence: 65
   made: 2026-11-02
-  resolves: 2026-11-15
+  resolves: 2026-12-31
   outcome: "Open"
-  categories: [Elections]
+  categories: [2026 Elections]
   source: ""
+  notes: "Mostly vibes. Raw data in IGS polling for some benchmarks."
 
-- prediction: "Kevin Kiley will lose reelection in CA-03."
-  criteria: "Resolves Yes if Richard Pan is elected in CA-03."
+- prediction: "Kevin Kiley will lose reelection in CA-06."
+  criteria: "...Richard Pan is elected in CA-06."
   confidence: 65
   made: 2026-11-02
-  resolves: 2026-11-15
+  resolves: 2026-12-31
   outcome: "Open"
-  categories: [Elections]
-  source: ""
+  categories: [2026 Elections]
+  notes: "Entirely vibes. Very little public polling, but fundamentals, projected national environment and decline in ticket splitting suggest this one."
 
 - prediction: "Roy Cooper will win election in NC-SEN."
-  criteria: "Resolves Yes if Roy Cooper is elected in NC-SEN."
-  confidence: 80
+  criteria: "...Roy Cooper is elected in NC-SEN."
+  confidence: 85
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
-  categories: [Elections]
-  source: ""
+  categories: [2026 Elections]
+  notes: "See: public polling, fundamentals, etc. Hedged against total polling miss."
 
 - prediction: "Peggy Flanagan will win election in MN-SEN."
-  criteria: "Resolves Yes if Peggy Flanagan is elected in MN-SEN."
-  confidence: 85
+  criteria: "...Peggy Flanagan is elected in MN-SEN."
+  confidence: 99
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
-  categories: [Elections]
-  source: ""
+  categories: [2026 Elections]
+  notes: "See: public polling, fundamentals, etc."
   
 - prediction: "Peggy Flanagan will win MN-SEN by at least a 9 point margin."
-  criteria: "Resolves Yes if Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya."
-  confidence: 85
+  criteria: "...Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya."
+  confidence: 70
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
-  categories: [Elections]
+  categories: [2026 Elections]
+  notes: "Assuming a 2018-like environment which is possibly conservative, Flanagan would have to underperform Klobuchar by more than 15 points."
+  
+- prediction: "Josh Shapiro will win election in PA-GOV."
+  criteria: "...Josh Shapiro is elected in PA-GOV."
+  confidence: 99
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "See: public polling, fundamentals, etc."
+  
+- prediction: "Josh Shapiro will win at least 60 percent of the vote in PA-GOV."
+  criteria: "...Josh Shapiro wins greater than or equal to 60 percent of the vote in PA-GOV."
+  confidence: 75
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Would mark a mild improvement over 2018. Most public polls are old but have Shapiro around 58."
+
+- prediction: "Mary Peltola will win AK-SEN."
+  criteria: "...Mary Peltola wins AK-SEN."
+  confidence: 55
+  made: 2026-11-02
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: one of the narrower polling leads; state has been red at other levels. Case for: environment, candidate, lopsided Gov race."
+
+- prediction: "Troy Jackson will win ME-SEN."
+  criteria: "...Troy Jackson wins ME-SEN."
+  confidence: 60
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: Collins Derangement syndrome, people don't like nominee switcheroo, Jackson has worse favorables. Case for: environment, state Presidential lean."
+
+- prediction: "Sherrod Brown will win OH-SEN."
+  criteria: "...Sherrod Brown wins OH-SEN."
+  confidence: 55
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: State leans red, Husted decreasing polling lead. Case for: former incumbent, environment, Husted unfavorables quite high."
+
+- prediction: "James Talarico will win TX-SEN."
+  criteria: "...James Talarico wins TX-SEN."
+  confidence: 60
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: Polling is too bullish on persuasion, rural white turnout surges in ED vote. Case for: environment, polling, persuasion, differential Latino turnout."
+
+- prediction: "Abdul El-Sayed will win MI-SEN."
+  criteria: "...Abdul El-Sayed wins MI-SEN."
+  confidence: 75
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: Didn't condemn Hasan Piker, divided primary leads to high R persuasion and stymies D turnout, November surprise could lead to massive ED asymmetry. Case for: environment, polling asymmetry."
+
+- prediction: "Adam Hamilton will win KS-SEN."
+  criteria: "...Adam Hamilton wins KS-SEN."
+  confidence: 50
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: Trump +16 state, the reddest on this list; close polls in red states have tended to overstate the Democrat; Libertarian at 4% could fade. Case for: polling average Hamilton +3, NYT/Siena Hamilton +5; Hamilton net favorable, Marshall net unfavorable."
+
+- prediction: "Ashley Hinson will win IA-SEN."
+  criteria: "...Ashley Hinson wins IA-SEN."
+  confidence: 60
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Case against: polling average Turek +1; Turek better liked than Hinson; Sand leading the governor race implies room for ticket-splitting. Case for: Trump +13 state; undecideds lean Republican by party ID and 2024 vote; same poll has Republicans +4 on the generic House ballot; close polls in red states have tended to overstate the Democrat."
+
+- prediction: "Democrats will hold 50 or fewer Senate seats."
+  criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 50 or fewer members when the 120th Congress convenes."
+  confidence: 41
+  made: 2026-11-02
+  resolves: 2027-01-03
+  outcome: "Open"
+  categories: [2026 Elections]
   source: ""
+  notes: "Implied by race-level predictions above hedging for correlated polling error."
+
+- prediction: "Democrats will hold exactly 51 Senate seats."
+  criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 51 members when the 120th Congress convenes."
+  confidence: 14
+  made: 2026-11-02
+  resolves: 2027-01-03
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Implied probability."
+  
+- prediction: "Democrats will hold exactly 52 Senate seats."
+  criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 52 members when the 120th Congress convenes."
+  confidence: 14
+  made: 2026-11-02
+  resolves: 2027-01-03
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Seat-count bin; see the 50-or-fewer entry."
+
+- prediction: "Democrats will hold exactly 53 Senate seats."
+  criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 53 members when the 120th Congress convenes."
+  confidence: 13
+  made: 2026-11-02
+  resolves: 2027-01-03
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Seat-count bin; see the 50-or-fewer entry."
+
+- prediction: "Democrats will hold 54 or more Senate seats."
+  criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 54 or more members when the 120th Congress convenes."
+  confidence: 18
+  made: 2026-11-02
+  resolves: 2027-01-03
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Seat-count bin; see the 50-or-fewer entry."
+
+- prediction: "Proposition 40 will fail in California."
+  criteria: "...fewer than 50 percent of voters back 'Yes' on CA Proposition 40."
+  confidence: 55
+  made: 2026-11-02
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Already-voted respondents are majority-no, status quo bias, spending disadvantage."
+  
+- prediction: "Shomari Figures will win reelection in AL-02."
+  criteria: "...Shomari Figures is elected in AL-02."
+  confidence: 55
+  made: 2026-11-02
+  resolves: 2026-11-15
+  outcome: "Open"
+  categories: [2026 Elections]
+  notes: "Entirely vibes. While Figures is behind in public polling I suspect this is a prime seat for Callais backlash to have an effect."

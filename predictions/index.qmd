@@ -5,7 +5,7 @@ listing:
   - id: prediction-log
     contents: predictions.yaml
     type: table
-    fields: [categories, prediction, confidence, made, resolves, outcome, criteria]
+    fields: [categories, prediction, confidence, made, resolves, outcome, criteria, notes]
     field-display-names:
       categories: "Topic"
       prediction: "Prediction"
@@ -14,6 +14,7 @@ listing:
       resolves: "Resolves by"
       outcome: "Outcome"
       criteria: "Resolves Yes if"
+      notes: "Notes"
     field-types:
       made: date
       resolves: date

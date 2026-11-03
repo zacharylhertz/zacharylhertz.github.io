@@ -1,12 +1,13 @@
 /* Prediction log table. Column order follows `fields` in index.qmd:
-   1 topic, 2 prediction, 3 confidence, 4 made, 5 resolves, 6 outcome, 7 criteria */
-#listing-prediction-log table { font-size: 0.92rem; }
+   1 topic, 2 prediction, 3 confidence, 4 made, 5 resolves, 6 outcome, 7 criteria, 8 notes */
+#listing-prediction-log table { font-size: 0.88rem; }
 #listing-prediction-log td { vertical-align: top; }
 #listing-prediction-log th { font-weight: normal; }
 #listing-prediction-log td:nth-child(1) { white-space: nowrap; }
-#listing-prediction-log td:nth-child(2) { min-width: 13rem; }
+#listing-prediction-log td:nth-child(2) { min-width: 9rem; }
 #listing-prediction-log td:nth-child(3),
 #listing-prediction-log td:nth-child(4),
 #listing-prediction-log td:nth-child(5),
 #listing-prediction-log td:nth-child(6) { white-space: nowrap; }
-#listing-prediction-log td:nth-child(7) { color: #6c757d; font-size: 0.85rem; min-width: 11rem; }
+#listing-prediction-log td:nth-child(7),
+#listing-prediction-log td:nth-child(8) { color: #6c757d; font-size: 0.85rem; min-width: 9rem; }

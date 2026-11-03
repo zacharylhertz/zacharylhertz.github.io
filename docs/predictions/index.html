@@ -63,9 +63,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories','listing-prediction','listing-confidence','listing-made','listing-resolves','listing-outcome','listing-criteria',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-confidence-sort'] },{ data: ['listing-made-sort'] },{ data: ['listing-resolves-sort'] }],
+      valueNames: ['listing-categories','listing-prediction','listing-confidence','listing-made','listing-resolves','listing-outcome','listing-criteria','listing-notes',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-confidence-sort'] },{ data: ['listing-made-sort'] },{ data: ['listing-resolves-sort'] }],
       
-      searchColumns: ["listing-prediction","listing-criteria","listing-confidence","listing-made","listing-resolves","listing-outcome","listing-categories","listing-source"],
+      searchColumns: ["listing-prediction","listing-criteria","listing-confidence","listing-made","listing-resolves","listing-outcome","listing-categories","listing-source","listing-notes"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -178,7 +178,7 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Filter predictions by topic</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="RWxlY3Rpb25z">Elections <span class="quarto-category-count">(5)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Filter predictions by topic</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(21)</span></div><div class="category" data-category="MjAyNiUyMEVsZWN0aW9ucw==">2026 Elections <span class="quarto-category-count">(21)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -271,13 +271,17 @@ Prediction
 Resolves Yes if
 </th>
 
+<th>
+Notes
+</th>
+
 </tr>
 </thead>
 <tbody class="list">
 
-<tr data-index="0" data-categories="RWxlY3Rpb25z" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="65">
+<tr data-index="0" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-12-31" data-listing-confidence-sort="65">
 <td>
-<span class="listing-categories">Elections</span>
+<span class="listing-categories">2026 Elections</span>
 </td>
 <td>
 <span class="listing-prediction">Nithya Raman will be elected Mayor of Los Angeles.</span>
@@ -289,23 +293,26 @@ Resolves Yes if
 <span class="listing-made">2026-11-02</span>
 </td>
 <td>
-<span class="listing-resolves">2026-11-15</span>
+<span class="listing-resolves">2026-12-31</span>
 </td>
 <td>
 <span class="listing-outcome">Open</span>
 </td>
 <td>
-<span class="listing-criteria">Resolves Yes if Raman wins the LA Mayoral election.</span>
+<span class="listing-criteria">…Raman wins the LA Mayoral election.</span>
+</td>
+<td>
+<span class="listing-notes">Mostly vibes. Raw data in IGS polling for some benchmarks.</span>
 </td>
 
 </tr>
 
-<tr data-index="1" data-categories="RWxlY3Rpb25z" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="65">
+<tr data-index="1" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-12-31" data-listing-confidence-sort="65">
 <td>
-<span class="listing-categories">Elections</span>
+<span class="listing-categories">2026 Elections</span>
 </td>
 <td>
-<span class="listing-prediction">Kevin Kiley will lose reelection in CA-03.</span>
+<span class="listing-prediction">Kevin Kiley will lose reelection in CA-06.</span>
 </td>
 <td>
 <span class="listing-confidence">65</span>
@@ -314,26 +321,29 @@ Resolves Yes if
 <span class="listing-made">2026-11-02</span>
 </td>
 <td>
-<span class="listing-resolves">2026-11-15</span>
+<span class="listing-resolves">2026-12-31</span>
 </td>
 <td>
 <span class="listing-outcome">Open</span>
 </td>
 <td>
-<span class="listing-criteria">Resolves Yes if Richard Pan is elected in CA-03.</span>
+<span class="listing-criteria">…Richard Pan is elected in CA-06.</span>
+</td>
+<td>
+<span class="listing-notes">Entirely vibes. Very little public polling, but fundamentals, projected national environment and decline in ticket splitting suggest this one.</span>
 </td>
 
 </tr>
 
-<tr data-index="2" data-categories="RWxlY3Rpb25z" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="80">
+<tr data-index="2" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="85">
 <td>
-<span class="listing-categories">Elections</span>
+<span class="listing-categories">2026 Elections</span>
 </td>
 <td>
 <span class="listing-prediction">Roy Cooper will win election in NC-SEN.</span>
 </td>
 <td>
-<span class="listing-confidence">80</span>
+<span class="listing-confidence">85</span>
 </td>
 <td>
 <span class="listing-made">2026-11-02</span>
@@ -345,20 +355,23 @@ Resolves Yes if
 <span class="listing-outcome">Open</span>
 </td>
 <td>
-<span class="listing-criteria">Resolves Yes if Roy Cooper is elected in NC-SEN.</span>
+<span class="listing-criteria">…Roy Cooper is elected in NC-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">See: public polling, fundamentals, etc. Hedged against total polling miss.</span>
 </td>
 
 </tr>
 
-<tr data-index="3" data-categories="RWxlY3Rpb25z" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="85">
+<tr data-index="3" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="99">
 <td>
-<span class="listing-categories">Elections</span>
+<span class="listing-categories">2026 Elections</span>
 </td>
 <td>
 <span class="listing-prediction">Peggy Flanagan will win election in MN-SEN.</span>
 </td>
 <td>
-<span class="listing-confidence">85</span>
+<span class="listing-confidence">99</span>
 </td>
 <td>
 <span class="listing-made">2026-11-02</span>
@@ -370,20 +383,23 @@ Resolves Yes if
 <span class="listing-outcome">Open</span>
 </td>
 <td>
-<span class="listing-criteria">Resolves Yes if Peggy Flanagan is elected in MN-SEN.</span>
+<span class="listing-criteria">…Peggy Flanagan is elected in MN-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">See: public polling, fundamentals, etc.</span>
 </td>
 
 </tr>
 
-<tr data-index="4" data-categories="RWxlY3Rpb25z" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="85">
+<tr data-index="4" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="70">
 <td>
-<span class="listing-categories">Elections</span>
+<span class="listing-categories">2026 Elections</span>
 </td>
 <td>
 <span class="listing-prediction">Peggy Flanagan will win MN-SEN by at least a 9 point margin.</span>
 </td>
 <td>
-<span class="listing-confidence">85</span>
+<span class="listing-confidence">70</span>
 </td>
 <td>
 <span class="listing-made">2026-11-02</span>
@@ -395,7 +411,458 @@ Resolves Yes if
 <span class="listing-outcome">Open</span>
 </td>
 <td>
-<span class="listing-criteria">Resolves Yes if Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya.</span>
+<span class="listing-criteria">…Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya.</span>
+</td>
+<td>
+<span class="listing-notes">Assuming a 2018-like environment which is possibly conservative, Flanagan would have to underperform Klobuchar by more than 15 points.</span>
+</td>
+
+</tr>
+
+<tr data-index="5" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="99">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Josh Shapiro will win election in PA-GOV.</span>
+</td>
+<td>
+<span class="listing-confidence">99</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Josh Shapiro is elected in PA-GOV.</span>
+</td>
+<td>
+<span class="listing-notes">See: public polling, fundamentals, etc.</span>
+</td>
+
+</tr>
+
+<tr data-index="6" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="75">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Josh Shapiro will win at least 60 percent of the vote in PA-GOV.</span>
+</td>
+<td>
+<span class="listing-confidence">75</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Josh Shapiro wins greater than or equal to 60 percent of the vote in PA-GOV.</span>
+</td>
+<td>
+<span class="listing-notes">Would mark a mild improvement over 2018. Most public polls are old but have Shapiro around 58.</span>
+</td>
+
+</tr>
+
+<tr data-index="7" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-12-31" data-listing-confidence-sort="55">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Mary Peltola will win AK-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">55</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-12-31</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Mary Peltola wins AK-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: one of the narrower polling leads; state has been red at other levels. Case for: environment, candidate, lopsided Gov race.</span>
+</td>
+
+</tr>
+
+<tr data-index="8" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="60">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Troy Jackson will win ME-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">60</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Troy Jackson wins ME-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: Collins Derangement syndrome, people don’t like nominee switcheroo, Jackson has worse favorables. Case for: environment, state Presidential lean.</span>
+</td>
+
+</tr>
+
+<tr data-index="9" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="55">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Sherrod Brown will win OH-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">55</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Sherrod Brown wins OH-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: State leans red, Husted decreasing polling lead. Case for: former incumbent, environment, Husted unfavorables quite high.</span>
+</td>
+
+</tr>
+
+<tr data-index="10" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="60">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">James Talarico will win TX-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">60</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…James Talarico wins TX-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: Polling is too bullish on persuasion, rural white turnout surges in ED vote. Case for: environment, polling, persuasion, differential Latino turnout.</span>
+</td>
+
+</tr>
+
+<tr data-index="11" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="75">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Abdul El-Sayed will win MI-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">75</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Abdul El-Sayed wins MI-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: Didn’t condemn Hasan Piker, divided primary leads to high R persuasion and stymies D turnout, November surprise could lead to massive ED asymmetry. Case for: environment, polling asymmetry.</span>
+</td>
+
+</tr>
+
+<tr data-index="12" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="50">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Adam Hamilton will win KS-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">50</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Adam Hamilton wins KS-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: Trump +16 state, the reddest on this list; close polls in red states have tended to overstate the Democrat; Libertarian at 4% could fade. Case for: polling average Hamilton +3, NYT/Siena Hamilton +5; Hamilton net favorable, Marshall net unfavorable.</span>
+</td>
+
+</tr>
+
+<tr data-index="13" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="60">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Ashley Hinson will win IA-SEN.</span>
+</td>
+<td>
+<span class="listing-confidence">60</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Ashley Hinson wins IA-SEN.</span>
+</td>
+<td>
+<span class="listing-notes">Case against: polling average Turek +1; Turek better liked than Hinson; Sand leading the governor race implies room for ticket-splitting. Case for: Trump +13 state; undecideds lean Republican by party ID and 2024 vote; same poll has Republicans +4 on the generic House ballot; close polls in red states have tended to overstate the Democrat.</span>
+</td>
+
+</tr>
+
+<tr data-index="14" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2027-01-03" data-listing-confidence-sort="41">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Democrats will hold 50 or fewer Senate seats.</span>
+</td>
+<td>
+<span class="listing-confidence">41</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2027-01-03</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…the Senate Democratic caucus (Democrats plus independents who caucus with them) has 50 or fewer members when the 120th Congress convenes.</span>
+</td>
+<td>
+<span class="listing-notes">Implied by race-level predictions above hedging for correlated polling error.</span>
+</td>
+
+</tr>
+
+<tr data-index="15" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2027-01-03" data-listing-confidence-sort="14">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Democrats will hold exactly 51 Senate seats.</span>
+</td>
+<td>
+<span class="listing-confidence">14</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2027-01-03</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 51 members when the 120th Congress convenes.</span>
+</td>
+<td>
+<span class="listing-notes">Implied probability.</span>
+</td>
+
+</tr>
+
+<tr data-index="16" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2027-01-03" data-listing-confidence-sort="14">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Democrats will hold exactly 52 Senate seats.</span>
+</td>
+<td>
+<span class="listing-confidence">14</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2027-01-03</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 52 members when the 120th Congress convenes.</span>
+</td>
+<td>
+<span class="listing-notes">Seat-count bin; see the 50-or-fewer entry.</span>
+</td>
+
+</tr>
+
+<tr data-index="17" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2027-01-03" data-listing-confidence-sort="13">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Democrats will hold exactly 53 Senate seats.</span>
+</td>
+<td>
+<span class="listing-confidence">13</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2027-01-03</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 53 members when the 120th Congress convenes.</span>
+</td>
+<td>
+<span class="listing-notes">Seat-count bin; see the 50-or-fewer entry.</span>
+</td>
+
+</tr>
+
+<tr data-index="18" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2027-01-03" data-listing-confidence-sort="18">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Democrats will hold 54 or more Senate seats.</span>
+</td>
+<td>
+<span class="listing-confidence">18</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2027-01-03</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…the Senate Democratic caucus (Democrats plus independents who caucus with them) has 54 or more members when the 120th Congress convenes.</span>
+</td>
+<td>
+<span class="listing-notes">Seat-count bin; see the 50-or-fewer entry.</span>
+</td>
+
+</tr>
+
+<tr data-index="19" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-12-31" data-listing-confidence-sort="55">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Proposition 40 will fail in California.</span>
+</td>
+<td>
+<span class="listing-confidence">55</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-12-31</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…fewer than 50 percent of voters back ‘Yes’ on CA Proposition 40.</span>
+</td>
+<td>
+<span class="listing-notes">Already-voted respondents are majority-no, status quo bias, spending disadvantage.</span>
+</td>
+
+</tr>
+
+<tr data-index="20" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-resolves-sort="2026-11-15" data-listing-confidence-sort="55">
+<td>
+<span class="listing-categories">2026 Elections</span>
+</td>
+<td>
+<span class="listing-prediction">Shomari Figures will win reelection in AL-02.</span>
+</td>
+<td>
+<span class="listing-confidence">55</span>
+</td>
+<td>
+<span class="listing-made">2026-11-02</span>
+</td>
+<td>
+<span class="listing-resolves">2026-11-15</span>
+</td>
+<td>
+<span class="listing-outcome">Open</span>
+</td>
+<td>
+<span class="listing-criteria">…Shomari Figures is elected in AL-02.</span>
+</td>
+<td>
+<span class="listing-notes">Entirely vibes. While Figures is behind in public polling I suspect this is a prime seat for Callais backlash to have an effect.</span>
 </td>
 
 </tr>
