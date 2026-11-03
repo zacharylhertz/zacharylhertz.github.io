@@ -1,13 +1,45 @@
-/* Prediction log table. Column order follows `fields` in index.qmd:
-   1 topic, 2 prediction, 3 confidence, 4 made, 5 resolves, 6 outcome, 7 criteria, 8 notes */
-#listing-prediction-log table { font-size: 0.88rem; }
+/* Prediction tables. Used by index.qmd (5 columns: topic, prediction,
+   confidence, made, outcome) and all.qmd (8 columns: adds resolves,
+   criteria, notes). Columns are styled by class, so order does not matter. */
+
+/* Quarto's built-in sort dropdown and search box are hidden; sorting is by
+   clicking column headers, filtering by the topic dropdown. */
+.quarto-listing-filter, .quarto-listing-sort { display: none !important; }
+
+.topic-filter { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.75rem; }
+.topic-filter label { font-size: 0.9rem; margin: 0; }
+.topic-filter select { width: auto; max-width: 100%; }
+
+/* Scroll the table sideways inside its box instead of running off the page. */
+main.content { min-width: 0; }
+#listing-prediction-log { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#listing-prediction-log table { font-size: 0.88rem; margin-bottom: 0.5rem; }
 #listing-prediction-log td { vertical-align: top; }
-#listing-prediction-log th { font-weight: normal; }
-#listing-prediction-log td:nth-child(1) { white-space: nowrap; }
-#listing-prediction-log td:nth-child(2) { min-width: 9rem; }
-#listing-prediction-log td:nth-child(3),
-#listing-prediction-log td:nth-child(4),
-#listing-prediction-log td:nth-child(5),
-#listing-prediction-log td:nth-child(6) { white-space: nowrap; }
-#listing-prediction-log td:nth-child(7),
-#listing-prediction-log td:nth-child(8) { color: #6c757d; font-size: 0.85rem; min-width: 9rem; }
+#listing-prediction-log th { font-weight: normal; white-space: nowrap; }
+
+#listing-prediction-log td:has(.listing-categories),
+#listing-prediction-log td:has(.listing-confidence),
+#listing-prediction-log td:has(.listing-made),
+#listing-prediction-log td:has(.listing-resolves),
+#listing-prediction-log td:has(.listing-outcome),
+#listing-prediction-log td:has(.listing-effort) { white-space: nowrap; }
+#listing-prediction-log td:has(.listing-confidence) { text-align: right; }
+#listing-prediction-log td:has(.listing-prediction) { min-width: 12rem; }
+
+/* Full page: cap the long text columns so rows wrap instead of stretching. */
+#listing-prediction-log td:has(.listing-basis),
+#listing-prediction-log td:has(.listing-criteria),
+#listing-prediction-log td:has(.listing-notes) { color: #6c757d; font-size: 0.82rem; }
+#listing-prediction-log td:has(.listing-basis) { min-width: 8rem; }
+#listing-prediction-log td:has(.listing-criteria) { min-width: 10rem; }
+#listing-prediction-log td:has(.listing-notes) { min-width: 15rem; }
+
+@media (max-width: 576px) {
+  #listing-prediction-log table { font-size: 0.8rem; }
+  #listing-prediction-log td, #listing-prediction-log th { padding: 0.35rem 0.3rem; }
+  #listing-prediction-log th { white-space: normal; }
+  /* Topic column is dropped on phones; the dropdown still filters by it. */
+  #listing-prediction-log th:first-child,
+  #listing-prediction-log td:has(.listing-categories) { display: none; }
+  #listing-prediction-log td:has(.listing-prediction) { min-width: 9rem; }
+}

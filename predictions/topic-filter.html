@@ -1,0 +1,33 @@
+<script>
+// Topic dropdown for the prediction table. Options are built from the topics
+// in the table rows, so new topics in predictions.yaml appear automatically.
+document.addEventListener("DOMContentLoaded", function () {
+  // Effort sorts in order of work (Quick take, Considered, Deep dive), not
+  // alphabetically. Every other column keeps list.js's natural sort.
+  const effortRank = { "quick take": 1, "considered": 2, "deep dive": 3 };
+  const lst = (window["quarto-listings"] || {})["listing-prediction-log"];
+  if (lst) {
+    lst.sortFunction = function (a, b, opt) {
+      const va = a.values()[opt.valueName], vb = b.values()[opt.valueName];
+      if (opt.valueName === "listing-effort") {
+        const r = (v) => effortRank[String(v).trim().toLowerCase()] || 0;
+        return r(va) - r(vb);
+      }
+      return lst.utils.naturalSort.caseInsensitive(va, vb);
+    };
+  }
+  const sel = document.getElementById("topic-filter");
+  const rows = document.querySelectorAll("#listing-prediction-log tbody tr[data-categories]");
+  if (!sel || !rows.length) return;
+  const topicsOf = (el) => decodeURIComponent(atob(el.getAttribute("data-categories"))).split(",");
+  const topics = new Set();
+  rows.forEach((r) => topicsOf(r).forEach((t) => topics.add(t)));
+  [...topics].sort().forEach((t) => sel.add(new Option(t, t)));
+  sel.addEventListener("change", function () {
+    const list = (window["quarto-listings"] || {})["listing-prediction-log"];
+    if (!list) return;
+    if (!sel.value) list.filter();
+    else list.filter((item) => topicsOf(item.elm).includes(sel.value));
+  });
+});
+</script>

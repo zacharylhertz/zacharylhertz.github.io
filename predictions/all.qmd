@@ -1,0 +1,50 @@
+---
+title: "Predictions: full table"
+description: ""
+listing:
+  - id: prediction-log
+    contents: predictions.yaml
+    type: table
+    fields: [prediction, confidence, effort, basis, made, resolves, outcome, criteria, notes]
+    field-display-names:
+      categories: "Topic"
+      prediction: "Prediction"
+      confidence: "Probability (%)"
+      effort: "Effort"
+      basis: "Basis"
+      made: "Made"
+      resolves: "Resolves by"
+      outcome: "Outcome"
+      criteria: "Resolves Yes if"
+      notes: "Notes"
+    field-types:
+      made: date
+      resolves: date
+      confidence: number
+    date-format: "YYYY-MM-DD"
+    sort: "made desc"
+    sort-ui: [confidence, effort, made, resolves, outcome]
+    filter-ui: false
+    categories: false
+    page-size: 100
+toc: false
+page-layout: full
+format:
+  html:
+    anchor-sections: false
+    css: predictions.css
+    include-after-body: topic-filter.html
+---
+
+Every prediction with its resolution criteria and my notes. See the [predictions page](index.qmd) for how this works. Click a column header to sort.
+
+*Effort* is how much work went into a probability, so you can weigh each call accordingly: a **quick take** is a gut call from public information, **considered** means I worked through polls or crosstabs, and a **deep dive** rests on my own analysis or model.
+
+```{=html}
+<div class="topic-filter"><label for="topic-filter">Topic</label><select id="topic-filter" class="form-select form-select-sm"><option value="">All topics</option></select></div>
+```
+
+:::: {.column-screen-inset}
+::: {#prediction-log}
+:::
+::::

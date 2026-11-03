@@ -5,39 +5,40 @@ listing:
   - id: prediction-log
     contents: predictions.yaml
     type: table
-    fields: [categories, prediction, confidence, made, resolves, outcome, criteria, notes]
+    fields: [categories, prediction, confidence, effort, made, outcome]
     field-display-names:
       categories: "Topic"
       prediction: "Prediction"
-      confidence: "Confidence (%)"
+      confidence: "Probability (%)"
+      effort: "Effort"
       made: "Made"
-      resolves: "Resolves by"
       outcome: "Outcome"
-      criteria: "Resolves Yes if"
-      notes: "Notes"
     field-types:
       made: date
-      resolves: date
       confidence: number
     date-format: "YYYY-MM-DD"
     sort: "made desc"
-    sort-ui: [confidence, made, resolves, outcome]
-    filter-ui: true
-    categories: true
+    sort-ui: [confidence, effort, made, outcome]
+    filter-ui: false
+    categories: false
     page-size: 100
-language:
-  listing-page-field-categories: "Filter predictions by topic"
 toc: false
-page-layout: full
 format:
   html:
     anchor-sections: false
     css: predictions.css
+    include-after-body: topic-filter.html
 ---
 
-On this page, I attempt to “pre-register” predictions by committing to making them publicly here. I assign each prediction a confidence level and a resolution date.^[Sometimes may be an approximate date.] As they resolve, I’ll come back and keep a scorecard. I don’t edit entries, so I’m committing to showcasing my failures as well as my successes, and you can verify things via the page’s [change history](https://github.com/zacharylhertz/zacharylhertz.github.io/commits/main/predictions/predictions.yaml).
+On this page, I attempt to “pre-register” predictions by committing to making them publicly here. I assign each prediction a confidence level and a resolution date.^[Sometimes may be an approximate date.] As they resolve, I’ll come back and turn this into a scorecard! I’m committing to using this as an exercise to highlight my failures as well as my successes, and as part of this public exercise you can verify things via the page’s [change history](https://github.com/zacharylhertz/zacharylhertz.github.io/commits/main/predictions/predictions.yaml).
 
 ## All predictions
+
+Click a column header to sort by that field. I have a [full predictions table](all.qmd) that includes what criteria are used for resolving predictions, as well as some short notes for/against each prediction. These are both my assessment of the general probabilities, and then my personal confidence in my own analysis, which I call *effort.* This should serve as a pseudo-weight on how much I would actually stand behind a call or be open to updating. A **quick take** is something I'm making on vibes or a gut check, **considered** generally means some amount of rough BOTECs without modeling, and **deep dives** are things I base on original analysis or modeling.
+
+```{=html}
+<div class="topic-filter"><label for="topic-filter">Topic</label><select id="topic-filter" class="form-select form-select-sm"><option value="">All topics</option></select></div>
+```
 
 ::: {#prediction-log}
 :::

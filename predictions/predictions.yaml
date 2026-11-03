@@ -4,7 +4,9 @@
 # Fields:
 #   prediction: self-explanatory
 #   criteria: resolution rules
-#   confidence: percent probability of Yes
+#   confidence: percent probability of Yes (shown as "Probability")
+#   effort: how much work went into the probability {Quick take, Considered, Deep dive}
+#   basis: main kind of support for the probability
 #   made: date of prediction (YYYY-MM-DD)
 #   resolves: date of resolution (YYYY-MM-DD)
 #   outcome: {Open, Yes, No, Void}
@@ -16,6 +18,8 @@
 - prediction: "Nithya Raman will be elected Mayor of Los Angeles."
   criteria: "...Raman wins the LA Mayoral election."
   confidence: 65
+  effort: "Quick take"
+  basis: "Intuition; IGS polling as a benchmark"
   made: 2026-11-02
   resolves: 2026-12-31
   outcome: "Open"
@@ -26,6 +30,8 @@
 - prediction: "Kevin Kiley will lose reelection in CA-06."
   criteria: "...Richard Pan is elected in CA-06."
   confidence: 65
+  effort: "Quick take"
+  basis: "Intuition; fundamentals and national environment"
   made: 2026-11-02
   resolves: 2026-12-31
   outcome: "Open"
@@ -35,6 +41,8 @@
 - prediction: "Roy Cooper will win election in NC-SEN."
   criteria: "...Roy Cooper is elected in NC-SEN."
   confidence: 85
+  effort: "Quick take"
+  basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -44,6 +52,8 @@
 - prediction: "Peggy Flanagan will win election in MN-SEN."
   criteria: "...Peggy Flanagan is elected in MN-SEN."
   confidence: 99
+  effort: "Quick take"
+  basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -53,6 +63,8 @@
 - prediction: "Peggy Flanagan will win MN-SEN by at least a 9 point margin."
   criteria: "...Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya."
   confidence: 70
+  effort: "Deep dive"
+  basis: "Own calculation against a 2018 benchmark"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -62,6 +74,8 @@
 - prediction: "Josh Shapiro will win election in PA-GOV."
   criteria: "...Josh Shapiro is elected in PA-GOV."
   confidence: 99
+  effort: "Quick take"
+  basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -71,6 +85,8 @@
 - prediction: "Josh Shapiro will win at least 60 percent of the vote in PA-GOV."
   criteria: "...Josh Shapiro wins greater than or equal to 60 percent of the vote in PA-GOV."
   confidence: 75
+  effort: "Considered"
+  basis: "Public polls; 2018 benchmark"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -80,6 +96,8 @@
 - prediction: "Mary Peltola will win AK-SEN."
   criteria: "...Mary Peltola wins AK-SEN."
   confidence: 55
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-12-31
   outcome: "Open"
@@ -89,6 +107,8 @@
 - prediction: "Troy Jackson will win ME-SEN."
   criteria: "...Troy Jackson wins ME-SEN."
   confidence: 60
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -98,6 +118,8 @@
 - prediction: "Sherrod Brown will win OH-SEN."
   criteria: "...Sherrod Brown wins OH-SEN."
   confidence: 55
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -107,6 +129,8 @@
 - prediction: "James Talarico will win TX-SEN."
   criteria: "...James Talarico wins TX-SEN."
   confidence: 60
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -116,6 +140,8 @@
 - prediction: "Abdul El-Sayed will win MI-SEN."
   criteria: "...Abdul El-Sayed wins MI-SEN."
   confidence: 75
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -125,6 +151,8 @@
 - prediction: "Adam Hamilton will win KS-SEN."
   criteria: "...Adam Hamilton wins KS-SEN."
   confidence: 50
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; own polling-error analysis"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -134,6 +162,8 @@
 - prediction: "Ashley Hinson will win IA-SEN."
   criteria: "...Ashley Hinson wins IA-SEN."
   confidence: 60
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; own polling-error analysis"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -143,6 +173,8 @@
 - prediction: "Democrats will hold 50 or fewer Senate seats."
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 50 or fewer members when the 120th Congress convenes."
   confidence: 41
+  effort: "Considered"
+  basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
   outcome: "Open"
@@ -153,6 +185,8 @@
 - prediction: "Democrats will hold exactly 51 Senate seats."
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 51 members when the 120th Congress convenes."
   confidence: 14
+  effort: "Considered"
+  basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
   outcome: "Open"
@@ -163,6 +197,8 @@
 - prediction: "Democrats will hold exactly 52 Senate seats."
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 52 members when the 120th Congress convenes."
   confidence: 14
+  effort: "Considered"
+  basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
   outcome: "Open"
@@ -173,6 +209,8 @@
 - prediction: "Democrats will hold exactly 53 Senate seats."
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 53 members when the 120th Congress convenes."
   confidence: 13
+  effort: "Considered"
+  basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
   outcome: "Open"
@@ -183,6 +221,8 @@
 - prediction: "Democrats will hold 54 or more Senate seats."
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 54 or more members when the 120th Congress convenes."
   confidence: 18
+  effort: "Considered"
+  basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
   outcome: "Open"
@@ -193,6 +233,8 @@
 - prediction: "Proposition 40 will fail in California."
   criteria: "...fewer than 50 percent of voters back 'Yes' on CA Proposition 40."
   confidence: 55
+  effort: "Quick take"
+  basis: "Early-vote polling; status quo bias"
   made: 2026-11-02
   resolves: 2026-12-31
   outcome: "Open"
@@ -202,6 +244,8 @@
 - prediction: "Shomari Figures will win reelection in AL-02."
   criteria: "...Shomari Figures is elected in AL-02."
   confidence: 55
+  effort: "Quick take"
+  basis: "Intuition (Callais backlash)"
   made: 2026-11-02
   resolves: 2026-11-15
   outcome: "Open"
@@ -211,6 +255,8 @@
 - prediction: "Greg Abbott will run ahead of Ken Paxton in Texas."
   criteria: "...D-minus-R margin in TX-GOV is lower than in TX-SEN."
   confidence: 90
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -221,6 +267,8 @@
 - prediction: "Rob Sand will run ahead of Josh Turek in Iowa."
   criteria: "...D-minus-R margin in IA-GOV is higher than in IA-SEN."
   confidence: 90
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -231,6 +279,8 @@
 - prediction: "Hannah Pingree will run ahead of Troy Jackson in Maine."
   criteria: "...D-minus-R margin in ME-GOV is higher than in ME-SEN."
   confidence: 95
+  effort: "Considered"
+  basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -241,6 +291,8 @@
 - prediction: "Darline Graham will win SC-SEN."
   criteria: "...Darline Graham wins SC-SEN."
   confidence: 70
+  effort: "Considered"
+  basis: "Polling averages; own polling-error analysis"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -251,6 +303,8 @@
 - prediction: "Pete Ricketts will win NE-SEN."
   criteria: "...Pete Ricketts wins NE-SEN."
   confidence: 70
+  effort: "Considered"
+  basis: "Polling averages; own polling-error analysis"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -261,6 +315,8 @@
 - prediction: "Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX."
   criteria: "...in at least 3 of the 5 races, the certified D-minus-R margin is lower than the Silver Bulletin average margin was on 2026-11-02."
   confidence: 60
+  effort: "Considered"
+  basis: "Own polling-error analysis, 1998-2022"
   made: 2026-11-03
   resolves: 2026-12-31
   outcome: "Open"
@@ -271,6 +327,8 @@
 - prediction: "Bobby Pulido will defeat Monica De La Cruz in TX-15."
   criteria: "...Bobby Pulido is elected in TX-15."
   confidence: 55
+  effort: "Deep dive"
+  basis: "Own reversion scenarios on district results; Cook rating"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -281,6 +339,8 @@
 - prediction: "Brandon Herrera will win TX-23."
   criteria: "...Brandon Herrera is elected in TX-23."
   confidence: 68
+  effort: "Deep dive"
+  basis: "Own reversion scenarios on district results; Cook rating"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
@@ -291,6 +351,8 @@
 - prediction: "Bob Harvie will defeat Brian Fitzpatrick in PA-01."
   criteria: "...Bob Harvie is elected in PA-01."
   confidence: 58
+  effort: "Considered"
+  basis: "NYT/Inquirer/Siena district poll; district lean"
   made: 2026-11-03
   resolves: 2026-11-15
   outcome: "Open"
