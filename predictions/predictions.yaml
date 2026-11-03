@@ -359,3 +359,16 @@
   categories: [2026 Elections]
   source: ""
   notes: "Case against: Fitzpatrick doggedly survives. Case for: Harris district in a bluer national environment; Harvie leads polls narrowly; incumbent personal vote may not survive the wavey environment."
+
+- prediction: "The last seven battleground NYT/Siena polls will have a smaller absolute error than the 2026-11-02 Silver Bulletin averages."
+  criteria: "...NYT/Siena's final margins in AK, IA, KS, ME, MI, OH, and TX will have a smaller mean absolute error than the 2026-11-02 Silver Bulletin averages."
+  confidence: 35
+  effort: "Considered"
+  basis: "NYT/Siena methodology and crosstabs; Noah Wyhof-Rudnick's recall analysis; own polling-error thoughts."
+  made: 2026-11-03
+  resolves: 2026-12-31
+  outcome: "Open"
+  categories: [2026 Elections]
+  source: ""
+  notes: "Essentially a test of my problems with recall weighting, which other pollsters are not letting run Slack. NYT predicts a bluer environment. Case for: Trump deniers. Case against: unfair comparing one poll to an average; NYT is bluer than CW in 5/7 states so relies on a pro-D miss."
+  
