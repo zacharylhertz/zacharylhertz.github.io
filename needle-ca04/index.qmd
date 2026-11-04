@@ -64,6 +64,10 @@ resources:
 #needle .stack { display: flex; height: 18px; background: #eeeeec; }
 #needle .stack span { display: block; height: 100%; box-sizing: border-box; border-right: 2px solid #fff; }
 #needle .stack span:last-child { border-right: 0; }
+#needle .pbars { display: grid; grid-template-columns: 5.6rem 1fr; row-gap: 6px; align-items: center; }
+#needle .pbars .pb-name { font-size: .85rem; }
+#needle .pbars .pb-track { display: flex; height: 16px; background: #eeeeec; }
+#needle .pbars .pb-track span { display: block; height: 100%; }
 #needle .stack-tick { position: absolute; left: 50%; top: .8rem; bottom: -3px; width: 1px; background: var(--ink); }
 #needle .stack-tick-label { position: absolute; left: 50%; top: 0; transform: translateX(-50%); font-size: .75rem; color: var(--muted); line-height: 1; }
 #needle .stack-keys { display: flex; flex-wrap: wrap; gap: .1rem .9rem; font-size: .85rem; margin-top: .45rem; }
@@ -211,6 +215,7 @@ resources:
         <button type="button" data-view="lead" aria-pressed="false">Size of lead</button>
         <button type="button" data-view="counted" aria-pressed="false">Share counted</button>
         <button type="button" data-view="swing" aria-pressed="false">Swing since June</button>
+        <button type="button" data-view="left" aria-pressed="false">Estimated vote left</button>
       </div>
       <div class="cmap-wrap" id="cmap-wrap">
         <svg class="cmap" id="cmap" role="group" aria-describedby="cmap-desc"></svg>
@@ -295,7 +300,7 @@ resources:
 
   <h2>Method note</h2>
   <div class="method">
-    <p id="method-note">For every county in the district, the model estimates how many ballots are left to be counted using registration and 2022 turnout, or the county’s report of unprocessed ballot numbers. I assume outstanding ballots split similar to already-counted ballots, with an error accounting for differences in late vote. After election night, the model estimates the shift in late vote by comparing each incoming batch to the previous count.</p>
+    <p id="method-note">For every county in the district, the model estimates how many ballots are left to be counted using registration and 2022 turnout, and apportions them relative to county share of the June primary vote, until I have a direct report from the county on how many unprocessed ballots remain. I make a modeling assumption that outstanding ballots will differ from early ballots, informed by how these votes differed at the county-level in June 2026 and November 2022, weighted towards the former. This is updated after election night based on how much each incoming batch differs with respect to both previous batches and the historical trend.</p>
     <p>This is <em>not</em> an official result. Margin is taken as Thompson vote share minus Jones vote share, in percentage points. The page checks for new data every minute.</p>
     <p class="small">Sources: California Secretary of State election results. Map: AB 604 (Prop 50) congressional district from the Statewide Database, and Census Bureau county boundaries. <a id="repo-link" href="#">Code and data</a>.</p>
   </div>
@@ -329,6 +334,10 @@ resources:
   // Size of lead: circle area proportional to the lead in votes (fixed scale, map units on a 600-wide map).
   const LEAD_REF = 2000, LEAD_CLAMP = 8000, LEAD_RMAX = 22;
   const leadRadius = function (lead) { return LEAD_RMAX * Math.sqrt(Math.min(Math.abs(lead), LEAD_CLAMP) / LEAD_REF); };
+  // Estimated vote left: circle area proportional to the model's median estimate of two-candidate ballots left.
+  const LEFT_REF = 10000, LEFT_CLAMP = 40000, LEFT_RMAX = 24;
+  const LEFT_BINS = [10, 20, 30], LEFT_LABELS = ["0 to 10", "10 to 20", "20 to 30", "30 plus"];
+  const leftRadius = function (v) { return LEFT_RMAX * Math.sqrt(Math.min(Math.max(v, 0), LEFT_CLAMP) / LEFT_REF); };
   // Labels come from by_county[].label; failing that, the county name plus "(part)" when by_county[].whole_county is false.
 
   const override = new URLSearchParams(location.search).get("data");
@@ -559,27 +568,65 @@ resources:
     const stack = $("stack"), keys = $("stack-keys");
     clear(stack); clear(keys);
     const labels = [];
-    cands.forEach(function (c) {
-      const last = whoIs(c.name) || String(c.name || "");
-      if (voteSum > 0 && isNum(c.votes) && c.votes > 0) {
-        const seg = document.createElement("span");
-        seg.style.width = (100 * c.votes / voteSum) + "%";
-        seg.style.background = colorOf(c);
-        stack.appendChild(seg);
-        labels.push(last + " " + pct1(100 * c.votes / voteSum));
-      }
+    // Counted votes and the model's projected final two-candidate vote, for the projected bars below.
+    const ex = obj(s.expected_total), est = obj(s.estimate);
+    const cT = cands.reduce(function (a, c) { return a + (whoIs(c.name) === T_NAME && isNum(c.votes) ? c.votes : 0); }, 0);
+    const cJ = cands.reduce(function (a, c) { return a + (whoIs(c.name) === J_NAME && isNum(c.votes) ? c.votes : 0); }, 0);
+    const E = isNum(ex.mid) ? Math.max(ex.mid, cT + cJ) : null;
+    const proj = E !== null && isNum(est.margin_mid) && cT + cJ > 0 && E > cT + cJ;
+    // Projected bars: one row per candidate, counted votes solid, then the model's projected remaining votes in grey,
+    // on a common vote scale. The tick marks half the projected total, the line a candidate must pass to win.
+    const NAMEW = "5.6rem";
+    const tick = stack.parentNode.querySelector(".stack-tick"), tickLab = stack.parentNode.querySelector(".stack-tick-label");
+    const keyList = [];
+    if (proj) {
+      stack.className = "pbars";
+      const left = E - cT - cJ;
+      const fT = Math.max(cT, Math.min(E * (50 + est.margin_mid / 2) / 100, cT + left));
+      const rows = [[T_NAME, cT, fT, COLORS.T], [J_NAME, cJ, Math.max(cJ, E - fT), COLORS.J]];
+      const scale = 1.06 * Math.max(E / 2, rows[0][2], rows[1][2]);
+      rows.forEach(function (r) {
+        stack.appendChild(textEl("span", "pb-name", r[0]));
+        const tr = textEl("span", "pb-track", "");
+        const a = textEl("span", "", ""); a.style.width = (100 * r[1] / scale) + "%"; a.style.background = r[3];
+        const b = textEl("span", "", ""); b.style.width = (100 * (r[2] - r[1]) / scale) + "%"; b.style.background = "#b9bec4";
+        tr.appendChild(a); tr.appendChild(b);
+        tr.title = int(r[1]) + " counted; about " + int(r[2]) + " projected in all";
+        stack.appendChild(tr);
+        labels.push(r[0] + " " + int(r[1]) + " counted, about " + int(r[2]) + " projected");
+      });
+      const pos = "calc(" + NAMEW + " + (100% - " + NAMEW + ") * " + (E / 2 / scale).toFixed(4) + ")";
+      tick.style.left = pos; tickLab.style.left = pos;
+      tickLab.style.transform = "translateX(calc(-100% - 4px))"; tickLab.style.whiteSpace = "nowrap";
+      tickLab.textContent = "Needed to win: " + int(Math.ceil(E / 2));
+      keyList.push([COLORS.T, T_NAME + " counted"], [COLORS.J, J_NAME + " counted"], ["#b9bec4", "Projected, not yet counted"]);
+    } else {
+      stack.className = "stack";
+      tick.style.left = ""; tickLab.style.left = ""; tickLab.style.transform = ""; tickLab.style.whiteSpace = ""; tickLab.textContent = "50%";
+      cands.forEach(function (c) {
+        if (voteSum > 0 && isNum(c.votes) && c.votes > 0) {
+          const seg = document.createElement("span");
+          seg.style.width = (100 * c.votes / voteSum) + "%";
+          seg.style.background = colorOf(c);
+          stack.appendChild(seg);
+          labels.push((whoIs(c.name) || String(c.name || "")) + " " + pct1(100 * c.votes / voteSum));
+        }
+        keyList.push([colorOf(c), whoIs(c.name) || String(c.name || "")]);
+      });
+    }
+    keyList.forEach(function (x) {
       const k = document.createElement("span");
       const sw = document.createElement("i");
-      sw.style.background = colorOf(c);
+      sw.style.background = x[0];
       k.appendChild(sw);
-      k.appendChild(document.createTextNode(last));
+      k.appendChild(document.createTextNode(x[1]));
       keys.appendChild(k);
     });
     stack.setAttribute("aria-label", labels.length ? labels.join(", ") + "." : "No votes reported yet.");
     // County parts whose SOS line reads "100% (n of n) precincts reporting".
     const parts = arr(s.by_county).filter(function (c) { return c && typeof c.county === "string"; });
     const done = parts.filter(function (c) { return /^100(\.0)?%/.test(String(c.sos_reporting || "")); }).length;
-    $("stack-total").textContent = total === null ? "" : int(total) + " votes reported" +
+    $("stack-total").textContent = total === null ? "" : int(total) + " votes reported" + (proj ? " of a projected " + int(E) : "") +
       (parts.length ? ", with " + done + " of " + parts.length + " county parts reporting all precincts" : "");
   }
 
@@ -846,7 +893,7 @@ resources:
   };
   function fillFor(c) {
     if (mapView === "counted") return isNum(c.pct_counted_est) ? RAMP.G[binOf(c.pct_counted_est, COUNTED_BINS)] : null;
-    if (mapView === "lead") return "";
+    if (mapView === "lead" || mapView === "left") return "";
     if (mapView === "share") {
       const t = c.votes_thompson, j = c.votes_jones;
       if (!isNum(t) || !isNum(j) || t + j <= 0) return null;
@@ -859,6 +906,19 @@ resources:
     return (v > 0 ? RAMP.T : RAMP.J)[binOf(Math.abs(v), SWING_BINS)];
   }
   function detailRows(c) {
+    if (mapView === "left") {
+      const jl = c.june_late_swing_DR, cw = c.whole_county === false ? " (countywide)" : "";
+      return [
+        ["Est. ballots left", int(c.remaining_mid)],
+        ["90% range", isNum(c.remaining_lo90) && isNum(c.remaining_hi90) ? int(c.remaining_lo90) + " to " + int(c.remaining_hi90) : NA],
+        ["Est. counted", pctIn(c.pct_counted_est)],
+        ["Counted so far", c.votes > 0 ? margin(c.margin) : "No votes yet"],
+        ["Expected on the rest", margin(c.remaining_margin_mid)],
+        ["90% range", rangeText(c.remaining_margin_lo90, c.remaining_margin_hi90)],
+        ["June primary margin", margin(c.june_margin)],
+        ["June late ballots" + cw, isNum(jl) ? Math.abs(jl).toFixed(1) + " pts more " + (jl >= 0 ? "Dem." : "Rep.") + " (gov.)" : NA]
+      ];
+    }
     const v = isNum(c.votes_thompson) && isNum(c.votes_jones) ? c.votes_thompson + c.votes_jones : null;
     const sh = function (x) { return isNum(x) && v > 0 ? " (" + pct1(100 * x / v) + ")" : ""; };
     return [
@@ -941,7 +1001,7 @@ resources:
       defs.appendChild(pat);
       cmap.insertBefore(defs, cmap.firstChild);
     }
-    cmap.classList.toggle("plain", mapView === "lead");
+    cmap.classList.toggle("plain", mapView === "lead" || mapView === "left");
     if (cmap._circles) {
       clear(cmap._circles);
       if (mapView === "lead") {
@@ -951,6 +1011,17 @@ resources:
           .forEach(function (m) {
             const color = m.lead > 0 ? COLORS.T : COLORS.J;
             cmap._circles.appendChild(svgEl("circle", { cx: m.x, cy: m.y, r: Math.max(leadRadius(m.lead), 2), fill: color, "fill-opacity": 0.3, stroke: color, "stroke-width": 1, "vector-effect": "non-scaling-stroke" }));
+          });
+      }
+      if (mapView === "left") {
+        mapPaths.map(function (p) { const c = mapRows[p.dataset.c] || {}; return { x: +p.dataset.x, y: +p.dataset.y, v: c.remaining_mid, m: c.remaining_margin_mid }; })
+          .filter(function (m) { return isNum(m.v) && m.v > 0; })
+          .sort(function (a, b) { return b.v - a.v; })
+          .forEach(function (m) {
+            const flat = !isNum(m.m) || m.m === 0;
+            const fill = flat ? "#b9bec4" : (m.m > 0 ? RAMP.T : RAMP.J)[binOf(Math.abs(m.m), LEFT_BINS)];
+            const color = flat ? "#7a838e" : m.m > 0 ? COLORS.T : COLORS.J;
+            cmap._circles.appendChild(svgEl("circle", { cx: m.x, cy: m.y, r: Math.max(leftRadius(m.v), 2), fill: fill, "fill-opacity": 0.9, stroke: color, "stroke-width": 1, "vector-effect": "non-scaling-stroke" }));
           });
       }
     }
@@ -965,6 +1036,31 @@ resources:
     const box = $("map-legend");
     clear(box);
     if (!mapPaths.length) return;
+    if (mapView === "left") {
+      const u = cmap.viewBox.baseVal.width / (cmap.clientWidth || 600);
+      box.appendChild(textEl("p", "lg-title", "Expected margin on the ballots left, in points"));
+      const lg = document.createElement("div");
+      lg.className = "lg-grid";
+      [[T_NAME, RAMP.T], [J_NAME, RAMP.J]].forEach(function (rw) {
+        lg.appendChild(textEl("span", "nm", rw[0]));
+        rw[1].forEach(function (col) { const sw = textEl("span", "sw", ""); sw.style.background = col; lg.appendChild(sw); });
+      });
+      lg.appendChild(document.createElement("span"));
+      LEFT_LABELS.forEach(function (l) { lg.appendChild(textEl("span", "ax", l)); });
+      box.appendChild(lg);
+      const sizes = textEl("div", "lg-row", "");
+      [2000, 10000, 30000].forEach(function (v) {
+        const r = leftRadius(v) / u;
+        const it = textEl("div", "lg-item", "");
+        const sv = svgEl("svg", { width: 2 * r + 2, height: 2 * r + 2, viewBox: "0 0 " + (2 * r + 2) + " " + (2 * r + 2), "aria-hidden": "true" });
+        sv.appendChild(svgEl("circle", { cx: r + 1, cy: r + 1, r: r, fill: "#7a838e", "fill-opacity": 0.25, stroke: "#56606c", "stroke-width": 1 }));
+        it.appendChild(sv); it.appendChild(textEl("span", "", int(v) + " ballots"));
+        sizes.appendChild(it);
+      });
+      box.appendChild(sizes);
+      box.appendChild(textEl("p", "lg-note", "Circle area is the model's estimate of two-candidate ballots left to count. Colour is the margin the model expects on those ballots. Hover for the expected split and the June benchmark."));
+      return;
+    }
     if (mapView === "lead") {
       const u = cmap.viewBox.baseVal.width / (cmap.clientWidth || 600);
       const rw = textEl("div", "lg-row", "");
@@ -1054,7 +1150,7 @@ resources:
     .then(function (g) { geo = g; buildMap(); })
     .catch(function (err) { console.warn("needle: map failed", err); $("map-missing").hidden = false; $("view-toggle").hidden = true; });
   let lastW = 0;
-  if (window.ResizeObserver) new ResizeObserver(function (e) { const w = e[0].contentRect.width; if (Math.abs(w - lastW) > 1) { lastW = w; sizeLabels(); if (mapView === "lead") drawLegend(); if (mapPinned) showMapTip(mapPinned); } }).observe(cmap);
+  if (window.ResizeObserver) new ResizeObserver(function (e) { const w = e[0].contentRect.width; if (Math.abs(w - lastW) > 1) { lastW = w; sizeLabels(); if (mapView === "lead" || mapView === "left") drawLegend(); if (mapPinned) showMapTip(mapPinned); } }).observe(cmap);
 
   /* ---------- county table ---------- */
   let countyRows = [], totalRow = null;
