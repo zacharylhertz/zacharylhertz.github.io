@@ -263,6 +263,7 @@ html-table-processing: none
   <header>
     <p class="state" id="state" aria-live="polite">Polls close 8 pm PT</p>
     <p class="small" id="updated"></p>
+    <p class="small">Explore the data <a href="demographics.html">more in depth here.</a></p>
     <p class="next" id="next-update"></p>
     <p class="notice" id="test-notice" hidden></p>
     <p class="notice" id="fake-notice" hidden></p>
