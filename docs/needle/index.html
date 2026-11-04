@@ -498,7 +498,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
     <div>
       <p class="stat-label">Votes counted</p>
       <p class="stat-value" id="counted">n/a</p>
-      <p class="stat-sub" id="expected"></p>
+      <p class="stat-sub" id="expected" style="white-space:pre-line"></p>
     </div>
     <div>
       <p class="stat-label">Estimated share counted</p>
@@ -525,7 +525,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 
   <!-- draft for ZH: headings, labels and explanatory text in the three sections below are unapproved drafts. -->
   <h2>Estimate by county</h2>
-  <p class="small">The model's estimate of the final margin in each county, with the range of likely outcomes. Margins are Democrat minus Republican, in points.</p>
+  <p class="small">County-level model estimates for the final margin.</p>
   <div class="rp-legend" aria-hidden="true">
     <span><i class="k-dot"></i>Best guess</span>
     <span><i class="k-50"></i>50% of outcomes</span>
@@ -537,7 +537,6 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       <tbody id="est-body"></tbody>
     </table>
   </div>
-  <p class="small" style="margin-top:.4rem">Blue is the part of a range where Davis leads, red where Buckhout leads.</p>
 
   <h2>Davis v Cooper</h2>
   <p class="small">How Davis is doing compared with Cooper, the Democrat running for US Senate against Whatley tonight, on the same ballots. Each number is Davis's margin over Buckhout minus Cooper's margin over Whatley, in points, counting only places where both races have reported.</p>
@@ -576,8 +575,8 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <h3 style="margin-top:1.6rem">What's powering the estimate right now?</h3>
   <div class="src-list" id="src-list"></div>
 
-  <h2>Who is ahead of the benchmark</h2>
-  <p class="small">The benchmark is how each county would vote in an exactly even race, based on past results and compared like for like on the votes counted so far.</p>
+  <h2>Who's running ahead of benchmarks?</h2>
+  <p class="small">Benchmarks are voting patterns in a tied race, modeled off past results and votes counted so far.</p>
   <div class="groups" id="bench-groups"></div>
 
   <h2>The Senate race on the old and new maps</h2>
@@ -637,16 +636,11 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <p class="small" id="early-meta"></p>
   <div class="groups" id="early-groups"></div>
 
-  <!-- DRAFT for ZH: this method note and all page wording are unapproved drafts for ZH to edit. -->
   <h2>Method note</h2>
   <div class="method">
-    <p>This page shows a model estimate. It is not an official result and it is not an AP call.</p>
-    <p>Before any votes are counted, the model starts from Davis winning by 4.5 points. That is an average of the four public polls of this district with fieldwork ending after August 1, from the poll file published by The New York Times: co/efficient, Buckhout +1 (October 8); Neighborhood Research, Davis +10 (October 6); GQR, Davis +8 (October 4); and GBAO for House Majority PAC, Davis +7 (September 11). Three of the four were done by partisan firms or for a party group, so each of those is moved 4.5 points toward the other party, and larger polls count for more. Without that adjustment the average is Davis +5.6. These are few polls and mostly partisan, so the model treats the starting point as uncertain: before votes it gives Davis about a 70% chance. A later Democratic poll (RedBox, Davis +1, October 23) is not in the Times file and is not included. As votes are counted, they take over from this starting point; the chart "What's powering the estimate right now?" shows how much each part counts.</p>
-    <p>The block under the main numbers shows what the candidate behind in the count would need. It takes the current lead in votes and the model's estimate of the votes still to be counted, and works out the margin on those votes that would tie the race. The model's own estimate of how those votes will break, with its 90% range, is shown beside it. If the lead is larger than the votes the model expects to remain, the trailing candidate cannot catch up on those votes.</p>
-    <p>Davis v Cooper compares Davis's margin over Buckhout with Cooper's margin over Whatley in the US Senate race, using only places where both races have reported votes, so the two margins come from the same ballots. Counties with fewer than 500 House votes counted are held back, because a few hundred votes give a noisy number. Both candidates are Democrats, so the chart uses grey rather than party colours.</p>
-    <p>The section on the Senate race on the old and new maps counts tonight's Senate votes on two sets of lines: NC-1 as drawn for 2024, which also included Greene, Lenoir, Wayne and Wilson counties, and NC-1 as redrawn in 2025. Where a renamed early-voting site cannot be matched to the old lines, its votes are counted in full; only its 2024 comparison margin uses the county average for that vote method. (In a county the old lines split, a new polling place is left out, and a new absentee or other county-wide unit counts at the county's share inside the old lines.) The old-lines figure needs the state's statewide results file, because the county files cover only the new district. The 2024 presidential margin on the same counted votes is shown so the gap tonight can be compared with the gap the lines already had. The counted share compares votes counted tonight with 2024 presidential votes on those lines; it stays below 100% because turnout is lower in a midterm. The section waits until that share is at least 10% on both sets of lines.</p>
-    <p>Results are unofficial until certified. Vote counts come from the North Carolina State Board of Elections.</p>
-    <p>The page checks for new data regularly, and the data file can lag the state feed by a few minutes.</p>
+    <p>On this page, I show model estimates of win likelihood. This is <em>not</em> an official result. The model is a precinct-level estimate of how many votes remain and how they might split. I aggregate this up to a district-wide estimate.</p>
+    <p>I start with county reports of absentee ballots from mail and early in-person vote. These historically lean Democratic, so early counts tend to lean towards Democrats. The model considers early and Election Day votes separately, and expects a similar partisan difference between these votes as 2024, when Election Day votes leaned Republican. Before votes are counted, the estimate works off an adjusted polling average and the number of absentee ballots received by each precinct and early-voting site. For a benchmark, I model how each county would vote in a tied race. This starts with 2024 results at the precinct level, split into Election Day, early in-person, mail and provisional votes, and applies a uniform swing. Counted votes are compared by type, so early vote is compared to early vote benchmarks. Groups show as 'too early' until at least 10 percent of expected votes have been counted, and as running ahead of benchmarks only when performances exceed 3 point differences overall.</p>
+    <p>Results are unofficial vote counts, from the North Carolina State Board of Elections. The page checks for new data every minute, but the data file may lag by a few minutes.</p>
     <p><a id="repo-link" href="#">Code and data</a></p>
   </div>
 
@@ -807,7 +801,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       arm.classList.remove("ease");
     }
     $("p-davis").textContent = prob(p);
-    $("p-buckhout").textContent = isNum(e.p_buckhout) ? "Chance Buckhout wins: " + prob(e.p_buckhout) : "";
+    $("p-buckhout").textContent = "";
     $("prior-note").hidden = !(s.status === "pre" && isNum(p));
     $("dial-title").textContent = isNum(p)
       ? "Dial showing a " + prob(p) + " chance Davis wins" +
@@ -824,7 +818,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       ? "90% interval: " + named(e.margin_lo90) + " to " + named(e.margin_hi90) : "";
     $("counted").textContent = int(s.counted_votes);
     $("expected").textContent = isNum(x.mid)
-      ? "Estimated total: " + int(x.mid) + (isNum(x.lo90) && isNum(x.hi90) ? " (range " + int(x.lo90) + " to " + int(x.hi90) + ")" : "")
+      ? "Estimated total: " + int(x.mid) + (isNum(x.lo90) && isNum(x.hi90) ? "\n(range " + int(x.lo90) + " to " + int(x.hi90) + ")" : "")
       : "";
     $("share-counted").textContent = isNum(s.pct_counted_est) ? Math.round(s.pct_counted_est) + "%" : NA;
     if (isNum(s.counted_votes) && s.counted_votes > 0 && x.lo90 > 0 && x.hi90 > 0) {
@@ -1141,7 +1135,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
         sizes.appendChild(it);
       });
       box.appendChild(sizes);
-      box.appendChild(legendText("p", "lg-note", "Circle size is proportional to the amount each county's leading candidate is ahead."));
+      box.appendChild(legendText("p", "lg-note", "Circle size is proportional to candidates' county-level lead."));
     } else if (mapView === "bench") {
       // draft for ZH: legend wording
       box.appendChild(legendText("p", "lg-title", "Ahead of benchmark"));
@@ -1166,7 +1160,6 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       [500, 2000].forEach(function (v) { sizes.appendChild(sample(v, int(v) + " votes", "#8a929c")); });
       sizes.appendChild(sample(null, "Within " + BENCH_MIN + " votes, or no votes yet"));
       box.appendChild(sizes);
-      box.appendChild(legendText("p", "lg-note", "Triangle colour shows which candidate is ahead of their benchmark in each county. Height is proportional to how many votes they are ahead."));
     } else {
       box.appendChild(legendText("p", "lg-title", "Shift in margin from the 2024 NC-1 race"));
       const row = document.createElement("div");
@@ -1197,7 +1190,6 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
       nh.appendChild(nhi);
       nh.appendChild(legendText("span", "", NOT_IN_HOUSE));
       box.appendChild(nh);
-      box.appendChild(legendText("p", "lg-note", "Compared with Davis v Buckhout in 2024, in the same precincts and vote methods counted so far."));
     }
     const split = legendText("p", "lg-note", "Granville and Onslow show only the part in the district.");
     box.appendChild(split);
