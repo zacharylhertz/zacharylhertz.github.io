@@ -80,6 +80,10 @@ html-table-processing: none
 #needle .stack { display: flex; height: 18px; background: #eeeeec; }
 #needle .stack span { display: block; height: 100%; box-sizing: border-box; border-right: 2px solid #fff; }
 #needle .stack span:last-child { border-right: 0; }
+#needle .pbars { display: grid; grid-template-columns: 5.6rem 1fr; row-gap: 6px; align-items: center; }
+#needle .pbars .pb-name { font-size: .85rem; }
+#needle .pbars .pb-track { display: flex; height: 16px; background: #eeeeec; }
+#needle .pbars .pb-track span { display: block; height: 100%; }
 #needle .stack-tick { position: absolute; left: 50%; top: .8rem; bottom: -3px; width: 1px; background: var(--ink); }
 #needle .stack-tick-label { position: absolute; left: 50%; top: 0; transform: translateX(-50%); font-size: .75rem; color: var(--muted); line-height: 1; }
 #needle .stack-keys { display: flex; flex-wrap: wrap; gap: .1rem .9rem; font-size: .85rem; margin-top: .45rem; }
@@ -135,6 +139,12 @@ html-table-processing: none
 #needle .tip[hidden] { display: none; }
 #needle .tip b { font-weight: 600; }
 #needle .tip span { color: var(--muted); }
+#needle .keys { display: flex; flex-wrap: wrap; gap: .2rem 1.1rem; font-size: .82rem; margin: .2rem 0 .4rem; align-items: center; }
+#needle .keys[hidden], #needle .keys span[hidden] { display: none; }
+#needle .keys span { display: inline-flex; align-items: center; gap: .35rem; }
+#needle .keys i { display: inline-block; }
+#needle .keys i.k-line { width: 22px; height: 0; border-top: 2px solid var(--ink); }
+#needle .keys i.k-dash { width: 22px; height: 0; border-top: 2px dashed var(--ink); }
 #needle details { margin-top: .5rem; font-size: .9rem; }
 #needle summary { cursor: pointer; color: var(--muted); }
 #needle details.bench-dim { margin: 0 0 .4rem; }
@@ -324,6 +334,7 @@ html-table-processing: none
         <button type="button" data-view="share" aria-pressed="true">Vote share</button>
         <button type="button" data-view="lead" aria-pressed="false">Size of lead</button>
         <button type="button" data-view="bench" aria-pressed="false" id="bench-toggle" hidden>Vs. benchmark</button>
+        <button type="button" data-view="left" aria-pressed="false" id="left-toggle" hidden>Estimated vote left</button>
       </div>
       <div class="cmap-wrap" id="cmap-wrap">
 <!-- map fragment from needle_sf11/page/build_map.R -->
@@ -804,6 +815,10 @@ html-table-processing: none
           <th scope="col" data-key="pct_chan"><button type="button">Chan %<span class="arrow"></span></button></th>
           <th scope="col" data-key="margin"><button type="button">Margin<span class="arrow"></span></button></th>
           <th scope="col" data-key="vs_benchmark"><button type="button">Vs. benchmark<span class="arrow"></span></button></th>
+          <th scope="col" data-key="remaining_mid" class="vl-col" hidden><button type="button">Est. votes left<span class="arrow"></span></button></th>
+          <th scope="col" data-key="remaining_margin_mid" class="vl-col" hidden><button type="button">Expected on the rest<span class="arrow"></span></button></th>
+          <th scope="col" data-key="est_margin_mid" class="vl-col" hidden><button type="button">Projected final<span class="arrow"></span></button></th>
+          <th scope="col" data-key="est_margin_lo90" class="vl-col" hidden><button type="button">90% range<span class="arrow"></span></button></th>
         </tr></thead>
         <tbody id="nbhd-body"></tbody>
       </table>
@@ -848,6 +863,10 @@ html-table-processing: none
 
   <h2>Estimate of the final margin, release by release</h2>
   <p class="small">Each step is one results release. Releases are evenly spaced on this chart, although the later ones come a day apart.</p>
+  <div class="keys" id="trend-keys" aria-hidden="true" hidden>
+    <span><i class="k-line"></i>Live estimate</span>
+    <span><i class="k-dash"></i>Rebuilt after the fact with the current model</span>
+  </div>
   <div class="chart" id="trend-chart" tabindex="0" role="group" aria-label="Chart of the estimated final margin over time."></div>
   <p class="small" id="trend-empty">No history yet.</p>
   <details>
@@ -864,6 +883,10 @@ html-table-processing: none
   <div class="src-list" id="src-list"></div>
 
   <h2>Chance Wiener wins over time</h2>
+  <div class="keys" id="hist-keys" aria-hidden="true" hidden>
+    <span><i class="k-line"></i>Live estimate</span>
+    <span><i class="k-dash"></i>Rebuilt after the fact with the current model</span>
+  </div>
   <div class="chart" id="hist-chart" tabindex="0" role="group" aria-label="Line chart of the chance Wiener wins over time. Use the left and right arrow keys to move between releases."></div>
   <p class="small" id="hist-empty">No history yet.</p>
   <details>
@@ -886,7 +909,7 @@ html-table-processing: none
     <h2>By vote method</h2>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Vote method table">
       <table>
-        <thead><tr><th scope="col">Method</th><th scope="col">Counted</th><th scope="col">Expected</th><th scope="col">Margin</th></tr></thead>
+        <thead><tr><th scope="col">Method</th><th scope="col">Counted</th><th scope="col">Expected</th><th scope="col">Margin</th><th scope="col" class="vl-mcol" hidden>Est. votes left</th><th scope="col" class="vl-mcol" hidden>Expected on the rest</th></tr></thead>
         <tbody id="method-body"></tbody>
       </table>
     </div>
@@ -1267,24 +1290,66 @@ html-table-processing: none
     clear(keys);
     const voteSum = list.reduce(function (a, c) { return a + (isNum(c.votes) ? c.votes : 0); }, 0);
     const labels = [];
-    list.forEach(function (c) {
-      const last = String(c.name || "").split(" ").pop();
-      if (voteSum > 0 && isNum(c.votes) && c.votes > 0) {
-        const seg = document.createElement("span");
-        seg.style.width = (100 * c.votes / voteSum) + "%";
-        seg.style.background = colorOf(c);
-        stack.appendChild(seg);
-        labels.push(last + " " + pct1(100 * c.votes / voteSum));
-      }
+    const lastOf = function (c) { return String(c.name || "").split(" ").pop(); };
+    // Projected bars (as on the CA-04 page): one row per candidate, counted votes solid, then the model's projected
+    // remaining votes in grey, on a common vote scale. The tick marks half the projected two-candidate total.
+    const ex = (s.expected_total && typeof s.expected_total === "object") ? s.expected_total : {};
+    const est = (s.estimate && typeof s.estimate === "object") ? s.estimate : {};
+    const wC = list.find(function (c) { return !/chan/i.test(String(c.name || "")); });
+    const cC = list.find(function (c) { return /chan/i.test(String(c.name || "")); });
+    const cW = wC && isNum(wC.votes) ? wC.votes : 0, cCh = cC && isNum(cC.votes) ? cC.votes : 0;
+    const E = isNum(ex.mid) ? Math.max(ex.mid, cW + cCh) : null;
+    const proj = !!(wC && cC) && E !== null && isNum(est.margin_mid) && cW + cCh > 0 && E > cW + cCh;
+    const NAMEW = "5.6rem";
+    const tick = stack.parentNode.querySelector(".stack-tick"), tickLab = stack.parentNode.querySelector(".stack-tick-label");
+    const keyList = [];
+    if (proj) {
+      stack.className = "pbars";
+      const left = E - cW - cCh;
+      // margin_mid is Wiener minus Chan, in points, on the projected final two-candidate vote.
+      const fW = Math.max(cW, Math.min(E * (50 + est.margin_mid / 2) / 100, cW + left));
+      const rows = [[lastOf(wC), cW, fW, colorOf(wC)], [lastOf(cC), cCh, Math.max(cCh, E - fW), colorOf(cC)]];
+      const scale = 1.06 * Math.max(E / 2, rows[0][2], rows[1][2]);
+      rows.forEach(function (r) {
+        const nm = document.createElement("span"); nm.className = "pb-name"; nm.textContent = r[0];
+        stack.appendChild(nm);
+        const tr = document.createElement("span"); tr.className = "pb-track";
+        const a = document.createElement("span"); a.style.width = (100 * r[1] / scale) + "%"; a.style.background = r[3];
+        const b = document.createElement("span"); b.style.width = (100 * (r[2] - r[1]) / scale) + "%"; b.style.background = "#b9bec4";
+        tr.appendChild(a); tr.appendChild(b);
+        tr.title = int(r[1]) + " counted; about " + int(r[2]) + " projected in all";
+        stack.appendChild(tr);
+        labels.push(r[0] + " " + int(r[1]) + " counted, about " + int(r[2]) + " projected");
+      });
+      const pos = "calc(" + NAMEW + " + (100% - " + NAMEW + ") * " + (E / 2 / scale).toFixed(4) + ")";
+      tick.style.left = pos; tickLab.style.left = pos;
+      tickLab.style.transform = "translateX(calc(-100% - 4px))"; tickLab.style.whiteSpace = "nowrap";
+      tickLab.textContent = "Needed to win: " + int(Math.ceil(E / 2));
+      keyList.push([colorOf(wC), lastOf(wC) + " counted"], [colorOf(cC), lastOf(cC) + " counted"], ["#b9bec4", "Projected, not yet counted"]);
+    } else {
+      stack.className = "stack";
+      tick.style.left = ""; tickLab.style.left = ""; tickLab.style.transform = ""; tickLab.style.whiteSpace = ""; tickLab.textContent = "50%";
+      list.forEach(function (c) {
+        if (voteSum > 0 && isNum(c.votes) && c.votes > 0) {
+          const seg = document.createElement("span");
+          seg.style.width = (100 * c.votes / voteSum) + "%";
+          seg.style.background = colorOf(c);
+          stack.appendChild(seg);
+          labels.push(lastOf(c) + " " + pct1(100 * c.votes / voteSum));
+        }
+        keyList.push([colorOf(c), lastOf(c)]);
+      });
+    }
+    keyList.forEach(function (x) {
       const k = document.createElement("span");
       const sw = document.createElement("i");
-      sw.style.background = colorOf(c);
+      sw.style.background = x[0];
       k.appendChild(sw);
-      k.appendChild(document.createTextNode(last));
+      k.appendChild(document.createTextNode(x[1]));
       keys.appendChild(k);
     });
     stack.setAttribute("aria-label", labels.length ? labels.join(", ") + "." : "No votes reported yet.");
-    $("stack-total").textContent = total === null ? "" : int(total) + " votes reported" +
+    $("stack-total").textContent = total === null ? "" : int(total) + " votes reported" + (proj ? " of a projected " + int(E) : "") +
       (isNum(s.precincts_reported) && isNum(s.precincts_total) ? ", from " + int(s.precincts_reported) + " of " + int(s.precincts_total) + " precincts" : "");
   }
 
@@ -1298,6 +1363,14 @@ html-table-processing: none
   // Vs. benchmark: counted margin minus the precinct's benchmark, in points, binned on the same two scales.
   const BENCH_LABELS = ["0 to 3", "3 to 6", "6 to 10", "10 plus"];
   const benchBin = function (v) { const a = Math.abs(v); return a < 3 ? 0 : a < 6 ? 1 : a < 10 ? 2 : 3; };
+  // Estimated vote left (as on the CA-04 page): circle area is the model's median estimate of two-candidate votes left,
+  // on the same scale as the lead circles; colour is the margin the model expects on those votes, in the bins below.
+  const LEFT_REF = 400, LEFT_CLAMP = 800, LEFT_RMAX = 13;
+  const LEFT_LABELS = ["0 to 10", "10 to 20", "20 to 30", "30 plus"];
+  const leftBin = function (v) { const a = Math.abs(v); return a < 10 ? 0 : a < 20 ? 1 : a < 30 ? 2 : 3; };
+  const leftRadius = function (v) { return LEFT_RMAX * Math.sqrt(Math.min(Math.max(v, 0), LEFT_CLAMP) / LEFT_REF); };
+  const hasLeft = function (list) { return arr(list).some(function (c) { return c && isNum(c.remaining_mid); }); };
+  const votesRange = function (lo, hi) { return isNum(lo) && isNum(hi) ? int(lo) + " to " + int(hi) : NA; };
   const hasBench = function (s) { return arr(s.by_precinct).some(function (c) { return c && isNum(c.benchmark_margin); }); };
   const netVotes = function (v) { return !isNum(v) ? NA : (Math.round(v) === 0 ? "Even" : (v > 0 ? W_NAME : C_NAME) + " +" + int(Math.abs(v))); };
   const leadRadius = function (lead) { return LEAD_RMAX * Math.sqrt(Math.min(Math.abs(lead), LEAD_CLAMP) / LEAD_REF); };
@@ -1325,6 +1398,19 @@ html-table-processing: none
 
   function detailRows(i) {
     const c = i.c;
+    if (mapView === "left") {
+      const rows = [];
+      if (typeof c.neighborhood === "string" && c.neighborhood) rows.push(["Neighborhood", c.neighborhood]);
+      rows.push(["Votes counted", int(i.votes)],
+        ["Counted so far", i.has ? margin(isNum(c.margin) ? c.margin : 100 * (i.d - i.r) / i.votes) : "No votes yet"],
+        ["Est. votes left", int(c.remaining_mid)],
+        ["90% range", votesRange(c.remaining_lo90, c.remaining_hi90)],
+        ["Expected on the rest", margin(c.remaining_margin_mid)],
+        ["90% range", rangeText(c.remaining_margin_lo90, c.remaining_margin_hi90)],
+        ["Projected final", margin(c.est_margin_mid)],
+        ["90% range", rangeText(c.est_margin_lo90, c.est_margin_hi90)]);
+      return rows;
+    }
     if (mapView === "bench") {
       const none = !i.has || !isNum(c.benchmark_margin);
       const vb = none || !isNum(c.vs_benchmark) ? NA : (margin(c.vs_benchmark) === "Even" ? "Even" : margin(c.vs_benchmark) + " pts");
@@ -1365,7 +1451,7 @@ html-table-processing: none
       hatch.lastChild.setAttribute("y1", size / 2);
       hatch.lastChild.setAttribute("y2", size / 2);
     }
-    cmap.classList.toggle("plain", mapView === "lead");
+    cmap.classList.toggle("plain", mapView === "lead" || mapView === "left");
     mapPaths.forEach(function (p) {
       const i = precInfo(p.dataset.c);
       if (mapView === "bench") {
@@ -1398,6 +1484,18 @@ html-table-processing: none
             fill: color, "fill-opacity": 0.3, stroke: color, "stroke-width": 1 * u }));
         });
     }
+    if (mapView === "left") {
+      mapPaths.map(function (p) { const c = precInfo(p.dataset.c).c; return { x: +p.dataset.x, y: +p.dataset.y, v: c.remaining_mid, m: c.remaining_margin_mid }; })
+        .filter(function (m) { return isNum(m.v) && m.v > 0; })
+        .sort(function (a, b) { return b.v - a.v; })
+        .forEach(function (m) {
+          const flat = !isNum(m.m) || m.m === 0;
+          const fill = flat ? "#b9bec4" : (m.m > 0 ? SHARE_D : SHARE_R)[leftBin(m.m)];
+          const color = flat ? "#7a838e" : COLORS[m.m > 0 ? "D" : "R"];
+          overlay.appendChild(svgEl("circle", { cx: m.x, cy: m.y, r: Math.max(leftRadius(m.v), 1.2 * u),
+            fill: fill, "fill-opacity": 0.9, stroke: color, "stroke-width": 1 * u }));
+        });
+    }
     drawLegend(u);
     drawMapDesc();
     if (mapPinned) showMapTip(mapPinned);
@@ -1406,7 +1504,32 @@ html-table-processing: none
   function drawLegend(u) {
     const box = $("map-legend");
     clear(box);
-    if (mapView === "share" || mapView === "bench") {
+    if (mapView === "left") {
+      box.appendChild(legendText("p", "lg-title", "Expected margin on the votes left, in points"));
+      const lg = document.createElement("div");
+      lg.className = "lg-grid";
+      [[W_NAME, SHARE_D], [C_NAME, SHARE_R]].forEach(function (rw) {
+        lg.appendChild(legendText("span", "nm", rw[0]));
+        rw[1].forEach(function (col) { const sw = legendText("span", "sw", ""); sw.style.background = col; lg.appendChild(sw); });
+      });
+      lg.appendChild(document.createElement("span"));
+      LEFT_LABELS.forEach(function (l) { lg.appendChild(legendText("span", "ax", l)); });
+      box.appendChild(lg);
+      const sizes = document.createElement("div");
+      sizes.className = "lg-row";
+      [100, 300, 600].forEach(function (v) {
+        const r = leftRadius(v) / u;
+        const it = document.createElement("div");
+        it.className = "lg-item";
+        const sv = svgEl("svg", { width: 2 * r + 2, height: 2 * r + 2, viewBox: "0 0 " + (2 * r + 2) + " " + (2 * r + 2), "aria-hidden": "true" });
+        sv.appendChild(svgEl("circle", { cx: r + 1, cy: r + 1, r: r, fill: "#7a838e", "fill-opacity": 0.25, stroke: "#56606c", "stroke-width": 1 }));
+        it.appendChild(sv);
+        it.appendChild(legendText("span", "", int(v) + " votes"));
+        sizes.appendChild(it);
+      });
+      box.appendChild(sizes);
+      box.appendChild(legendText("p", "lg-note", "Circle area is the model's estimate of two-candidate votes left to count. Colour is the margin the model expects on those votes. Hover for the projected final margin."));
+    } else if (mapView === "share" || mapView === "bench") {
       const bench = mapView === "bench";
       // draft for ZH: "Vs. benchmark" legend wording
       box.appendChild(legendText("p", "lg-title", bench ? "Points ahead of the benchmark margin" : "Leader's share of the two-candidate vote"));
@@ -1509,13 +1632,24 @@ html-table-processing: none
         const a = mapRows[k];
         const sum = function (f) { return (isNum(a[f]) ? a[f] : 0) + (isNum(c[f]) ? c[f] : 0); };
         mapRows[k] = Object.assign({}, a, { votes: sum("votes"), votes_wiener: sum("votes_wiener"), votes_chan: sum("votes_chan"), margin: null,
-          benchmark_margin: null, vs_benchmark: null, vs_benchmark_votes: null });
+          benchmark_margin: null, vs_benchmark: null, vs_benchmark_votes: null,
+          remaining_mid: isNum(a.remaining_mid) || isNum(c.remaining_mid) ? sum("remaining_mid") : null, remaining_lo90: null, remaining_hi90: null,
+          remaining_margin_mid: null, remaining_margin_lo90: null, remaining_margin_hi90: null, est_margin_mid: null, est_margin_lo90: null, est_margin_hi90: null });
       } else mapRows[k] = c;
     });
     // The "Vs. benchmark" view appears only when the file carries precinct benchmarks (older files do not).
     const benchOk = hasBench(s);
     $("bench-toggle").hidden = !benchOk;
     if (!benchOk && mapView === "bench") {
+      mapView = "share";
+      document.querySelectorAll("#view-toggle button").forEach(function (x) {
+        x.setAttribute("aria-pressed", x.dataset.view === "share" ? "true" : "false");
+      });
+    }
+    // The "Estimated vote left" view appears only when the file carries precinct estimates of the votes left.
+    const leftOk = hasLeft(s.by_precinct);
+    $("left-toggle").hidden = !leftOk;
+    if (!leftOk && mapView === "left") {
       mapView = "share";
       document.querySelectorAll("#view-toggle button").forEach(function (x) {
         x.setAttribute("aria-pressed", x.dataset.view === "share" ? "true" : "false");
@@ -1665,11 +1799,13 @@ html-table-processing: none
     histData = histFromState(s).filter(function (h) { return isNum(h.p_wiener); });
     $("hist-empty").hidden = histData.length > 0;
     $("hist-chart").hidden = histData.length === 0;
+    // Key appears only when some plotted entry was rebuilt after the fact (history[].reconstructed, as on the CA-04 page).
+    $("hist-keys").hidden = !histData.some(function (h) { return h.reconstructed; });
     const body = $("hist-body");
     clear(body);
     if (!histData.length) emptyRow(body, 4, "No history yet.");
     histData.slice().reverse().forEach(function (h) {
-      body.appendChild(row([whenPT(h.t), prob(h.p_wiener), named(h.margin_mid), int(h.counted_votes)]));
+      body.appendChild(row([whenPT(h.t) + (h.reconstructed ? " (rebuilt)" : ""), prob(h.p_wiener), named(h.margin_mid), int(h.counted_votes)]));
     });
     drawHistory();
   }
@@ -1697,8 +1833,14 @@ html-table-processing: none
       svgText(svg, xOf(i), H - 6, tickLabel(histData, i), { "text-anchor": n > 1 && i === n - 1 ? "end" : (i === 0 && n > 1 ? "start" : "middle") });
     });
     if (n > 1) {
-      const d = histData.map(function (h, i) { return (i ? "H" + xOf(i).toFixed(1) + " V" : "M" + xOf(i).toFixed(1) + " ") + yOf(h.p_wiener).toFixed(1); }).join(" ");
-      svg.appendChild(svgEl("path", { d: d, fill: "none", stroke: COLORS.D, "stroke-width": 2, "stroke-linejoin": "round" }));
+      // The step into a rebuilt (reconstructed) entry is dashed; the rest is the solid live line.
+      const solid = [], dashed = [];
+      for (let i = 1; i < n; i++) {
+        const seg = "M" + xOf(i - 1).toFixed(1) + " " + yOf(histData[i - 1].p_wiener).toFixed(1) + " H" + xOf(i).toFixed(1) + " V" + yOf(histData[i].p_wiener).toFixed(1);
+        (histData[i].reconstructed ? dashed : solid).push(seg);
+      }
+      if (dashed.length) svg.appendChild(svgEl("path", { d: dashed.join(" "), fill: "none", stroke: COLORS.D, "stroke-width": 2, "stroke-dasharray": "5 4" }));
+      if (solid.length) svg.appendChild(svgEl("path", { d: solid.join(" "), fill: "none", stroke: COLORS.D, "stroke-width": 2, "stroke-linejoin": "round" }));
     }
     const last = histData[n - 1];
     svg.appendChild(svgEl("circle", { cx: xOf(n - 1), cy: yOf(last.p_wiener), r: 4, fill: COLORS.D, stroke: "#fff", "stroke-width": 2 }));
@@ -1721,7 +1863,7 @@ html-table-processing: none
     g.index = i;
     g.cross.setAttribute("x1", x); g.cross.setAttribute("x2", x); g.cross.setAttribute("visibility", "visible");
     g.dot.setAttribute("cx", x); g.dot.setAttribute("cy", g.yOf(h.p_wiener)); g.dot.setAttribute("visibility", "visible");
-    placeTip(g, x, [[prob(h.p_wiener), "chance Wiener wins"], [named(h.margin_mid), "estimated margin"], [int(h.counted_votes), "votes counted"], [whenPT(h.t), h.release_label || ""]]);
+    placeTip(g, x, [[prob(h.p_wiener), "chance Wiener wins"], [named(h.margin_mid), "estimated margin"], [int(h.counted_votes), "votes counted"], [whenPT(h.t), (h.release_label || "") + (h.reconstructed ? " (rebuilt)" : "")]]);
   }
   function hidePoint() {
     if (!histGeom) return;
@@ -1740,11 +1882,12 @@ html-table-processing: none
     trendData = histFromState(s).filter(function (h) { return isNum(h.margin_mid) || isNum(h.reported_margin) || isNum(h.pct_counted_est); });
     $("trend-empty").hidden = trendData.length > 0;
     $("trend-chart").hidden = trendData.length === 0;
+    $("trend-keys").hidden = !trendData.some(function (h) { return h.reconstructed; });
     const body = $("trend-body");
     clear(body);
     if (!trendData.length) emptyRow(body, 7, "No history yet.");
     trendData.slice().reverse().forEach(function (h) {
-      body.appendChild(row([whenPT(h.t), h.release_label || "", margin(h.margin_mid), rangeText(h.margin_lo50, h.margin_hi50), rangeText(h.margin_lo95, h.margin_hi95), margin(h.reported_margin), pctIn(h.pct_counted_est)]));
+      body.appendChild(row([whenPT(h.t) + (h.reconstructed ? " (rebuilt)" : ""), h.release_label || "", margin(h.margin_mid), rangeText(h.margin_lo50, h.margin_hi50), rangeText(h.margin_lo95, h.margin_hi95), margin(h.reported_margin), pctIn(h.pct_counted_est)]));
     });
     const lastMid = lastWith("margin_mid"), lastRep = lastWith("reported_margin"), lastPct = lastWith("pct_counted_est");
     const bits = ["Chart of the estimated final margin at each release, with the reported margin and the estimated share of ballots counted."];
@@ -1817,15 +1960,26 @@ html-table-processing: none
     band("margin_lo95", "margin_hi95", "#dfe2e6");
     band("margin_lo50", "margin_hi50", "#b3bac2");
     svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yOf(0), y2: yOf(0), stroke: "#8a929c", "stroke-width": 1 }));
-    const line = function (key, attrs) {
+    const line = function (key, attrs, dashRec) {
       runs([key]).forEach(function (r) {
         if (r.length < 2) return;
-        const d = r.map(function (i, j) { return (j ? "L" : "M") + xOf(i).toFixed(1) + " " + yOf(trendData[i][key]).toFixed(1); }).join(" ");
-        svg.appendChild(svgEl("path", Object.assign({ d: d, fill: "none", "stroke-linejoin": "round" }, attrs)));
+        if (!dashRec) {
+          const d = r.map(function (i, j) { return (j ? "L" : "M") + xOf(i).toFixed(1) + " " + yOf(trendData[i][key]).toFixed(1); }).join(" ");
+          svg.appendChild(svgEl("path", Object.assign({ d: d, fill: "none", "stroke-linejoin": "round" }, attrs)));
+          return;
+        }
+        // As on the CA-04 page: the segment into a rebuilt (reconstructed) entry is dashed.
+        const solid = [], dashed = [];
+        for (let j = 1; j < r.length; j++) {
+          const seg = "M" + xOf(r[j - 1]).toFixed(1) + " " + yOf(trendData[r[j - 1]][key]).toFixed(1) + " L" + xOf(r[j]).toFixed(1) + " " + yOf(trendData[r[j]][key]).toFixed(1);
+          (trendData[r[j]].reconstructed ? dashed : solid).push(seg);
+        }
+        if (dashed.length) svg.appendChild(svgEl("path", Object.assign({}, attrs, { d: dashed.join(" "), fill: "none", "stroke-width": 2, "stroke-dasharray": "5 4" })));
+        if (solid.length) svg.appendChild(svgEl("path", Object.assign({ d: solid.join(" "), fill: "none", "stroke-linejoin": "round" }, attrs)));
       });
     };
     line("reported_margin", { stroke: "#1f2933", "stroke-width": 1.75, "stroke-dasharray": "0.5 3.5", "stroke-linecap": "round" });
-    line("margin_mid", { stroke: "#1f2933", "stroke-width": 2.25, "stroke-linecap": "round" });
+    line("margin_mid", { stroke: "#1f2933", "stroke-width": 2.25, "stroke-linecap": "round" }, true);
     const labels = [];
     if (lr) {
       svg.appendChild(svgEl("circle", { cx: xOf(lr.i), cy: yOf(lr.h.reported_margin), r: 3, fill: "#fff", stroke: "#1f2933", "stroke-width": 1.5 }));
@@ -1891,7 +2045,7 @@ html-table-processing: none
     if (isNum(h.margin_mid)) {
       g.dot.setAttribute("cx", x); g.dot.setAttribute("cy", g.yOf(h.margin_mid)); g.dot.setAttribute("visibility", "visible");
     } else g.dot.setAttribute("visibility", "hidden");
-    placeTip(g, x, [[whenPT(h.t), h.release_label || ""], [named(h.margin_mid), "estimate"],
+    placeTip(g, x, [[whenPT(h.t), (h.release_label || "") + (h.reconstructed ? " (rebuilt)" : "")], [named(h.margin_mid), "estimate"],
       [isNum(h.margin_lo50) ? rangeText(h.margin_lo50, h.margin_hi50) : null, "50% of outcomes"],
       [isNum(h.margin_lo95) ? rangeText(h.margin_lo95, h.margin_hi95) : null, "95% of outcomes"],
       [isNum(h.reported_margin) ? named(h.reported_margin) : "No votes", "reported"],
@@ -2102,8 +2256,13 @@ html-table-processing: none
     clear(body);
     const list = arr(s.by_method);
     $("method-wrap").hidden = !list.length;
+    // Votes-left columns appear only when the file carries them (by_method[].remaining_mid).
+    const left = hasLeft(list);
+    document.querySelectorAll(".vl-mcol").forEach(function (th) { th.hidden = !left; });
     list.forEach(function (m) {
-      body.appendChild(row([m.method || NA, int(m.votes), int(m.expected_votes), margin(m.margin)]));
+      const cells = [m.method || NA, int(m.votes), int(m.expected_votes), margin(m.margin)];
+      if (left) cells.push(int(m.remaining_mid), isNum(m.remaining_mid) && m.remaining_mid > 0 ? margin(m.remaining_margin_mid) : NA);
+      body.appendChild(row(cells));
     });
   }
 
@@ -2145,11 +2304,16 @@ html-table-processing: none
 
   /* ---------- neighborhood table ---------- */
   let nbhdRows = [];
+  let nbhdLeft = false;
   const nbhdSort = { key: "votes", dir: -1 };
   function nbhdRender(s) {
     const list = Array.isArray(s.by_neighborhood) ? s.by_neighborhood.filter(function (n) { return n && n.neighborhood; }) : null;
     $("nbhd-wrap").hidden = !list || !list.length;
     $("nbhd-note").textContent = typeof s.neighborhood_note === "string" ? s.neighborhood_note : "";
+    // Votes-left columns appear only when the file carries them (by_neighborhood[].remaining_mid).
+    nbhdLeft = hasLeft(list);
+    document.querySelectorAll("#nbhd-head th.vl-col").forEach(function (th) { th.hidden = !nbhdLeft; });
+    if (!nbhdLeft && /^(remaining|est_)/.test(nbhdSort.key)) { nbhdSort.key = "votes"; nbhdSort.dir = -1; }
     nbhdRows = (list || []).map(function (n) {
       const v = isNum(n.votes_wiener) && isNum(n.votes_chan) ? n.votes_wiener + n.votes_chan : 0;
       return Object.assign({}, n, { pct_wiener: v > 0 ? 100 * n.votes_wiener / v : null, pct_chan: v > 0 ? 100 * n.votes_chan / v : null });
@@ -2159,7 +2323,7 @@ html-table-processing: none
   function drawNbhd() {
     const body = $("nbhd-body");
     clear(body);
-    if (!nbhdRows.length) { emptyRow(body, 6, "Not available yet."); }
+    if (!nbhdRows.length) { emptyRow(body, nbhdLeft ? 10 : 6, "Not available yet."); }
     const key = nbhdSort.key, dir = nbhdSort.dir;
     const name = function (n) { return String(n.neighborhood); };
     nbhdRows.slice().sort(function (a, b) {
@@ -2170,7 +2334,9 @@ html-table-processing: none
       return dir * (x - y) || name(a).localeCompare(name(b));
     }).forEach(function (n) {
       const vb = isNum(n.vs_benchmark) ? (margin(n.vs_benchmark) === "Even" ? "Even" : margin(n.vs_benchmark) + " pts") : NA;
-      const tr = row([n.neighborhood, int(n.votes), pct1(n.pct_wiener), pct1(n.pct_chan), margin(n.margin), vb]);
+      const cells = [n.neighborhood, int(n.votes), pct1(n.pct_wiener), pct1(n.pct_chan), margin(n.margin), vb];
+      if (nbhdLeft) cells.push(int(n.remaining_mid), margin(n.remaining_margin_mid), margin(n.est_margin_mid), rangeText(n.est_margin_lo90, n.est_margin_hi90));
+      const tr = row(cells);
       const mc = tr.children[4];
       if (isNum(n.margin) && Math.abs(n.margin) >= 0.05) {
         const a = Math.round(10 + Math.min(Math.abs(n.margin), 40) / 40 * 30);
