@@ -308,7 +308,6 @@ html-table-processing: none
           <tbody id="count-body"></tbody>
         </table>
       </div>
-      <p class="small" style="margin-top:.35rem">Both candidates are Democrats. Percentages are shares of the two-candidate vote.</p>
       <div class="stack-wrap">
         <div class="stack-box">
           <span class="stack-tick-label" aria-hidden="true">50%</span>
