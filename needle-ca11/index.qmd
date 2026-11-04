@@ -1100,6 +1100,7 @@ html-table-processing: none
     const feed = s.feed || {};
     const bits = validDate(s.updated_at) ? ["Data updated at " + whenPT(s.updated_at) + "."] : [];
     if (feed.release_label) bits.push("Latest release: " + feed.release_label + (validDate(feed.last_change_at) ? ", " + whenPT(feed.last_change_at) : "") + ".");
+    if (validDate(feed.last_checked_at)) bits.push("Last checked for new results at " + whenPT(feed.last_checked_at) + ".");
     $("updated").textContent = bits.join(" ");
     let next = "";
     if (s.status === "final") next = "No more releases are scheduled.";
