@@ -1046,9 +1046,9 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 
   <h2>Method note</h2>
   <div class="method">
-    <p>On this page, I show model estimates of the final result. This is <em>not</em> an official result. Both candidates are Democrats in a top-two general election, with no ranked-choice voting, so the margin is Wiener's share of the two-candidate vote minus Chan's, in percentage points.</p>
-    <p>San Francisco counts in batches. Ballots counted on election night are mostly mail ballots that arrived early and ballots cast in person; ballots that arrive or are checked later are counted in the daily releases that follow. Those later ballots need not split the same way as the early ones, so the model projects how the uncounted ballots might shift the margin and widens its range while many remain.</p>
-    <p>The page checks for new data every minute, but the data file changes only when the Department of Elections releases new results.</p>
+    <p>On this page, I model the final result for CA-11. This is <em>not</em> an official result. Margin is one candidate’s share of the two-candidate vote minus the other’s, in percentage points.</p>
+    <p>San Francisco counts in batches, slowly. The first ballots counted are mail ballots that arrived early and ballots cast in-person on Election Day. Ballots arriving later are counted in daily releases, and may split unpredictably. The model attempts to account for this by projecting how uncounted ballots might shift the margin, with narrowing uncertainty as the number of projected outstanding votes decreases.</p>
+    <p>The page checks for new data every minute, but may be constrained by the pace at which the Department of Elections releases new results.</p>
     <p><a id="repo-link" href="#">Code and data</a></p>
   </div>
 
@@ -1056,7 +1056,7 @@ gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
   <p class="small">Times are approximate and set by the Department of Elections. The count after election night comes mostly from mail ballots that arrived late or needed checking.</p>
   <ol class="sched" id="sched"></ol>
 
-  <p class="footnote">Source: SF Department of Elections batch releases. Projections use a simple late-ballot-shift model and are not official results. Gauge design after i86live.com.</p>
+  <p class="footnote">Source: SF Department of Elections batch releases. Estimates come from a precinct model that compares each precinct's November count with its June 2026 primary results by vote type (early mail, Election Day and late mail) and projects the ballots not yet counted. They are not official results.</p>
 
   <noscript><p>This page needs JavaScript to load the live data.</p></noscript>
 </div>
