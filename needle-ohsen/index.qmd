@@ -1916,7 +1916,7 @@ html-table-processing: none
     const ctl = new AbortController();
     const timer = setTimeout(function () { ctl.abort(); }, FETCH_TIMEOUT_MS);
     try {
-      const res = await fetch(url, { signal: ctl.signal });
+      const res = await fetch(url, { signal: ctl.signal, cache: "no-store" });  // skip the browser's 5-minute cache of the raw file
       if (!res.ok) throw new Error("HTTP " + res.status);
       const text = await res.text();
       const s = JSON.parse(text);
