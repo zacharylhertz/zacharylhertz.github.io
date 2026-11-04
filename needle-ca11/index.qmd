@@ -915,7 +915,7 @@ html-table-processing: none
 
   <h2>Method note</h2>
   <div class="method">
-    <p>On this page, I model the final result for CA-11. This is <em>not</em> an official result. Margin is one candidate’s share of the two-candidate vote minus the other’s, in percentage points.</p>
+    <p>On this page, I model the final result for CA-11. This is <em>not</em> an official result. Margin is one candidate’s share of the two-candidate vote minus the other’s, in percentage points. <a href="demographics.html">You can explore a deeper cut of the data here.</a></p>
     <p>San Francisco counts in batches, slowly. The first ballots counted are mail ballots that arrived early and ballots cast in-person on Election Day. Ballots arriving later are counted in daily releases, and may split unpredictably. The model attempts to account for this by projecting how uncounted ballots might shift the margin, with narrowing uncertainty as the number of projected outstanding votes decreases.</p>
     <p>The page checks for new data every minute, but may be constrained by the pace at which the Department of Elections releases new results.</p>
     <p><a id="repo-link" href="#">Code and data</a></p>
@@ -2212,9 +2212,11 @@ html-table-processing: none
     $("notice").textContent = text || "";
   }
   function freshnessNotice(s) {
-    if (s.status === "counting" && validDate(s.updated_at) && Date.now() - Date.parse(s.updated_at) > PAGE_STALE_MS &&
-        !(validDate(s.next_update_at) && Date.now() < Date.parse(s.next_update_at))) {
-      return "This data file has not refreshed since " + whenPT(s.updated_at) + ". The numbers may be out of date.";
+    // San Francisco releases in batches, so an old updated_at is normal. Warn only when the checks for new results stop.
+    const checked = (s.feed || {}).last_checked_at;
+    const last = [s.updated_at, checked].filter(validDate).map(Date.parse);
+    if (s.status === "counting" && last.length && Date.now() - Math.max.apply(null, last) > PAGE_STALE_MS) {
+      return "This page has not been able to check for new results since " + whenPT(new Date(Math.max.apply(null, last)).toISOString()) + ". The numbers may be out of date.";
     }
     return "";
   }
