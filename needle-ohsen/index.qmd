@@ -621,7 +621,10 @@ html-table-processing: none
 
   function stateLine(s) {
     const parts = [];
-    if (s.status === "pre") parts.push(Date.now() >= POLLS_CLOSE ? "Polls closed at 7:30 pm ET. Waiting for first results" : "Polls close 7:30 pm ET");
+    const call = s.call || {};
+    if (call.status === "Brown" || call.status === "Husted") parts.push("Called for " + call.status + " by this model");
+    else if (call.status === "withdrawn") parts.push("Call withdrawn");
+    else if (s.status === "pre") parts.push(Date.now() >= POLLS_CLOSE ? "Polls closed at 7:30 pm ET. Waiting for first results" : "Polls close 7:30 pm ET");
     else if (s.status === "final") parts.push("Final unofficial count");
     else if (s.status === "counting" || s.status === "stale") parts.push("Counting");
     else if (s.status === "error") {
