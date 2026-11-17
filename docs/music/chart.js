@@ -8,7 +8,7 @@
 // The year comes from the URL hash (#2025); the page redraws on hashchange.
 // Data, fetched by relative URL: plays/years.json, plays/<year>.csv, and optionally
 // plays/where_<year>.json for the "where I was" strip (no file, no strip).
-// ?margins=1 adds the margin summaries (a preview; off by default).
+// Margin summaries are on by default; ?margins=0 turns them off.
 (function () {
   "use strict";
 
@@ -42,8 +42,8 @@
   const PLACE_MAX_CHARS = 16;
   const RUN_MAX_GAP = 2; // days with no plays at all that can sit inside one away run
 
-  // Margin summaries: a preview, drawn only when the URL has ?margins=1.
-  const SHOW_MARGINS = new URLSearchParams(window.location.search).get("margins") === "1";
+  // Margin summaries: on unless the URL has ?margins=0.
+  const SHOW_MARGINS = new URLSearchParams(window.location.search).get("margins") !== "0";
   const SUM_TOP = 60; // extra height above the plot for the time-of-day curve
   const SUM_CURVE_H = 50;
   const SUM_BAR_W = 50; // longest per-day bar (32 below NARROW)
@@ -532,7 +532,7 @@
       .call(hover);
   }
 
-  // Margin summaries (?margins=1 only): plays by time of day above the plot, on the
+  // Margin summaries (on by default): plays by time of day above the plot, on the
   // chart's x scale, and plays per listening day to its right, on the chart's y scale.
   function drawSummaries(svg, data, { x, y, rowH, base, barX, barW, labelX, labelY }) {
     const g = svg.append("g").attr("class", "summary");
