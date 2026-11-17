@@ -37,6 +37,10 @@
     --r10: #C2E6FE;
     --same-artist: #fc8d62;
     --same-track: #66c2a5;
+    --away: #666; /* "where I was" strip, drawn at 55% opacity */
+    --summary: #b5afa8; /* margin summaries (?margins=1 only) */
+    --row-hover: #f4f2ef;
+    --row-pinned: #ebe7e2;
   }
   body {
     margin: 0;
@@ -76,6 +80,37 @@
   #years a.active { color: #000; font-weight: 600; }
   #stats { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
 
+  /* Top-ten list under the header: two columns on desktop, one on a phone. */
+  #topten { max-width: 640px; margin: 0 auto 18px; font-size: 12px; color: var(--ink); }
+  #topten[hidden] { display: none; }
+  #topten .tabs { display: flex; justify-content: center; align-items: baseline; gap: 12px; margin: 0 0 6px; }
+  #topten .lead { color: var(--muted); }
+  #topten [role="tab"] {
+    font: inherit; color: var(--muted); background: none; cursor: pointer;
+    border: 0; border-bottom: 1px solid transparent; border-radius: 0; padding: 0 0 1px;
+  }
+  #topten [role="tab"]:hover { color: var(--ink); }
+  #topten [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  #topten ol { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 24px; }
+  #topten li { break-inside: avoid; }
+  #topten .row {
+    display: grid; grid-template-columns: 8px 1.5em minmax(0, 1fr) auto; column-gap: 6px; align-items: center;
+    box-sizing: border-box; width: 100%; padding: 2px 6px;
+    font: inherit; line-height: 1.4; text-align: left; color: var(--ink);
+    background: none; border: 0; border-radius: 3px; cursor: pointer;
+  }
+  #topten .row:hover { background: var(--row-hover); }
+  #topten .row.pinned { background: var(--row-pinned); }
+  #topten .row.pinned .tr { font-weight: 600; }
+  #topten .sw { width: 8px; height: 8px; border-radius: 50%; }
+  #topten .row.pinned .sw.artist { background: var(--same-artist); }
+  #topten .rk, #topten .np { color: var(--muted); font-variant-numeric: tabular-nums; }
+  #topten .rk { text-align: right; }
+  #topten .tt { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  #topten .ar { color: var(--muted); }
+  #topten button:focus-visible { outline: 2px solid var(--r6); outline-offset: 1px; }
+  @media (max-width: 520px) { #topten ol { columns: 1; } }
+
   #chart-wrap { position: relative; overflow-x: clip; }
   #chart svg { display: block; }
   #chart .weekends rect { fill: var(--weekend); }
@@ -99,6 +134,14 @@
   }
   #chart .axis .domain { display: none; }
   #chart .x-axis .tick line { stroke: var(--grid); stroke-dasharray: 4; }
+  /* "Where I was" strip in the left margin: away days filled, trips of 2+ days named. */
+  #chart .where rect.away { fill: var(--away); fill-opacity: 0.55; }
+  #chart .where rect.hit { fill: transparent; }
+  #chart .where text { font-size: 9px; fill: var(--muted); }
+  /* Margin summaries, drawn only with ?margins=1. */
+  #chart .summary .area { fill: var(--summary); fill-opacity: 0.5; stroke: var(--summary); stroke-width: 1; }
+  #chart .summary rect { fill: var(--summary); }
+  #chart .summary text { font-size: 9px; fill: var(--muted); }
 
   .tooltip {
     box-sizing: border-box;
@@ -147,16 +190,23 @@
     and <span class="key r6"></span><span class="c-r6">top ten</span>.<br>
     Click or hover to see the <span class="key same-track"></span><span class="c-same-track">same track</span>
     and <span class="key same-artist"></span><span class="c-same-artist">same artist</span>.</p>
-  <p class="small">Times are local to where the song was played. Places come from IP addresses and are approximate.</p>
+  <p class="small">Songs are placed in local time. Location data drawn from IP addresses.</p>
   <p class="small">Design after Sahil Chinoy's
     <a href="https://sahilchinoy.com/music/" target="_blank" rel="noopener">Songs I've listened to</a>;
-    <a href="https://observablehq.com/@clhenrick/tooltip-d3-convention" target="_blank" rel="noopener">tooltip pattern after Chris Henrick</a>.</p>
-  <p class="small">Locations:
-    <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation by DB-IP</a>
+    <a href="https://observablehq.com/@clhenrick/tooltip-d3-convention" target="_blank" rel="noopener">tooltip pattern after Chris Henrick</a>;
+    <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation from DB-IP</a>
     (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>).</p>
   <nav id="years" aria-label="Year"></nav>
   <p id="stats">Loading plays&hellip;</p>
 </header>
+<section id="topten" aria-label="Top ten" hidden>
+  <div class="tabs" role="tablist" aria-label="Top ten">
+    <span class="lead">Top ten</span>
+    <button type="button" role="tab" id="topten-tab-tracks" data-tab="tracks" aria-selected="true" aria-controls="topten-list">Tracks</button>
+    <button type="button" role="tab" id="topten-tab-artists" data-tab="artists" aria-selected="false" aria-controls="topten-list">Artists</button>
+  </div>
+  <ol id="topten-list" role="tabpanel" aria-labelledby="topten-tab-tracks"></ol>
+</section>
 <div id="chart-wrap">
   <div class="tooltip" id="tooltip" aria-hidden="true"></div>
   <div id="chart"></div>

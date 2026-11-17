@@ -1,47 +1,39 @@
 [
  {
-  "year": 2015,
-  "plays": 147
- },
- {
-  "year": 2016,
-  "plays": 1328
- },
- {
   "year": 2017,
-  "plays": 11615
+  "plays": 11625
  },
  {
   "year": 2018,
-  "plays": 19240
+  "plays": 19235
  },
  {
   "year": 2019,
-  "plays": 20039
+  "plays": 20040
  },
  {
   "year": 2020,
-  "plays": 18803
+  "plays": 18805
  },
  {
   "year": 2021,
-  "plays": 12848
+  "plays": 12845
  },
  {
   "year": 2022,
-  "plays": 15077
+  "plays": 15073
  },
  {
   "year": 2023,
-  "plays": 20094
+  "plays": 20093
  },
  {
   "year": 2024,
-  "plays": 15289
+  "plays": 15293
  },
  {
   "year": 2025,
-  "plays": 19316
+  "plays": 19312
  },
  {
   "year": 2026,
