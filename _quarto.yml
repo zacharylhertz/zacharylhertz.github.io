@@ -3,6 +3,7 @@ project:
   output-dir: docs
   resources:
     - "files/*"
+    - "music/**"
 
 website:
   title: "Zachary Lorico Hertz"
@@ -27,7 +28,7 @@ website:
 
   page-footer:
     background: light # or `dark`
-    left: Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from [Silvia Canelón](https://silviacanelon.com/), [Carlisle Rainey](https://www.carlislerainey.com/), and [Sam Shanny-Csik](https://samanthacsik.github.io/).
+    left: Copyright 2026, Zachary Lorico Hertz. <br> Built adopting code in part from [Silvia Canelón](https://silviacanelon.com/), [Carlisle Rainey](https://www.carlislerainey.com/), and [Sam Shanny-Csik](https://samanthacsik.github.io/).
 
 format:
   html:

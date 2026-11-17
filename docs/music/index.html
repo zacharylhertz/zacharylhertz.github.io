@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!-- Generated from artifact.html by music/make_index.py. Edit artifact.html, not this file. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; }
+  [hidden] { display: none !important; }
+</style>
+<title>2025 in Music</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Source for both pages. This file is the claude.ai Artifact page (the host adds the
+     doctype, html, head and body). index.html is generated from it for local viewing:
+     edit this file, then run  python3 music/make_index.py */
+  /* One light look on white: warm grey dots, pink and blue for the top tracks. */
+  :root {
+    color-scheme: light;
+    --bg: #fff;
+    --ink: #222;
+    --muted: #666;
+    --edge: #777;
+    --grid: #eee;
+    --weekend: #f9f8f6;
+    --dot: #e5e1dc;
+    --r1: #810E49;
+    --r2: #E7298A;
+    --r3: #EE82B9;
+    --r4: #06224C;
+    --r5: #084F9B;
+    --r6: #0877D9;
+    --r7: #0F94FA;
+    --r8: #35AAFD;
+    --r9: #86CEFE;
+    --r10: #C2E6FE;
+    --same-artist: #fc8d62;
+    --same-track: #66c2a5;
+  }
+  body {
+    margin: 0;
+    padding-block: 28px 72px; /* bottom room so the pin bar can clear December */
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--muted); }
+  a:focus-visible { outline: 2px solid var(--r6); outline-offset: 2px; }
+
+  header { text-align: center; line-height: 1.5; color: var(--ink); }
+  header p { margin: 0 0 6px; }
+  header .small { font-size: 12px; color: var(--muted); }
+  .key { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 2px 1px; vertical-align: middle; }
+  .key + .key { margin-left: 0; }
+  .key.base { background: var(--dot); }
+  .key.r1 { background: var(--r1); }
+  .key.r2 { background: var(--r2); }
+  .key.r3 { background: var(--r3); }
+  .key.r6 { background: var(--r6); }
+  .key.same-track { background: var(--same-track); }
+  .key.same-artist { background: var(--same-artist); }
+  .c-r1 { color: var(--r1); }
+  .c-r2 { color: var(--r2); }
+  .c-r3 { color: var(--r3); }
+  .c-r6 { color: var(--r6); }
+  .c-same-track { color: var(--same-track); }
+  .c-same-artist { color: var(--same-artist); }
+  #years { font-size: 12px; margin: 14px 0 2px; color: var(--muted); }
+  #years a { color: var(--muted); text-decoration: none; }
+  #years a:hover { color: var(--ink); }
+  #years a.active { color: #000; font-weight: 600; }
+  #stats { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
+
+  #chart-wrap { position: relative; overflow-x: clip; }
+  #chart svg { display: block; }
+  #chart .weekends rect { fill: var(--weekend); }
+  #chart circle { fill: var(--dot); }
+  #chart circle[data-rank="1"] { fill: var(--r1); }
+  #chart circle[data-rank="2"] { fill: var(--r2); }
+  #chart circle[data-rank="3"] { fill: var(--r3); }
+  #chart circle[data-rank="4"] { fill: var(--r4); }
+  #chart circle[data-rank="5"] { fill: var(--r5); }
+  #chart circle[data-rank="6"] { fill: var(--r6); }
+  #chart circle[data-rank="7"] { fill: var(--r7); }
+  #chart circle[data-rank="8"] { fill: var(--r8); }
+  #chart circle[data-rank="9"] { fill: var(--r9); }
+  #chart circle[data-rank="10"] { fill: var(--r10); }
+  /* While hovering or pinned, ranked dots turn grey; these three rules must stay in this order. */
+  #chart svg.hovering circle[data-rank] { fill: var(--dot); }
+  #chart svg.hovering circle.same-artist { fill: var(--same-artist); }
+  #chart svg.hovering circle.same-track { fill: var(--same-track); }
+  #chart .axis text {
+    font-size: 9px; font-weight: 600; text-transform: uppercase; fill: var(--muted);
+  }
+  #chart .axis .domain { display: none; }
+  #chart .x-axis .tick line { stroke: var(--grid); stroke-dasharray: 4; }
+
+  .tooltip {
+    box-sizing: border-box;
+    position: absolute;
+    display: none;
+    max-width: 320px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #333;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .tooltip p { margin: 0; }
+  .tooltip .name { font-weight: 600; color: #333; }
+  .tooltip .meta { color: var(--edge); }
+
+  #pinbar {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    width: max-content;
+    max-width: calc(100% - 2 * max(16px, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px)));
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+  }
+  #pinbar .name { font-weight: 600; color: var(--ink); }
+  #pinbar .hint { color: var(--edge); }
+</style>
+</head>
+<body>
+<header>
+  <p>Each dot <span class="key base"></span> is one play.
+    Colors are <span class="key r1"></span><span class="key r2"></span><span class="key r3"></span><span class="c-r1">top</span> <span class="c-r2">three</span> <span class="c-r3">tracks</span>
+    and <span class="key r6"></span><span class="c-r6">top ten</span>.<br>
+    Click or hover to see the <span class="key same-track"></span><span class="c-same-track">same track</span>
+    and <span class="key same-artist"></span><span class="c-same-artist">same artist</span>.</p>
+  <p class="small">Times are local to where the song was played. Places come from IP addresses and are approximate.</p>
+  <p class="small">Design after Sahil Chinoy's
+    <a href="https://sahilchinoy.com/music/" target="_blank" rel="noopener">Songs I've listened to</a>;
+    <a href="https://observablehq.com/@clhenrick/tooltip-d3-convention" target="_blank" rel="noopener">tooltip pattern after Chris Henrick</a>.</p>
+  <p class="small">Locations:
+    <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation by DB-IP</a>
+    (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>).</p>
+  <nav id="years" aria-label="Year"></nav>
+  <p id="stats">Loading plays&hellip;</p>
+</header>
+<div id="chart-wrap">
+  <div class="tooltip" id="tooltip" aria-hidden="true"></div>
+  <div id="chart"></div>
+</div>
+<div id="pinbar" role="status"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>
