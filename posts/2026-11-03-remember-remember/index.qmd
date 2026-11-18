@@ -6,7 +6,7 @@ image: images/fig_crossover.png
 categories:
   - electoral analysis
   - polling
-subtitle: "Tonight's polling miss may comes down to the trendy methodological choice: weighting on recalled presidential vote."
+subtitle: "Tonight's polling miss may come down to the trendy methodological choice: weighting on recalled presidential vote."
 description: "Whether 2026 polls end up overestimating Democrats will depend on how successfully pollsters manage to correct for bias in who actually answers surveys, and how successfully they manage to predict the shape of the electorate. I lay out a few best and worst case scenarios, consider a way in which Republicans might manage to escape what looks like a likely blue wave, and sketch out what each scenario would mean for tonight's battle for control of the House and Senate."
 footnotes-hover: false
 reference-location: margin
