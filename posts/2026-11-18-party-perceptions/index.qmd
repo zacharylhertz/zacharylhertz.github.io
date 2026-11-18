@@ -15,7 +15,6 @@ description: 'Commentators say voters watched the Democratic Party run to the le
 code-annotations: below
 footnotes-hover: false
 reference-location: margin
-toc: false
 df-print: paged
 citation: true
 ---
