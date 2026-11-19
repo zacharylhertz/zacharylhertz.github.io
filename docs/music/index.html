@@ -56,8 +56,8 @@
     --g-OT: #e5e1dc; /* Other: the plain dot grey */
     --g-OT-pin: #9e978f; /* Other, while pinned, so it stands out from the dimmed dots */
   }
-  /* Two views share the page; the body class says which one is showing. */
-  body:not(.view-genre) .v-genre, body.view-genre .v-tracks { display: none !important; }
+  /* The body class (mode-genre, mode-artist, ...) says which Color by mode is showing;
+     the rules at "One chart with a Color by mode" below show and hide the parts. */
   body {
     margin: 0;
     padding-block: 28px 72px; /* bottom room so the pin bar can clear December */
@@ -84,12 +84,14 @@
   .key.r6 { background: var(--r6); }
   .key.same-track { background: var(--same-track); }
   .key.same-artist { background: var(--same-artist); }
+  .key.same-album { background: var(--same-album); }
   .c-r1 { color: var(--r1); }
   .c-r2 { color: var(--r2); }
   .c-r3 { color: var(--r3); }
   .c-r6 { color: var(--r6); }
   .c-same-track { color: var(--same-track); }
   .c-same-artist { color: var(--same-artist); }
+  .c-same-album { color: var(--same-album); }
   #years { font-size: 12px; margin: 14px 0 2px; color: var(--muted); }
   #years a { color: var(--muted); text-decoration: none; }
   #years a:hover { color: var(--ink); }
@@ -134,7 +136,8 @@
   /* Genre view lists: the genres, the top songs and the top albums. Below 960 px wide
      they stack, 640 px at most. From 960 px the genres sit on top (640 px, centered) with
      the songs and albums side by side under them (up to 464 px each). From 1400 px the
-     three sit in one row, in the ratio 10 : 7 : 7 (about 590 : 410 : 410 at full width). */
+     three sit in one row, in the ratio 18 : 15 : 15 (about 504 : 420 : 420 at 1440 px; was
+     10 : 7 : 7 until 2026-11-19, which cut long album names). */
   #genre-lists { max-width: 640px; margin: 0 auto 18px; }
   @media (min-width: 960px) {
     #genre-lists {
@@ -148,7 +151,7 @@
   }
   @media (min-width: 1400px) {
     #genre-lists {
-      grid-template-columns: minmax(0, 10fr) minmax(0, 7fr) minmax(0, 7fr);
+      grid-template-columns: minmax(0, 18fr) minmax(0, 15fr) minmax(0, 15fr);
       grid-template-areas: "genres songs albums";
       max-width: 1480px;
     }
@@ -220,24 +223,27 @@
   #chart circle[data-rank="8"] { fill: var(--r8); }
   #chart circle[data-rank="9"] { fill: var(--r9); }
   #chart circle[data-rank="10"] { fill: var(--r10); }
-  /* While hovering or pinned, ranked dots turn gray; these four rules must stay in this order. */
+  /* While hovering or pinned, ranked and novelty-colored dots turn gray; these five rules must stay in this order. */
   #chart svg.hovering circle[data-rank] { fill: var(--dot); }
+  #chart svg.hovering circle[data-g] { fill: var(--dot); } /* the new mode's colors */
   #chart svg.hovering circle.same-artist { fill: var(--same-artist); }
   #chart svg.hovering circle.same-album { fill: var(--same-album); }
   #chart svg.hovering circle.same-track { fill: var(--same-track); }
   #chart .axis text {
-    font-size: 9px; font-weight: 600; text-transform: uppercase; fill: var(--muted);
+    font-size: 12px; font-weight: 600; text-transform: uppercase; fill: var(--muted);
   }
   #chart .axis .domain { display: none; }
   #chart .x-axis .tick line { stroke: var(--grid); stroke-dasharray: 4; }
-  /* Month labels are buttons. The chosen month's label is ink and bold, and a veil in the
-     page colour over the other months' rows leaves their dots, strip and bars at 30% in the
-     tracks view (its grey dots vanish below that) and 20% in the genre view. */
-  #chart .y-axis .tick { cursor: pointer; outline: none; }
-  #chart .y-axis .tick rect.hit { fill: transparent; }
-  #chart .y-axis .tick:hover text { fill: var(--ink); }
-  #chart .y-axis .tick.on text { fill: var(--ink); font-weight: 800; }
-  #chart .y-axis .tick:focus-visible rect.hit { stroke: var(--r6); stroke-width: 2px; }
+  /* Month and hour labels are buttons. The chosen label is ink and bold, and a veil in the
+     page colour over everything outside the chosen month and hour leaves the dots, strip,
+     bars and curve there at 30% in the rank modes (their grey dots vanish below that) and
+     20% in the genre view. */
+  #chart :is(.y-axis .tick, .hours .hour) { cursor: pointer; outline: none; }
+  #chart :is(.y-axis .tick, .hours .hour) rect.hit { fill: transparent; }
+  #chart :is(.y-axis .tick, .hours .hour):hover text { fill: var(--ink); }
+  #chart :is(.y-axis .tick, .hours .hour).on text { fill: var(--ink); font-weight: 800; }
+  #chart :is(.y-axis .tick, .hours .hour):focus-visible rect.hit { stroke: var(--r6); stroke-width: 2px; }
+  #chart .hours text { pointer-events: none; }
   #chart .veil rect { fill: var(--bg); fill-opacity: 0.7; }
   #chart svg.genre .veil rect { fill-opacity: 0.8; }
   /* "Where I was" strip in the left margin: away days filled, trips of 2+ days named. */
@@ -248,6 +254,16 @@
   #chart .summary .area { fill: var(--summary); fill-opacity: 0.5; stroke: var(--summary); stroke-width: 1; }
   #chart .summary rect { fill: var(--summary); }
   #chart .summary text { font-size: 9px; fill: var(--muted); }
+  /* The curve split by the dots' colors (CURVE_SPLIT in chart.js): each rank's layer takes
+     its color inline, the rest is the summary grey, and the total keeps its outline. */
+  #chart .summary .area.split { fill: none; }
+  #chart .summary .layer.rest { fill: var(--summary); fill-opacity: 0.5; }
+  /* A hovered or picked artist's, album's or track's own curve over it (chart.js sets the
+     line's color), on a halo in the page color; the label names it. */
+  #chart .overlay path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+  #chart .overlay .halo { stroke: var(--bg); stroke-width: 4px; stroke-opacity: 0.9; }
+  #chart .overlay .line { stroke-width: 2px; }
+  #chart .clabel .name { fill: var(--ink); font-weight: 600; }
   /* Genre view: dots, stacked margins, copies and the eras bars take the genre colour from data-g. */
   #chart [data-g="FS"], #eras [data-g="FS"] { fill: var(--g-FS); }
   #chart [data-g="IR"], #eras [data-g="IR"] { fill: var(--g-IR); }
@@ -319,30 +335,172 @@
   }
   #pinbar .name { font-weight: 600; color: var(--ink); }
   #pinbar .hint { color: var(--edge); }
+  /* ---- One chart with a Color by mode (Genre, Artist, Album, Track, Novelty) ---- */
+  :root {
+    --nv-FL: #163f86; /* first listen (validator: ordinal pass with --nv-NW; each vs the grey dot CVD >= 27) */
+    --nv-NW: #4f8fd0; /* new find */
+    --seg-edge: #d6d1cb;
+  }
+  body:not(.mode-genre) .only-genre,
+  body:not(.mode-rank) .only-rank,
+  body:not(.mode-new) .only-new,
+  body:not(.mode-artist) .only-artist,
+  body:not(.mode-album) .only-album,
+  body:not(.mode-track) .only-track,
+  body.mode-genre .not-genre { display: none !important; }
+  header .instr { margin: 0 0 10px; }
+  header .instr .ln { display: block; } /* one sentence per line, centered */
+  header .nw { white-space: nowrap; }
+  .key.nv-FL { background: var(--nv-FL); }
+  .key.nv-NW { background: var(--nv-NW); }
+  .key.nv-FM { background: var(--dot); }
+  #colorby { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; margin: 0 0 4px; font-size: 12px; }
+  #colorby .cb-label { color: var(--muted); }
+  #colorby .seg { display: inline-flex; border: 1px solid var(--seg-edge); border-radius: 6px; overflow: hidden; }
+  #colorby a { padding: 4px 10px; color: var(--ink); text-decoration: none; border-left: 1px solid var(--seg-edge); background: var(--bg); white-space: nowrap; }
+  #colorby a:first-child { border-left: 0; }
+  #colorby a:hover { background: var(--row-hover); }
+  #colorby a[aria-current="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
+  @media (max-width: 420px) { #colorby a { padding: 4px 7px; } }
+  footer { text-align: center; line-height: 1.5; margin: 22px 0 0; }
+  footer p { margin: 0 0 6px; }
+  footer .small { font-size: 12px; color: var(--muted); }
+
+  /* Ranked lists for the artist, album, track and new modes. The artist mode has three
+     (artists, top songs, top albums) laid out as #genre-lists: stacked below 960 px
+     (640 px at most); from 960 px the artists on top (640 px, centered) with songs and
+     albums side by side under them; from 1400 px one row (see below). The album mode has
+     two (albums, top songs): stacked below 960 px, side by side from 960 px (1 : 1, the
+     pair under the artists), and from 1400 px in one row. From 1400 px the artist mode's
+     columns are 6 : 9 : 9 (its artist list is narrow) and the album mode's 1 : 1 (were
+     10 : 7 : 7 and 10 : 7 until 2026-11-19).
+     The track and new modes have one list, two columns inside it. */
+  #rank-lists { max-width: 640px; margin: 0 auto 18px; }
+  #list-b, #list-c { margin-top: 14px; }
+  body.mode-track #rank-lists, body.mode-new #rank-lists { max-width: 800px; }
+  @media (min-width: 960px) {
+    body.mode-artist #rank-lists {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; align-items: start;
+      grid-template-areas: "a a" "b c";
+      max-width: 960px;
+    }
+    body.mode-artist #list-a { grid-area: a; justify-self: center; width: 100%; max-width: 640px; }
+    body.mode-artist #list-b { grid-area: b; }
+    body.mode-artist #list-c { grid-area: c; }
+    body.mode-album #rank-lists {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; align-items: start;
+      max-width: 960px;
+    }
+    body.mode-album #list-b { margin-top: 0; }
+  }
+  @media (min-width: 1400px) {
+    body.mode-artist #rank-lists {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 9fr) minmax(0, 9fr);
+      grid-template-areas: "a b c";
+      max-width: 1480px;
+    }
+    body.mode-artist #list-a { max-width: none; }
+    body.mode-artist #list-b, body.mode-artist #list-c { margin-top: 0; }
+    body.mode-album #rank-lists { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); max-width: 1032px; }
+  }
+  .rlist { font-size: 12px; color: var(--ink); }
+  .rlist .lead { margin: 0 0 6px; text-align: center; color: var(--muted); text-wrap: balance; overflow-wrap: anywhere; }
+  .rlist .note { margin: -3px 0 6px; text-align: center; font-size: 11px; color: var(--muted); text-wrap: balance; }
+  .rlist ol { list-style: none; margin: 0; padding: 0; }
+  .rlist ol.cols { columns: 2; column-gap: 24px; }
+  /* Each list is as wide as its longest row (the counts stay aligned at its right edge),
+     at most its column's width, and centered under its heading; a count keeps at least
+     16 px (6 px column gap plus 10 px) from its name; a name too long for the column is
+     cut with an ellipsis (the row's tooltip has it in full). Added 2026-11-19 at ZH's
+     request: full-width rows left 140 to 500 px between a short name and its count. A
+     320 px cap, tried the same day, halved the song and album gaps but cut up to 4 of 10
+     names; ZH chose no cap. */
+  .rlist ol, #topsongs ol, #topalbums ol { width: fit-content; max-width: 100%; margin-inline: auto; }
+  .rlist .np, #topsongs .np, #topalbums .np { padding-left: 10px; }
+  /* A hidden bold copy of the row's name (data-t, set in chart.js) in the name column,
+     0 px tall, so a list's width already allows for a picked row's bold name and the
+     counts don't shift when one is picked. */
+  .rlist .row::after, #topsongs .row::after, #topalbums .row::after {
+    content: attr(data-t); grid-column: 3; grid-row: 2; height: 0; overflow: hidden;
+    visibility: hidden; white-space: nowrap; font-weight: 600;
+  }
+  @media (max-width: 520px) { .rlist ol.cols { columns: 1; } }
+  .rlist li { break-inside: avoid; }
+  .rlist .row {
+    display: grid; grid-template-columns: 8px var(--rk, 1.5em) minmax(0, 1fr) auto; column-gap: 6px; align-items: center;
+    box-sizing: border-box; width: 100%; padding: 2px 6px;
+    font: inherit; line-height: 1.4; text-align: left; color: var(--ink);
+    background: none; border: 0; border-radius: 3px; cursor: pointer;
+  }
+  .rlist ol.with-dt .row { grid-template-columns: 8px var(--rk, 1.5em) minmax(0, 1fr) auto auto auto; } /* date · count */
+  /* The selected song or album when a month change drops it from its column: a row of its own below. */
+  .rlist li.kept { margin-top: 3px; padding-top: 3px; border-top: 1px solid var(--grid); }
+  .rlist .row:hover { background: var(--row-hover); }
+  .rlist .row.pinned { background: var(--row-pinned); }
+  .rlist .row.pinned .tr { font-weight: 600; }
+  .rlist .sw { width: 8px; height: 8px; border-radius: 50%; }
+  .rlist .rk, .rlist .np, .rlist .dt, .rlist .sep { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .rlist .rk { text-align: right; }
+  .rlist .dt { font-size: 11px; }
+  .rlist .tt { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .rlist .ar { color: var(--muted); }
+  .rlist .none { padding: 2px 6px; color: var(--muted); text-align: center; column-span: all; }
+
+  /* Novelty dots and the stacked curve. */
+  #chart [data-g="FL"] { fill: var(--nv-FL); }
+  #chart [data-g="NW"] { fill: var(--nv-NW); }
+  #chart [data-g="FM"] { fill: var(--dot); }
+
+  /* Variety panel: two small multiples, one y axis each, months aligned with the eras chart. */
+  #variety { position: relative; margin: 0 0 18px; }
+  #variety > .lead { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 2px 14px; margin: 0 0 2px; font-size: 12px; color: var(--muted); }
+  #variety .vkey { font-size: 11px; }
+  #variety .vkey .ln { display: inline-block; width: 16px; height: 0; vertical-align: middle; margin: 0 4px 0 10px; border-top: 1px solid var(--summary); }
+  #variety .vkey .ln.thin { margin-left: 0; }
+  #variety .vkey .ln.thick { border-top: 2px solid var(--ink); }
+  #variety .vkey .hk { display: inline-block; width: 12px; height: 9px; vertical-align: middle; margin: 0 4px 0 10px;
+    background: repeating-linear-gradient(45deg, #ddd7d0 0 2px, transparent 2px 4px); }
+  #variety .ptitle { margin: 6px 0 0; font-size: 11px; color: var(--ink); line-height: 1.35; }
+  #variety svg { display: block; }
+  #variety rect.now { fill: var(--row-hover); }
+  #variety .grid line { stroke: var(--grid); }
+  #variety .grid text { font-size: 9px; fill: var(--muted); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+  #variety .yearlines line { stroke: #ddd; }
+  #variety .monthly { fill: none; stroke: var(--summary); stroke-width: 1px; }
+  #variety .rolling { fill: none; stroke: var(--ink); stroke-width: 2px; stroke-linejoin: round; stroke-linecap: round; }
+  #variety rect.burnin { fill: url(#v-hatch); }
+  #variety .hatch { stroke: #e6e1db; stroke-width: 2px; }
+  #variety .burnin-label { font-size: 9px; fill: var(--muted); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+  #variety .years text { font-size: 9px; font-weight: 600; fill: var(--muted); }
+  #variety .years text.now { fill: var(--ink); }
+  #variety .vrule { stroke: var(--edge); stroke-width: 1px; }
+  #variety .vdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.5px; }
+  #variety rect.hit { fill: transparent; cursor: pointer; }
 </style>
 </head>
 <body>
+<script>document.body.classList.add("mode-genre"); /* the default mode until chart.js reads the hash */</script>
 <header>
-  <p class="v-tracks">Each dot <span class="key base"></span> is one play.
-    Colors are <span class="key r1"></span><span class="key r2"></span><span class="key r3"></span><span class="c-r1">top</span> <span class="c-r2">three</span> <span class="c-r3">tracks</span>
-    and <span class="key r6"></span><span class="c-r6">top ten</span>.<br>
-    Click or hover to see the <span class="key same-track"></span><span class="c-same-track">same track</span>
-    and <span class="key same-artist"></span><span class="c-same-artist">same artist</span>.<br>
-    <a class="view-switch" data-view="genre" href="#2025-genre">Click here to visualize plays by genre instead.</a></p>
-  <p class="v-genre">Each dot is one play, colored by the artist's genre.<br>
-    Click or hover to see the <span class="key ring"></span>same artist.<br>
-    <a class="view-switch" data-view="tracks" href="#2025">Click here to visualize plays by top tracks and artists instead.</a></p>
-  <p class="small">All times are local time. Location data is matched from IP address.</p>
-  <p class="small">Design after Sahil Chinoy's
-    <a href="https://sahilchinoy.com/music/" target="_blank" rel="noopener">Songs I've listened to</a>;
-    <a href="https://observablehq.com/@clhenrick/tooltip-d3-convention" target="_blank" rel="noopener">tooltip pattern after Chris Henrick</a>;
-    <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation from DB-IP</a>
-    (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>)<span class="v-genre">;
-    <a href="https://www.last.fm" target="_blank" rel="noopener">genres from Last.fm tags</a></span>.</p>
+  <!-- One sentence per line (.ln). The new mode's "in 2025" and shares come from chart.js. -->
+  <p class="instr">
+    <span class="ln">Each dot is one stream<span class="only-new" id="nv-when"></span>.</span>
+    <span class="ln only-genre">Colors correspond to genres.</span>
+    <span class="ln only-genre">Click or hover to see the <span class="nw"><span class="key ring"></span>same artist</span>.</span>
+    <span class="ln only-rank">Colors correspond to the <span class="nw"><span class="key r1"></span><span class="key r2"></span><span class="key r3"></span><span class="c-r1">top</span></span> <span class="c-r2">three</span> <span class="c-r3 kind">artists</span>
+      and <span class="nw"><span class="key r6"></span><span class="c-r6">top ten</span></span>.</span>
+    <span class="ln only-track">Click or hover to see the <span class="nw"><span class="key same-track"></span><span class="c-same-track">same track</span></span> and <span class="nw"><span class="key same-artist"></span><span class="c-same-artist">same artist</span></span>.</span>
+    <span class="ln only-artist">Hover to see the <span class="nw"><span class="key same-track"></span><span class="c-same-track">same track</span></span> and <span class="nw"><span class="key same-artist"></span><span class="c-same-artist">same artist</span></span>; click to pick the artist.</span>
+    <span class="ln only-album">Hover to see the <span class="nw"><span class="key same-track"></span><span class="c-same-track">same track</span></span> and <span class="nw"><span class="key same-artist"></span><span class="c-same-artist">same artist</span></span>; click to pick the <span class="nw"><span class="key same-album"></span><span class="c-same-album">album</span></span>.</span>
+    <span class="ln only-new">Colors correspond to <span class="nw"><span class="key nv-FL"></span>first listens</span> (<b id="nv-share-FL"></b>),
+      <span class="nw"><span class="key nv-NW"></span>new finds</span> (<b id="nv-share-NW"></b>; first played in the last 30 days) and <span class="nw"><span class="key nv-FM"></span>familiar streams</span> (<b id="nv-share-FM"></b>).</span>
+    <span class="ln only-new">Click or hover to see the <span class="nw"><span class="key same-track"></span><span class="c-same-track">same track</span></span> and <span class="nw"><span class="key same-artist"></span><span class="c-same-artist">same artist</span></span>.</span>
+    <span class="ln">Click a month or hour to subset to just that month or hour.</span>
+  </p>
+  <nav id="colorby" aria-label="Color by"><span class="cb-label">Color by</span><span class="seg"><a data-mode="genre" href="#2025">Genre</a><a data-mode="artist" href="#2025-artist">Artist</a><a data-mode="album" href="#2025-album">Album</a><a data-mode="track" href="#2025-track">Track</a><a data-mode="new" href="#2025-new">Novelty</a></span></nav>
   <nav id="years" aria-label="Year"></nav>
   <p id="stats">Loading plays&hellip;</p>
 </header>
-<div id="genre-lists" class="v-genre">
+<div id="genre-lists" class="only-genre">
   <section id="genres" aria-label="Genres" hidden>
     <p class="lead">Genres</p>
     <ol id="genres-list"></ol>
@@ -356,24 +514,35 @@
     <ol id="topalbums-list"></ol>
   </section>
 </div>
-<section id="eras" class="v-genre" aria-label="Genre share by month" hidden>
+<div id="rank-lists" class="not-genre">
+  <section id="list-a" class="rlist" hidden><p class="lead"></p><p class="note" hidden></p><ol></ol></section>
+  <section id="list-b" class="rlist" hidden><p class="lead"></p><ol></ol></section>
+  <section id="list-c" class="rlist" hidden><p class="lead"></p><ol></ol></section>
+</div>
+<section id="eras" class="only-genre" aria-label="Genre share by month" hidden>
   <p class="lead">Genre share by month, 2017–2026</p>
   <div class="eras-chart"></div>
   <div class="tooltip" aria-hidden="true"></div>
 </section>
-<section id="topten" class="v-tracks" aria-label="Top ten" hidden>
-  <div class="tabs" role="tablist" aria-label="Top ten">
-    <span class="lead">Top ten</span>
-    <button type="button" role="tab" id="topten-tab-tracks" data-tab="tracks" aria-selected="true" aria-controls="topten-list">Tracks</button>
-    <button type="button" role="tab" id="topten-tab-artists" data-tab="artists" aria-selected="false" aria-controls="topten-list">Artists</button>
-    <button type="button" role="tab" id="topten-tab-albums" data-tab="albums" aria-selected="false" aria-controls="topten-list">Albums</button>
-  </div>
-  <ol id="topten-list" role="tabpanel" aria-labelledby="topten-tab-tracks"></ol>
+<section id="variety" class="only-new" aria-label="Listening variety by month" hidden>
+  <p class="lead"><span class="what">Listening variety by month</span>
+    <span class="vkey"><span class="ln thin"></span>each month<span class="ln thick"></span>3-month average<span class="hk"></span>burn-in</span></p>
+  <div class="variety-chart"></div>
+  <div class="tooltip" aria-hidden="true"></div>
 </section>
 <div id="chart-wrap">
   <div class="tooltip" id="tooltip" aria-hidden="true"></div>
   <div id="chart"></div>
 </div>
+<footer>
+  <p class="small">All times are local time. Location data is matched from IP address.</p>
+  <p class="small">Design after Sahil Chinoy's
+    <a href="https://sahilchinoy.com/music/" target="_blank" rel="noopener">Songs I've listened to</a>;
+    <a href="https://observablehq.com/@clhenrick/tooltip-d3-convention" target="_blank" rel="noopener">tooltip pattern after Chris Henrick</a>;
+    <a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation from DB-IP</a>
+    (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>);
+    <a href="https://www.last.fm" target="_blank" rel="noopener">genres from Last.fm tags</a>.</p>
+</footer>
 <div id="pinbar" role="status"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="chart.js"></script>
