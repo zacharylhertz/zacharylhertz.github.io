@@ -1,0 +1,22 @@
+---
+title: "David Valadao will lose reelection in CA-22."
+pred-id: ca-22-valadao-loses
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ca-22-valadao-loses"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

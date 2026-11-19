@@ -26,8 +26,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <link href="../assets/favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -53,35 +51,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-prediction-log .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-categories','listing-prediction','listing-confidence','listing-effort','listing-made','listing-outcome',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-confidence-sort'] },{ data: ['listing-made-sort'] }],
-      
-      searchColumns: ["listing-prediction","listing-criteria","listing-confidence","listing-effort","listing-basis","listing-made","listing-resolves","listing-outcome","listing-categories","listing-source","listing-notes"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-prediction-log'] = new List('listing-prediction-log', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SWWDQ72BXF"></script>
 
 <script type="text/javascript">
@@ -92,35 +61,6 @@ gtag('js', new Date());
 gtag('config', 'G-SWWDQ72BXF', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../assets/global_styles.css">
 <link rel="stylesheet" href="predictions.css">
@@ -201,889 +141,149 @@ window.Quarto = {
 
 
 <p>On this page, I attempt to “pre-register” predictions by committing to making them publicly here. I assign each prediction a confidence level and a resolution date.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> As they resolve, I’ll come back and turn this into a scorecard! I’m committing to using this as an exercise to highlight my failures as well as my successes, and as part of this public exercise you can verify things via the page’s <a href="https://github.com/zacharylhertz/zacharylhertz.github.io/commits/main/predictions/predictions.yaml">change history</a>.</p>
+<section id="scorecard" class="level2">
+<h2 data-anchor-id="scorecard">Scorecard</h2>
+<div class="pred-score-wrap">
+<table class="table table-sm pred-score-table caption-top" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th class="num" data-quarto-table-cell-role="th">Resolved</th>
+<th class="num" data-quarto-table-cell-role="th">Correct</th>
+<th class="num" data-quarto-table-cell-role="th">Wrong</th>
+<th class="num" data-quarto-table-cell-role="th">Brier score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="pred-score-all odd">
+<td>All predictions</td>
+<td class="num">37</td>
+<td class="num">29</td>
+<td class="num">8</td>
+<td class="num">0.188</td>
+</tr>
+<tr class="even">
+<td>Quick take</td>
+<td class="num">11</td>
+<td class="num">10</td>
+<td class="num">1</td>
+<td class="num">0.131</td>
+</tr>
+<tr class="odd">
+<td>Considered</td>
+<td class="num">23</td>
+<td class="num">17</td>
+<td class="num">6</td>
+<td class="num">0.207</td>
+</tr>
+<tr class="even">
+<td>Deep dive</td>
+<td class="num">3</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0.252</td>
+</tr>
+</tbody>
+</table>
+</div><p class="pred-note">The <a href="https://en.wikipedia.org/wiki/Brier_score">Brier Score</a> is a measure of mean squared error for predictions, where 1 is perfect inaccuracy and 0 is perfect accuracy. A perpetual fence-sitter who assigns a probability of 50% every time would have a Brier score of 0.25. Lower is better.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/calibration-plot-1.png" class="img-fluid figure-img" alt="Calibration plot. Each point is a bin of resolved predictions by stated probability (50-59, 60-69, 70-79, 80-89 and 90-99 percent), placed at the bin's average stated probability on the x axis and the share of those predictions that came true on the y axis, with point size and a label giving the number of predictions. A dashed 45-degree line marks perfect calibration; points above it mean the predictions came true more often than stated." width="1100"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="pred-cal-wrap">
+<table class="table table-sm pred-cal-table caption-top" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Stated probability</th>
+<th class="num" data-quarto-table-cell-role="th">Resolved</th>
+<th class="num" data-quarto-table-cell-role="th">Average stated</th>
+<th class="num" data-quarto-table-cell-role="th">Share that came true</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>50–59%</td>
+<td class="num">9</td>
+<td class="num">55%</td>
+<td class="num">89%</td>
+</tr>
+<tr class="even">
+<td>60–69%</td>
+<td class="num">11</td>
+<td class="num">62%</td>
+<td class="num">64%</td>
+</tr>
+<tr class="odd">
+<td>70–79%</td>
+<td class="num">5</td>
+<td class="num">72%</td>
+<td class="num">80%</td>
+</tr>
+<tr class="even">
+<td>80–89%</td>
+<td class="num">6</td>
+<td class="num">84%</td>
+<td class="num">83%</td>
+</tr>
+<tr class="odd">
+<td>90–99%</td>
+<td class="num">6</td>
+<td class="num">94%</td>
+<td class="num">83%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="all-predictions" class="level2">
 <h2 data-anchor-id="all-predictions">All predictions</h2>
 <p>Click a column header to sort by that field. I have a <a href="../predictions/all.html">full predictions table</a> that includes what criteria are used for resolving predictions, as well as some short notes for/against each prediction. These are both my assessment of the general probabilities, and then my personal confidence in my own analysis, which I call <em>effort.</em> This should serve as a pseudo-weight on how much I would actually stand behind a call or be open to updating. A <strong>quick take</strong> is something I’m making on vibes or a gut check, <strong>considered</strong> generally means some amount of rough BOTECs without modeling, and <strong>deep dives</strong> are things I base on original analysis or modeling.</p>
-<div class="topic-filter"><label for="topic-filter">Topic</label><select id="topic-filter" class="form-select form-select-sm"><option value="">All topics</option></select></div>
-<div id="listing-prediction-log" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-prediction-log-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-prediction-log'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-confidence-sort" data-direction="asc">
-        Probability (%) (Low to High)
-      </option>
-      <option value="listing-confidence-sort" data-direction="desc">
-        Probability (%) (High to Low)
-      </option>
-      <option value="listing-effort" data-direction="asc">
-        Effort
-      </option>
-      <option value="listing-made-sort" data-direction="asc">
-        Made - Oldest
-      </option>
-      <option value="listing-made-sort" data-direction="desc">
-        Made - Newest
-      </option>
-      <option value="listing-outcome" data-direction="asc">
-        Outcome
-      </option>
-    </select>
-  </div>
-</div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-
-<th>
-Topic
-</th>
-
-<th>
-Prediction
-</th>
-
-<th>
-<a class="sort" data-sort="listing-confidence-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Probability (%)</a>
-</th>
-
-<th>
-<a class="sort" data-sort="listing-effort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Effort</a>
-</th>
-
-<th>
-<a class="sort" data-sort="listing-made-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Made</a>
-</th>
-
-<th>
-<a class="sort" data-sort="listing-outcome" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Outcome</a>
-</th>
-
-</tr>
-</thead>
-<tbody class="list">
-
-<tr data-index="0" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="90">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Greg Abbott will run ahead of Ken Paxton in Texas.</span>
-</td>
-<td>
-<span class="listing-confidence">90</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="1" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="90">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Rob Sand will run ahead of Josh Turek in Iowa.</span>
-</td>
-<td>
-<span class="listing-confidence">90</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="2" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="95">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Hannah Pingree will run ahead of Troy Jackson in Maine.</span>
-</td>
-<td>
-<span class="listing-confidence">95</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="3" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="70">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Darline Graham will win SC-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">70</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="4" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="70">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Pete Ricketts will win NE-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">70</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="5" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="6" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Bobby Pulido will defeat Monica De La Cruz in TX-15.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Deep dive</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="7" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="68">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Brandon Herrera will win TX-23.</span>
-</td>
-<td>
-<span class="listing-confidence">68</span>
-</td>
-<td>
-<span class="listing-effort">Deep dive</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="8" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="58">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Bob Harvie will defeat Brian Fitzpatrick in PA-01.</span>
-</td>
-<td>
-<span class="listing-confidence">58</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="9" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="35">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">The last seven battleground NYT/Siena polls will have a smaller absolute error than the 2026-11-02 Silver Bulletin averages.</span>
-</td>
-<td>
-<span class="listing-confidence">35</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="10" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Mike Lawler will lose reelection in NY-17.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="11" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Matt Dunlap will win ME-02.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="12" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="62">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">David Valadao will lose reelection in CA-22.</span>
-</td>
-<td>
-<span class="listing-confidence">62</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="13" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Derrick Van Orden will lose reelection in WI-03.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="14" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="80">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Scott Weiner will win election in CA-11.</span>
-</td>
-<td>
-<span class="listing-confidence">80</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="15" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-03" data-listing-confidence-sort="90">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Mike Thompson will win election in CA-04.</span>
-</td>
-<td>
-<span class="listing-confidence">90</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-03</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="16" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="65">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Nithya Raman will be elected Mayor of Los Angeles.</span>
-</td>
-<td>
-<span class="listing-confidence">65</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="17" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="65">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Kevin Kiley will lose reelection in CA-06.</span>
-</td>
-<td>
-<span class="listing-confidence">65</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="18" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="85">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Roy Cooper will win election in NC-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">85</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="19" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="99">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Peggy Flanagan will win election in MN-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">99</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="20" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="70">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Peggy Flanagan will win MN-SEN by at least a 9 point margin.</span>
-</td>
-<td>
-<span class="listing-confidence">70</span>
-</td>
-<td>
-<span class="listing-effort">Deep dive</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="21" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="99">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Josh Shapiro will win election in PA-GOV.</span>
-</td>
-<td>
-<span class="listing-confidence">99</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="22" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="75">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Josh Shapiro will win at least 60 percent of the vote in PA-GOV.</span>
-</td>
-<td>
-<span class="listing-confidence">75</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="23" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Mary Peltola will win AK-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="24" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Troy Jackson will win ME-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="25" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Sherrod Brown will win OH-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="26" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">James Talarico will win TX-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="27" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="75">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Abdul El-Sayed will win MI-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">75</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="28" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="50">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Adam Hamilton will win KS-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">50</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="29" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="60">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Ashley Hinson will win IA-SEN.</span>
-</td>
-<td>
-<span class="listing-confidence">60</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="30" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="41">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Democrats will hold 50 or fewer Senate seats.</span>
-</td>
-<td>
-<span class="listing-confidence">41</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="31" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="14">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Democrats will hold exactly 51 Senate seats.</span>
-</td>
-<td>
-<span class="listing-confidence">14</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="32" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="14">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Democrats will hold exactly 52 Senate seats.</span>
-</td>
-<td>
-<span class="listing-confidence">14</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="33" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="13">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Democrats will hold exactly 53 Senate seats.</span>
-</td>
-<td>
-<span class="listing-confidence">13</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="34" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="18">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Democrats will hold 54 or more Senate seats.</span>
-</td>
-<td>
-<span class="listing-confidence">18</span>
-</td>
-<td>
-<span class="listing-effort">Considered</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="35" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Proposition 40 will fail in California.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-<tr data-index="36" data-categories="MjAyNiUyMEVsZWN0aW9ucw==" data-listing-made-sort="2026-11-02" data-listing-confidence-sort="55">
-<td>
-<span class="listing-categories">2026 Elections</span>
-</td>
-<td>
-<span class="listing-prediction">Shomari Figures will win reelection in AL-02.</span>
-</td>
-<td>
-<span class="listing-confidence">55</span>
-</td>
-<td>
-<span class="listing-effort">Quick take</span>
-</td>
-<td>
-<span class="listing-made">2026-11-02</span>
-</td>
-<td>
-<span class="listing-outcome">Open</span>
-</td>
-
-</tr>
-
-</tbody>
-</table>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-
+<div class="pred-filters"><div class="pred-filter"><label for="pred-topic-filter">Topic</label><select id="pred-topic-filter" class="form-select form-select-sm"><option value="">All topics</option><option value="2026 Elections">2026 Elections</option><option value="Congressional Politics">Congressional Politics</option></select></div><div class="pred-filter"><label for="pred-result-filter">Result</label><select id="pred-result-filter" class="form-select form-select-sm"><option value="">All</option><option value="Correct">Correct</option><option value="Wrong">Wrong</option><option value="Open">Open</option></select></div><div class="pred-shown" aria-live="polite"></div></div><div class="pred-table-wrap"><table class="table pred-table" id="pred-table" data-quarto-disable-processing="true"><thead><tr><th class="pred-topic" data-key="topic"><button type="button" class="pred-sort">Topic<span class="pred-sort-ind" aria-hidden="true"></span></button></th><th class="pred-text" data-key="text"><button type="button" class="pred-sort">Prediction<span class="pred-sort-ind" aria-hidden="true"></span></button></th><th class="pred-conf num" data-key="conf"><button type="button" class="pred-sort">Probability (%)<span class="pred-sort-ind" aria-hidden="true"></span></button></th><th class="pred-eff" data-key="effort"><button type="button" class="pred-sort">Effort<span class="pred-sort-ind" aria-hidden="true"></span></button></th><th class="pred-made" data-key="made"><button type="button" class="pred-sort">Made<span class="pred-sort-ind" aria-hidden="true"></span></button></th><th class="pred-result" data-key="status"><button type="button" class="pred-sort">Result<span class="pred-sort-ind" aria-hidden="true"></span></button></th></tr></thead><tbody>
+<tr class="pred-row pred-row-open" data-order="39" data-topic="Congressional Politics" data-status="Open" data-conf="95" data-effort="2" data-made="2026-11-19"><td class="pred-topic">Congressional Politics</td><td class="pred-text"><a href="notes/jeffries-speaker-first-ballot.html">Hakeem Jeffries will be elected Speaker on the first ballot.</a></td><td class="pred-conf num">95</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-19</td><td class="pred-result"><span class="pred-status pred-status-open">Open</span></td></tr>
+<tr class="pred-row pred-row-open" data-order="38" data-topic="Congressional Politics" data-status="Open" data-conf="90" data-effort="1" data-made="2026-11-18"><td class="pred-topic">Congressional Politics</td><td class="pred-text"><a href="notes/majority-leader-120.html">Chris Van Hollen will lose his bid for Senate Majority Leader.</a></td><td class="pred-conf num">90</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-18</td><td class="pred-result"><span class="pred-status pred-status-open">Open</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="22" data-topic="2026 Elections" data-status="Correct" data-conf="90" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/tx-abbott-ahead-of-paxton.html">Greg Abbott will run ahead of Ken Paxton in Texas.</a></td><td class="pred-conf num">90</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="TX-GOV D+7.1 (Hinojosa beat Abbott) vs TX-SEN D+12.1.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="23" data-topic="2026 Elections" data-status="Correct" data-conf="90" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ia-sand-ahead-of-turek.html">Rob Sand will run ahead of Josh Turek in Iowa.</a></td><td class="pred-conf num">90</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="IA-GOV D+11.1 vs IA-SEN D+4.2.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="24" data-topic="2026 Elections" data-status="Correct" data-conf="95" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/me-pingree-ahead-of-jackson.html">Hannah Pingree will run ahead of Troy Jackson in Maine.</a></td><td class="pred-conf num">95</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="ME-GOV D+17.0 vs ME-SEN D+6.2.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="25" data-topic="2026 Elections" data-status="Wrong" data-conf="70" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/sc-sen-graham.html">Darline Graham will win SC-SEN.</a></td><td class="pred-conf num">70</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Andrews 51.1, Graham 46.6.">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="26" data-topic="2026 Elections" data-status="Correct" data-conf="70" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ne-sen-ricketts.html">Pete Ricketts will win NE-SEN.</a></td><td class="pred-conf num">70</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Ricketts 50.3, Osborn 43.9 (AP).">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="27" data-topic="2026 Elections" data-status="Wrong" data-conf="60" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-gop-beats-averages.html">Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Democrats beat the 11-02 averages in all five (AK, IA, KS, OH, TX).">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="28" data-topic="2026 Elections" data-status="Correct" data-conf="55" data-effort="3" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/tx-15-pulido.html">Bobby Pulido will defeat Monica De La Cruz in TX-15.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Deep dive</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Pulido defeated De La Cruz.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="29" data-topic="2026 Elections" data-status="Wrong" data-conf="68" data-effort="3" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/tx-23-herrera.html">Brandon Herrera will win TX-23.</a></td><td class="pred-conf num">68</td><td class="pred-eff">Deep dive</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Padilla Stout 52.1, Herrera 44.0 (AP).">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="30" data-topic="2026 Elections" data-status="Correct" data-conf="58" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/pa-01-harvie.html">Bob Harvie will defeat Brian Fitzpatrick in PA-01.</a></td><td class="pred-conf num">58</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Harvie 52.9, Fitzpatrick 47.1.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="31" data-topic="2026 Elections" data-status="Wrong" data-conf="35" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/nyt-siena-beats-averages.html">The last seven battleground NYT/Siena polls will have a smaller absolute error than the 2026-11-02 Silver Bulletin averages.</a></td><td class="pred-conf num">35</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="NYT/Siena mean absolute error 2.2 vs Silver Bulletin 3.2 across the seven states.">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="32" data-topic="2026 Elections" data-status="Correct" data-conf="60" data-effort="1" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ny-17-lawler-loses.html">Mike Lawler will lose reelection in NY-17.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Cait Conley defeated Lawler.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="33" data-topic="2026 Elections" data-status="Wrong" data-conf="55" data-effort="1" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/me-02-dunlap.html">Matt Dunlap will win ME-02.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="LePage 50.8, Dunlap 49.2 after ranked-choice count.">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="34" data-topic="2026 Elections" data-status="Correct" data-conf="62" data-effort="1" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ca-22-valadao-loses.html">David Valadao will lose reelection in CA-22.</a></td><td class="pred-conf num">62</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Villegas defeated Valadao (AP call).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="35" data-topic="2026 Elections" data-status="Correct" data-conf="60" data-effort="1" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/wi-03-van-orden-loses.html">Derrick Van Orden will lose reelection in WI-03.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Cooke defeated Van Orden.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="36" data-topic="2026 Elections" data-status="Correct" data-conf="80" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ca-11-wiener.html">Scott Weiner will win election in CA-11.</a></td><td class="pred-conf num">80</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Wiener 54.6, Chan 45.4; Chan conceded.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="37" data-topic="2026 Elections" data-status="Wrong" data-conf="90" data-effort="2" data-made="2026-11-03"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ca-04-thompson.html">Mike Thompson will win election in CA-04.</a></td><td class="pred-conf num">90</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-03</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Eric Jones defeated Thompson, about 52.5–47.5 (Decision Desk HQ call).">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="1" data-topic="2026 Elections" data-status="Correct" data-conf="65" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/la-mayor-raman.html">Nithya Raman will be elected Mayor of Los Angeles.</a></td><td class="pred-conf num">65</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Raman beat Bass about 55–45 (AP call).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="2" data-topic="2026 Elections" data-status="Correct" data-conf="65" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ca-06-kiley-loses.html">Kevin Kiley will lose reelection in CA-06.</a></td><td class="pred-conf num">65</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Richard Pan defeated Kiley (AP call).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="3" data-topic="2026 Elections" data-status="Correct" data-conf="85" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/nc-sen-cooper.html">Roy Cooper will win election in NC-SEN.</a></td><td class="pred-conf num">85</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Cooper 58.8, Whatley 39.1.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="4" data-topic="2026 Elections" data-status="Correct" data-conf="99" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/mn-sen-flanagan.html">Peggy Flanagan will win election in MN-SEN.</a></td><td class="pred-conf num">99</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Flanagan 53.7, Tafoya 43.6.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="5" data-topic="2026 Elections" data-status="Correct" data-conf="70" data-effort="3" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/mn-sen-flanagan-9plus.html">Peggy Flanagan will win MN-SEN by at least a 9 point margin.</a></td><td class="pred-conf num">70</td><td class="pred-eff">Deep dive</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Margin about 10.1 points (Flanagan 53.7, Tafoya 43.6).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="6" data-topic="2026 Elections" data-status="Correct" data-conf="99" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/pa-gov-shapiro.html">Josh Shapiro will win election in PA-GOV.</a></td><td class="pred-conf num">99</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Shapiro 60.6, Garrity 38.1.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="7" data-topic="2026 Elections" data-status="Correct" data-conf="75" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/pa-gov-shapiro-60pct.html">Josh Shapiro will win at least 60 percent of the vote in PA-GOV.</a></td><td class="pred-conf num">75</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Shapiro 60.6 percent (unofficial).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="8" data-topic="2026 Elections" data-status="Correct" data-conf="55" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ak-sen-peltola.html">Mary Peltola will win AK-SEN.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Peltola 50.1, Sullivan 45.8.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="9" data-topic="2026 Elections" data-status="Correct" data-conf="60" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/me-sen-jackson.html">Troy Jackson will win ME-SEN.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Jackson 53.1, Collins 46.9.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="10" data-topic="2026 Elections" data-status="Correct" data-conf="55" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/oh-sen-brown.html">Sherrod Brown will win OH-SEN.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Brown 50.0, Husted 45.2.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="11" data-topic="2026 Elections" data-status="Correct" data-conf="60" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/tx-sen-talarico.html">James Talarico will win TX-SEN.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Talarico 55.1, Paxton 43.0.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="12" data-topic="2026 Elections" data-status="Correct" data-conf="75" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/mi-sen-el-sayed.html">Abdul El-Sayed will win MI-SEN.</a></td><td class="pred-conf num">75</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="El-Sayed 52.5, Rogers 45.5.">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="13" data-topic="2026 Elections" data-status="Correct" data-conf="50" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ks-sen-hamilton.html">Adam Hamilton will win KS-SEN.</a></td><td class="pred-conf num">50</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Hamilton 51.2, Marshall 45.8.">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="14" data-topic="2026 Elections" data-status="Wrong" data-conf="60" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ia-sen-hinson.html">Ashley Hinson will win IA-SEN.</a></td><td class="pred-conf num">60</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Turek 50.6, Hinson 46.4.">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="15" data-topic="2026 Elections" data-status="Correct" data-conf="41" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-seats-50-or-fewer.html">Democrats will hold 50 or fewer Senate seats.</a></td><td class="pred-conf num">41</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Democratic caucus won 56 seats (54 Democrats, 2 independents).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="16" data-topic="2026 Elections" data-status="Correct" data-conf="14" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-seats-51.html">Democrats will hold exactly 51 Senate seats.</a></td><td class="pred-conf num">14</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Democratic caucus won 56 seats (54 Democrats, 2 independents).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="17" data-topic="2026 Elections" data-status="Correct" data-conf="14" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-seats-52.html">Democrats will hold exactly 52 Senate seats.</a></td><td class="pred-conf num">14</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Democratic caucus won 56 seats (54 Democrats, 2 independents).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="18" data-topic="2026 Elections" data-status="Correct" data-conf="13" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-seats-53.html">Democrats will hold exactly 53 Senate seats.</a></td><td class="pred-conf num">13</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Democratic caucus won 56 seats (54 Democrats, 2 independents).">Correct</span></td></tr>
+<tr class="pred-row pred-row-wrong" data-order="19" data-topic="2026 Elections" data-status="Wrong" data-conf="18" data-effort="2" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/senate-seats-54plus.html">Democrats will hold 54 or more Senate seats.</a></td><td class="pred-conf num">18</td><td class="pred-eff">Considered</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-wrong" title="Democratic caucus won 56 seats (54 Democrats, 2 independents).">Wrong</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="20" data-topic="2026 Elections" data-status="Correct" data-conf="55" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/ca-prop-40-fails.html">Proposition 40 will fail in California.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="No 52.6, Yes 47.4 (DDHQ, 89% counted).">Correct</span></td></tr>
+<tr class="pred-row pred-row-correct" data-order="21" data-topic="2026 Elections" data-status="Correct" data-conf="55" data-effort="1" data-made="2026-11-02"><td class="pred-topic">2026 Elections</td><td class="pred-text"><a href="notes/al-02-figures.html">Shomari Figures will win reelection in AL-02.</a></td><td class="pred-conf num">55</td><td class="pred-eff">Quick take</td><td class="pred-made">2026-11-02</td><td class="pred-result"><span class="pred-status pred-status-correct" title="Figures defeated Rhett Marques by about 8 points.">Correct</span></td></tr>
+</tbody></table></div>
 
 
 </section>
@@ -1096,36 +296,75 @@ Prediction
 </ol>
 </section></div></main> <!-- /main -->
 <script>
-// Topic dropdown for the prediction table. Options are built from the topics
-// in the table rows, so new topics in predictions.yaml appear automatically.
+// Sorting and filtering for the scorecard table on predictions/index.qmd.
+// The table is plain HTML written by _predictions.R. Each row carries
+// data-* attributes used here: data-order (file order), data-topic,
+// data-status, data-conf, data-effort (1 Quick take, 2 Considered,
+// 3 Deep dive) and data-made (YYYY-MM-DD). (all.qmd uses topic-filter.html.)
 document.addEventListener("DOMContentLoaded", function () {
-  // Effort sorts in order of work (Quick take, Considered, Deep dive), not
-  // alphabetically. Every other column keeps list.js's natural sort.
-  const effortRank = { "quick take": 1, "considered": 2, "deep dive": 3 };
-  const lst = (window["quarto-listings"] || {})["listing-prediction-log"];
-  if (lst) {
-    lst.sortFunction = function (a, b, opt) {
-      const va = a.values()[opt.valueName], vb = b.values()[opt.valueName];
-      if (opt.valueName === "listing-effort") {
-        const r = (v) => effortRank[String(v).trim().toLowerCase()] || 0;
-        return r(va) - r(vb);
-      }
-      return lst.utils.naturalSort.caseInsensitive(va, vb);
-    };
+  const table = document.getElementById("pred-table");
+  if (!table) return;
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+  const statusRank = { "Correct": 1, "Wrong": 2, "Open": 3, "Void": 4 };
+  const ord = (r) => Number(r.dataset.order);
+  const keyFns = {
+    topic: (r) => r.dataset.topic.toLowerCase(),
+    text: (r) => r.querySelector(".pred-text").textContent.trim().toLowerCase(),
+    conf: (r) => Number(r.dataset.conf),
+    effort: (r) => Number(r.dataset.effort),
+    made: (r) => r.dataset.made,
+    status: (r) => statusRank[r.dataset.status] || 9
+  };
+  // Default order: made descending, then file order.
+  const byDefault = (a, b) =>
+    (a.dataset.made < b.dataset.made ? 1 : a.dataset.made > b.dataset.made ? -1 : 0) || ord(a) - ord(b);
+
+  let current = { key: null, dir: 1 };
+  function sortBy(key, dir) {
+    const f = keyFns[key];
+    const sorted = rows.slice().sort(function (a, b) {
+      const va = f(a), vb = f(b);
+      const c = va < vb ? -1 : va > vb ? 1 : 0;
+      return c * dir || ord(a) - ord(b);
+    });
+    sorted.forEach((r) => tbody.appendChild(r));
+    table.querySelectorAll("thead th").forEach(function (th) {
+      if (th.dataset.key === key) th.setAttribute("aria-sort", dir === 1 ? "ascending" : "descending");
+      else th.removeAttribute("aria-sort");
+    });
   }
-  const sel = document.getElementById("topic-filter");
-  const rows = document.querySelectorAll("#listing-prediction-log tbody tr[data-categories]");
-  if (!sel || !rows.length) return;
-  const topicsOf = (el) => decodeURIComponent(atob(el.getAttribute("data-categories"))).split(",");
-  const topics = new Set();
-  rows.forEach((r) => topicsOf(r).forEach((t) => topics.add(t)));
-  [...topics].sort().forEach((t) => sel.add(new Option(t, t)));
-  sel.addEventListener("change", function () {
-    const list = (window["quarto-listings"] || {})["listing-prediction-log"];
-    if (!list) return;
-    if (!sel.value) list.filter();
-    else list.filter((item) => topicsOf(item.elm).includes(sel.value));
+  rows.slice().sort(byDefault).forEach((r) => tbody.appendChild(r));
+  table.querySelectorAll("thead th[data-key]").forEach(function (th) {
+    const btn = th.querySelector("button");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      const key = th.dataset.key;
+      // First click: dates and numbers sort high-to-low, text sorts A-Z.
+      const firstDir = ["conf", "effort", "made"].includes(key) ? -1 : 1;
+      const dir = current.key === key ? -current.dir : firstDir;
+      current = { key: key, dir: dir };
+      sortBy(key, dir);
+    });
   });
+
+  const topicSel = document.getElementById("pred-topic-filter");
+  const resultSel = document.getElementById("pred-result-filter");
+  const shown = document.querySelector(".pred-shown");
+  function applyFilters() {
+    const t = topicSel ? topicSel.value : "";
+    const s = resultSel ? resultSel.value : "";
+    let n = 0;
+    rows.forEach(function (r) {
+      const topics = r.dataset.topic.split(",").map((x) => x.trim());
+      const ok = (!t || topics.includes(t)) && (!s || r.dataset.status === s);
+      r.hidden = !ok;
+      if (ok) n++;
+    });
+    if (shown) shown.textContent = n === rows.length ? "" : n + " of " + rows.length + " shown";
+  }
+  if (topicSel) topicSel.addEventListener("change", applyFilters);
+  if (resultSel) resultSel.addEventListener("change", applyFilters);
 });
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1524,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
+<p>Copyright 2026, Zachary Lorico Hertz. <br> Built adopting code in part from <a href="https://silviacanelon.com/">Silvia Canelón</a>, <a href="https://www.carlislerainey.com/">Carlisle Rainey</a>, and <a href="https://samanthacsik.github.io/">Sam Shanny-Csik</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

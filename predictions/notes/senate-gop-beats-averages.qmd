@@ -1,0 +1,22 @@
+---
+title: "Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX."
+pred-id: senate-gop-beats-averages
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("senate-gop-beats-averages"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

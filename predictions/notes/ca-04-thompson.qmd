@@ -1,0 +1,22 @@
+---
+title: "Mike Thompson will win election in CA-04."
+pred-id: ca-04-thompson
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ca-04-thompson"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -1,0 +1,22 @@
+---
+title: "Shomari Figures will win reelection in AL-02."
+pred-id: al-02-figures
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("al-02-figures"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

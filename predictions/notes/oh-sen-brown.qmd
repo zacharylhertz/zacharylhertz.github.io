@@ -1,0 +1,22 @@
+---
+title: "Sherrod Brown will win OH-SEN."
+pred-id: oh-sen-brown
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("oh-sen-brown"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

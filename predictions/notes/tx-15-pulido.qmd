@@ -1,0 +1,22 @@
+---
+title: "Bobby Pulido will defeat Monica De La Cruz in TX-15."
+pred-id: tx-15-pulido
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("tx-15-pulido"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

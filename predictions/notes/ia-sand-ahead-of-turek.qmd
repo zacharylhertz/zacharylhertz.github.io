@@ -1,0 +1,22 @@
+---
+title: "Rob Sand will run ahead of Josh Turek in Iowa."
+pred-id: ia-sand-ahead-of-turek
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ia-sand-ahead-of-turek"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

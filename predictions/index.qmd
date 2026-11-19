@@ -1,44 +1,52 @@
 ---
 title: "Predictions"
 description: ""
-listing:
-  - id: prediction-log
-    contents: predictions.yaml
-    type: table
-    fields: [categories, prediction, confidence, effort, made, outcome]
-    field-display-names:
-      categories: "Topic"
-      prediction: "Prediction"
-      confidence: "Probability (%)"
-      effort: "Effort"
-      made: "Made"
-      outcome: "Outcome"
-    field-types:
-      made: date
-      confidence: number
-    date-format: "YYYY-MM-DD"
-    sort: "made desc"
-    sort-ui: [confidence, effort, made, outcome]
-    filter-ui: false
-    categories: false
-    page-size: 100
 toc: false
 format:
   html:
     anchor-sections: false
     css: predictions.css
-    include-after-body: topic-filter.html
+    include-after-body: scorecard-table.html
 ---
 
 On this page, I attempt to “pre-register” predictions by committing to making them publicly here. I assign each prediction a confidence level and a resolution date.^[Sometimes may be an approximate date.] As they resolve, I’ll come back and turn this into a scorecard! I’m committing to using this as an exercise to highlight my failures as well as my successes, and as part of this public exercise you can verify things via the page’s [change history](https://github.com/zacharylhertz/zacharylhertz.github.io/commits/main/predictions/predictions.yaml).
+
+## Scorecard
+
+```{r}
+#| label: scorecard
+#| echo: false
+#| output: asis
+source("_predictions.R")
+d <- pred_load()
+pred_cat_html(pred_scorecard_html(d))
+```
+
+```{r}
+#| label: calibration-plot
+#| echo: false
+#| dev: ragg_png
+#| fig-width: 5.5
+#| fig-height: 5
+#| dpi: 200
+#| fig-alt: "Calibration plot. Each point is a bin of resolved predictions by stated probability (50-59, 60-69, 70-79, 80-89 and 90-99 percent), placed at the bin's average stated probability on the x axis and the share of those predictions that came true on the y axis, with point size and a label giving the number of predictions. A dashed 45-degree line marks perfect calibration; points above it mean the predictions came true more often than stated."
+pred_calibration_plot(d)
+```
+
+```{r}
+#| label: calibration-table
+#| echo: false
+#| output: asis
+pred_cat_html(pred_calibration_table_html(d))
+```
 
 ## All predictions
 
 Click a column header to sort by that field. I have a [full predictions table](all.qmd) that includes what criteria are used for resolving predictions, as well as some short notes for/against each prediction. These are both my assessment of the general probabilities, and then my personal confidence in my own analysis, which I call *effort.* This should serve as a pseudo-weight on how much I would actually stand behind a call or be open to updating. A **quick take** is something I'm making on vibes or a gut check, **considered** generally means some amount of rough BOTECs without modeling, and **deep dives** are things I base on original analysis or modeling.
 
-```{=html}
-<div class="topic-filter"><label for="topic-filter">Topic</label><select id="topic-filter" class="form-select form-select-sm"><option value="">All topics</option></select></div>
+```{r}
+#| label: prediction-table
+#| echo: false
+#| output: asis
+pred_cat_html(pred_table_html(d))
 ```
-
-::: {#prediction-log}
-:::

@@ -2,6 +2,7 @@
 # When a prediction resolves, change only `outcome` (and add `source`).
 #
 # Fields:
+#   id: short unique slug; names the prediction's page at notes/<id>.html
 #   prediction: self-explanatory
 #   criteria: resolution rules
 #   confidence: percent probability of Yes (shown as "Probability")
@@ -10,436 +11,554 @@
 #   made: date of prediction (YYYY-MM-DD)
 #   resolves: date of resolution (YYYY-MM-DD)
 #   outcome: {Open, Yes, No, Void}
+#   result: short factual line on how it resolved (vote shares, call)
 #   categories: topics for easy filtering
 #   source: link to source to 'prove' resolution?
 #   notes: justification / case for + against
 
 
 - prediction: "Nithya Raman will be elected Mayor of Los Angeles."
+  id: la-mayor-raman
   criteria: "...Raman wins the LA Mayoral election."
   confidence: 65
   effort: "Quick take"
   basis: "Intuition; IGS polling as a benchmark"
   made: 2026-11-02
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Raman beat Bass about 55–45 (AP call)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://www.nbcnews.com/politics/2026-elections/los-angeles-mayor-results"
   notes: "Mostly vibes. Raw data in IGS polling for some benchmarks."
 
 - prediction: "Kevin Kiley will lose reelection in CA-06."
+  id: ca-06-kiley-loses
   criteria: "...Richard Pan is elected in CA-06."
   confidence: 65
   effort: "Quick take"
   basis: "Intuition; fundamentals and national environment"
   made: 2026-11-02
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Richard Pan defeated Kiley (AP call)."
   categories: [2026 Elections]
+  source: "https://calmatters.org/politics/2026/11/california-election-2026-congress/"
   notes: "Entirely vibes. Very little public polling, but fundamentals, projected national environment and decline in ticket splitting suggest this one."
 
 - prediction: "Roy Cooper will win election in NC-SEN."
+  id: nc-sen-cooper
   criteria: "...Roy Cooper is elected in NC-SEN."
   confidence: 85
   effort: "Quick take"
   basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Cooper 58.8, Whatley 39.1."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "See: public polling, fundamentals, etc. Hedged against total polling miss."
 
 - prediction: "Peggy Flanagan will win election in MN-SEN."
+  id: mn-sen-flanagan
   criteria: "...Peggy Flanagan is elected in MN-SEN."
   confidence: 99
   effort: "Quick take"
   basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Flanagan 53.7, Tafoya 43.6."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "See: public polling, fundamentals, etc."
   
 - prediction: "Peggy Flanagan will win MN-SEN by at least a 9 point margin."
+  id: mn-sen-flanagan-9plus
   criteria: "...Peggy Flanagan wins at least 9 percentage points more of the vote than Michele Tafoya."
   confidence: 70
   effort: "Deep dive"
   basis: "Own calculation against a 2018 benchmark"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Margin about 10.1 points (Flanagan 53.7, Tafoya 43.6)."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Assuming a 2018-like environment which is possibly conservative, Flanagan would have to underperform Klobuchar by more than 15 points."
   
 - prediction: "Josh Shapiro will win election in PA-GOV."
+  id: pa-gov-shapiro
   criteria: "...Josh Shapiro is elected in PA-GOV."
   confidence: 99
   effort: "Quick take"
   basis: "Polling averages; fundamentals"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Shapiro 60.6, Garrity 38.1."
   categories: [2026 Elections]
+  source: "https://www.multistate.us/elections/governors"
   notes: "See: public polling, fundamentals, etc."
   
 - prediction: "Josh Shapiro will win at least 60 percent of the vote in PA-GOV."
+  id: pa-gov-shapiro-60pct
   criteria: "...Josh Shapiro wins greater than or equal to 60 percent of the vote in PA-GOV."
   confidence: 75
   effort: "Considered"
   basis: "Public polls; 2018 benchmark"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Shapiro 60.6 percent (unofficial)."
   categories: [2026 Elections]
+  source: "https://www.multistate.us/elections/governors"
   notes: "Would mark a mild improvement over 2018. Most public polls are old but have Shapiro around 58."
 
 - prediction: "Mary Peltola will win AK-SEN."
+  id: ak-sen-peltola
   criteria: "...Mary Peltola wins AK-SEN."
   confidence: 55
   effort: "Considered"
   basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Peltola 50.1, Sullivan 45.8."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: one of the narrower polling leads; state has been red at other levels. Case for: environment, candidate, lopsided Gov race."
 
 - prediction: "Troy Jackson will win ME-SEN."
+  id: me-sen-jackson
   criteria: "...Troy Jackson wins ME-SEN."
   confidence: 60
   effort: "Considered"
   basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Jackson 53.1, Collins 46.9."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: Collins Derangement syndrome, people don't like nominee switcheroo, Jackson has worse favorables. Case for: environment, state Presidential lean."
 
 - prediction: "Sherrod Brown will win OH-SEN."
+  id: oh-sen-brown
   criteria: "...Sherrod Brown wins OH-SEN."
   confidence: 55
   effort: "Considered"
   basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Brown 50.0, Husted 45.2."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: State leans red, Husted decreasing polling lead. Case for: former incumbent, environment, Husted unfavorables quite high."
 
 - prediction: "James Talarico will win TX-SEN."
+  id: tx-sen-talarico
   criteria: "...James Talarico wins TX-SEN."
   confidence: 60
   effort: "Considered"
   basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Talarico 55.1, Paxton 43.0."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: Polling is too bullish on persuasion, rural white turnout surges in ED vote. Case for: environment, polling, persuasion, differential Latino turnout."
 
 - prediction: "Abdul El-Sayed will win MI-SEN."
+  id: mi-sen-el-sayed
   criteria: "...Abdul El-Sayed wins MI-SEN."
   confidence: 75
   effort: "Considered"
   basis: "NYT/Siena crosstabs; polling average"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "El-Sayed 52.5, Rogers 45.5."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: Didn't condemn Hasan Piker, divided primary leads to high R persuasion and stymies D turnout, November surprise could lead to massive ED asymmetry. Case for: environment, polling asymmetry."
 
 - prediction: "Adam Hamilton will win KS-SEN."
+  id: ks-sen-hamilton
   criteria: "...Adam Hamilton wins KS-SEN."
   confidence: 50
   effort: "Considered"
   basis: "NYT/Siena crosstabs; own polling-error analysis"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Hamilton 51.2, Marshall 45.8."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: Trump +16 state, the reddest on this list; close polls in red states have tended to overstate the Democrat; Libertarian at 4% could fade. Case for: polling average Hamilton +3, NYT/Siena Hamilton +5; Hamilton net favorable, Marshall net unfavorable."
 
 - prediction: "Ashley Hinson will win IA-SEN."
+  id: ia-sen-hinson
   criteria: "...Ashley Hinson wins IA-SEN."
   confidence: 60
   effort: "Considered"
   basis: "NYT/Siena crosstabs; own polling-error analysis"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "No"
+  result: "Turek 50.6, Hinson 46.4."
   categories: [2026 Elections]
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: polling average Turek +1; Turek better liked than Hinson; Sand leading the governor race implies room for ticket-splitting. Case for: Trump +13 state; undecideds lean Republican by party ID and 2024 vote; same poll has Republicans +4 on the generic House ballot; close polls in red states have tended to overstate the Democrat."
 
 - prediction: "Democrats will hold 50 or fewer Senate seats."
+  id: senate-seats-50-or-fewer
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 50 or fewer members when the 120th Congress convenes."
   confidence: 41
   effort: "Considered"
   basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
-  outcome: "Open"
+  outcome: "No"
+  result: "Democratic caucus won 56 seats (54 Democrats, 2 independents)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Implied by race-level predictions above hedging for correlated polling error."
 
 - prediction: "Democrats will hold exactly 51 Senate seats."
+  id: senate-seats-51
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 51 members when the 120th Congress convenes."
   confidence: 14
   effort: "Considered"
   basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
-  outcome: "Open"
+  outcome: "No"
+  result: "Democratic caucus won 56 seats (54 Democrats, 2 independents)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Implied probability."
   
 - prediction: "Democrats will hold exactly 52 Senate seats."
+  id: senate-seats-52
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 52 members when the 120th Congress convenes."
   confidence: 14
   effort: "Considered"
   basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
-  outcome: "Open"
+  outcome: "No"
+  result: "Democratic caucus won 56 seats (54 Democrats, 2 independents)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Seat-count bin; see the 50-or-fewer entry."
 
 - prediction: "Democrats will hold exactly 53 Senate seats."
+  id: senate-seats-53
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has exactly 53 members when the 120th Congress convenes."
   confidence: 13
   effort: "Considered"
   basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
-  outcome: "Open"
+  outcome: "No"
+  result: "Democratic caucus won 56 seats (54 Democrats, 2 independents)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Seat-count bin; see the 50-or-fewer entry."
 
 - prediction: "Democrats will hold 54 or more Senate seats."
+  id: senate-seats-54plus
   criteria: "...the Senate Democratic caucus (Democrats plus independents who caucus with them) has 54 or more members when the 120th Congress convenes."
   confidence: 18
   effort: "Considered"
   basis: "Own simulation from race-level calls"
   made: 2026-11-02
   resolves: 2027-01-03
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Democratic caucus won 56 seats (54 Democrats, 2 independents)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Seat-count bin; see the 50-or-fewer entry."
 
 - prediction: "Proposition 40 will fail in California."
+  id: ca-prop-40-fails
   criteria: "...fewer than 50 percent of voters back 'Yes' on CA Proposition 40."
   confidence: 55
   effort: "Quick take"
   basis: "Early-vote polling; status quo bias"
   made: 2026-11-02
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "No 52.6, Yes 47.4 (DDHQ, 89% counted)."
   categories: [2026 Elections]
+  source: "https://www.kcra.com/article/california-prop-40-election-results-2026/74276142"
   notes: "Already-voted respondents are majority-no, status quo bias, spending disadvantage."
   
 - prediction: "Shomari Figures will win reelection in AL-02."
+  id: al-02-figures
   criteria: "...Shomari Figures is elected in AL-02."
   confidence: 55
   effort: "Quick take"
   basis: "Intuition (Callais backlash)"
   made: 2026-11-02
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Figures defeated Rhett Marques by about 8 points."
   categories: [2026 Elections]
+  source: "https://aldailynews.com/republicans-redrew-his-district-heres-why-shomari-figures-won-anyway/"
   notes: "Entirely vibes. While Figures is behind in public polling I suspect this is a prime seat for Callais backlash to have an effect."
 
 - prediction: "Greg Abbott will run ahead of Ken Paxton in Texas."
+  id: tx-abbott-ahead-of-paxton
   criteria: "...D-minus-R margin in TX-GOV is lower than in TX-SEN."
   confidence: 90
   effort: "Considered"
   basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "TX-GOV D+7.1 (Hinojosa beat Abbott) vs TX-SEN D+12.1."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_Texas_gubernatorial_election"
   notes: "Case against: ticket-splitting is quite low; Talarico persuasion could be overstated. Case for: Implied in NYT polling; incumbency, Paxton is Paxton."
 
 - prediction: "Rob Sand will run ahead of Josh Turek in Iowa."
+  id: ia-sand-ahead-of-turek
   criteria: "...D-minus-R margin in IA-GOV is higher than in IA-SEN."
   confidence: 90
   effort: "Considered"
   basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "IA-GOV D+11.1 vs IA-SEN D+4.2."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_Iowa_gubernatorial_election"
   notes: "Case against: only polled in one(?) instance; Senate races have nationalized so Turek could close the gap in late movement. Case for: Implied in NYT polling; more ticket-splitting in non-federal races; xtabs imply lean Republican undecideds break Sand."
 
 - prediction: "Hannah Pingree will run ahead of Troy Jackson in Maine."
+  id: me-pingree-ahead-of-jackson
   criteria: "...D-minus-R margin in ME-GOV is higher than in ME-SEN."
   confidence: 95
   effort: "Considered"
   basis: "NYT/Siena crosstabs; ticket-splitting patterns"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "ME-GOV D+17.0 vs ME-SEN D+6.2."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_Maine_gubernatorial_election"
   notes: "Case against: Polling error? Case for: Pingree is leaps and bounds ahead in relative polling; Collins-specific dynamic may drag Jackson down relative to state lean."
 
 - prediction: "Darline Graham will win SC-SEN."
+  id: sc-sen-graham
   criteria: "...Darline Graham wins SC-SEN."
   confidence: 70
   effort: "Considered"
   basis: "Polling averages; own polling-error analysis"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "No"
+  result: "Andrews 51.1, Graham 46.6."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "Case against: NYT/Siena tie poll where majority thinks Graham has no experience; Andrews could win independents; potential large blue polling error. Case for: Trump +18 state; Graham narrowly leads polling averages; close red state polls tend to overstate Dems."
 
 - prediction: "Pete Ricketts will win NE-SEN."
+  id: ne-sen-ricketts
   criteria: "...Pete Ricketts wins NE-SEN."
   confidence: 70
   effort: "Considered"
   basis: "Polling averages; own polling-error analysis"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Ricketts 50.3, Osborn 43.9 (AP)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://nebraskaexaminer.com/2026/11/04/pete-ricketts-claims-victory-over-dan-osborn-in-us-senate-race-still-being-counted-tuesday-night/"
   notes: "Case against: Osborn maintains or exceeds 2024 levels of x-party appeal; leads in some October polls; blue polling miss. Case for: Trump +20 state; Ricketts narrowly leads polling averages, Osborne underperformed 2024 polls and 2026 leads are mostly internals/partisan polls."
 
 - prediction: "Republican Senate candidates will beat their final polling averages in at least 3 of AK, IA, KS, OH and TX."
+  id: senate-gop-beats-averages
   criteria: "...in at least 3 of the 5 races, the certified D-minus-R margin is lower than the Silver Bulletin average margin was on 2026-11-02."
   confidence: 60
   effort: "Considered"
   basis: "Own polling-error analysis, 1998-2022"
   made: 2026-11-03
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "No"
+  result: "Democrats beat the 11-02 averages in all five (AK, IA, KS, OH, TX)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections"
   notes: "My own analysis: close midterm Senate polls in red states underestimated Dems. Previous calls assume Republicans beat polling averages by about 2 points in each race."
 
 - prediction: "Bobby Pulido will defeat Monica De La Cruz in TX-15."
+  id: tx-15-pulido
   criteria: "...Bobby Pulido is elected in TX-15."
   confidence: 55
   effort: "Deep dive"
   basis: "Own reversion scenarios on district results; Cook rating"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Pulido defeated De La Cruz."
   categories: [2026 Elections]
-  source: ""
+  source: "https://www.wfmd.com/?p=102939"
   notes: "Case against: NYT/Siena implies limited Latino reversion; incumbency. Case for: 2018-2024 swing powered by low-propensity voters who may stay home; even minor Latino reversion flips the seat."
 
 - prediction: "Brandon Herrera will win TX-23."
+  id: tx-23-herrera
   criteria: "...Brandon Herrera is elected in TX-23."
   confidence: 68
   effort: "Deep dive"
   basis: "Own reversion scenarios on district results; Cook rating"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "No"
+  result: "Padilla Stout 52.1, Herrera 44.0 (AP)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://texpolls.com/races/us-house-tx23-2026"
   notes: "Case against: open seat in a blue year; more competitive the bluer the state environment. Case for: Small 2018-2024 movement relative to the state, so Hispanic reversion might be muted here."
 
 - prediction: "Bob Harvie will defeat Brian Fitzpatrick in PA-01."
+  id: pa-01-harvie
   criteria: "...Bob Harvie is elected in PA-01."
   confidence: 58
   effort: "Considered"
   basis: "NYT/Inquirer/Siena district poll; district lean"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Harvie 52.9, Fitzpatrick 47.1."
   categories: [2026 Elections]
-  source: ""
+  source: "https://whyy.org/articles/election-2026-pennsylvania-1st-district-bucks-fitzpatrick-harvie/"
   notes: "Case against: Fitzpatrick doggedly survives. Case for: Harris district in a bluer national environment; Harvie leads polls narrowly; incumbent personal vote may not survive the wavey environment."
 
 - prediction: "The last seven battleground NYT/Siena polls will have a smaller absolute error than the 2026-11-02 Silver Bulletin averages."
+  id: nyt-siena-beats-averages
   criteria: "...NYT/Siena's final margins in AK, IA, KS, ME, MI, OH, and TX will have a smaller mean absolute error than the 2026-11-02 Silver Bulletin averages."
   confidence: 35
   effort: "Considered"
   basis: "NYT/Siena methodology and crosstabs; Noah Wyhof-Rudnick's recall analysis; own polling-error thoughts."
   made: 2026-11-03
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "NYT/Siena mean absolute error 2.2 vs Silver Bulletin 3.2 across the seven states."
   categories: [2026 Elections]
-  source: ""
+  source: "https://sri.siena.edu/2026/11/01/nytimes-siena-poll-of-likely-voters-alaska-iowa-kansas-maine-michigan-ohio-and-texas/"
   notes: "Essentially a test of my problems with recall weighting, which other pollsters are not letting run Slack. NYT predicts a bluer environment. Case for: Trump deniers. Case against: unfair comparing one poll to an average; NYT is bluer than CW in 5/7 states so relies on a pro-D miss."
 
 - prediction: "Mike Lawler will lose reelection in NY-17."
+  id: ny-17-lawler-loses
   criteria: "...the Democratic nominee is elected in NY-17."
   confidence: 60
   effort: "Quick take"
   basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Cait Conley defeated Lawler."
   categories: [2026 Elections]
-  source: ""
+  source: "https://news.ballotpedia.org/2026/11/06/cait-conley-d-working-families-party-defeated-incumbent-michael-lawler-r-conservative-party-in-the-general-election-for-new-yorks-17th-congressional-district/"
   notes: "Case against: ratings average Tilt R; Lawler has run well ahead of the top of the ticket. Case for: Split Ticket has the Democrat 71%; Harris-adjacent suburban seat in a blue year."
 
 - prediction: "Matt Dunlap will win ME-02."
+  id: me-02-dunlap
   criteria: "...Matt Dunlap is elected in ME-02."
   confidence: 55
   effort: "Quick take"
   basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
   made: 2026-11-03
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "No"
+  result: "LePage 50.8, Dunlap 49.2 after ranked-choice count."
   categories: [2026 Elections]
-  source: ""
+  source: "https://www.maine.gov/sos/news/ranked-choice-voting-tabulation-results-announced-maine-congressional-district-2"
   notes: "Case against: ratings average Lean R; LePage is well known and the seat voted Trump. Case for: Split Ticket has it near even (D 45%); blue environment; Golden-style crossover appeal."
 
 - prediction: "David Valadao will lose reelection in CA-22."
+  id: ca-22-valadao-loses
   criteria: "...the Democratic nominee is elected in CA-22."
   confidence: 62
   effort: "Quick take"
   basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
   made: 2026-11-03
   resolves: 2026-12-31
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Villegas defeated Valadao (AP call)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://www.kget.com/news/politics/your-local-elections/ca-22-us-house-race-valadao-villegas-election-result/"
   notes: "Case against: Valadao has survived bad years before; Latino turnout drop-off. Case for: ratings average Tilt D; Split Ticket has the Democrat 62%."
 
 - prediction: "Derrick Van Orden will lose reelection in WI-03."
+  id: wi-03-van-orden-loses
   criteria: "...Rebecca Cooke is elected in WI-03."
   confidence: 60
   effort: "Quick take"
   basis: "Average Cook/Inside Elections/Sabato rating; Split Ticket model"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Cooke defeated Van Orden."
   categories: [2026 Elections]
-  source: ""
+  source: "https://www.wfmd.com/?p=102939"
   notes: "Case against: Split Ticket has it close to a coin flip (Cooke 54%). Case for: ratings average Lean D; rematch with a stronger challenger in a blue year."
 
 - prediction: "Scott Weiner will win election in CA-11."
+  id: ca-11-wiener
   criteria: "...Scott Weiner is elected in CA-11."
   confidence: 80
   effort: "Considered"
   basis: "Public polling; modeled turnout"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "Yes"
+  result: "Wiener 54.6, Chan 45.4; Chan conceded."
   categories: [2026 Elections]
-  source: ""
+  source: "https://sfstandard.com/2026/11/04/wiener-wins-connie-chan-concedes-congressional-race-succeed-pelosi/"
   notes: "Case against: Pelosi endorsement could sway undecideds. Case for: primary results suggest Weiner has enough support among progressives, polling lead, fundraising advantage."
 
 - prediction: "Mike Thompson will win election in CA-04."
+  id: ca-04-thompson
   criteria: "...Mike Thompson is elected in CA-04."
   confidence: 90
   effort: "Considered"
   basis: "Private polling; bad modeling"
   made: 2026-11-03
   resolves: 2026-11-15
-  outcome: "Open"
+  outcome: "No"
+  result: "Eric Jones defeated Thompson, about 52.5–47.5 (Decision Desk HQ call)."
   categories: [2026 Elections]
-  source: ""
+  source: "https://davisvanguard.org/2026/11/jones-defeats-thompson-california/"
   notes: "Case against: small sample survey, undecideds + weak partisans could break heavy for Jones, who needs to win Rs at about a 3-1 rate, Jones has a cash advantage and Thompson was held to 40 in the primary. Case for: incumbency, environment, evidence from survey suggests Republicans see Jones as further left."
+
+- prediction: "Chris Van Hollen will lose his bid for Senate Majority Leader."
+  id: majority-leader-120
+  criteria: "...Chris Van Hollen is not Senate Majority Leader when the 120th Congress convenes."
+  confidence: 90
+  effort: "Quick take"
+  basis: "Review of public commitments"
+  made: 2026-11-18
+  resolves: 2027-01-03
+  outcome: "Open"
+  result: ""
+  categories: [Congressional Politics]
+  source: ""
+  notes: "Case for: Schumer claims to have 40 votes, Fight Club endorsees have tarried, path to 29 for CVH is unclear. Case against: Age, November surprise, public opinion could sway votes."
+
+- prediction: "Hakeem Jeffries will be elected Speaker on the first ballot."
+  id: jeffries-speaker-first-ballot
+  criteria: "...Hakeem Jeffries wins a majority of the votes cast for a named candidate on the first ballot for Speaker in the 120th Congress."
+  confidence: 95
+  effort: "Considered"
+  basis: "Caucus nomination vote (251-11); holdouts' public statements; 2019 and 2021 Speaker votes"
+  made: 2026-11-19
+  resolves: 2027-01-03
+  outcome: "Open"
+  result: ""
+  categories: [Congressional Politics]
+  source: ""
+  notes: "Case against: seven incoming members voted no in caucus and some said so publicly; a coordinated bloc of about 40 Democrats voting for someone else would force a second ballot. Case for: Jeffries can lose about 40 votes, so strategic defections from red-district members he allows should stay well short of that (15 Democrats did not back Pelosi in 2019); private caucus vote more likely to show opposition than the recorded floor vote."

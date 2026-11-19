@@ -1,0 +1,22 @@
+---
+title: "Kevin Kiley will lose reelection in CA-06."
+pred-id: ca-06-kiley-loses
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ca-06-kiley-loses"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -1,0 +1,22 @@
+---
+title: "James Talarico will win TX-SEN."
+pred-id: tx-sen-talarico
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("tx-sen-talarico"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

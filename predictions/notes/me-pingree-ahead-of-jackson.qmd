@@ -1,0 +1,22 @@
+---
+title: "Hannah Pingree will run ahead of Troy Jackson in Maine."
+pred-id: me-pingree-ahead-of-jackson
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("me-pingree-ahead-of-jackson"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -1,0 +1,22 @@
+---
+title: "Democrats will hold 50 or fewer Senate seats."
+pred-id: senate-seats-50-or-fewer
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("senate-seats-50-or-fewer"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

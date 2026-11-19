@@ -1,0 +1,22 @@
+---
+title: "Peggy Flanagan will win MN-SEN by at least a 9 point margin."
+pred-id: mn-sen-flanagan-9plus
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("mn-sen-flanagan-9plus"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

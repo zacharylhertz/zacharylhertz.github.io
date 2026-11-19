@@ -1,0 +1,22 @@
+---
+title: "Hakeem Jeffries will be elected Speaker on the first ballot."
+pred-id: jeffries-speaker-first-ballot
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("jeffries-speaker-first-ballot"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -1,0 +1,22 @@
+---
+title: "Matt Dunlap will win ME-02."
+pred-id: me-02-dunlap
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("me-02-dunlap"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

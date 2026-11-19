@@ -1,0 +1,22 @@
+---
+title: "Proposition 40 will fail in California."
+pred-id: ca-prop-40-fails
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ca-prop-40-fails"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

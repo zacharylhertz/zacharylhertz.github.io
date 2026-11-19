@@ -1,0 +1,22 @@
+---
+title: "Bob Harvie will defeat Brian Fitzpatrick in PA-01."
+pred-id: pa-01-harvie
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("pa-01-harvie"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

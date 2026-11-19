@@ -1,0 +1,22 @@
+---
+title: "Nithya Raman will be elected Mayor of Los Angeles."
+pred-id: la-mayor-raman
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("la-mayor-raman"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

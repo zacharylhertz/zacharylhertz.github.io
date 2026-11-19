@@ -1,0 +1,22 @@
+---
+title: "Troy Jackson will win ME-SEN."
+pred-id: me-sen-jackson
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("me-sen-jackson"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

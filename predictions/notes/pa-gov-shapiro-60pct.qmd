@@ -1,0 +1,22 @@
+---
+title: "Josh Shapiro will win at least 60 percent of the vote in PA-GOV."
+pred-id: pa-gov-shapiro-60pct
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("pa-gov-shapiro-60pct"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -43,3 +43,78 @@ main.content { min-width: 0; }
   #listing-prediction-log td:has(.listing-categories) { display: none; }
   #listing-prediction-log td:has(.listing-prediction) { min-width: 9rem; }
 }
+
+/* ---- Scorecard page (index.qmd) and prediction pages (notes/*.qmd) ----
+   Markup is written by _predictions.R; sorting and filters live in
+   scorecard-table.html. The rules above serve the listing on all.qmd. */
+
+:root {
+  --pred-correct: #2e7d32; --pred-wrong: #c62828;
+  --pred-line: #dee2e6;    --pred-muted: #6c757d;
+}
+
+/* Result: a plain word in the result color. */
+.pred-status { font-weight: 600; white-space: nowrap; }
+.pred-status-correct { color: var(--pred-correct); }
+.pred-status-wrong { color: var(--pred-wrong); }
+.pred-status-void { color: var(--pred-muted); }
+
+/* Scorecard table. */
+.pred-score-wrap { max-width: 34rem; overflow-x: auto; }
+.pred-score-table { font-size: 0.88rem; margin-bottom: 0.25rem; }
+.pred-score-table th { font-weight: normal; color: var(--pred-muted); }
+.pred-score-table .pred-score-all td { font-weight: 600; }
+.pred-score-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.pred-note { font-size: 0.85rem; color: var(--pred-muted); max-width: 40rem; margin-bottom: 1.5rem; }
+
+/* Calibration plot and table. */
+#calibration-plot img, .cell-output-display img { max-width: min(100%, 30rem); height: auto; }
+.pred-cal-wrap { max-width: 34rem; overflow-x: auto; margin-bottom: 1.5rem; }
+.pred-cal-table { font-size: 0.88rem; }
+.pred-cal-table th { font-weight: normal; color: var(--pred-muted); }
+.pred-table .num, .pred-cal-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Filters. */
+.pred-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin: 0 0 0.75rem; }
+.pred-filter { display: flex; align-items: center; gap: 0.5rem; }
+.pred-filter label { font-size: 0.9rem; margin: 0; }
+.pred-filter select { width: auto; max-width: 100%; }
+.pred-shown { font-size: 0.85rem; color: var(--pred-muted); }
+
+/* Main table: scrolls sideways inside its box, never the page. */
+.pred-table-wrap { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.pred-table { font-size: 0.88rem; margin-bottom: 0.5rem; }
+.pred-table td { vertical-align: top; }
+.pred-table th { font-weight: normal; white-space: nowrap; }
+.pred-table th.num { text-align: right; }
+.pred-sort { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25em; }
+.pred-sort:focus-visible { outline: 2px solid #2780e3; outline-offset: 2px; }
+.pred-sort-ind::after { content: "\2195"; color: #adb5bd; font-size: 0.8em; }
+th[aria-sort="ascending"] .pred-sort-ind::after { content: "\2191"; color: inherit; }
+th[aria-sort="descending"] .pred-sort-ind::after { content: "\2193"; color: inherit; }
+.pred-table .pred-topic, .pred-table .pred-conf, .pred-table .pred-eff,
+.pred-table .pred-made, .pred-table .pred-result { white-space: nowrap; width: 1%; }
+/* Short columns shrink to their content; the prediction text takes the rest,
+   so most rows fit on one line, as in the old listing table. */
+.pred-table td.pred-text { min-width: 12rem; width: auto; }
+.pred-table tr[hidden] { display: none; }
+
+/* Prediction page card. */
+.pred-card { border-top: 1px solid var(--pred-line); border-bottom: 1px solid var(--pred-line);
+  padding: 1rem 0; margin: 0 0 2rem; }
+.pred-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.pred-card-prob { font-weight: 600; }
+.pred-card-fields { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.35rem 1rem; margin: 0; }
+.pred-card-fields dt { font-weight: normal; color: var(--pred-muted); }
+.pred-card-fields dd { margin: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 576px) {
+  .pred-table { font-size: 0.8rem; }
+  .pred-table td, .pred-table th { padding: 0.35rem 0.3rem; }
+  .pred-table th { white-space: normal; }
+  /* Topic column is dropped on phones; the dropdown still filters by it. */
+  .pred-table .pred-topic { display: none; }
+  .pred-table td.pred-text { min-width: 9rem; }
+  .pred-card-fields { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .pred-card-fields dd { margin-bottom: 0.5rem; }
+}

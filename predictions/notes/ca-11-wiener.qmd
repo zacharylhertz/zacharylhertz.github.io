@@ -1,0 +1,22 @@
+---
+title: "Scott Weiner will win election in CA-11."
+pred-id: ca-11-wiener
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ca-11-wiener"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

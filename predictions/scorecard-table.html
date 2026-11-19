@@ -1,0 +1,72 @@
+<script>
+// Sorting and filtering for the scorecard table on predictions/index.qmd.
+// The table is plain HTML written by _predictions.R. Each row carries
+// data-* attributes used here: data-order (file order), data-topic,
+// data-status, data-conf, data-effort (1 Quick take, 2 Considered,
+// 3 Deep dive) and data-made (YYYY-MM-DD). (all.qmd uses topic-filter.html.)
+document.addEventListener("DOMContentLoaded", function () {
+  const table = document.getElementById("pred-table");
+  if (!table) return;
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+  const statusRank = { "Correct": 1, "Wrong": 2, "Open": 3, "Void": 4 };
+  const ord = (r) => Number(r.dataset.order);
+  const keyFns = {
+    topic: (r) => r.dataset.topic.toLowerCase(),
+    text: (r) => r.querySelector(".pred-text").textContent.trim().toLowerCase(),
+    conf: (r) => Number(r.dataset.conf),
+    effort: (r) => Number(r.dataset.effort),
+    made: (r) => r.dataset.made,
+    status: (r) => statusRank[r.dataset.status] || 9
+  };
+  // Default order: made descending, then file order.
+  const byDefault = (a, b) =>
+    (a.dataset.made < b.dataset.made ? 1 : a.dataset.made > b.dataset.made ? -1 : 0) || ord(a) - ord(b);
+
+  let current = { key: null, dir: 1 };
+  function sortBy(key, dir) {
+    const f = keyFns[key];
+    const sorted = rows.slice().sort(function (a, b) {
+      const va = f(a), vb = f(b);
+      const c = va < vb ? -1 : va > vb ? 1 : 0;
+      return c * dir || ord(a) - ord(b);
+    });
+    sorted.forEach((r) => tbody.appendChild(r));
+    table.querySelectorAll("thead th").forEach(function (th) {
+      if (th.dataset.key === key) th.setAttribute("aria-sort", dir === 1 ? "ascending" : "descending");
+      else th.removeAttribute("aria-sort");
+    });
+  }
+  rows.slice().sort(byDefault).forEach((r) => tbody.appendChild(r));
+  table.querySelectorAll("thead th[data-key]").forEach(function (th) {
+    const btn = th.querySelector("button");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      const key = th.dataset.key;
+      // First click: dates and numbers sort high-to-low, text sorts A-Z.
+      const firstDir = ["conf", "effort", "made"].includes(key) ? -1 : 1;
+      const dir = current.key === key ? -current.dir : firstDir;
+      current = { key: key, dir: dir };
+      sortBy(key, dir);
+    });
+  });
+
+  const topicSel = document.getElementById("pred-topic-filter");
+  const resultSel = document.getElementById("pred-result-filter");
+  const shown = document.querySelector(".pred-shown");
+  function applyFilters() {
+    const t = topicSel ? topicSel.value : "";
+    const s = resultSel ? resultSel.value : "";
+    let n = 0;
+    rows.forEach(function (r) {
+      const topics = r.dataset.topic.split(",").map((x) => x.trim());
+      const ok = (!t || topics.includes(t)) && (!s || r.dataset.status === s);
+      r.hidden = !ok;
+      if (ok) n++;
+    });
+    if (shown) shown.textContent = n === rows.length ? "" : n + " of " + rows.length + " shown";
+  }
+  if (topicSel) topicSel.addEventListener("change", applyFilters);
+  if (resultSel) resultSel.addEventListener("change", applyFilters);
+});
+</script>

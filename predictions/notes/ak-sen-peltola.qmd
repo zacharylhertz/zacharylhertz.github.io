@@ -1,0 +1,22 @@
+---
+title: "Mary Peltola will win AK-SEN."
+pred-id: ak-sen-peltola
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("ak-sen-peltola"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

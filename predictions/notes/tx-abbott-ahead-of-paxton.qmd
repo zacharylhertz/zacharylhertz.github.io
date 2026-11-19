@@ -1,0 +1,22 @@
+---
+title: "Greg Abbott will run ahead of Ken Paxton in Texas."
+pred-id: tx-abbott-ahead-of-paxton
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("tx-abbott-ahead-of-paxton"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+

@@ -1,0 +1,22 @@
+---
+title: "Democrats will hold exactly 52 Senate seats."
+pred-id: senate-seats-52
+toc: false
+format:
+  html:
+    css: ../predictions.css
+---
+
+```{r}
+#| echo: false
+#| output: asis
+source("../_predictions.R")
+pred_cat_html(pred_card_html("senate-seats-52"))
+```
+
+## Notes
+
+<!-- Write the longer case here. -->
+
+[← All predictions](../index.qmd)
+
